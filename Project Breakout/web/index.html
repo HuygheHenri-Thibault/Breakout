@@ -12,23 +12,49 @@ and open the template in the editor.
         <!--Import Google Icon Font & materialize.css-->
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+        <link rel="stylesheet" href="assets/css/screen.css">
+        <link rel="stylesheet" href="assets/css/login.css">
         <title>Breakout</title>
     </head>
-    <body>
-        <header>
-            
+    <body class="med-grey">
+        <header class="dark-grey z-depth-4">
+            <nav class="transparent">
+                <div class="nav-wrapper">
+                    <a href="" class="brand-logo">Logo</a>
+                    <ul class="right">
+                        <li id="user"><button class="btn indigo lighten-1">Sign Up</button></li>
+                        <li><i class="material-icons right">account_circle</i></li>
+                        <!-- TODO: add username username here if logged in & otherwise 'sign in' button -->
+                    </ul>
+                </div>
+            </nav>
         </header>
         
         <main>
-            
+            <section id="login-area">
+                <img id="game-preview" src="https://i.imgur.com/O7GAtbK.gif" title="game preview" alt="game preview" class="responsive-img" />
+                <!-- TODO: change picture to gif of game -->
+                <form class="accented">
+                    <div class="input-field">
+                        <input type="text" id="username" name="username" />
+                        <label for="username" id="test" class="active">Username</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="password" name="password" />
+                        <label for="password" class="active">Password</label>
+                    </div>
+                    <button class="btn btn-large waves-effect indigo lighten-1">Log in</button>
+                </form>
+            </section>
         </main>
         
-        <footer>
-            
+        <footer class="page-footer dark-grey">
+            <p class="grey-text text-darken-2">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
         </footer>
         
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+        <script src="assets/js/script.js"></script>
     </body>
 </html>
