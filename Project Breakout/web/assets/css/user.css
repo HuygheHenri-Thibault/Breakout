@@ -1,0 +1,54 @@
+.sidenav {
+  width: 10%;
+  min-height: 80vh;
+  box-shadow: 4px 1px 4px rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: center;
+}
+
+.sidenav ul {
+  width: 70%;
+}
+
+.sidenav ul li {
+  margin-bottom: 0.5rem;
+}
+
+.sidenav ul li a {
+  display: block;
+  text-decoration: none;
+  color: grey;
+  width: 100%;
+  padding: 0.3rem;
+  border-radius: 0.3rem;
+}
+
+.sidenav ul li a:hover {
+  background-color: #2F3136;
+  color: white;
+}
+
+#user-area {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+}
+
+#user-head {
+  display: flex;
+  align-content: center;
+  padding-bottom: 1rem;
+  border-bottom: 0.1rem solid grey;
+}
+
+#user-head img {
+  width: 10rem;
+  height: 10rem;
+}
+
+#user-head h1 {
+  display: inline-block;
+  margin-left: 2.5rem;
+  color: white;
+}
