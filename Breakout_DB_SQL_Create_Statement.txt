@@ -1,0 +1,9 @@
+CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/* Should work, I think :^) */
