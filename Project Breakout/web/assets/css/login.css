@@ -1,5 +1,4 @@
 #login-area {
-  width: 66%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -7,13 +6,7 @@
 }
 
 #login-area form {
-  width: 32%;
-  margin-right: 1%;
-  float: right;
-}
-
-#game-preview {
-  width: 65%;
-  margin-right: 2%;
-  float: left;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
