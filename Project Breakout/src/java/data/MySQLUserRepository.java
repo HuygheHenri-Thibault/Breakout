@@ -5,8 +5,13 @@
  */
 package data;
 
+import data.util.MySQLConnection;
 import domain.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import util.BreakoutException;
 
 /**
  *
@@ -19,6 +24,7 @@ public class MySQLUserRepository implements UserRepository {
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
+    private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password) VALUES(?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
     
@@ -27,11 +33,21 @@ public class MySQLUserRepository implements UserRepository {
     
     @Override
     public List<User> getAllUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_ALL_USERS)) {
+            
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't get all users", ex);
+        }
     }
 
     @Override
     public User getUserWithId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public User getUserWithUsername(String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserRepository {
     public List<User> getAllUsers();
     public User getUserWithId(int id);
+    public User getUserWithUsername(String username);
     public void addUser(User u);
     public void deleteUser(User u);
 }
