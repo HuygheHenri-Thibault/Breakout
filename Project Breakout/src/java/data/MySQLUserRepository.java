@@ -9,7 +9,9 @@ import data.util.MySQLConnection;
 import domain.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import util.BreakoutException;
 
@@ -36,6 +38,17 @@ public class MySQLUserRepository implements UserRepository {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_ALL_USERS)) {
             
+            try(ResultSet rs = stmt.executeQuery()) {
+                List<User> users = new ArrayList<>();
+                while(rs.next()) {
+                    int id = rs.getInt(FIELD_ID);
+                    String username = rs.getString(FIELD_USERNAME);
+                    String password = rs.getString(FIELD_PASSWORD);
+                    users.add(new User(id, username, password));
+                }
+                return users;
+            }
+            
         } catch (SQLException ex) {
             throw new BreakoutException("Couldn't get all users", ex);
         }
@@ -43,7 +56,23 @@ public class MySQLUserRepository implements UserRepository {
 
     @Override
     public User getUserWithId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_USER_WITH_ID)) {
+            
+            stmt.setInt(1, id);
+            try(ResultSet rs = stmt.executeQuery()) {
+                User userWithId = null;
+                if(rs.next()) {
+                    String username = rs.getString(FIELD_USERNAME);
+                    String password = rs.getString(FIELD_PASSWORD);
+                    userWithId = new User(id, username, password);
+                }
+                return userWithId;
+            }
+            
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't user with id " + id, ex);
+        }
     }
     
     @Override
