@@ -30,11 +30,11 @@ CREATE TABLE `effects` (
   UNIQUE KEY `naam_UNIQUE` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE `blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `kleur` varchar(45) NOT NULL,
   `baseLength` int(11) NOT NULL,
+  `hits` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kleur_UNIQUE` (`kleur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
