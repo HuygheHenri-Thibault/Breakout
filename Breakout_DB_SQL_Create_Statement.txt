@@ -55,4 +55,5 @@ INSERT INTO blocks(color, baseLength) VALUES('Yellow', 1);
 INSERT INTO blocks(color, baseLength) VALUES('Blue', 1);
 INSERT INTO blocks(color, baseLength) VALUES('Purple', 1);
 
-/* Should work, I think :^) */
+/* Should work, I think :^)
+Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017*/

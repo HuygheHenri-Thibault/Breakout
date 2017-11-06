@@ -5,7 +5,7 @@ function checkBeforeSignIn(e) {
   if (checkVarsIfEmpty(username, password).length > 0) {
       alert(checkVarsIfEmpty(username, password));
   }else{
-      alert("All good.");
+      document.getElementById("register-form").submit();
   }
 }
 
