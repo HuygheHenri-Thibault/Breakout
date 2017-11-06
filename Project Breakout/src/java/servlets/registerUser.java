@@ -6,6 +6,7 @@
 package servlets;
 
 import data.Repositories;
+import domain.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,8 +39,9 @@ public class registerUser extends HttpServlet {
         /* HASH PASSWORDS HERE */
         
         if(password.equals(passwordCheck)) {
-            if(Repositories.getUser_Repository().getUserWithUsername(username) == null) {
-                
+            if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
+                Repositories.getUserRepository().addUser(new User(username, password));
+                response.sendRedirect("index.html");
             }
         }
     }

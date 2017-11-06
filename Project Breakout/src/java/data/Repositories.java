@@ -12,7 +12,7 @@ package data;
 public class Repositories {
     private final static UserRepository USER_REPOSITORY = new MySQLUserRepository();
 
-    public static UserRepository getUser_Repository() {
+    public static UserRepository getUserRepository() {
         return USER_REPOSITORY;
     }
 }
