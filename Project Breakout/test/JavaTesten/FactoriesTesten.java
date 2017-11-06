@@ -80,6 +80,12 @@ public class FactoriesTesten {
         Game g = new Game(0, 4);
         assertTrue(g.getBalls().get(0) instanceof Ball);
     }
+    
+    @Test
+    public void testLevelsMaken(){
+        Game g = new Game(0, 1);
+        assertTrue(g.getLevels().get(0) instanceof Level);
+    }
 
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
