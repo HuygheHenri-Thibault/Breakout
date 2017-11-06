@@ -19,25 +19,25 @@ import java.util.Random;
  *
  * @author micha
  */
-public class FactoryBricks {
-    private Level level;
+public class FactoryBricks extends FactoryBreakoutUtilities{
     
-    public FactoryBricks(Level level) {
-        this.level = level;
+    public FactoryBricks() {
     }
     
-    public void createBricks(BrickRow rowBricks, String color){
+    public void createBricks(BrickRow rowBricks){
         while(rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomAllBricksLenghts()!= rowBricks.getMAX_BRICK_BORDER_X()){
-            Brick b = createSingleBrick(rowBricks, color);
+            Brick b = createSingleBrick(rowBricks);
             rowBricks.addBrickToRow(b);
         }
     }   
     
-    private Brick createSingleBrick(BrickRow rowBricks, String color){
-        Random rand = new Random();
+    private Brick createSingleBrick(BrickRow rowBricks){
+        String color = findUnusedColor();
+        
         int x = 250 + rowBricks.getSomAllBricksLenghts();
         int y = 250 + rowBricks.getBricksOnRow().size() * 50;
         
+        Random rand = new Random();
         float lengte = (float) rand.nextInt((50-20) + 1) + 20;
         if(x + lengte > rowBricks.getMAX_BRICK_BORDER_X()){
             lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomAllBricksLenghts();

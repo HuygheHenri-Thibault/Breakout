@@ -15,10 +15,8 @@ import java.util.List;
  *
  * @author micha
  */
-public class FactoryPallet {
+public class FactoryPallet extends FactoryBreakoutUtilities{
     private final Game game;
-    private List<String> usedColors = new ArrayList<>();
-    private final String[] colors = {"red", "green", "yellow", "blue", "purple"};
     private final int gameBoardRatioSplit;
 
     public FactoryPallet(Game game) {
@@ -40,16 +38,6 @@ public class FactoryPallet {
             Pallet p = new Pallet(colorPallet, x, y, lenght, 5, min_pallet_border, max_pallet_border);
             game.getPallets().add(p);
         }
-    }
-
-    private String findUnusedColor() {
-        for (int i = 0; i < colors.length; i++) {
-            if (usedColors.indexOf(colors[i]) < 0) {
-                usedColors.add(colors[i]);
-                return colors[i];
-            }
-        }
-        return null;
     }
 
     private int getGameBoardSplitPerPallet() {

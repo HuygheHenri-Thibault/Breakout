@@ -14,10 +14,8 @@ import java.util.List;
  *
  * @author micha
  */
-public class FactoryBall {
+public class FactoryBall extends FactoryBreakoutUtilities{
     private final Game game;
-    private List<String> usedColors = new ArrayList<>();
-    private final String[] colors = {"red", "green", "yellow", "blue", "purple"};
 
     public FactoryBall(Game game) {
         this.game = game;
@@ -29,15 +27,5 @@ public class FactoryBall {
         int y = (game.getMAX_GAME_BORDER_Y() / 10) * 8; 
         Ball b = new Ball(15, 5, colorPallet, x, y);
         game.getBalls().add(b);
-    }
-    
-    private String findUnusedColor() {
-        for (int i = 0; i < colors.length; i++) {
-            if (usedColors.indexOf(colors[i]) < 0) {
-                usedColors.add(colors[i]);
-                return colors[i];
-            }
-        }
-        return null;
     }
 }

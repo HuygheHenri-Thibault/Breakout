@@ -17,9 +17,8 @@ import java.util.List;
  *
  * @author micha
  */
-public class FactoryRowOfBricks {
+public class FactoryRowOfBricks{
     private Level level;
-    private String[] colors = {"red", "green", "yellow", "blue", "purple"};
 
     public FactoryRowOfBricks(Level level) {
         this.level = level;
@@ -27,10 +26,10 @@ public class FactoryRowOfBricks {
     
     public List<BrickRow> createRowOfBricks(){
         List<BrickRow> rowsOfBricks = new ArrayList();
-        FactoryBricks factoryB = new FactoryBricks(level);
+        FactoryBricks factoryB = new FactoryBricks();
         for (int i = 0; i < level.getMAX_ROWS_BRICKS(); i++) {
             BrickRow rowBricks = new BrickRow();
-            factoryB.createBricks(rowBricks, colors[i]);
+            factoryB.createBricks(rowBricks);
             rowsOfBricks.add(rowBricks);
         }
         return rowsOfBricks;
