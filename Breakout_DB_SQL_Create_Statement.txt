@@ -1,9 +1,63 @@
 CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) NOT NULL,
+  `totalHighscore` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `userhighscore` (
+  `user_id` int(11) NOT NULL,
+  `highscore` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`highscore`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `effects` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(1) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `icon` varchar(120) DEFAULT NULL,
+  `description` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `naam_UNIQUE` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `blocks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kleur` varchar(45) NOT NULL,
+  `baseLength` int(11) NOT NULL,
+  `hits` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `kleur_UNIQUE` (`kleur`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into effects(type, name, duration, description)
+values('U', 'Bullet time', 5, 'Bullet time BABY!')
+
+insert into effects(type, name, duration, description)
+values('U', 'Scaffolds', 5, 'Time to get high')
+
+insert into effects(type, name, duration, description)
+values('U', 'Double Trouble', 5, 'Prepare for trouble and make it double')
+
+insert into effects(type, name, duration, description)
+values('D', 'Gravity', 5, 'No, not the movie.')
+
+insert into effects(type, name, duration, description)
+values('D', 'Slowed', 5, 'Allez')
+
+insert into effects(type, name, duration, description)
+values('D', 'Shrunk', 5, 'There are pils for that you know.')
+
+insert into effects(type, name, duration, description)
+values('D', 'Sudden death', 5, 'FIGHT FOR YOUR LIFE')
 
 /* Should work, I think :^) */
