@@ -6,8 +6,8 @@
 package servlets;
 
 import data.Repositories;
-import domain.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Henri
  */
-@WebServlet(name = "registerUser", urlPatterns = {"/registerUser"})
-public class registerUser extends HttpServlet {
+@WebServlet(name = "loginUser", urlPatterns = {"/loginUser"})
+public class loginUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +34,23 @@ public class registerUser extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String passwordCheck = request.getParameter("passwordCheck");
         
-        /* HASH PASSWORDS HERE */
-        
-        if(password.equals(passwordCheck)) {
-            if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
-                Repositories.getUserRepository().addUser(new User(username, password));
-                response.sendRedirect("index.html");
+        if (Repositories.getUserRepository().getUserWithUsername(username).getHashPassword().equals(password)) {
+                response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet loginUser</title>");            
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Servlet loginUser at " + request.getContextPath() + "</h1>");
+                out.println("</body>");
+                out.println("</html>");
             }
+        } else {
+            response.sendRedirect("index.html");
         }
     }
 
