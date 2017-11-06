@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author micha
  */
-public class RowOfBricks {
+public class BrickRow {
     private List<Brick> bricksOnRow = new ArrayList<>();
     private final int MIN_BRICK_BORDER_X = 250;
     private final int MAX_BRICK_BORDER_X = 750;
@@ -20,7 +20,7 @@ public class RowOfBricks {
     private final int MAX_BRICK_BORDER_Y = 500;
     private int somAllBricksLenghts;
 
-    public RowOfBricks() {
+    public BrickRow() {
     }
     
     public int getMIN_BRICK_BORDER_X() {

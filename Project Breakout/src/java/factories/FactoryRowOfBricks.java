@@ -8,8 +8,8 @@ package factories;
 import domain.Brick;
 import domain.Level;
 import domain.Level;
-import domain.RowOfBricks;
-import domain.RowOfBricks;
+import domain.BrickRow;
+import domain.BrickRow;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +25,11 @@ public class FactoryRowOfBricks {
         this.level = level;
     }
     
-    public List<RowOfBricks> createRowOfBricks(){
-        List<RowOfBricks> rowsOfBricks = new ArrayList();
+    public List<BrickRow> createRowOfBricks(){
+        List<BrickRow> rowsOfBricks = new ArrayList();
         FactoryBricks factoryB = new FactoryBricks(level);
         for (int i = 0; i < level.getMAX_ROWS_BRICKS(); i++) {
-            RowOfBricks rowBricks = new RowOfBricks();
+            BrickRow rowBricks = new BrickRow();
             factoryB.createBricks(rowBricks, colors[i]);
             rowsOfBricks.add(rowBricks);
         }

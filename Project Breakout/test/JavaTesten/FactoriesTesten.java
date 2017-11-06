@@ -5,7 +5,9 @@
  */
 package JavaTesten;
 
+import domain.Game;
 import domain.Level;
+import domain.Pallet;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,6 +50,28 @@ public class FactoriesTesten {
             }
         }
         assertEquals(500 * 5, som);
+    }
+    
+    @Test
+    public void testEenPalletjeMaken(){
+        Game g = new Game(0, 1);
+        int som = 0;
+        for (int i = 0; i < g.getPallets().size(); i++) {
+           som += g.getPallets().get(i).getMAX_PALLET_BORDER();
+        }
+        assertTrue(g.getPallets().get(0) instanceof Pallet);
+        assertEquals(g.getMAX_GAME_BORDER_X(), som);
+    }
+    
+    @Test
+    public void testMeerderePalletjeMaken(){
+        Game g = new Game(0, 4);
+        int som = 0;
+        for (int i = 0; i < g.getPallets().size(); i++) {
+           som += g.getPallets().get(i).getMAX_PALLET_BORDER();
+        }
+        assertTrue(g.getPallets().get(0) instanceof Pallet);
+        assertEquals(2500, som);
     }
 
     // TODO add test methods here.

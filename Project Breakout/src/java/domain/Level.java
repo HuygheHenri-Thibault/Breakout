@@ -14,16 +14,16 @@ import java.util.List;
  * @author micha
  */
 public class Level {
-    private FactoryRowOfBricks factory;
-    private List<RowOfBricks> rowsOfBricks;
+    private FactoryRowOfBricks factoryBrick;
+    private List<BrickRow> rowsOfBricks;
     private int number;
     private int levens;
     private int score;
     private final static int MAX_ROWS_BRICKS = 5;
 
     public Level(int number, int levens, int score) {
-        this.factory = new FactoryRowOfBricks(this);
-        this.rowsOfBricks = factory.createRowOfBricks();
+        this.factoryBrick = new FactoryRowOfBricks(this);
+        this.rowsOfBricks = factoryBrick.createRowOfBricks();
         this.number = number;
         this.levens = levens;
         this.score = score;
@@ -53,7 +53,7 @@ public class Level {
         return score;
     }
     
-     public List<RowOfBricks> getRowOfBricks() {
+     public List<BrickRow> getRowOfBricks() {
         return rowsOfBricks;
     }
 

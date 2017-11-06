@@ -9,8 +9,8 @@ import domain.Brick;
 import domain.Brick;
 import domain.Level;
 import domain.Level;
-import domain.RowOfBricks;
-import domain.RowOfBricks;
+import domain.BrickRow;
+import domain.BrickRow;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,14 +26,14 @@ public class FactoryBricks {
         this.level = level;
     }
     
-    public void createBricks(RowOfBricks rowBricks, String color){
+    public void createBricks(BrickRow rowBricks, String color){
         while(rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomAllBricksLenghts()!= rowBricks.getMAX_BRICK_BORDER_X()){
             Brick b = createSingleBrick(rowBricks, color);
             rowBricks.addBrickToRow(b);
         }
     }   
     
-    private Brick createSingleBrick(RowOfBricks rowBricks, String color){
+    private Brick createSingleBrick(BrickRow rowBricks, String color){
         Random rand = new Random();
         int x = 250 + rowBricks.getSomAllBricksLenghts();
         int y = 250 + rowBricks.getBricksOnRow().size() * 50;
