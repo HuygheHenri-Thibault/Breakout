@@ -101,7 +101,7 @@ public class MySQLUserRepository implements UserRepository {
             PreparedStatement stmt = con.prepareStatement(ADD_USER)) {
             
             stmt.setString(1, u.getUsername());
-            stmt.setString(1, u.getHashPassword());
+            stmt.setString(2, u.getHashPassword());
             stmt.executeUpdate();
             
         } catch(SQLException ex) {
