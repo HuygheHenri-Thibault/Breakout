@@ -3,6 +3,11 @@ function loggedIn() {
   // TODO: make this function check the specific cookie for the user
 }
 
+function preventJSInjection(text) {
+    var safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return safeText;
+};
+
 $(document).ready(function() {
   console.log("DOM is ready");
   // document.documentElement.style.setProperty(`--accent-color`, 'red');
