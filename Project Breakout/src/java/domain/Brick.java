@@ -15,17 +15,19 @@ public class Brick extends Sprite{
     private float lenght;
     private float height;
     private int hits;
+    private int acheievedScore;
     private boolean destroyed;
     
     public Brick(Image skin, int x, int y) {
         super(skin, x, y);
     }
 
-    public Brick(float lenght, float height, int hits, boolean destroyed, Image skin, int x, int y) {
+    public Brick(float lenght, float height, int hits, int achievedScore, boolean destroyed, Image skin, int x, int y) {
         super(skin, x, y);
         this.lenght = lenght;
         this.height = height;
         this.hits = hits;
+        this.acheievedScore = achievedScore;
         this.destroyed = destroyed;
     }
 
@@ -41,6 +43,10 @@ public class Brick extends Sprite{
         return hits;
     }
 
+    public int getAcheievedScore() {
+        return acheievedScore;
+    }
+
     public boolean isDestroyed() {
         return destroyed;
     }
@@ -52,9 +58,12 @@ public class Brick extends Sprite{
     public void setHeight(float height) {
         this.height = height;
     }
+    
+    public void setAcheievedScore(int acheievedScore) {
+        this.acheievedScore = acheievedScore;
+    }
 
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
     }
-    
 }
