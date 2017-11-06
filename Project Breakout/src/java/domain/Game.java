@@ -5,6 +5,7 @@
  */
 package domain;
 
+import factories.FactoryBall;
 import factories.FactoryPallet;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Game {
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
     private FactoryPallet factoryPallet;
+    private FactoryBall factoryBall;
     private int score;
     private int aantalSpelers;
     private final static int MIN_GAME_BORDER_X = 0;
@@ -30,6 +32,8 @@ public class Game {
         this.aantalSpelers = aantalSpelers;
         this.factoryPallet = new FactoryPallet(this);
         this.factoryPallet.createPallets();
+        this.factoryBall = new FactoryBall(this);
+        this.factoryBall.createBall();
     }
 
     public List<Level> getLevels() {
