@@ -5,6 +5,7 @@
  */
 package domain;
 
+import factories.FactoryRowOfBricks;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +14,16 @@ import java.util.List;
  * @author micha
  */
 public class Level {
-    private List<RowOfBricks> rowsOfBricks = new ArrayList<>();
+    private FactoryRowOfBricks factory;
+    private List<RowOfBricks> rowsOfBricks;
     private int number;
     private int levens;
     private int score;
     private final static int MAX_ROWS_BRICKS = 5;
 
     public Level(int number, int levens, int score) {
+        this.factory = new FactoryRowOfBricks(this);
+        this.rowsOfBricks = factory.createRowOfBricks();
         this.number = number;
         this.levens = levens;
         this.score = score;

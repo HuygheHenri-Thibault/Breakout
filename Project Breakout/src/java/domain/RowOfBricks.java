@@ -18,6 +18,7 @@ public class RowOfBricks {
     private final int MAX_BRICK_BORDER_X = 750;
     private final int MIN_BRICK_BORDER_Y = 250;
     private final int MAX_BRICK_BORDER_Y = 500;
+    private int somAllBricksLenghts;
 
     public RowOfBricks() {
     }
@@ -46,7 +47,11 @@ public class RowOfBricks {
         bricksOnRow.add(b);
     }
     
-    public int getSomLengteGemaakteBricks(){
+    public int getSomAllBricksLenghts() {
+        return somAllBricksLenghts = getSomLengteGemaakteBricks();
+    }
+    
+    private int getSomLengteGemaakteBricks(){
         int som = 0;
         if(bricksOnRow.size() > 0){
             for (Brick brick : bricksOnRow) {
@@ -55,4 +60,5 @@ public class RowOfBricks {
         }
        return som; 
     }
+    
 }
