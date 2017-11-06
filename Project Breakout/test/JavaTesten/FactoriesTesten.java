@@ -6,6 +6,7 @@
 package JavaTesten;
 
 import domain.Ball;
+import domain.Brick;
 import domain.Game;
 import domain.Level;
 import domain.Pallet;
@@ -85,6 +86,18 @@ public class FactoriesTesten {
     public void testLevelsMaken(){
         Game g = new Game(0, 1);
         assertTrue(g.getLevels().get(0) instanceof Level);
+    }
+    
+    @Test
+    public void testGameMaken(){
+        Game g = new Game(0, 1);
+        assertTrue(g.getLevels().get(0) instanceof Level);
+        assertEquals(1, g.getPallets().size());
+        assertTrue(g.getPallets().get(0) instanceof Pallet);
+        assertEquals(1, g.getBalls().size());
+        assertTrue(g.getBalls().get(0) instanceof Ball);
+        assertEquals(5, g.getLevels().get(0).getRowOfBricks().size());
+        assertTrue(g.getLevels().get(0).getRowOfBricks().get(0).getBricksOnRow().get(0) instanceof Brick);
     }
 
     // TODO add test methods here.
