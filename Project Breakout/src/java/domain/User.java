@@ -19,6 +19,10 @@ public class User {
         this.username = username;
         this.hashPassword = password; //HASH THIS!!!
     }
+    
+    public User(String username, String password) {
+        this(-1, username, password);
+    }
 
     public int getUserId() {
         return userId;
