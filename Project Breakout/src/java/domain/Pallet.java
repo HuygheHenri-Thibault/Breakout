@@ -16,12 +16,12 @@ public class Pallet extends Sprite{
     private float height;
     private float speed;
 
-    public Pallet(Image skin, int x, int y) {
-        super(skin, x, y);
+    public Pallet(String color, int x, int y) {
+        super(color, x, y);
     }
 
-    public Pallet(Image skin, int x, int y, float length, float height, float speed) {
-        super(skin, x, y);
+    public Pallet(String color, int x, int y, float length, float height, float speed) {
+        super(color, x, y);
         this.length = length;
         this.height = height;
         this.speed = speed;

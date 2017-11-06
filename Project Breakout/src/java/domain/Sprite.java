@@ -12,18 +12,18 @@ import java.awt.Image;
  * @author micha
  */
 public class Sprite {
-    protected Image skin;
+    protected String color;
     protected int x;
     protected int y;
 
-    public Sprite(Image skin, int x, int y) {
-        this.skin = skin;
+    public Sprite(String color, int x, int y) {
+        this.color = color;
         this.x = x;
         this.y = y;
     }
 
-    public Image getSkin() {
-        return skin;
+    public String getColor() {
+        return color;
     }
 
     public int getX() {
@@ -34,8 +34,8 @@ public class Sprite {
         return y;
     }
 
-    public void setSkin(Image skin) {
-        this.skin = skin;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public void setX(int x) {

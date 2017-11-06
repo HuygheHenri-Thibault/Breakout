@@ -15,12 +15,12 @@ public class Ball extends Sprite{
     private int radius;
     private float snelheid;
     
-    public Ball(Image skin, int x, int y) {
-        super(skin, x, y);
+    public Ball(String color, int x, int y) {
+        super(color, x, y);
     }
 
-    public Ball(int radius, float snelheid, Image skin, int x, int y) {
-        super(skin, x, y);
+    public Ball(int radius, float snelheid, String color, int x, int y) {
+        super(color, x, y);
         this.radius = radius;
         this.snelheid = snelheid;
     }

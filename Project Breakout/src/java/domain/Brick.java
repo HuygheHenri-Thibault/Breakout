@@ -18,12 +18,12 @@ public class Brick extends Sprite{
     private int acheievedScore;
     private boolean destroyed;
     
-    public Brick(Image skin, int x, int y) {
-        super(skin, x, y);
+    public Brick(String color, int x, int y) {
+        super(color, x, y);
     }
 
-    public Brick(float lenght, float height, int hits, int achievedScore, boolean destroyed, Image skin, int x, int y) {
-        super(skin, x, y);
+    public Brick(float lenght, float height, int hits, int achievedScore, boolean destroyed, String color, int x, int y) {
+        super(color, x, y);
         this.lenght = lenght;
         this.height = height;
         this.hits = hits;
