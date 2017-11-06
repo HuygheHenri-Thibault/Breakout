@@ -13,10 +13,11 @@ import java.util.List;
  * @author micha
  */
 public class Level {
-    private List<Brick> bricks = new ArrayList<>();
+    private List<RowOfBricks> rowsOfBricks = new ArrayList<>();
     private int number;
     private int levens;
     private int score;
+    private final static int MAX_ROWS_BRICKS = 5;
 
     public Level(int number, int levens, int score) {
         this.number = number;
@@ -48,5 +49,12 @@ public class Level {
         return score;
     }
     
+     public List<RowOfBricks> getRowOfBricks() {
+        return rowsOfBricks;
+    }
+
+    public int getMAX_ROWS_BRICKS() {
+        return MAX_ROWS_BRICKS;
+    }
     
 }

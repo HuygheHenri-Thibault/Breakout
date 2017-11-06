@@ -17,6 +17,10 @@ public class Game {
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
     private int score;
+    private final static int MIN_GAME_BORDER_X = 0;
+    private final static int MAX_GAME_BORDER_X = 1000;
+    private final static int MIN_GAME_BORDER_Y = 0;
+    private final static int MAX_GAME_BORDER_Y = 1000;
 
     public Game(int score) {
         this.score = score;
@@ -41,4 +45,21 @@ public class Game {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public int getMIN_GAME_BORDER_X() {
+        return MIN_GAME_BORDER_X;
+    }
+
+    public int getMAX_GAME_BORDER_X() {
+        return MAX_GAME_BORDER_X;
+    }
+
+    public int getMIN_GAME_BORDER_Y() {
+        return MIN_GAME_BORDER_Y;
+    }
+
+    public int getMAX_GAME_BORDER_Y() {
+        return MAX_GAME_BORDER_Y;
+    }
+   
 }

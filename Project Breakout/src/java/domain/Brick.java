@@ -13,21 +13,20 @@ import java.awt.Image;
  */
 public class Brick extends Sprite{
     private float lenght;
-    private float height;
+    private final static int HEIGHT = 50;
     private int hits;
-    private int acheievedScore;
+    private int achievedScore;
     private boolean destroyed;
     
     public Brick(String color, int x, int y) {
         super(color, x, y);
     }
 
-    public Brick(float lenght, float height, int hits, int achievedScore, boolean destroyed, String color, int x, int y) {
+    public Brick(float lenght, int hits, int achievedScore, boolean destroyed, String color, int x, int y) {
         super(color, x, y);
         this.lenght = lenght;
-        this.height = height;
         this.hits = hits;
-        this.acheievedScore = achievedScore;
+        this.achievedScore = achievedScore;
         this.destroyed = destroyed;
     }
 
@@ -36,7 +35,7 @@ public class Brick extends Sprite{
     }
 
     public float getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public int getHits() {
@@ -44,7 +43,7 @@ public class Brick extends Sprite{
     }
 
     public int getAcheievedScore() {
-        return acheievedScore;
+        return achievedScore;
     }
 
     public boolean isDestroyed() {
@@ -54,13 +53,9 @@ public class Brick extends Sprite{
     public void setLenght(float lenght) {
         this.lenght = lenght;
     }
-
-    public void setHeight(float height) {
-        this.height = height;
-    }
     
     public void setAcheievedScore(int acheievedScore) {
-        this.acheievedScore = acheievedScore;
+        this.achievedScore = acheievedScore;
     }
 
     public void setDestroyed(boolean destroyed) {
