@@ -77,12 +77,34 @@ public class MySQLUserRepository implements UserRepository {
     
     @Override
     public User getUserWithUsername(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_USER_WITH_USERNAME)) {
+            
+            stmt.setString(1, username);
+            try(ResultSet rs = stmt.executeQuery()) {
+                User userWithUsername = null;
+                if(rs.next()) {
+                    int id = rs.getInt(FIELD_ID);
+                    String password = rs.getString(FIELD_PASSWORD);
+                    userWithUsername = new User(id, username, password);
+                }
+                return userWithUsername;
+            }
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't get user with username", ex);
+        }
     }
 
     @Override
     public void addUser(User u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(ADD_USER)) {
+            
+            
+            
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't add user", ex);
+        }
     }
 
     @Override
