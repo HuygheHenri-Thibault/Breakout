@@ -10,13 +10,25 @@ package domain;
  * @author Henri
  */
 public class User {
-    int userId;
-    String username;
-    String hashPassword;
+    private int userId;
+    private String username;
+    private String hashPassword;
     
     public User(int id, String username, String password) {
         this.userId = id;
         this.username = username;
         this.hashPassword = password; //HASH THIS!!!
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getHashPassword() {
+        return hashPassword;
     }
 }

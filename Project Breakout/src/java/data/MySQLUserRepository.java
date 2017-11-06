@@ -100,7 +100,9 @@ public class MySQLUserRepository implements UserRepository {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(ADD_USER)) {
             
-            
+            stmt.setString(1, u.getUsername());
+            stmt.setString(1, u.getHashPassword());
+            stmt.executeUpdate();
             
         } catch(SQLException ex) {
             throw new BreakoutException("Couldn't add user", ex);
@@ -109,7 +111,16 @@ public class MySQLUserRepository implements UserRepository {
 
     @Override
     public void deleteUser(User u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(DELETE_USER)) {
+            
+            stmt.setInt(1, u.getUserId());
+            stmt.setString(2, u.getUsername());
+            stmt.setString(3, u.getHashPassword());
+            
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't delete user", ex);
+        }
     }
     
 }
