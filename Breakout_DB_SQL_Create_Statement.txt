@@ -41,6 +41,14 @@ CREATE TABLE `blocks` (
   UNIQUE KEY `kleur_UNIQUE` (`color`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `spells` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `damage` int(2) DEFAULT NULL,
+  `typeOfDamage` varchar(50) NOT NULL,
+  `type` varchar(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Bullet time', 5, 'Bullet time BABY!');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Scaffolds', 5, 'Time to get high');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Double Trouble', 5, 'Prepare for trouble and make it double');
