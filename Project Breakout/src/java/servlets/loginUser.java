@@ -56,7 +56,7 @@ public class loginUser extends HttpServlet {
 "    <header class=\"dark-grey z-depth-4\">\n" +
 "        <nav class=\"transparent\">\n" +
 "            <div class=\"nav-wrapper\">\n" +
-"                <a href=\"\" class=\"brand-logo\">Logo</a>\n" +
+"                <a href=\"index.html\" class=\"brand-logo\">Logo</a>\n" +
 "                <ul class=\"right\">\n" +
 "                    <li id=\"user\">\n" +
 "                        <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">"+u.getUsername()+"\n" +

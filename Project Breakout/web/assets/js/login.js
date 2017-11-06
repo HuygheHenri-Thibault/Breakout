@@ -3,9 +3,9 @@ function checkBeforeSignIn(e) {
   var username = preventJSInjection($("#username").val());
   var password = preventJSInjection($("#password").val());
   if (checkVarsIfEmpty(username, password).length > 0) {
-      alert(checkVarsIfEmpty(username, password));
-  }else{
-      alert("All good.");
+    alert(checkVarsIfEmpty(username, password));
+  } else {
+    document.getElementById("register-form").submit();
   }
 }
 
@@ -20,30 +20,30 @@ function signUp(e) {
 }
 
 function checkVarsIfEmpty(username, passwd) {
-    var err = "";
-    if (username === ""){
-        err += "Username can't be empty";
+  var err = "";
+  if (username === "") {
+    err += "Username can't be empty";
+  }
+  if (passwd === "") {
+    if (err.length > 0) {
+      err += ", ";
     }
-    if(passwd === ""){
-        if(err.length > 0) {
-            err += ", ";
-        }
-        err += "Password can't be empty";
-    }
-    return err;
+    err += "Password can't be empty";
+  }
+  return err;
 }
 
-function checkIfPasswordsMatch(e){
-    e.preventDefault();
-    if (!passwordsMatch()){
-        $("main section div form button").attr('disabled', 'disabled');
-    }else{
-        $("main section div form button").prop("disabled", false);
-    }
+function checkIfPasswordsMatch(e) {
+  e.preventDefault();
+  if (!passwordsMatch()) {
+    $("main section div form button").attr('disabled', 'disabled');
+  } else {
+    $("main section div form button").prop("disabled", false);
+  }
 };
 
-function passwordsMatch(){
-    return ($("#password").val() === $("#passwordCheck").val());
+function passwordsMatch() {
+  return ($("#password").val() === $("#passwordCheck").val());
 };
 
 $(document).ready(function() {
