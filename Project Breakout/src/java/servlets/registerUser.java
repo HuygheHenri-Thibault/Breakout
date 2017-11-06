@@ -37,11 +37,12 @@ public class registerUser extends HttpServlet {
         String passwordCheck = request.getParameter("passwordCheck");
         
         /* HASH PASSWORDS HERE */
-        
+        response.sendRedirect("index.html");
         if(password.equals(passwordCheck)) {
+            
             if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
                 Repositories.getUserRepository().addUser(new User(username, password));
-                response.sendRedirect("index.html");
+                
             }
         }
     }
