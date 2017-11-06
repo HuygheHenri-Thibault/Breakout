@@ -1,9 +1,41 @@
 CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`)
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) NOT NULL,
+  `totalHighscore` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `userhighscore` (
+  `user_id` int(11) NOT NULL,
+  `highscore` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`highscore`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `effects` (
+  `id` int(11) NOT NULL,
+  `type` varchar(1) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `icon` varchar(120) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `naam_UNIQUE` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `blocks` (
+  `id` int(11) NOT NULL,
+  `kleur` varchar(45) NOT NULL,
+  `baseLength` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `kleur_UNIQUE` (`kleur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /* Should work, I think :^) */
