@@ -63,7 +63,7 @@ public class userPage extends HttpServlet {
                                             + "<a href=\"index.html\"class=\"brand-logo\">Logo</a>"
                                             + "<ul class=\"right\">"
                                                 + "<li id=\"user\">"
-                                                    + "<a href=\"#\"class=\"dropdown-button\"data-activates=\"user-options\">"+session.getAttribute("username") 
+                                                    + "<a href=\"#\"class=\"dropdown-button\"data-activates=\"user-options\">"+u.getUsername()
                                                         + "<i class=\"material-icons right\">arrow_drop_down</i>"
                                                     + "</a>"
                                                     + "<!-- TODO: Replace _USERNAME_ with the actual username of the user -->"
@@ -83,11 +83,16 @@ public class userPage extends HttpServlet {
                             "</header>"+
                             "<main>"+
                                 "<div class=\"row\">"+
-                                    "<h1 class=\"white-text center-align\">"+session.getAttribute("username")+"</h1>"+
+                                    "<div class=\"col s4 offset-s4\">"+
+                                        "<h1 class=\"white-text center-align\">"+u.getUsername()+"</h1>"+
+                                    "</div>"+
+                                    "<div class=\"col s1 offset-s3\">" + 
+                                        "<i class=\"material-icons white-text small\">settings</i>" +
+                                    "</div>" +
                                 "</div>"+
                                 "<div class=\"row\">"+
                                     "<div class=\"col s2 offset-s3\">"+
-                                        "<p class=\"white-text center-align\">Level _VALUE_</p>"+
+                                        "<p class=\"white-text center-align\">Level "+u.getLevel()+"</p>"+
                                     "</div>"+
                                     "<div class=\"col s2\">"+
                                         "<p class=\"white-text center-align\">Gems: _VALUE_</p>"+

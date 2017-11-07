@@ -24,6 +24,7 @@ public class MySQLUserRepository implements UserRepository {
     private static final String FIELD_EMAIL = "email";
     private static final String FIELD_USERNAME = "username";
     private static final String FIELD_PASSWORD = "password";
+    private static final String FIELD_LEVEL = "level";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
@@ -68,7 +69,8 @@ public class MySQLUserRepository implements UserRepository {
                     String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
-                    userWithId = new User(id, username, password, email);
+                    int lvl = rs.getInt(FIELD_LEVEL);
+                    userWithId = new User(id, username, password, email, lvl);
                 }
                 return userWithId;
             }
@@ -90,7 +92,8 @@ public class MySQLUserRepository implements UserRepository {
                     int id = rs.getInt(FIELD_ID);
                     String email = rs.getString(FIELD_EMAIL);
                     String password = rs.getString(FIELD_PASSWORD);
-                    userWithUsername = new User(id, username, password, email);
+                    int lvl = rs.getInt(FIELD_LEVEL);
+                    userWithUsername = new User(id, username, password, email, lvl);
                 }
                 return userWithUsername;
             }
