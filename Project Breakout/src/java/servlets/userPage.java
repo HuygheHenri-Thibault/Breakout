@@ -76,7 +76,7 @@ public class userPage extends HttpServlet {
                                                 "<li><a href=\"#!\"class=\"white-text text-lighten-1\">one</a></li>"+
                                                 "<li><a href=\"#!\"class=\"white-text\">Just a test bro</a></li>"+
                                                 "<li class=\"divider\"></li>"+
-                                                "<li><a href=\"#!\"class=\"white-text red\">Log out</a></li>"+
+                                                "<li><a href=\"LogOutUser\"class=\"white-text red\">Log out</a></li>"+
                                             "</ul>"+
                                         "</div>"+
                                     "</nav>"+
