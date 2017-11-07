@@ -1,9 +1,9 @@
 function checkIfPasswordsMatch(e){
     e.preventDefault();
     if (!passwordsMatch()){
-        $("main section div form button").attr('disabled', 'disabled');
+        $("main section div button").attr('disabled', 'disabled');
     }else{
-        $("main section div form button").prop("disabled", false);
+        $("main section div button").prop("disabled", false);
     }
 };
 
