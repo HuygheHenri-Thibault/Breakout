@@ -11,17 +11,23 @@ package domain;
  */
 public class User {
     private int userId;
+    private String email;
     private String username;
     private String hashPassword;
     
-    public User(int id, String username, String password) {
+    public User(int id, String username, String password, String email) {
         this.userId = id;
+        this.email = email;
         this.username = username;
         this.hashPassword = password; //HASH THIS!!!
     }
     
+    public User(String username, String password, String email) {
+        this(-1, username, password, email);
+    }
+    
     public User(String username, String password) {
-        this(-1, username, password);
+        this(-1, username, password, null);
     }
 
     public int getUserId() {
@@ -34,5 +40,9 @@ public class User {
 
     public String getHashPassword() {
         return hashPassword;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
