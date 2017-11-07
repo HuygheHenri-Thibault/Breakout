@@ -44,114 +44,171 @@ public class userPage extends HttpServlet {
             if (u.getHashPassword().equals(password)) {
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
-                    out.println("<!DOCTYPE html><html lang=\"en\">"
-                            + "<head>"
-                                + "<meta charset=\"UTF-8\">"
-                                + "<meta name=\"viewport\"content=\"width=device-width, initial-scale=1.0\">"
-                                + "<meta http-equiv=\"X-UA-Compatible\"content=\"ie=edge\">"
-                                + "<!--Import Google Icon Font & materialize.css-->"
-                                + "<link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\"rel=\"stylesheet\">"
-                                + "<link rel=\"stylesheet\"href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css\">"
-                                + "<link rel=\"stylesheet\"href=\"assets/css/screen.css\">"
-                                + "<link rel=\"stylesheet\"href=\"assets/css/user.css\">"
-                                + "<title>Breakout</title>"
-                            + "</head>"
-                            + "<body class=\"med-grey\">"
-                                + "<header class=\"dark-grey z-depth-4\">"
-                                    + "<nav class=\"transparent\">"
-                                        + "<div class=\"nav-wrapper\">"
-                                            + "<a href=\"index.html\"class=\"brand-logo\">Logo</a>"
-                                            + "<ul class=\"right\">"
-                                                + "<li id=\"user\">"
-                                                    + "<a href=\"#\"class=\"dropdown-button\"data-activates=\"user-options\">"+u.getUsername()
-                                                        + "<i class=\"material-icons right\">arrow_drop_down</i>"
-                                                    + "</a>"
-                                                    + "<!-- TODO: Replace _USERNAME_ with the actual username of the user -->"
-                                                + "</li>"
-                                                + "<li><i class=\"material-icons right\">account_circle</i></li>"
-                                                + "<!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->"
-                                            + "</ul>"
-                                            + "<!-- Dropdown TODO: when the user is logged in this is displayed and otherwise it is not $(\".nav-wrapper\").append(\"hieronder\") -->"
-                                            + "<ul id=\"user-options\"class=\"dropdown-content light-grey\">"+
-                                                "<li><a href=\"#!\"class=\"white-text text-lighten-1\">one</a></li>"+
-                                                "<li><a href=\"#!\"class=\"white-text\">Just a test bro</a></li>"+
-                                                "<li class=\"divider\"></li>"+
-                                                "<li><a href=\"LogOutUser\"class=\"white-text red\">Log out</a></li>"+
-                                            "</ul>"+
-                                        "</div>"+
-                                    "</nav>"+
-                            "</header>"+
-                            "<main>"+
-                                "<div class=\"row\">"+
-                                    "<div class=\"col s4 offset-s4\">"+
-                                        "<h1 class=\"white-text center-align\">"+u.getUsername()+"</h1>"+
-                                    "</div>"+
-                                    "<div class=\"col s1 offset-s3\">" + 
-                                        "<i class=\"material-icons white-text small\">settings</i>" +
-                                    "</div>" +
-                                "</div>"+
-                                "<div class=\"row\">"+
-                                    "<div class=\"col s2 offset-s3\">"+
-                                        "<p class=\"white-text center-align\">Level "+u.getLevel()+"</p>"+
-                                    "</div>"+
-                                    "<div class=\"col s2\">"+
-                                        "<p class=\"white-text center-align\">Gems: _VALUE_</p>"+
-                                    "</div>"+
-                                    "<div class=\"col s2\">"+
-                                        "<p class=\"white-text center-align\">Gold: _VALUE_</p>"+
-                                    "</div>"+
-                                "</div>"+
-                                "<div class=\"row\">"+
-                                    "<div class=\"col s5 offset-s1\">"+
-                                        "<div class=\"card-panel\">test</div>"+
-                                    "</div>"+
-                                    "<div class=\"col s3 offset-s2\">"+
-                                        "<div class=\"card-panel\">test</div>"+
-                                    "</div>"+
-                                "</div>"+
-                                "<div class=\"row spacing\">"+
-                                    "<div class=\"col s4 offset-s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle profile-picture\">"+
-                                    "</div>"+
-                                    "<div id=\"recent-activity\"class=\"col s6\">"+
-                                        "<ul class=\"collection with-header\">"+
-                                            "<li class=\"collection-item\">"+
-                                                "<h2 class=\"center-align\">Recent activity</h2>"+
-                                            "</li>"+
-                                            "<li class=\"collection-item\">one</li>"+
-                                            "<li class=\"collection-item\">two</li>"+
-                                            "<li class=\"collection-item\">three</li>"+
-                                            "<li class=\"collection-item\">four</li>"+
-                                            "<li class=\"collection-item\">five</li>"+
-                                        "</ul>"+
-                                    "</div>"+
-                                "</div>"+
-                                "<div class=\"row spacing\">"+
-                                    "<div class=\"col s1 offset-s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle\">"+
-                                    "</div>"+
-                                    "<div class=\"col s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle\">"+
-                                    "</div>"+
-                                    "<div class=\"col s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle\">"+
-                                    "</div>"+
-                                    "<div class=\"col s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle\">"+
-                                    "</div>"+
-                                    "<div class=\"col s1\">"+
-                                        "<img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\"alt=\"\"class=\"responsive-img circle\">"+
-                                    "</div>"+
-                                "</div>"+
-                            "</main>"+
-                            "<footer class=\"page-footer dark-grey\">"+
-                                "<p class=\"grey-text text-darken-2\">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>"+
-                            "</footer>"+
-                            "<!--Import jQuery before materialize.js-->"+
-                            "<script type=\"text/javascript\"src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>"+
-                            "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js\"></script>"+
-                        "</body>"+
-                    "</html>");
+                    out.println("<!DOCTYPE html>\n" +
+"<html lang=\"en\">\n" +
+"\n" +
+"<head>\n" +
+"  <meta charset=\"UTF-8\">\n" +
+"  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+"  <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
+"  <!--Import Google Icon Font & materialize.css-->\n" +
+"  <link href=\"http://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n" +
+"  <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css\">\n" +
+"  <link rel=\"stylesheet\" href=\"assets/css/screen.css\">\n" +
+"  <link rel=\"stylesheet\" href=\"assets/css/user.css\">\n" +
+"  <title>Breakout</title>\n" +
+"</head>\n" +
+"\n" +
+"<body class=\"med-grey\">\n" +
+"  <header class=\"dark-grey z-depth-4\">\n" +
+"    <nav class=\"transparent\">\n" +
+"      <div class=\"nav-wrapper\">\n" +
+"        <a href=\"index.html\" class=\"brand-logo\">Logo</a>\n" +
+"        <ul class=\"right\">\n" +
+"          <li id=\"user\">\n" +
+"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">"+u.getUsername()+"\n" +
+"                            <i class=\"material-icons right\">arrow_drop_down</i>\n" +
+"                        </a>\n" +
+"            <!-- TODO: Replace _USERNAME_ with the actual username of the user -->\n" +
+"          </li>\n" +
+"          <li><i class=\"material-icons right\">account_circle</i></li>\n" +
+"          <!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->\n" +
+"        </ul>\n" +
+"        <!-- Dropdown TODO: when the user is logged in this is displayed and otherwise it is not $(\".nav-wrapper\").append(\"hieronder\") -->\n" +
+"        <ul id=\"user-options\" class=\"dropdown-content light-grey\">\n" +
+"          <li><a href=\"#!\" class=\"white-text text-lighten-1\">one</a></li>\n" +
+"          <li><a href=\"#!\" class=\"white-text\">Just a test bro</a></li>\n" +
+"          <li class=\"divider\"></li>\n" +
+"          <li><a href=\"#!\" class=\"white-text red\">Log out</a></li>\n" +
+"        </ul>\n" +
+"      </div>\n" +
+"    </nav>\n" +
+"  </header>\n" +
+"\n" +
+"  <main>\n" +
+"    <div class=\"row\">\n" +
+"      <div class=\"col s4 offset-s4\">\n" +
+"        <h1 class=\"white-text center-align\">"+u.getUsername()+"</h1>\n" +
+"      </div>\n" +
+"      <div class=\"col s1 offset-s3\">\n" +
+"        <a class=\"modal-trigger\" href=\"#edit-user-modal\"><i class=\"material-icons white-text small\">settings</i></a>\n" +
+"      </div>\n" +
+"\n" +
+"      <!-- MODAL START -->\n" +
+"      <div id=\"edit-user-modal\" class=\"modal\">\n" +
+"        <div class=\"modal-content med-grey white-text\">\n" +
+"          <h4>Edit user</h4>\n" +
+"          <form class=\"accented\" action=\"editUser\" method=\"post\">\n" +
+"          <div class=\"row\">\n" +
+"            <div class=\"col s5\">\n" +
+"                <div class=\"input-field\">\n" +
+"                  <input type=\"email\" id=\"email\" name=\"email\" />\n" +
+"                  <label for=\"email\" class=\"active\">Email</label>\n" +
+"                </div>\n" +
+"\n" +
+"                <div class=\"input-field\">\n" +
+"                  <input type=\"text\" id=\"username\" name=\"username\" />\n" +
+"                  <label for=\"username\" class=\"active\">Username</label>\n" +
+"                </div>\n" +
+"            </div>\n" +
+"            <div class=\"col s5 offset-s1\">\n" +
+"              <div class=\"input-field\">\n" +
+"                <input type=\"password\" id=\"password\" name=\"password\" />\n" +
+"                <label for=\"password\" class=\"active\">Password</label>\n" +
+"              </div>\n" +
+"\n" +
+"              <div class=\"input-field\">\n" +
+"                <input type=\"password\" id=\"passwordCheck\" name=\"passwordCheck\" />\n" +
+"                <label for=\"passwordCheck\" class=\"active\">Password (again)</label>\n" +
+"              </div>\n" +
+"            </div>\n" +
+"          </div>\n" +
+"          <div class=\"row\">\n" +
+"            <div class=\"col s6 offset-s3 input-field\">\n" +
+"              <textarea id=\"bio\" class=\"materialize-textarea\"></textarea>\n" +
+"              <label for=\"bio\">Bio</label>\n" +
+"            </div>\n" +
+"          </div>\n" +
+"          </form>\n" +
+"        </div>\n" +
+"        <div class=\"modal-footer dark-grey\">\n" +
+"          <a href=\"#!\" class=\"modal-action modal-close waves-effect waves-red btn-flat\">\n" +
+"            <i class=\"material-icons red-text small\">cancel</i>\n" +
+"          </a>\n" +
+"          <a href=\"#!\" class=\"modal-action modal-close waves-effect waves-green btn-flat\">\n" +
+"            <i class=\"material-icons green-text small\">check_circle</i>\n" +
+"          </a>\n" +
+"        </div>\n" +
+"      </div>\n" +
+"      <!-- MODAL END -->\n" +
+"\n" +
+"    </div>\n" +
+"    <div class=\"row\">\n" +
+"      <div class=\"col s2 offset-s3\">\n" +
+"        <p class=\"white-text center-align\">Level "+u.getLevel()+"</p>\n" +
+"      </div>\n" +
+"      <div class=\"col s2\">\n" +
+"        <p class=\"white-text center-align\">Gems: _VALUE_</p>\n" +
+"      </div>\n" +
+"      <div class=\"col s2\">\n" +
+"        <p class=\"white-text center-align\">Gold: _VALUE_</p>\n" +
+"      </div>\n" +
+"    </div>\n" +
+"    <div class=\"row\">\n" +
+"      <div class=\"col s5 offset-s1\">\n" +
+"        <div class=\"card-panel\">test</div>\n" +
+"      </div>\n" +
+"      <div class=\"col s3 offset-s2\">\n" +
+"        <div class=\"card-panel\">test</div>\n" +
+"      </div>\n" +
+"    </div>\n" +
+"    <div class=\"row spacing\">\n" +
+"      <div class=\"col s4 offset-s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle profile-picture\">\n" +
+"      </div>\n" +
+"      <div id=\"recent-activity\" class=\"col s6\">\n" +
+"        <ul class=\"collection with-header\">\n" +
+"          <li class=\"collection-item\">\n" +
+"            <h2 class=\"center-align\">Recent activity</h2>\n" +
+"          </li>\n" +
+"          <li class=\"collection-item\">one</li>\n" +
+"          <li class=\"collection-item\">two</li>\n" +
+"          <li class=\"collection-item\">three</li>\n" +
+"          <li class=\"collection-item\">four</li>\n" +
+"          <li class=\"collection-item\">five</li>\n" +
+"        </ul>\n" +
+"      </div>\n" +
+"    </div>\n" +
+"    <div class=\"row spacing\">\n" +
+"      <div class=\"col s1 offset-s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
+"      </div>\n" +
+"      <div class=\"col s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
+"      </div>\n" +
+"      <div class=\"col s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
+"      </div>\n" +
+"      <div class=\"col s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
+"      </div>\n" +
+"      <div class=\"col s1\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
+"      </div>\n" +
+"    </div>\n" +
+"  </main>\n" +
+"\n" +
+"  <footer class=\"page-footer dark-grey\">\n" +
+"    <p class=\"grey-text text-darken-2\">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>\n" +
+"  </footer>\n" +
+"\n" +
+"  <!--Import jQuery before materialize.js-->\n" +
+"  <script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n" +
+"  <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js\"></script>\n" +
+"  <script type=\"text/javascript\" src=\"assets/js/script.js\"></script>\n" +
+"</body>\n" +
+"\n" +
+"</html>");
 
                 }
             } else {
