@@ -57,6 +57,10 @@ nav i.material-icons {
   margin-right: 15px;
 }
 
+main {
+  padding: 3rem;
+}
+
 footer {
   text-align: center;
   font-style: italic;
