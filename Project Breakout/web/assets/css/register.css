@@ -1,6 +1,3 @@
-#register-area {
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  align-items: center;
+div div button {
+  width: 100%;
 }
