@@ -5,6 +5,7 @@
  */
 package domain;
 
+import collissionDetectors.CollissionDetectorPallet;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
@@ -17,6 +18,9 @@ public class Pallet extends Sprite{
     private final float height = 35;
     private float speed;
     private float dx;
+    
+    private CollissionDetectorPallet cdp = new CollissionDetectorPallet(this); 
+    
     private final int MIN_PALLET_BORDER;
     private final int MAX_PALLET_BORDER;
 
@@ -67,11 +71,11 @@ public class Pallet extends Sprite{
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            dx = -speed;
+            setDx(-speed);
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = Math.abs(speed);
+            setDx(Math.abs(speed));
         }
     }
 
@@ -80,24 +84,21 @@ public class Pallet extends Sprite{
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_LEFT) {
-            dx = 0;
+            setDx(0);
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            dx = 0;
+            setDx(0);
         }
     }
     
     public void move(){
         x += dx;
+        cdp.detect();
     }
-//Collisssion detector
 
-//        if (x <= 0) {
-//            x = 0;
-//        }
-//
-//        if (x >= WIDTH - i_width) {
-//            x = WIDTH - i_width;
-//        }
+    public void setDx(float dx) {
+        this.dx = dx;
+    }
+    
 }

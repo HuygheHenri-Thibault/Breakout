@@ -5,7 +5,6 @@
  */
 package domain;
 
-import com.sun.java.accessibility.util.AWTEventMonitor;
 import factories.FactoryBall;
 import factories.FactoryLevel;
 import factories.FactoryPallet;
@@ -20,11 +19,14 @@ public class Game {
     private List<Level> levels = new ArrayList<>();
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
+    
     private FactoryPallet factoryPallet;
     private FactoryBall factoryBall;
     private FactoryLevel factoryLevels;
+    
     private int score;
     private int aantalSpelers;
+    
     private final static int MIN_GAME_BORDER_X = 0;
     private final static int MAX_GAME_BORDER_X = 1000;
     private final static int MIN_GAME_BORDER_Y = 0;
