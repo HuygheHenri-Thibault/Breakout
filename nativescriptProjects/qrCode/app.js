@@ -17,7 +17,7 @@ app.get('/books', function(req,res){
 console.log(__dirname);
 
 io.on('connection', function(){
-  console.log('User connected');
+  console.log('Gebruiker is geconnecteerd');
 });
 /*app.get('*',function (req, res) {
         res.redirect('src/views');
