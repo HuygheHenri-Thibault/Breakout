@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,9 +40,12 @@ public class loginUser extends HttpServlet {
         User u = Repositories.getUserRepository().getUserWithUsername(username);
         if (u.getHashPassword().equals(password)) {
             
+            
+            Cookie usernameCookie = new Cookie("username", username);
+            Cookie passwordCookie = new Cookie("password", password);
             HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
+            session.setAttribute("username", u.getUsername());
+            session.setAttribute("password", u.getHashPassword());
             
             response.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = response.getWriter()) {
@@ -68,7 +72,7 @@ public class loginUser extends HttpServlet {
 "        <a href=\"\" class=\"brand-logo\">Logo</a>\n" +
 "        <ul class=\"right\">\n" +
 "          <li id=\"user\">\n" +
-"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">_USERNAME_\n" +
+"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">"+session.getAttribute("username")+"\n" +
 "                            <i class=\"material-icons right\">arrow_drop_down</i>\n" +
 "                        </a>\n" +
 "            <!-- TODO: Replace _USERNAME_ with the actual username of the user -->\n" +
@@ -89,7 +93,7 @@ public class loginUser extends HttpServlet {
 "\n" +
 "  <main>\n" +
 "    <div class=\"row\">\n" +
-"      <h1 class=\"white-text center-align\">_USERNAME_</h1>\n" +
+"      <h1 class=\"white-text center-align\">"+session.getAttribute("username")+"</h1>\n" +
 "    </div>\n" +
 "    <div class=\"row\">\n" +
 "      <div class=\"col s2 offset-s3\">\n" +
