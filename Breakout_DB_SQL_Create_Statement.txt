@@ -1,18 +1,20 @@
-CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+﻿CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE breakout;
 
 CREATE TABLE `user` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(64) NOT NULL,
-  `password` VARCHAR(128) NOT NULL,
-  `email` VARCHAR(128) NOT NULL,
-  `profilePic` VARCHAR(120) DEFAULT NULL,
-  `exp` INT(11) NOT NULL,
-  `totalHighscore` INT(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) DEFAULT '0',
+  `totalHighscore` int(11) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `userhighscore` (
   `user_id` INT(11) NOT NULL,
