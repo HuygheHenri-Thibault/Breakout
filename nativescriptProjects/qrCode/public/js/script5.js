@@ -4,7 +4,7 @@ function makeCode () {
     var text = document.getElementById("text");
 
     if (!text.value) {
-        one.alert("Input a text");
+        alert("Input a text");
         text.focus();
         return;
     }
