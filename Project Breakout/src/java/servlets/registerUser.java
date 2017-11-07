@@ -32,6 +32,7 @@ public class registerUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String passwordCheck = request.getParameter("passwordCheck");
@@ -40,7 +41,7 @@ public class registerUser extends HttpServlet {
         
         if(password.equals(passwordCheck)) {
             if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
-                Repositories.getUserRepository().addUser(new User(username, password));
+                Repositories.getUserRepository().addUser(new User(username, password, email));
                 response.sendRedirect("index.html");
             }
         }

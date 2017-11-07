@@ -21,13 +21,14 @@ import util.BreakoutException;
  */
 public class MySQLUserRepository implements UserRepository {
     private static final String FIELD_ID = "id";
+    private static final String FIELD_EMAIL = "email";
     private static final String FIELD_USERNAME = "username";
     private static final String FIELD_PASSWORD = "password";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
     private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
-    private static final String ADD_USER = "INSERT INTO breakout.user (username, password) VALUES(?, ?)";
+    private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
     
     protected MySQLUserRepository() {
@@ -42,9 +43,10 @@ public class MySQLUserRepository implements UserRepository {
                 List<User> users = new ArrayList<>();
                 while(rs.next()) {
                     int id = rs.getInt(FIELD_ID);
+                    String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
-                    users.add(new User(id, username, password));
+                    users.add(new User(id, username, password, email));
                 }
                 return users;
             }
@@ -63,9 +65,10 @@ public class MySQLUserRepository implements UserRepository {
             try(ResultSet rs = stmt.executeQuery()) {
                 User userWithId = null;
                 if(rs.next()) {
+                    String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
-                    userWithId = new User(id, username, password);
+                    userWithId = new User(id, username, password, email);
                 }
                 return userWithId;
             }
@@ -85,8 +88,9 @@ public class MySQLUserRepository implements UserRepository {
                 User userWithUsername = null;
                 if(rs.next()) {
                     int id = rs.getInt(FIELD_ID);
+                    String email = rs.getString(FIELD_EMAIL);
                     String password = rs.getString(FIELD_PASSWORD);
-                    userWithUsername = new User(id, username, password);
+                    userWithUsername = new User(id, username, password, email);
                 }
                 return userWithUsername;
             }
@@ -102,6 +106,7 @@ public class MySQLUserRepository implements UserRepository {
             
             stmt.setString(1, u.getUsername());
             stmt.setString(2, u.getHashPassword());
+            stmt.setString(3, u.getEmail());
             stmt.executeUpdate();
             
         } catch(SQLException ex) {
