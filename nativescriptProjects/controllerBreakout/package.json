@@ -1,0 +1,15 @@
+{
+  "name": "breakout-test",
+  "version": "1.0.0",
+  "description": "Test voor smartphone controller",
+  "author": "Fredrik Verriest",
+  "license": "ISC",
+  "main": "server.js",
+  "devDependencies": {
+    "express": "*"
+  },
+  "dependencies": {
+    "nodemon": "^1.12.1",
+    "socket.io": "^2.0.4"
+  }
+}
