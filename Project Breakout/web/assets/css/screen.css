@@ -37,6 +37,15 @@ form.accented input:focus:not([readonly])+label {
   color: var(--accent-color);
 }
 
+form.accented textarea:focus:not([readonly]) {
+  border-bottom-color: var(--accent-color);
+  box-shadow: 0 1px 0 0 var(--accent-color);
+}
+
+form.accented textarea:focus:not([readonly])+label {
+  color: var(--accent-color);
+}
+
 /*!! Page !!*/
 
 body {
@@ -58,7 +67,16 @@ nav i.material-icons {
 }
 
 main {
-  padding: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.modal {
+  background-color: transparent;
+}
+
+.modal-footer.dark-grey {
+  background-color: #1E2124;
 }
 
 footer {

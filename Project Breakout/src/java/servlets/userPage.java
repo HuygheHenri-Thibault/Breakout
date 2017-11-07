@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Henri
  */
-@WebServlet(name = "loginUser", urlPatterns = {"/loginUser"})
-public class loginUser extends HttpServlet {
+@WebServlet(name = "userPage", urlPatterns = {"/userPage"})
+public class userPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +34,17 @@ public class loginUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        User u = Repositories.getUserRepository().getUserWithUsername(username);
-        if (u.getHashPassword().equals(password)) {
-            
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
-            
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
-                out.println("<!DOCTYPE html>\n" +
+        
+        HttpSession session = request.getSession();
+        if(session != null) {
+            String username = (String)session.getAttribute("username");
+            String password = (String)session.getAttribute("password");
+        
+            User u = Repositories.getUserRepository().getUserWithUsername(username);
+            if (u.getHashPassword().equals(password)) {
+                response.setContentType("text/html;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("<!DOCTYPE html>\n" +
 "<html lang=\"en\">\n" +
 "\n" +
 "<head>\n" +
@@ -65,10 +63,10 @@ public class loginUser extends HttpServlet {
 "  <header class=\"dark-grey z-depth-4\">\n" +
 "    <nav class=\"transparent\">\n" +
 "      <div class=\"nav-wrapper\">\n" +
-"        <a href=\"\" class=\"brand-logo\">Logo</a>\n" +
+"        <a href=\"index.html\" class=\"brand-logo\">Logo</a>\n" +
 "        <ul class=\"right\">\n" +
 "          <li id=\"user\">\n" +
-"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">_USERNAME_\n" +
+"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">"+u.getUsername()+"\n" +
 "                            <i class=\"material-icons right\">arrow_drop_down</i>\n" +
 "                        </a>\n" +
 "            <!-- TODO: Replace _USERNAME_ with the actual username of the user -->\n" +
@@ -89,11 +87,65 @@ public class loginUser extends HttpServlet {
 "\n" +
 "  <main>\n" +
 "    <div class=\"row\">\n" +
-"      <h1 class=\"white-text center-align\">_USERNAME_</h1>\n" +
+"      <div class=\"col s4 offset-s4\">\n" +
+"        <h1 class=\"white-text center-align\">"+u.getUsername()+"</h1>\n" +
+"      </div>\n" +
+"      <div class=\"col s1 offset-s3\">\n" +
+"        <a class=\"modal-trigger\" href=\"#edit-user-modal\"><i class=\"material-icons white-text small\">settings</i></a>\n" +
+"      </div>\n" +
+"\n" +
+"      <!-- MODAL START -->\n" +
+"      <div id=\"edit-user-modal\" class=\"modal\">\n" +
+"        <div class=\"modal-content med-grey white-text\">\n" +
+"          <h4>Edit user</h4>\n" +
+"          <form class=\"accented\" action=\"editUser\" method=\"post\">\n" +
+"          <div class=\"row\">\n" +
+"            <div class=\"col s5\">\n" +
+"                <div class=\"input-field\">\n" +
+"                  <input type=\"email\" id=\"email\" name=\"email\" />\n" +
+"                  <label for=\"email\" class=\"active\">Email</label>\n" +
+"                </div>\n" +
+"\n" +
+"                <div class=\"input-field\">\n" +
+"                  <input type=\"text\" id=\"username\" name=\"username\" />\n" +
+"                  <label for=\"username\" class=\"active\">Username</label>\n" +
+"                </div>\n" +
+"            </div>\n" +
+"            <div class=\"col s5 offset-s1\">\n" +
+"              <div class=\"input-field\">\n" +
+"                <input type=\"password\" id=\"password\" name=\"password\" />\n" +
+"                <label for=\"password\" class=\"active\">Password</label>\n" +
+"              </div>\n" +
+"\n" +
+"              <div class=\"input-field\">\n" +
+"                <input type=\"password\" id=\"passwordCheck\" name=\"passwordCheck\" />\n" +
+"                <label for=\"passwordCheck\" class=\"active\">Password (again)</label>\n" +
+"              </div>\n" +
+"            </div>\n" +
+"          </div>\n" +
+"          <div class=\"row\">\n" +
+"            <div class=\"col s6 offset-s3 input-field\">\n" +
+"              <textarea id=\"bio\" class=\"materialize-textarea\"></textarea>\n" +
+"              <label for=\"bio\">Bio</label>\n" +
+"            </div>\n" +
+"          </div>\n" +
+"          </form>\n" +
+"        </div>\n" +
+"        <div class=\"modal-footer dark-grey\">\n" +
+"          <a href=\"#!\" class=\"modal-action modal-close waves-effect waves-red btn-flat\">\n" +
+"            <i class=\"material-icons red-text small\">cancel</i>\n" +
+"          </a>\n" +
+"          <a href=\"#!\" class=\"modal-action modal-close waves-effect waves-green btn-flat\">\n" +
+"            <i class=\"material-icons green-text small\">check_circle</i>\n" +
+"          </a>\n" +
+"        </div>\n" +
+"      </div>\n" +
+"      <!-- MODAL END -->\n" +
+"\n" +
 "    </div>\n" +
 "    <div class=\"row\">\n" +
 "      <div class=\"col s2 offset-s3\">\n" +
-"        <p class=\"white-text center-align\">Level _VALUE_</p>\n" +
+"        <p class=\"white-text center-align\">Level "+u.getLevel()+"</p>\n" +
 "      </div>\n" +
 "      <div class=\"col s2\">\n" +
 "        <p class=\"white-text center-align\">Gems: _VALUE_</p>\n" +
@@ -112,7 +164,7 @@ public class loginUser extends HttpServlet {
 "    </div>\n" +
 "    <div class=\"row spacing\">\n" +
 "      <div class=\"col s4 offset-s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle profile-picture\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle profile-picture\">\n" +
 "      </div>\n" +
 "      <div id=\"recent-activity\" class=\"col s6\">\n" +
 "        <ul class=\"collection with-header\">\n" +
@@ -129,19 +181,19 @@ public class loginUser extends HttpServlet {
 "    </div>\n" +
 "    <div class=\"row spacing\">\n" +
 "      <div class=\"col s1 offset-s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
 "      </div>\n" +
 "      <div class=\"col s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
 "      </div>\n" +
 "      <div class=\"col s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
 "      </div>\n" +
 "      <div class=\"col s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
 "      </div>\n" +
 "      <div class=\"col s1\">\n" +
-"        <img src=\"https://upload.wikimedia.org/wikipedia/commons/5/55/Square_dissected_into_6_equal_area_triangles_no_border.svg\" alt=\"\" class=\"responsive-img circle\">\n" +
+"        <img src=\"https://tinyurl.com/y8zv9vu8\" alt=\"\" class=\"responsive-img circle\">\n" +
 "      </div>\n" +
 "    </div>\n" +
 "  </main>\n" +
@@ -152,15 +204,19 @@ public class loginUser extends HttpServlet {
 "\n" +
 "  <!--Import jQuery before materialize.js-->\n" +
 "  <script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-2.1.1.min.js\"></script>\n" +
-"  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js\"></script>\n" +
+"  <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js\"></script>\n" +
+"  <script type=\"text/javascript\" src=\"assets/js/script.js\"></script>\n" +
 "</body>\n" +
 "\n" +
 "</html>");
 
+                }
+            } else {
+                response.sendRedirect("index.html");
             }
         } else {
-            response.sendRedirect("index.html");
-        }
+            response.sendRedirect("login.html");
+        }  
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

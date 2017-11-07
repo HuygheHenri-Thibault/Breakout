@@ -14,12 +14,18 @@ public class User {
     private String email;
     private String username;
     private String hashPassword;
+    private int level;
     
-    public User(int id, String username, String password, String email) {
+    public User(int id, String username, String password, String email, int lvl) {
         this.userId = id;
         this.email = email;
         this.username = username;
         this.hashPassword = password; //HASH THIS!!!
+        this.level = lvl;
+    }
+    
+    public User(int id, String username, String password, String email) {
+        this(id, username, password, email, -1);
     }
     
     public User(String username, String password, String email) {
@@ -44,5 +50,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

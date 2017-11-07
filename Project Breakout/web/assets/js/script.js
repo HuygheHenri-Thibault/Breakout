@@ -35,6 +35,9 @@ function checkVarsIfEmpty(username, passwd) {
 
 $(document).ready(function() {
   console.log("DOM is ready");
+  // Init modal
+  $('.modal').modal();
+  
   $("#login-area button").on("click", checkBeforeSignIn);
   $("#login-area form").on("submit", checkBeforeSignIn);
   $("#register-area button").on("click", checkBeforeSignIn);
