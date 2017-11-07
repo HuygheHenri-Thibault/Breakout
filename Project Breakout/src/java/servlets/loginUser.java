@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,7 +38,12 @@ public class loginUser extends HttpServlet {
         String password = request.getParameter("password");
         User u = Repositories.getUserRepository().getUserWithUsername(username);
         if (u.getHashPassword().equals(password)) {
-                response.setContentType("text/html;charset=UTF-8");
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
+            
+            response.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = response.getWriter()) {
                 /* TODO output your page here. You may use following sample code. */
                 out.println("<head>\n" +
@@ -92,7 +98,7 @@ public class loginUser extends HttpServlet {
 "        <section id=\"user-area\">\n" +
 "            <div id=\"user-head\">\n" +
 "                <img src=\"http://summeratais.org/wp-content/uploads/2017/01/fff.png\" title=\"profile picture\" alt=\"profile picture\" class=\"responsive-img circle\">\n" +
-"                <h1>"+u.getUsername()+"</h1>\n" +
+"                <h1>"+session.getAttribute("username")+"</h1>\n" +
 "                <!-- TODO: Replace _USERNAME_ with the actual username of the user -->\n" +
 "            </div>\n" +
 "            <div id=\"user-info\">\n" +

@@ -41,7 +41,6 @@ form.accented input:focus:not([readonly])+label {
 
 body {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 
@@ -61,6 +60,9 @@ nav i.material-icons {
 footer {
   text-align: center;
   font-style: italic;
+  position: fixed;
+  bottom: 0px;
+  width: 100%
 }
 
 #user-options {
