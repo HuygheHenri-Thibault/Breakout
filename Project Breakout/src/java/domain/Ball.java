@@ -13,16 +13,20 @@ import java.awt.Image;
  */
 public class Ball extends Sprite{
     private int radius;
-    private float snelheid;
+    private float speed;
+    private float dx;
+    private float dy;
     
     public Ball(String color, int x, int y) {
         super(color, x, y);
     }
 
-    public Ball(int radius, float snelheid, String color, int x, int y) {
+    public Ball(int radius, float speed, String color, int x, int y) {
         super(color, x, y);
         this.radius = radius;
-        this.snelheid = snelheid;
+        this.speed = speed;
+        this.dx = speed;
+        this.dy = -speed;
     }
 
     public int getRadius() {
@@ -33,14 +37,33 @@ public class Ball extends Sprite{
         this.radius = radius;
     }
 
-    public float getSnelheid() {
-        return snelheid;
+    public float getSpeed() {
+        return speed;
     }
 
-    public void setSnelheid(float snelheid) {
-        this.snelheid = snelheid;
+    public void setSpeed(float speed) {
+        this.speed = speed;
+        this.dx = speed; //nog veranderen
+        this.dy = -speed; //nog veranderen
     }
     
-    
+    public void move(){
+        x += dx;
+        y += dy;
+        
+// collission detection
+//        
+//        if (x == 0) {
+//            setXDir(1);
+//        }
+//
+//        if (x == WIDTH - i_width) {
+//            setXDir(-1);
+//        }
+//
+//        if (y == 0) {
+//            setYDir(1);
+//        }
+    }
     
 }
