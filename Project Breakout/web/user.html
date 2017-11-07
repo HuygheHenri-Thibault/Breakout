@@ -45,8 +45,57 @@
         <h1 class="white-text center-align">_USERNAME_</h1>
       </div>
       <div class="col s1 offset-s3">
-        <i class="material-icons white-text medium">settings</i>
+        <a class="modal-trigger" href="#edit-user-modal"><i class="material-icons white-text small">settings</i></a>
       </div>
+
+      <!-- MODAL START -->
+      <div id="edit-user-modal" class="modal">
+        <div class="modal-content med-grey white-text">
+          <h4>Edit user</h4>
+          <form class="accented" action="editUser" method="post">
+          <div class="row">
+            <div class="col s5">
+                <div class="input-field">
+                  <input type="email" id="email" name="email" />
+                  <label for="email" class="active">Email</label>
+                </div>
+
+                <div class="input-field">
+                  <input type="text" id="username" name="username" />
+                  <label for="username" class="active">Username</label>
+                </div>
+            </div>
+            <div class="col s5 offset-s1">
+              <div class="input-field">
+                <input type="password" id="password" name="password" />
+                <label for="password" class="active">Password</label>
+              </div>
+
+              <div class="input-field">
+                <input type="password" id="passwordCheck" name="passwordCheck" />
+                <label for="passwordCheck" class="active">Password (again)</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s6 offset-s3 input-field">
+              <textarea id="bio" class="materialize-textarea"></textarea>
+              <label for="bio">Bio</label>
+            </div>
+          </div>
+          </form>
+        </div>
+        <div class="modal-footer dark-grey">
+          <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">
+            <i class="material-icons red-text small">cancel</i>
+          </a>
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+            <i class="material-icons green-text small">check_circle</i>
+          </a>
+        </div>
+      </div>
+      <!-- MODAL END -->
+
     </div>
     <div class="row">
       <div class="col s2 offset-s3">
@@ -109,7 +158,8 @@
 
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script type="text/javascript" src="assets/js/modal.js"></script>
 </body>
 
 </html>
