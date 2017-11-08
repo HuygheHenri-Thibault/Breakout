@@ -19,14 +19,11 @@ public class MySQLConnection {
     private static final String UID = "root"; // Dios mio don't let teachers see this
     private static final String PWD = ""; // or this
     
-    static
-    {
-        try
-        {
+    static {
+        try {
             Class.forName("com.mysql.jdbc.Driver");
         }
-        catch (ClassNotFoundException ex)
-        {
+        catch (ClassNotFoundException ex) {
             throw new BreakoutException("Unable to load database driver.", ex);
         }
     }

@@ -1,6 +1,9 @@
 function loggedIn() {
-  return document.cookie === "";
-  // TODO: make this function check the specific cookie for the user
+  fetch("CheckLoggedIn")
+  .then(res=>res.text())
+  .then(function(res){
+    $("#user a.dropdown-button").html(res+"<i class='material-icons right'>arrow_drop_down</i>");
+  });
 }
 
 function preventJSInjection(text) {
@@ -37,11 +40,12 @@ $(document).ready(function() {
   console.log("DOM is ready");
   // Init modal
   $('.modal').modal();
-  
+
   $("#login-area button").on("click", checkBeforeSignIn);
   $("#login-area form").on("submit", checkBeforeSignIn);
   $("#register-area button").on("click", checkBeforeSignIn);
   $("#register-area form").on("submit", checkBeforeSignIn);
+  loggedIn();
   // document.documentElement.style.setProperty(`--accent-color`, 'red');
   // TODO: Nice idea for accent color change but needs to be done another way
   // Maybe with add & remove class?
