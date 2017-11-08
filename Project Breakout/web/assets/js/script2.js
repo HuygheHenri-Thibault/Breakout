@@ -15,7 +15,7 @@ $(document).ready(function () {
     case "leftupperIsland":
         console.log("LEFT UPPER CLICKED");
         break;
-    case "rightupperIsland":
+    case "rightUpperIsland":
         console.log("RIGHT UPPER CLICKED");
         break;
     case "oceania":
