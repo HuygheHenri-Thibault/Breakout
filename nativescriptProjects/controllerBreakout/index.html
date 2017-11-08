@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Controller breakaout 2017</title>
+    <meta type="author" content="Fredrik Verriest"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script> <!--CDN, kijk voor download?-->
+  </head>
+  <body>
+<script>
+var io = io.connect();
+
+io.on('connect', function() {
+  io.emit('game_connect');
+});
+</script>
+
+
+    <header> <h1>Controller breakout</h1></header>
+
+    <footer>Howest University college</footer>
+  </body>
+</html>
