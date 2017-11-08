@@ -33,34 +33,32 @@ class Pallet{
     constructor(x, y, lengte, hoogte, snelheid){
         this.x =  x;
         this.y = y;
-        this.lengte = lengte
-        this.hoogte = hoogte
+        this.lengte = lengte;
+        this.hoogte = hoogte;
         this.snelheid = snelheid;
         this.dir = false;
         this.xborder = 0;
     }
     
     show(){
-//        fill(255, 0, 12)
-        //rectMode(CENTER);
+        imageMode(CENTER);
         image(img, this.x, this.y,img.width*1.5, img.height*1.5); 
-        //rect(this.x, this.y, this.lengte, this.hoogte, 20);
     }
     
     move(left, right){
-        if (keyCode === left){
+        if (keyIsDown(left)) {
             this.x -= this.snelheid;
         }
-        if (keyCode === right){
+        if (keyIsDown(right)){
             this.x += this.snelheid;
         }
     }
     
     border(){
-        if (this.x + this.lengte/2 + 20 > width){
+        if (this.x + this.lengte/2 + 5 > width){
             this.x -= this.snelheid;
         }
-        if (this.x - this.lengte/2 - 20 < 0){
+        if (this.x - this.lengte/2 - 5 < 0){
             this.x += this.snelheid;
         }
     }
@@ -74,24 +72,31 @@ class Brick{
     }
     
     show(){
+        imageMode(CENTER);
         image(this.img, this.x, this.y,img.width*1.5, img.height*1.5); 
     }
-    
-    move(left, right){
-        if (keyCode === left){
-            this.x -= this.snelheid;
-        }
-        if (keyCode === right){
-            this.x += this.snelheid;
-        }
-    }
-    
-    border(){
-        if (this.x + this.lengte/2 + 20 > width){
-            this.x -= this.snelheid;
-        }
-        if (this.x - this.lengte/2 - 20 < 0){
-            this.x += this.snelheid;
-        }
-    }
 }
+//
+//class Heart{
+//    constructor(startAmmount) {
+//        this.startAmount = startAmmount;
+//    }
+//    
+//    show(){
+//        imageMode(CENTER);
+//        image(heartImg, 15, 15,img.width*0.4, img.height*1.2);
+//        imageMode(CENTER);
+//        image(heartImg, 40, 15,img.width*0.4, img.height*1.2);
+//        imageMode(CENTER);
+//        image(heartImg, 65, 15,img.width*0.4, img.height*1.2);
+//        fill(0, 255, 0);
+//        ellipse(10, 10, 15);
+//        fill(0, 255, 0);
+//        ellipse(25, 10, 15); 
+//        fill(0, 255, 0);
+//        ellipse(40, 10, 15);
+//        fill(0, 255, 0);
+//        ellipse(55, 10, 15); 
+//    }
+//    
+//}
