@@ -5,11 +5,14 @@
 $(document).ready(function () {
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
+     $("#leftupperIsland").on("click", function(){
+       $('#leftupperIsland').css({ fill: "blue" });
+    });
     $("#leftupperIsland").on("click", function(){
-       alert("user clicked found") 
+       alert("user clicked leftupper") 
     });
      $("#oceania").on("click", function(){
-       alert("user clicked found") 
+       alert("user clicked Oceania") 
     });
 });
 

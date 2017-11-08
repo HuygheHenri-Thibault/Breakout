@@ -114,12 +114,13 @@ footer {
     display:block;
 
 }
+
 g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hover, g#CentralAmerica:hover,g#SouthAmerica:hover, g#GreenlandIceland:hover{
     fill: blue;
 }
 
-g#leftupperIsland:hover,g#rightUpperIsland:hover,g#rightDown:hover, g#oceania:hover{
-    fill: blue;
+g#leftupperIsland:hover,#rightUpperIsland:hover,#rightDown:hover, #oceania:hover{
+    fill: blue !important;
 }
 
 #wrapper{
