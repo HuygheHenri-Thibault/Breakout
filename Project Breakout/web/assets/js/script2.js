@@ -3,7 +3,11 @@
  */
 
 $(document).ready(function () {
+    hidePathsIslandMap();
+    hidePathsCrossroadsMap();
+});
 
+var hidePathsIslandMap = function(){
     $("#PathToVillage").hide();
     $("#PathToLonelyRock").hide();
     $("#PathToExplodingMountain").hide();
@@ -11,16 +15,11 @@ $(document).ready(function () {
     $("#PathToDragonsDen").hide();
     $("#PathToSpire").hide();
     $("#PathToTheBlueKeep").hide();
-});
+};
 
-
-
-
-/*
-    Layer 3 --> PathToVillage
-    layer 4 --> PathToLonelyRock
-    layer 6 --> PathToExplodingMountain
-    layer 7 --> PathToSignPost
-    layer5 --> PathToDragonsDen
-    layer8 --> PathToSpire
-    layer9 --> PathToTheBlueKeep*/
+var hidePathsCrossroadsMap = function(){
+    $("#pathToLighthouse").hide();
+    $("#pathOasis").hide();
+    $("#pathRaiderCamp").hide();
+    $("#pathMines").hide();
+};
