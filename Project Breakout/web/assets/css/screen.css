@@ -98,7 +98,7 @@ footer {
     margin-right:auto;
     width: 210px;
 }
-#svg815,#svg825,#continent
+#svg815,#svg825
 {
     width: 50%;
     height:90%;
@@ -106,6 +106,18 @@ footer {
     margin-left: auto;
     margin-right:auto;
 }
+/* continents html page*/
+#continents2
+{
+    width: 50%;
+    height:90%;
+    margin-left: 225px;
+    margin-right:auto;
+}
+g#oceania:hover, #leftupperIsland:hover, #rightUpperIsland:hover, #rightDown:hover{
+fill:#603913;
+}
+/*-----------------end continents------------*/
 
 #svg{
 
@@ -119,15 +131,12 @@ g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hov
     fill: blue;
 }
 
-g#leftupperIsland:hover,#rightUpperIsland:hover,#rightDown:hover, #oceania:hover{
-    fill: blue !important;
-}
 
 #wrapper{
     width: 960px;
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
+    background-color: #A2846A;
     box-shadow: black 20px 20px 10px;
 }
 /*End Index 4 !!*/

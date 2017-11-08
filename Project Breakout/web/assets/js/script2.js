@@ -5,9 +5,6 @@
 $(document).ready(function () {
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
-     $("#leftupperIsland").on("click", function(){
-       $('#leftupperIsland').css({ fill: "blue" });
-    });
     $("#leftupperIsland").on("click", function(){
        alert("user clicked leftupper") 
     });
