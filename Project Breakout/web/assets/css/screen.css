@@ -116,6 +116,7 @@ footer {
 }
 g#oceania:hover, #leftupperIsland:hover, #rightUpperIsland:hover, #rightDown:hover{
 fill:#603913;
+cursor: pointer;
 }
 /*-----------------end continents------------*/
 
