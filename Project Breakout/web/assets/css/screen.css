@@ -98,7 +98,7 @@ footer {
     margin-right:auto;
     width: 210px;
 }
-#svg815,#svg825
+#svg815,#svg825,#continent
 {
     width: 50%;
     height:90%;
@@ -115,6 +115,10 @@ footer {
 
 }
 g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hover, g#CentralAmerica:hover,g#SouthAmerica:hover, g#GreenlandIceland:hover{
+    fill: blue;
+}
+
+g#leftupperIsland:hover,g#rightUpperIsland:hover,g#rightDown:hover, g#oceania:hover{
     fill: blue;
 }
 
