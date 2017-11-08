@@ -5,12 +5,31 @@
 $(document).ready(function () {
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
-    $("#leftupperIsland").on("click", function(){
-       alert("user clicked leftupper") 
+    var myClass = "oceania";
+    $(".continents").click(function() {
+        var myClass = $(this).attr("id");
+        console.log(myClass);
+        $(".succesor").html(myClass);
+    
+    switch($(".succesor").text()) {
+    case "leftupperIsland":
+        console.log("LEFT UPPER CLICKED");
+        break;
+    case "rightupperIsland":
+        console.log("RIGHT UPPER CLICKED");
+        break;
+    case "oceania":
+        console.log("OCEANIA CLICKED");
+        break;
+    case "rightDown":
+       console.log("RIGHT DOWN CLICKED");
+        break;
+    default:
+        myClass = "leftupperIsland";
+}
     });
-     $("#oceania").on("click", function(){
-       alert("user clicked Oceania") 
-    });
+
+
 });
 
 var hidePathsIslandMap = function(){
