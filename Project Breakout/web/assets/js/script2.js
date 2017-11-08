@@ -14,18 +14,20 @@ $(document).ready(function () {
     switch($(".succesor").text()) {
     case "leftupperIsland":
         console.log("LEFT UPPER CLICKED");
+        window.location.assign("http://localhost:8080/Project_Breakout/mapTextured.html"); 
         break;
     case "rightUpperIsland":
         console.log("RIGHT UPPER CLICKED");
         break;
     case "oceania":
         console.log("OCEANIA CLICKED");
+        window.location.assign("http://localhost:8080/Project_Breakout/index4.html"); 
         break;
     case "rightDown":
        console.log("RIGHT DOWN CLICKED");
         break;
     default:
-        myClass = "leftupperIsland";
+         console.log("nothing clicked yet");
 }
     });
 
