@@ -66,21 +66,11 @@ public class userPage extends HttpServlet {
 "        <a href=\"index.html\" class=\"brand-logo\">Logo</a>\n" +
 "        <ul class=\"right\">\n" +
 "          <li id=\"user\">\n" +
-"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\">"+u.getUsername()+"\n" +
-"                            <i class=\"material-icons right\">arrow_drop_down</i>\n" +
-"                        </a>\n" +
-"            <!-- TODO: Replace _USERNAME_ with the actual username of the user -->\n" +
+"            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\"></a>\n" +
 "          </li>\n" +
 "          <li><i class=\"material-icons right\">account_circle</i></li>\n" +
 "          <!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->\n" +
-"        </ul>\n" +
-"        <!-- Dropdown TODO: when the user is logged in this is displayed and otherwise it is not $(\".nav-wrapper\").append(\"hieronder\") -->\n" +
-"        <ul id=\"user-options\" class=\"dropdown-content light-grey\">\n" +
-"          <li><a href=\"#!\" class=\"white-text text-lighten-1\">one</a></li>\n" +
-"          <li><a href=\"#!\" class=\"white-text\">Just a test bro</a></li>\n" +
-"          <li class=\"divider\"></li>\n" +
-"          <li><a href=\"#!\" class=\"white-text red\">Log out</a></li>\n" +
-"        </ul>\n" +
+"        </ul>"+
 "      </div>\n" +
 "    </nav>\n" +
 "  </header>\n" +

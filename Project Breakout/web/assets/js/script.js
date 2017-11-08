@@ -1,9 +1,21 @@
 function loggedIn() {
-  fetch("CheckLoggedIn")
-  .then(res=>res.text())
-  .then(function(res){
-    $("#user a.dropdown-button").html(res+"<i class='material-icons right'>arrow_drop_down</i>");
-  });
+  $.ajax({url: "CheckLoggedIn", success: function(result){
+    $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
+    if(result === "Guest") {
+      $(".nav-wrapper")
+      .append("<ul id='user-options' class='dropdown-content light-grey'>"+
+      "<li><a class='white-text' href='login.html'>Login</a></li>"+
+      "<li><a href='register.html' class='white-text'>Register</a></li>")
+    } else {
+      $(".nav-wrapper")
+      .append("<ul id='user-options' class='dropdown-content light-grey'>"+
+      "<li><a href='userPage' class='white-text'>Account</a></li>"+
+      "<li class='divider'></li>"+
+      "<li><a href='LogOutUser' class='white-text red'>Log out</a></li></ul>")
+    }
+
+    $('.dropdown-button').dropdown();
+  }});
 }
 
 function preventJSInjection(text) {
@@ -38,14 +50,16 @@ function checkVarsIfEmpty(username, passwd) {
 
 $(document).ready(function() {
   console.log("DOM is ready");
-  // Init modal
+  // Init Page
+  loggedIn();
   $('.modal').modal();
+   //Dropdowns have to be init'ed if they're dynamic.
 
   $("#login-area button").on("click", checkBeforeSignIn);
   $("#login-area form").on("submit", checkBeforeSignIn);
   $("#register-area button").on("click", checkBeforeSignIn);
   $("#register-area form").on("submit", checkBeforeSignIn);
-  loggedIn();
+
   // document.documentElement.style.setProperty(`--accent-color`, 'red');
   // TODO: Nice idea for accent color change but needs to be done another way
   // Maybe with add & remove class?
