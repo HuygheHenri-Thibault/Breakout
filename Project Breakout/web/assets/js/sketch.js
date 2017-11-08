@@ -24,7 +24,7 @@ function setup() {
 
 function draw() {
     background(47, 49, 54);
- //   ball.move();
+    ball.move();
     ball.edges();
     ball.show();
     pallet.move(LEFT_ARROW, RIGHT_ARROW);
