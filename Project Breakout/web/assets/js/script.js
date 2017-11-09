@@ -6,12 +6,14 @@ function loggedIn() {
       .append("<ul id='user-options' class='dropdown-content light-grey'>"+
       "<li><a class='white-text' href='login.html'>Login</a></li>"+
       "<li><a href='register.html' class='white-text'>Register</a></li>")
+      $(".login").hide();
     } else {
       $(".nav-wrapper")
       .append("<ul id='user-options' class='dropdown-content light-grey'>"+
       "<li><a href='userPage' class='white-text'>Account</a></li>"+
       "<li class='divider'></li>"+
       "<li><a href='LogOutUser' class='white-text red'>Log out</a></li></ul>")
+      $(".no-login").hide();
     }
 
     $('.dropdown-button').dropdown();

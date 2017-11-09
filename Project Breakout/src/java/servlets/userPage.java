@@ -145,10 +145,10 @@ public class userPage extends HttpServlet {
 "    </div>\n" +
 "    <div class=\"row\">\n" +
 "      <div class=\"col s5 offset-s1\">\n" +
-"        <div class=\"card-panel\">test</div>\n" +
+"        <div class=\"card-panel\">"+u.getBio()+"</div>\n" +
 "      </div>\n" +
 "      <div class=\"col s3 offset-s2\">\n" +
-"        <div class=\"card-panel\">test</div>\n" +
+"        <div class=\"card-panel\">_CLANNAME_</div>\n" +
 "      </div>\n" +
 "    </div>\n" +
 "    <div class=\"row spacing\">\n" +

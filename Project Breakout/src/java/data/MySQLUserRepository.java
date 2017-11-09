@@ -48,7 +48,9 @@ public class MySQLUserRepository implements UserRepository {
                     String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
-                    users.add(new User(id, username, password, email));
+                    int lvl = rs.getInt(FIELD_LEVEL);
+                    String bio = rs.getString(FIELD_BIO);
+                    users.add(new User(id, username, password, email, lvl, bio));
                 }
                 return users;
             }
@@ -71,7 +73,8 @@ public class MySQLUserRepository implements UserRepository {
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
-                    userWithId = new User(id, username, password, email, lvl);
+                    String bio = rs.getString(FIELD_BIO);
+                    userWithId = new User(id, username, password, email, lvl, bio);
                 }
                 return userWithId;
             }
@@ -94,7 +97,8 @@ public class MySQLUserRepository implements UserRepository {
                     String email = rs.getString(FIELD_EMAIL);
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
-                    userWithUsername = new User(id, username, password, email, lvl);
+                    String bio = rs.getString(FIELD_BIO);
+                    userWithUsername = new User(id, username, password, email, lvl, bio);
                 }
                 return userWithUsername;
             }
