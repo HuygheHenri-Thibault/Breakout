@@ -92,6 +92,11 @@ footer {
 }
 
 /* Index 4 !!*/
+g{
+    fill:none;
+    stroke:black;
+    pointer-events:all;
+}
 
 .index4{
     margin-left:auto;
@@ -119,11 +124,17 @@ fill:#603913;
 cursor: pointer;
 }
 /*-----------------end continents------------*/
-/*maptextured html page
-g#toBreakersBay:hover,text#text5098:hover,text#text5086:hover,g#selectMines:hover,g#selectLighthouse{
-    fill: white;
+/*maptextured html page*/
+
+#rect7216{
+    fill: red;
+}
+#rect7216:hover{
+    fill: green;
     cursor:pointer;
 }
+
+
 /*--------------End Map textured--------------*/
 #svg{
 

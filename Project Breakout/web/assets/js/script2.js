@@ -27,9 +27,8 @@ $(document).ready(function () {
         break;
     default:
          console.log("nothing clicked yet");
-}
+    }
 });
-
 
 });
 
@@ -48,4 +47,5 @@ var hidePathsCrossroadsMap = function(){
     $("#pathOasis").hide();
     $("#pathRaiderCamp").hide();
     $("#pathMines").hide();
+    $("#toBreakersBay").hide();
 };
