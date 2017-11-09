@@ -5,7 +5,6 @@
 $(document).ready(function () {
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
-    var myClass = "oceania";
     $(".continents").click(function() {
         var myClass = $(this).attr("id");
         console.log(myClass);
@@ -29,7 +28,7 @@ $(document).ready(function () {
     default:
          console.log("nothing clicked yet");
 }
-    });
+});
 
 
 });

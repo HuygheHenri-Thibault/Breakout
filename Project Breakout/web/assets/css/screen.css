@@ -119,7 +119,12 @@ fill:#603913;
 cursor: pointer;
 }
 /*-----------------end continents------------*/
-
+/*maptextured html page
+g#toBreakersBay:hover,text#text5098:hover,text#text5086:hover,g#selectMines:hover,g#selectLighthouse{
+    fill: white;
+    cursor:pointer;
+}
+/*--------------End Map textured--------------*/
 #svg{
 
     width: 100%;
