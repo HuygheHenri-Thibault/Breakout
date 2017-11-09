@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface HighscoreRepository {
     public List<Highscore> getAllHighscores();
-    public List<Highscore> getUsersHighscores(User u);
+    public Highscore getUserHighscore(User u);
     public void addHighscore(Highscore h);
     public void removeHighscore(Highscore h);
 }
