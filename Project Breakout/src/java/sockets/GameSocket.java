@@ -40,14 +40,20 @@ public class GameSocket {
             
             switch ((String)obj.get("type")) {
                 case "startGame":
-                    int aantalPlayers = Integer.parseInt((String)obj.get("type"));
+                    
+                    int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
                     sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
+                    return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
+//                    return "Started game";
+                case "":
                     break;
+                default:
+                    return "No match found for type of message..";
             }
             
-            return obj.toJSONString();
+            return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
         } catch(ParseException ex) {
-            return "error";
+            throw new BreakoutException("Couldn't process message", ex);
         }
     }
     
