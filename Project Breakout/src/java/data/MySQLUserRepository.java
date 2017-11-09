@@ -20,11 +20,12 @@ import util.BreakoutException;
  * @author Henri
  */
 public class MySQLUserRepository implements UserRepository {
-    private static final String FIELD_ID = "id";
-    private static final String FIELD_EMAIL = "email";
-    private static final String FIELD_USERNAME = "username";
-    private static final String FIELD_PASSWORD = "password";
-    private static final String FIELD_LEVEL = "level";
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_EMAIL = "email";
+    public static final String FIELD_USERNAME = "username";
+    public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_LEVEL = "level";
+    public static final String FIELD_BIO = "bio";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
@@ -53,7 +54,9 @@ public class MySQLUserRepository implements UserRepository {
                     String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
-                    users.add(new User(id, username, password, email));
+                    int lvl = rs.getInt(FIELD_LEVEL);
+                    String bio = rs.getString(FIELD_BIO);
+                    users.add(new User(id, username, password, email, lvl, bio));
                 }
                 return users;
             }
@@ -76,7 +79,8 @@ public class MySQLUserRepository implements UserRepository {
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
-                    userWithId = new User(id, username, password, email, lvl);
+                    String bio = rs.getString(FIELD_BIO);
+                    userWithId = new User(id, username, password, email, lvl, bio);
                 }
                 return userWithId;
             }
@@ -99,7 +103,8 @@ public class MySQLUserRepository implements UserRepository {
                     String email = rs.getString(FIELD_EMAIL);
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
-                    userWithUsername = new User(id, username, password, email, lvl);
+                    String bio = rs.getString(FIELD_BIO);
+                    userWithUsername = new User(id, username, password, email, lvl, bio);
                 }
                 return userWithUsername;
             }
@@ -134,6 +139,36 @@ public class MySQLUserRepository implements UserRepository {
             
         } catch(SQLException ex) {
             throw new BreakoutException("Couldn't delete user", ex);
+        }
+    }
+
+    @Override
+    public void updateUserStringField(int userId, String field, String value) {
+        String QUERY = "UPDATE breakout.user SET "+field+" = ? WHERE id = ?";
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(QUERY)) {
+                        
+            stmt.setString(1, value);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+            
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't update user field specified", ex);
+        }
+    }
+
+    @Override
+    public void updateUserIntField(int userId, String field, int value) {
+        String QUERY = "UPDATE breakout.user SET "+field+" = ? WHERE id = ?";
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(QUERY)) {
+                        
+            stmt.setInt(1, value);
+            stmt.setInt(2, userId);
+            stmt.executeUpdate();
+            
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't update user field specified", ex);
         }
     }
     

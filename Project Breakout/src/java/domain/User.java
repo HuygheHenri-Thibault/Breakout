@@ -15,25 +15,28 @@ public class User {
     private String username;
     private String hashPassword;
     private int level;
+    private String bio;
     
-    public User(int id, String username, String password, String email, int lvl) {
+    public User(int id, String username, String password, String email, int lvl, String bio) {
         this.userId = id;
         this.email = email;
         this.username = username;
         this.hashPassword = password; //HASH THIS!!!
         this.level = lvl;
+        this.bio = bio;
     }
     
-    public User(int id, String username, String password, String email) {
-        this(id, username, password, email, -1);
+    public User(String username, String password, String email, int lvl, String bio) {
+        this(-1, username, password, email, lvl, bio);
     }
-    
+    public User(String username, String password, String email, int lvl) {
+        this(username, password, email, lvl, null);
+    }
     public User(String username, String password, String email) {
-        this(-1, username, password, email);
+        this(username, password, email, -1);
     }
-    
     public User(String username, String password) {
-        this(-1, username, password, null);
+        this(username, password, null);
     }
 
     public int getUserId() {
@@ -54,5 +57,9 @@ public class User {
 
     public int getLevel() {
         return level;
+    }
+
+    public String getBio() {
+        return bio;
     }
 }

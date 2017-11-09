@@ -5,9 +5,8 @@
  */
 package servlets;
 
-import data.Repositories;
-import domain.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Henri
  */
-@WebServlet(name = "LogInUser", urlPatterns = {"/LogInUser"})
-public class LogInUser extends HttpServlet {
+@WebServlet(name = "CheckLoggedIn", urlPatterns = {"/CheckLoggedIn"})
+public class CheckLoggedIn extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,17 +32,12 @@ public class LogInUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password"); // HASH this to check with hashed password
-        
-        User u = Repositories.getUserRepository().getUserWithUsername(username);
-        if (u != null && u.getHashPassword().equals(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
-            response.sendRedirect("userPage");
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        if(session.getAttribute("username") == null) {
+            response.getWriter().write("Guest");
         } else {
-            response.sendRedirect("login.html");
+            response.getWriter().write((String)session.getAttribute("username"));
         }
     }
 

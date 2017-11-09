@@ -5,22 +5,22 @@
  */
 package servlets;
 
+
 import data.Repositories;
-import domain.User;
+import data.UserRepository;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Henri
  */
-@WebServlet(name = "LogInUser", urlPatterns = {"/LogInUser"})
-public class LogInUser extends HttpServlet {
+@WebServlet(name = "editUser", urlPatterns = {"/editUser"})
+public class editUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,18 +33,35 @@ public class LogInUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password"); // HASH this to check with hashed password
-        
-        User u = Repositories.getUserRepository().getUserWithUsername(username);
-        if (u != null && u.getHashPassword().equals(password)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
+            String email = request.getParameter("email");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String passwordCheck = request.getParameter("passwordCheck");
+            String bio = request.getParameter("bio");
+            
+            UserRepository userRepo = Repositories.getUserRepository();
+            int userId = userRepo.getUserWithUsername((String)request.getSession().getAttribute("username")).getUserId();
+
+            
+            if(email != null && !email.equals("")) {
+                userRepo.updateUserStringField(userId, "email", email);
+            }
+            if(username != null && !username.equals("")) {
+                userRepo.updateUserStringField(userId, "username", username);
+                request.getSession().setAttribute("username", username);
+            }
+            if(bio != null && !bio.equals("")) {
+                userRepo.updateUserStringField(userId, "bio", bio);
+            }
+            if(password != null && !password.equals("") && passwordCheck != null && !passwordCheck.equals("")) {
+                if(password.equals(passwordCheck)) {
+                    userRepo.updateUserStringField(userId, "password", password);
+                    request.getSession().setAttribute("password", password);
+                }
+            }
+            
+            
             response.sendRedirect("userPage");
-        } else {
-            response.sendRedirect("login.html");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
