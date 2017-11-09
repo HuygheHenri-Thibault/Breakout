@@ -17,42 +17,37 @@ import java.util.List;
  */
 public class Game {
     private List<Level> levels = new ArrayList<>();
-    private List<Pallet> pallets = new ArrayList<>();
-    private List<Ball> balls = new ArrayList<>();
     
-    private FactoryPallet factoryPallet;
-    private FactoryBall factoryBall;
     private FactoryLevel factoryLevels;
+    private int width;
+    private int height;
     
     private int score;
     private int aantalSpelers;
+    private int lives; 
     
-    private final static int MIN_GAME_BORDER_X = 0;
-    private final static int MAX_GAME_BORDER_X = 1000;
-    private final static int MIN_GAME_BORDER_Y = 0;
-    private final static int MAX_GAME_BORDER_Y = 1000;
+    private boolean gameOver = false;
 
-    public Game(int score, int aantalSpelers) {
+    public Game(int score, int height, int width, int lives, int aantalSpelers) {
         this.score = score;
+        this.width = width;
+        this.height = height;
+        this.lives = lives;
         this.aantalSpelers = aantalSpelers;
-        this.factoryPallet = new FactoryPallet(this);
-        this.factoryPallet.createPallets();
-        this.factoryBall = new FactoryBall(this);
-        this.factoryBall.createBall();
         this.factoryLevels = new FactoryLevel(this);
         this.factoryLevels.createLevel();
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public List<Level> getLevels() {
         return levels;
-    }
-
-    public List<Pallet> getPallets() {
-        return pallets;
-    }
-
-    public List<Ball> getBalls() {
-        return balls;
     }
 
     public int getScore() {
@@ -62,25 +57,32 @@ public class Game {
     public void setScore(int score) {
         this.score = score;
     }
+    
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+     
+    public int getLives() {
+        return lives;
+    }
 
     public int getAantalSpelers() {
         return aantalSpelers;
     }
-
-    public int getMIN_GAME_BORDER_X() {
-        return MIN_GAME_BORDER_X;
+    
+    public void decrementLife(){
+        lives--;
+        if(lives == 0){
+            setGameOver(true);
+        }
     }
 
-    public int getMAX_GAME_BORDER_X() {
-        return MAX_GAME_BORDER_X;
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 
-    public int getMIN_GAME_BORDER_Y() {
-        return MIN_GAME_BORDER_Y;
-    }
-
-    public int getMAX_GAME_BORDER_Y() {
-        return MAX_GAME_BORDER_Y;
+    public boolean isGameOver() {
+        return gameOver;
     }
    
 }

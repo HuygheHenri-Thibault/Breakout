@@ -11,54 +11,47 @@ import java.awt.Image;
  *
  * @author micha
  */
-public class Brick extends Sprite{
-    private float lenght;
-    private final static int HEIGHT = 50;
+public class Brick extends Rectangle{
+    private BrickRow br;
     private int hits;
     private int achievedScore;
-    private boolean destroyed;
-    
-    public Brick(String color, int x, int y) {
-        super(color, x, y);
-    }
+    //private boolean destroyed;
 
-    public Brick(float lenght, int hits, int achievedScore, boolean destroyed, String color, int x, int y) {
-        super(color, x, y);
-        this.lenght = lenght;
+    public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
+        super(br.getLevel(), color, x, y, lenght, height);
+        this.br = br;
         this.hits = hits;
         this.achievedScore = achievedScore;
-        this.destroyed = destroyed;
+        //this.destroyed = destroyed;
     }
 
-    public float getLenght() {
-        return lenght;
+    public BrickRow getBr() {
+        return br;
     }
-
-    public float getHeight() {
-        return HEIGHT;
-    }
+    
 
     public int getHits() {
         return hits;
-    }
-
-    public int getAcheievedScore() {
-        return achievedScore;
-    }
-
-    public boolean isDestroyed() {
-        return destroyed;
-    }
-
-    public void setLenght(float lenght) {
-        this.lenght = lenght;
     }
     
     public void setAcheievedScore(int acheievedScore) {
         this.achievedScore = acheievedScore;
     }
 
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
+    public int getAchievedScore() {
+        return achievedScore;
+    }
+
+//    public void setDestroyed(boolean destroyed) {
+//        this.destroyed = destroyed;
+//    }
+//    
+//    public boolean isDestroyed() {
+//        return destroyed;
+//    }
+    
+    @Override
+    public void updateSpriteBall(Ball aBall) {
+        aBall.updateSpriteBallAfterCollidingWithBrick(this);
     }
 }

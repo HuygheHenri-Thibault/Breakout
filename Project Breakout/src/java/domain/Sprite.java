@@ -11,10 +11,10 @@ import java.awt.Image;
  *
  * @author micha
  */
-public class Sprite {
-    protected String color;
-    protected int x;
-    protected int y;
+public abstract class Sprite {
+    private String color;
+    private int x;
+    private int y;
 
     public Sprite(String color, int x, int y) {
         this.color = color;
@@ -46,5 +46,9 @@ public class Sprite {
         this.y = y;
     }
     
-    
+    public abstract boolean checkCollissionWithRect(Rectangle rect);
+    public abstract boolean checkCollissionWithCircle(Circle c);
+    public abstract boolean checkCollission(Sprite s);
+
+    public abstract void updateSpriteBall(Ball aBall);
 }

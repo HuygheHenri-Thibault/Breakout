@@ -13,14 +13,19 @@ import java.util.List;
  * @author micha
  */
 public class BrickRow {
+    private final Level level;
     private List<Brick> bricksOnRow = new ArrayList<>();
     private final int MIN_BRICK_BORDER_X = 250;
     private final int MAX_BRICK_BORDER_X = 750;
     private final int MIN_BRICK_BORDER_Y = 250;
     private final int MAX_BRICK_BORDER_Y = 500;
-    private int somAllBricksLenghts;
 
-    public BrickRow() {
+    public BrickRow(Level level) {
+        if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
+    }
+
+    public Level getLevel() {
+        return level;
     }
     
     public int getMIN_BRICK_BORDER_X() {
@@ -47,18 +52,18 @@ public class BrickRow {
         bricksOnRow.add(b);
     }
     
-    public int getSomAllBricksLenghts() {
-        return somAllBricksLenghts = getSomLengteGemaakteBricks();
-    }
-    
-    private int getSomLengteGemaakteBricks(){
+    public int getSomLengteGemaakteBricks(){
         int som = 0;
         if(bricksOnRow.size() > 0){
             for (Brick brick : bricksOnRow) {
-                som += brick.getLenght();
+                som += brick.getLength();
             }
         }
        return som; 
+    }
+    
+    public void deleteBrick(Brick b){
+        bricksOnRow.remove(b);
     }
     
 }
