@@ -23,7 +23,7 @@ public class FactoryLevel {
      
     public void createLevel(){
         numberLevels++;
-        Level l = new Level(numberLevels, 3, 0);
+        Level l = new Level(game, numberLevels, 0);
         game.getLevels().add(l);
     } 
 }

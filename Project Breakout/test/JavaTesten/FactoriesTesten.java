@@ -44,11 +44,11 @@ public class FactoriesTesten {
     
     @Test
     public void testRowOfBlocksForLevel(){
-        Level l1 = new Level(1, 3, 0);
+        Game g = new Game(0, 1000, 1000, 3, 1);
         int som = 0;
-        for (int i = 0; i < l1.getRowOfBricks().size(); i++) {
-            for (int j = 0; j < l1.getRowOfBricks().get(i).getBricksOnRow().size() ; j++) {
-                som += l1.getRowOfBricks().get(i).getBricksOnRow().get(j).getLenght();
+        for (int i = 0; i < g.getLevels().get(0).getRowOfBricks().size(); i++) {
+            for (int j = 0; j < g.getLevels().get(0).getRowOfBricks().get(i).getBricksOnRow().size() ; j++) {
+                som += g.getLevels().get(0).getRowOfBricks().get(i).getBricksOnRow().get(j).getLength();
             }
         }
         assertEquals(500 * 5, som);
@@ -56,46 +56,39 @@ public class FactoriesTesten {
     
     @Test
     public void testEenPalletMaken(){
-        Game g = new Game(0, 1);
-        int som = 0;
-        for (int i = 0; i < g.getPallets().size(); i++) {
-           som += g.getPallets().get(i).getMAX_PALLET_BORDER();
-        }
-        assertTrue(g.getPallets().get(0) instanceof Pallet);
-        assertEquals(g.getMAX_GAME_BORDER_X(), som);
+        Game g = new Game(0, 1000, 1000, 3, 1);
+        assertTrue(g.getLevels().get(0).getPallets().get(0) instanceof Pallet);
+        assertEquals(438, g.getLevels().get(0).getPallets().get(0).getX());
     }
     
     @Test
     public void testMeerderePalletMaken(){
-        Game g = new Game(0, 4);
-        int som = 0;
-        for (int i = 0; i < g.getPallets().size(); i++) {
-           som += g.getPallets().get(i).getMAX_PALLET_BORDER();
-        }
-        assertTrue(g.getPallets().get(0) instanceof Pallet);
-        assertEquals(2500, som);
+        Game g = new Game(0, 1000, 1000, 3, 2);
+        assertTrue(g.getLevels().get(0).getPallets().get(0) instanceof Pallet);
+        assertEquals(188, g.getLevels().get(0).getPallets().get(0).getX());
+        assertEquals(688, g.getLevels().get(0).getPallets().get(1).getX());
     }
     
     @Test
     public void testBallMaken(){
-        Game g = new Game(0, 4);
-        assertTrue(g.getBalls().get(0) instanceof Ball);
+        Game g = new Game(0, 1000, 1000, 3, 1);
+        assertTrue(g.getLevels().get(0).getBalls().get(0) instanceof Ball);
     }
     
     @Test
     public void testLevelsMaken(){
-        Game g = new Game(0, 1);
+        Game g = new Game(0, 1000, 1000, 3, 1);
         assertTrue(g.getLevels().get(0) instanceof Level);
     }
     
     @Test
     public void testGameMaken(){
-        Game g = new Game(0, 1);
+        Game g = new Game(0, 1000, 1000, 3, 1);
         assertTrue(g.getLevels().get(0) instanceof Level);
-        assertEquals(1, g.getPallets().size());
-        assertTrue(g.getPallets().get(0) instanceof Pallet);
-        assertEquals(1, g.getBalls().size());
-        assertTrue(g.getBalls().get(0) instanceof Ball);
+        assertEquals(1, g.getLevels().get(0).getPallets().size());
+        assertTrue(g.getLevels().get(0).getPallets().get(0) instanceof Pallet);
+        assertEquals(1, g.getLevels().get(0).getBalls().size());
+        assertTrue(g.getLevels().get(0).getBalls().get(0) instanceof Ball);
         assertEquals(5, g.getLevels().get(0).getRowOfBricks().size());
         assertTrue(g.getLevels().get(0).getRowOfBricks().get(0).getBricksOnRow().get(0) instanceof Brick);
     }

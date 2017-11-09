@@ -28,8 +28,8 @@ public class FactoryRowOfBricks{
         List<BrickRow> rowsOfBricks = new ArrayList();
         FactoryBricks factoryB = new FactoryBricks();
         for (int i = 0; i < level.getMAX_ROWS_BRICKS(); i++) {
-            BrickRow rowBricks = new BrickRow();
-            factoryB.createBricks(rowBricks);
+            BrickRow rowBricks = new BrickRow(level);
+            factoryB.createBricks(rowsOfBricks, rowBricks);
             rowsOfBricks.add(rowBricks);
         }
         return rowsOfBricks;

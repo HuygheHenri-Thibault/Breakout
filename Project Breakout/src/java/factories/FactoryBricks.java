@@ -24,26 +24,26 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
     public FactoryBricks() {
     }
     
-    public void createBricks(BrickRow rowBricks){
-        while(rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomAllBricksLenghts()!= rowBricks.getMAX_BRICK_BORDER_X()){
-            Brick b = createSingleBrick(rowBricks);
+    public void createBricks(List<BrickRow> rowsMade, BrickRow rowBricks){
+        while(rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomLengteGemaakteBricks()!= rowBricks.getMAX_BRICK_BORDER_X()){
+            Brick b = createSingleBrick(rowsMade, rowBricks);
             rowBricks.addBrickToRow(b);
         }
     }   
     
-    private Brick createSingleBrick(BrickRow rowBricks){
+    private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
         String color = findUnusedColor();
         
-        int x = 250 + rowBricks.getSomAllBricksLenghts();
-        int y = 250 + rowBricks.getBricksOnRow().size() * 50;
+        int x = 250 + rowBricks.getSomLengteGemaakteBricks();
+        int y = 250 + rowsMade.size() * 50;
         
         Random rand = new Random();
-        float lengte = (float) rand.nextInt((50-20) + 1) + 20;
+        int lengte = rand.nextInt((50-20) + 1) + 20;
         if(x + lengte > rowBricks.getMAX_BRICK_BORDER_X()){
-            lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomAllBricksLenghts();
+            lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
         }
        
-        Brick b = new Brick(lengte, 1, 10, false, color, x, y);
+        Brick b = new Brick(rowBricks, lengte, 50, 1, 10, color, x, y);
         return b;
     }
     

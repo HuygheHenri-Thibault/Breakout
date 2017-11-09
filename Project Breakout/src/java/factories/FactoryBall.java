@@ -7,6 +7,7 @@ package factories;
 
 import domain.Ball;
 import domain.Game;
+import domain.Level;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +16,17 @@ import java.util.List;
  * @author micha
  */
 public class FactoryBall extends FactoryBreakoutUtilities{
-    private final Game game;
+    private final Level level;
 
-    public FactoryBall(Game game) {
-        this.game = game;
+    public FactoryBall(Level level) {
+        this.level = level;
     }
     
     public void createBall(){
         String colorPallet = findUnusedColor();
-        int x = game.getMAX_GAME_BORDER_X() / 2;
-        int y = (game.getMAX_GAME_BORDER_Y() / 10) * 8; 
-        Ball b = new Ball(15, 5, colorPallet, x, y);
-        game.getBalls().add(b);
+        int x = (int) (level.getGameWidth()/ 2);
+        int y = (int) ((level.getGameHeight()/ 10) * 8); 
+        Ball b = new Ball(level, 15, 5, colorPallet, x, y);
+        level.getBalls().add(b);
     }
 }
