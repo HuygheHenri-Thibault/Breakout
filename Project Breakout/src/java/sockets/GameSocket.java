@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
-
-
+import org.json.simple.JSONObject;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -45,8 +44,7 @@ public class GameSocket {
 
     @OnMessage
     public String onMessage(String message) {
-        JsonObject jObj = new JsonObject(message);
-        switch 
+        
         // check type of message (gameStart, posistion, gameEnd,..)
         return null;
     }
