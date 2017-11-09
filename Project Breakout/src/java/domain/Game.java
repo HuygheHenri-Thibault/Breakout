@@ -49,6 +49,10 @@ public class Game {
     public List<Level> getLevels() {
         return levels;
     }
+    
+    public void createNewLevel(){
+        factoryLevels.createLevel();
+    }
 
     public int getScore() {
         return score;

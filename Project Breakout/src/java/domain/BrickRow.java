@@ -15,17 +15,23 @@ import java.util.List;
 public class BrickRow {
     private final Level level;
     private List<Brick> bricksOnRow = new ArrayList<>();
+    private final int achievedScoreIfDestroyedForBrickOnRow;
     private final int MIN_BRICK_BORDER_X = 250;
     private final int MAX_BRICK_BORDER_X = 750;
     private final int MIN_BRICK_BORDER_Y = 250;
     private final int MAX_BRICK_BORDER_Y = 500;
 
-    public BrickRow(Level level) {
+    public BrickRow(Level level, int score) {
         if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
+        this.achievedScoreIfDestroyedForBrickOnRow = score;
     }
 
     public Level getLevel() {
         return level;
+    }
+    
+    public int getAchievedScoreIfDestroyedForBrickOnRow() {
+        return achievedScoreIfDestroyedForBrickOnRow;
     }
     
     public int getMIN_BRICK_BORDER_X() {

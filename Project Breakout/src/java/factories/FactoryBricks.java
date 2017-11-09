@@ -42,8 +42,10 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
         if(x + lengte > rowBricks.getMAX_BRICK_BORDER_X()){
             lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
         }
+        
+        int achievedScoreIfDestroyed = rowBricks.getAchievedScoreIfDestroyedForBrickOnRow();
        
-        Brick b = new Brick(rowBricks, lengte, 50, 1, 10, color, x, y);
+        Brick b = new Brick(rowBricks, lengte, 50, 1, achievedScoreIfDestroyed, color, x, y);
         return b;
     }
     

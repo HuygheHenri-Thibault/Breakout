@@ -34,6 +34,10 @@ public class Brick extends Rectangle{
         return hits;
     }
     
+    public void decrementHits(){
+        hits--;
+    }
+    
     public void setAcheievedScore(int acheievedScore) {
         this.achievedScore = acheievedScore;
     }

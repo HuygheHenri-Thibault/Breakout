@@ -15,6 +15,7 @@ import domain.Level;
 public class FactoryLevel {
     private final Game game;
     private int numberLevels;
+    private int startScoreForBricksFirstLine = 50;
 
     public FactoryLevel(Game game) {
         this.game = game;
@@ -23,7 +24,8 @@ public class FactoryLevel {
      
     public void createLevel(){
         numberLevels++;
-        Level l = new Level(game, numberLevels, 0);
+        Level l = new Level(game, startScoreForBricksFirstLine, numberLevels, 0);
         game.getLevels().add(l);
+        startScoreForBricksFirstLine += 10;
     } 
 }
