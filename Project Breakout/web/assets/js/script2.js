@@ -30,6 +30,27 @@ $(document).ready(function () {
     }
 });
 
+    $("g").on("click", function(){
+        console.log($(this).attr("id"));
+        var selectedLevel = $(this).attr("id");
+        $(".succesor").html(selectedLevel);
+        switch($(".succesor").text()){
+            case "selectLighthouse":
+                console.log("Lighthouse selected");
+                break;
+            case "selectRaider":
+                console.log("Raider selected");
+                break;
+            case "selectMines":
+                console.log("Mines selected");
+                break; 
+            case "selectWargest":
+                console.log("Wargest selected");
+                break;
+        }
+        
+    });
+
  $('g#toAlorum').on("click", function () {
        alert("user wants to go to alorum");
     });
@@ -40,7 +61,6 @@ $(document).ready(function () {
 });
 
 var hidePathsIslandMap = function(){
-    $("#PathToVillage").hide();
     $("#PathToLonelyRock").hide();
     $("#PathToExplodingMountain").hide();
     $("#PathToSignPost").hide();
@@ -52,6 +72,5 @@ var hidePathsIslandMap = function(){
 var hidePathsCrossroadsMap = function(){
     $("#pathLighthouse").hide();
     $("#pathOasis").hide();
-    $("#pathRaider").hide();
     $("#pathMines").hide();
 };
