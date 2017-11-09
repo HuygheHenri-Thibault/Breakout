@@ -1,7 +1,8 @@
 function loggedIn() {
   $.ajax({url: "CheckLoggedIn", success: function(result){
     $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
-    $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content light-grey'></ul>")
+    $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content light-grey'>"+
+    "<li><a class='white-text green' href='game.html'>Play</a></li></ul>")
     if(result === "Guest") {
       $(".nav-wrapper ul#user-options")
       .append("<li><a class='white-text' href='login.html'>Login</a></li>"+
