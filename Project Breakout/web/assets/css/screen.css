@@ -90,3 +90,39 @@ footer {
 #user-options {
   margin-top: 4rem;
 }
+
+/* Index 4 !!*/
+
+.index4{
+    margin-left:auto;
+    margin-right:auto;
+    width: 210px;
+}
+#svg815,#svg825
+{
+    width: 50%;
+    height:90%;
+    display: block;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+#svg{
+
+    width: 100%;
+    height:auto;
+    display:block;
+
+}
+g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hover, g#CentralAmerica:hover,g#SouthAmerica:hover, g#GreenlandIceland:hover{
+    fill: blue;
+}
+
+#wrapper{
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    box-shadow: black 20px 20px 10px;
+}
+/*End Index 4 !!*/

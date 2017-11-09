@@ -15,6 +15,9 @@ import util.BreakoutException;
  * @author Henri
  */
 public class MySQLConnection {
+//    private static final String URL = "jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11203818";
+//    private static final String UID = "sql11203818"; // Dios mio don't let teachers see this
+//    private static final String PWD = "AcSjgZCgdk"; // or this
     private static final String URL = "jdbc:mysql://localhost/breakout";
     private static final String UID = "root"; // Dios mio don't let teachers see this
     private static final String PWD = ""; // or this
