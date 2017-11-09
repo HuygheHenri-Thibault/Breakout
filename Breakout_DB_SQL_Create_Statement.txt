@@ -11,10 +11,12 @@ CREATE TABLE `user` (
   `exp` int(11) DEFAULT '0',
   `totalHighscore` int(11) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
+  `bio` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `userhighscore` (
   `user_id` INT(11) NOT NULL,
@@ -66,4 +68,6 @@ INSERT INTO blocks(color, baseLength) VALUES('Blue', 1);
 INSERT INTO blocks(color, baseLength) VALUES('Purple', 1);
 
 /* Should work, I think :^)
-Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017*/
+Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017
+wachtwoord voor online database:
+6eiWtTlHo2NBdRWR*/
