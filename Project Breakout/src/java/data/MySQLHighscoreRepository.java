@@ -82,23 +82,37 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
             
         } catch(SQLException ex) {
             System.out.println(ex);
-            try(Connection con = MySQLConnection.getConnection();
+            if(!updateHighscore(h)) {
+                throw new BreakoutException("Couldn't add that user", ex);
+            }
+        }
+    }
+    
+    public boolean updateHighscore(Highscore h) {
+        try(Connection con = MySQLConnection.getConnection();
                 PreparedStatement stmt = con.prepareStatement(UPDATE_USER)) {
                 
                 stmt.setInt(1, h.getHighscore());
                 stmt.setInt(2, h.getUserWithHighscore().getUserId());
                 stmt.executeUpdate();
+                return true;
                 
             } catch(SQLException exception) {
-                throw new BreakoutException("Couldn't get the highscore of that user", exception);
+                throw new BreakoutException("Couldn't update that user", exception);
             }
-            throw new BreakoutException("Couldn't get the highscore of that user", ex);
-        }
     }
 
     @Override
     public void removeHighscore(Highscore h) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(DELETE_HIGHSCORE)) {
+            
+            stmt.setInt(1, h.getUserWithHighscore().getUserId());
+            stmt.setInt(2, h.getHighscore());
+            stmt.executeUpdate();            
+            
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't delete that user", ex);
+        }
     }
-    
 }
