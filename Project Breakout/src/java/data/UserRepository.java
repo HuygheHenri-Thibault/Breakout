@@ -18,4 +18,6 @@ public interface UserRepository {
     public User getUserWithUsername(String username);
     public void addUser(User u);
     public void deleteUser(User u);
+    public void updateUserStringField(int userId, String field, String value);
+    public void updateUserIntField(int userId, String field, int value);
 }

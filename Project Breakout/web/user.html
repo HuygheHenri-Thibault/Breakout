@@ -69,17 +69,17 @@
           </div>
           <div class="row">
             <div class="col s6 offset-s3 input-field">
-              <textarea id="bio" class="materialize-textarea"></textarea>
-              <label for="bio">Bio</label>
+              <input type="text" id="bio" name="bio">
+              <label for="bio" class="active">Bio</label>
             </div>
           </div>
           </form>
         </div>
         <div class="modal-footer dark-grey">
-          <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">
+          <a href="#!" id="cancel-edit" class="modal-action modal-close waves-effect waves-red btn-flat">
             <i class="material-icons red-text small">cancel</i>
           </a>
-          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+          <a href="#!" id="confirm-edit" class="modal-action modal-close waves-effect waves-green btn-flat">
             <i class="material-icons green-text small">check_circle</i>
           </a>
         </div>
@@ -150,6 +150,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
   <script type="text/javascript" src="assets/js/script.js"></script>
+  <script type="text/javascript" src="assets/js/user.js"></script>
 </body>
 
 </html>
