@@ -37,6 +37,10 @@ public class Game {
         this.factoryLevels = new FactoryLevel(this);
         this.factoryLevels.createLevel();
     }
+    
+    public void stopGame() {
+        gameOver = true;
+    }
 
     public int getWidth() {
         return width;
