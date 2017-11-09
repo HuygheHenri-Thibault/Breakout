@@ -6,14 +6,18 @@
 package sockets;
 
 import domain.Game;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import org.json.simple.parser.ParseException;
+import util.BreakoutException;
 /**
  *
  * @author Henri
@@ -27,6 +31,25 @@ public class GameSocket {
     int height = 400;
     int levens = 3;
     int players = 1;
+
+    @OnMessage
+    public String onMessage(String message, Session in) {
+        JSONParser jparse = new JSONParser();
+        try {
+            JSONObject obj = (JSONObject) jparse.parse(message);
+            
+            switch ((String)obj.get("type")) {
+                case "startGame":
+                    int aantalPlayers = Integer.parseInt((String)obj.get("type"));
+                    sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
+                    break;
+            }
+            
+            return obj.toJSONString();
+        } catch(ParseException ex) {
+            return "error";
+        }
+    }
     
     // Game game = new Game(score, height, width, levens, aantal_speleres);
      // = new Game(score, height, width, levens, players); dit moet nog in een init na data van de game van frontend te krijgen
@@ -39,13 +62,6 @@ public class GameSocket {
     
     @OnClose
     public void onClose(Session s) {
-        sessionGame.get(s).stopGame();
-    }
-
-    @OnMessage
-    public String onMessage(String message) {
-        
-        // check type of message (gameStart, posistion, gameEnd,..)
-        return null;
+        //sessionGame.get(s).stopGame();
     }
 }
