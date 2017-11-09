@@ -3,8 +3,8 @@ class Ball {
     constructor(radius, x, y, speed) {
         this.x = x;
         this.y = y;
-        this.speedx = 2;
-        this.speedy = 0;
+        this.speedx = 5;
+        this.speedy = 5;
         this.diameter = radius/2;
     }
     
@@ -23,44 +23,54 @@ class Ball {
     }
     
     show() {
-        fill(255);
-        ellipse(this.x, this.y, this.diameter*2);
+        imageMode(CENTER);
+        image(imgBall, this.x, this.y, imgBall.width*2.5, imgBall.height*2.5); 
+//        fill(255);
+//        ellipse(this.x, this.y, this.diameter*2);
 
     }
 }
 
 class Pallet{
-    constructor(x, y, lengte, hoogte, snelheid){
+    constructor(x, y, length, height, speed){
         this.x =  x;
         this.y = y;
-        this.lengte = lengte;
-        this.hoogte = hoogte;
-        this.snelheid = snelheid;
+        this.length = length;
+        this.height = height;
+        this.speed = speed;
         this.dir = false;
         this.xborder = 0;
     }
     
     show(){
+//        fill(255, 0, 0);
+//        rectMode(CENTER);
+//        rect(this.x, this.y, this.length, this.height, 20);
         imageMode(CENTER);
-        image(img, this.x, this.y,img.width*1.5, img.height*1.5); 
+        //image(imgPallet, this.x, this.y, imgPallet.width*1.5, this.height*2); 
+        image(imgPallet, this.x, this.y, this.length, this.height*2); 
     }
     
     move(left, right){
         if (keyIsDown(left)) {
-            this.x -= this.snelheid;
+            this.x -= this.speed;
         }
         if (keyIsDown(right)){
-            this.x += this.snelheid;
+            this.x += this.speed;
         }
     }
     
     border(){
-        if (this.x + this.lengte/2 + 5 > width){
-            this.x -= this.snelheid;
+        if (this.x + this.length/2 + 5 > width){
+            this.x -= this.speed;
         }
-        if (this.x - this.lengte/2 - 5 < 0){
-            this.x += this.snelheid;
+        if (this.x - this.length/2 - 5 < 0){
+            this.x += this.speed;
         }
+    }
+    
+    changeLength(newLength){
+        this.length = newLength;
     }
 }
 
@@ -73,7 +83,7 @@ class Brick{
     
     show(){
         imageMode(CENTER);
-        image(this.img, this.x, this.y,img.width*1.5, img.height*1.5); 
+        image(this.img, this.x, this.y, this.img.width*1.5, this.img.height*1.5); 
     }
 }
 //

@@ -2,7 +2,8 @@ var bricks = [];
 var imgArray = [];
 
 function preload(){
-    img = loadImage('assets/media/pallet.png');
+    imgPallet = loadImage('assets/media/pallet.png');
+    imgBall = loadImage('assets/media/ball.png');
     imgArray[0] = loadImage('assets/media/black_block.png');
     imgArray[1] = loadImage('assets/media/green_block.png');
     imgArray[2] = loadImage('assets/media/purple_block.png');
@@ -13,12 +14,11 @@ function preload(){
 function setup() {
     var canvas = createCanvas(750, 400);
     canvas.parent('game-area');
-    x = 100;
-    ball = new Ball(30, 20, 322, 80);
+    ball = new Ball(30, width/2, 330, 80);
     pallet = new Pallet(width/2, 360, 100, 20, 2);
-    for (var i = 0; i < 7; i++){
+    for (var i = 0; i < 14; i++){
         var r = floor(random(0, imgArray.length));
-        bricks[i] = new Brick(i*90+80, 60, imgArray[r]);
+        bricks[i] = new Brick(i*50+35, 60, imgArray[r]);
     }
 }
 
