@@ -30,6 +30,13 @@ $(document).ready(function () {
     }
 });
 
+ $('g#toAlorum').on("click", function () {
+       alert("user wants to go to alorum");
+    });
+ $('g#toBreakersBay').on("click", function () {
+       alert("user wants to go to Breakers Bay");
+    });
+    
 });
 
 var hidePathsIslandMap = function(){
@@ -43,9 +50,8 @@ var hidePathsIslandMap = function(){
 };
 
 var hidePathsCrossroadsMap = function(){
-    $("#pathToLighthouse").hide();
+    $("#pathLighthouse").hide();
     $("#pathOasis").hide();
-    $("#pathRaiderCamp").hide();
+    $("#pathRaider").hide();
     $("#pathMines").hide();
-    $("#toBreakersBay").hide();
 };
