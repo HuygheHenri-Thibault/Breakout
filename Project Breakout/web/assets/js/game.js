@@ -1,5 +1,6 @@
 var url = "ws://localhost:8080/Project_Breakout/gamepoint";
 var socket = new WebSocket(url);
+var gameInterval = 0;
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
@@ -17,6 +18,20 @@ socket.onopen = function () {
 
 function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
+  sendMessage(messageObj);
+  getUpdate();
+}
+
+function getUpdate() {
+   gameInterval = setInterval(getPosistion, 10);
+}
+
+function stopUpdates() {
+  clearInterval(gameInterval);
+}
+
+function getPosistion() {
+  var messageObj = {type: "updateMe"};
   sendMessage(messageObj);
 }
 
