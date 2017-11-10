@@ -1,5 +1,9 @@
 var url = "ws://localhost:8080/Project_Breakout/gamepoint";
 var socket = new WebSocket(url);
+var ball;
+var pallet;
+var bricks = [];
+var imgArray = [];
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
@@ -8,7 +12,22 @@ function sendMessage(message) {
 socket.onmessage = function(messageRecieved) {
   const posArray = JSON.parse(messageRecieved.data);
   // TODO: Add function to draw pieces here
-  console.log(posArray);
+  for (var sprite in posArray){
+        console.log(posArray[sprite]);
+      switch(posArray[sprite].type){
+          case "Pallet":
+              pallet = new Pallet(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].heigth, 2);
+              break;
+          case "Ball":
+              ball = new Ball(posArray[sprite].radius, posArray[sprite].x, posArray[sprite].y);
+              break;
+          case "Brick":
+              var r = floor(random(0, imgArray.length));
+              bricks.push(new Brick(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].height, imgArray[r]));
+          default:
+              break;
+      }
+  }
 };
 
 socket.onopen = function () {
@@ -19,9 +38,6 @@ function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
 }
-
-var bricks = [];
-var imgArray = [];
 
 function preload(){
     imgPallet = loadImage('assets/media/pallet.png');
@@ -36,17 +52,17 @@ function preload(){
 function setup() {
     var canvas = createCanvas(750, 400);
     canvas.parent('game-area');
-    ball = new Ball(30, width/2, 330, 80);
-    pallet = new Pallet(width/2, 360, 100, 15, 2);
-    for (var i = 0; i < 14; i++){
-        var r = floor(random(0, imgArray.length));
-        bricks[i] = new Brick(i*50+35, 60, imgArray[r]);
-    }
+//    ball = new Ball(30, width/2, 330, 80);
+//    pallet = new Pallet(width/2, 360, 100, 15, 2);
+//    for (var i = 0; i < 14; i++){
+//        var r = floor(random(0, imgArray.length));
+//        bricks[i] = new Brick(i*50+35, 60, imgArray[r]);
+//    }
 }
 
 function draw() {
     background(47, 49, 54);
-    ball.move();
+//    ball.move();
     ball.edges();
     ball.show();
     pallet.move(LEFT_ARROW, RIGHT_ARROW);

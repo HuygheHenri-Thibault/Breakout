@@ -1,6 +1,6 @@
 class Ball {
 
-    constructor(radius, x, y, speed) {
+    constructor(radius, x, y) {
         this.x = x;
         this.y = y;
         this.speedx = 5;
@@ -75,15 +75,17 @@ class Pallet{
 }
 
 class Brick{
-    constructor(x, y, img){
+    constructor(x, y, width, height, img){
         this.x =  x;
         this.y = y;
+        this.width = width;
+        this.height = height
         this.img = img;
     }
     
     show(){
         imageMode(CENTER);
-        image(this.img, this.x, this.y, this.img.width*1.5, this.img.height*1.5); 
+        image(this.img, this.x, this.y, this.width, this.img.height); 
     }
 }
 //
