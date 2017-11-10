@@ -5,9 +5,16 @@
  */
 package sockets;
 
+import domain.Ball;
+import domain.Brick;
 import domain.Game;
+import domain.Pallet;
+import domain.Rectangle;
+import domain.Sprite;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
@@ -40,10 +47,10 @@ public class GameSocket {
             
             switch ((String)obj.get("type")) {
                 case "startGame":
-                    
-                    int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-                    sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
-                    return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
+                    startGame(in, obj);
+                    JSONObject posistions = makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities());
+                    // return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
+                    return posistions.toJSONString();
 //                    return "Started game";
                 case "":
                     break;
@@ -54,6 +61,58 @@ public class GameSocket {
             return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
         } catch(ParseException ex) {
             throw new BreakoutException("Couldn't process message", ex);
+        }
+    }
+    
+    private void startGame(Session in, JSONObject obj) {
+        int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
+        sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
+    }
+    
+    private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
+        JSONObject resultObj = new JSONObject();
+        int itr = 0;
+        for(Sprite aSpirte : listOfSprites) {
+            JSONObject spriteJSON = makeSpriteJSONObj(aSpirte, resultObj);
+            resultObj.put(itr+"", spriteJSON);
+            itr++;
+        }
+        return resultObj;
+    }
+
+    private JSONObject makeSpriteJSONObj(Sprite aSpirte, JSONObject resultObj) {
+        JSONObject spriteObj = new JSONObject();
+        
+        String typeOfSprite = aSpirte.toString();
+        spriteObj.put("type", typeOfSprite);
+        
+        int xPos = aSpirte.getX();
+        int yPos = aSpirte.getY();
+        spriteObj.put("x", xPos);
+        spriteObj.put("y", yPos);
+        
+        setDimension(typeOfSprite, aSpirte, spriteObj);
+        return spriteObj;
+    }
+    private void setDimension(String typeOfSprite, Sprite aSpirte, JSONObject spriteObj) {
+        switch (typeOfSprite) {
+            case "Pallet":
+                Pallet pallet = (Pallet)aSpirte;
+                spriteObj.put("width", Math.round(pallet.getLength())); // x
+                spriteObj.put("height", Math.round(pallet.getHeight())); // y
+                break;
+            case "Ball":
+                Ball ball = (Ball)aSpirte;
+                spriteObj.put("radius", ball.getRadius()); // r
+                break;
+            case "Brick":
+                Brick brick = (Brick)aSpirte;
+                spriteObj.put("width", Math.round(brick.getLength())); // x
+                spriteObj.put("height", Math.round(brick.getHeight())); // y
+                break;
+            default:
+                spriteObj.put("width", -1); // x
+                spriteObj.put("height", -1); // y
         }
     }
     

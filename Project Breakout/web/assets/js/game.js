@@ -6,7 +6,9 @@ function sendMessage(message) {
 }
 
 socket.onmessage = function(messageRecieved) {
-  console.log(messageRecieved.data);
+  const posArray = JSON.parse(messageRecieved.data);
+  // TODO: Add function to draw pieces here
+  console.log(posArray);
 };
 
 socket.onopen = function () {
