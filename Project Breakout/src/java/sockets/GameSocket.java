@@ -33,7 +33,6 @@ import util.BreakoutException;
 public class GameSocket {
     Map<Session, Game> sessionGame = new HashMap<>();
     
-    int score = 0;
     int width = 750;
     int height = 400;
     int levens = 3;
@@ -66,7 +65,7 @@ public class GameSocket {
     
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
+        sessionGame.replace(in, new Game(height, width, levens, aantalPlayers));
     }
     
     private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
