@@ -23,7 +23,7 @@ public class FactoryPallet extends FactoryBreakoutUtilities{
     public void createPallets() {
         for (int i = 0; i < level.getAantalSpelers(); i++) {
             String colorPallet = findUnusedColor();
-            int lenght = level.getGameWidth() / 8;
+            int lenght = Math.round((level.getGameWidth() / 8) * level.getRatios().get(0).getRatio());
                                                                                 
             int startX = level.getGameWidth() / level.getAantalSpelers() / 2; 
             int nextXDistance = level.getGameWidth() / level.getAantalSpelers(); 

@@ -9,6 +9,7 @@ import factories.FactoryBall;
 import factories.FactoryLevel;
 import factories.FactoryPallet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,12 +20,14 @@ public class Game {
     private List<Level> levels = new ArrayList<>();
     
     private FactoryLevel factoryLevels;
+
     private int width;
     private int height;
     
     private int score;
     private int aantalSpelers;
     private int lives; 
+    private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
 
@@ -34,6 +37,7 @@ public class Game {
         this.height = height;
         this.lives = lives;
         this.aantalSpelers = aantalSpelers;
+        addRatiosToGame();
         this.factoryLevels = new FactoryLevel(this);
         this.factoryLevels.createLevel();
     }
@@ -52,6 +56,21 @@ public class Game {
 
     public List<Level> getLevels() {
         return levels;
+    }
+    
+    public void createNewLevel(){
+        factoryLevels.createLevel();
+    }
+
+    public List<Ratio> getRatios() {
+        return ratios;
+    }
+    
+    public final void addRatiosToGame(){
+       ratios.add(new Ratio("Pallet", -0.01f));
+       ratios.add(new Ratio("Ball", +0.1f));
+       ratios.add(new Ratio("Power up", -0.01f));
+       ratios.add(new Ratio("Power down", +0.01f));
     }
 
     public int getScore() {

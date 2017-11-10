@@ -7,6 +7,9 @@ package factories;
 
 import domain.Game;
 import domain.Level;
+import domain.Ratio;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -15,6 +18,8 @@ import domain.Level;
 public class FactoryLevel {
     private final Game game;
     private int numberLevels;
+    private int startScoreForBricksFirstLine = 50;
+    private int ratioChoiceChange = 0;
 
     public FactoryLevel(Game game) {
         this.game = game;
@@ -23,7 +28,18 @@ public class FactoryLevel {
      
     public void createLevel(){
         numberLevels++;
-        Level l = new Level(game, numberLevels, 0);
+        Level l = new Level(game, startScoreForBricksFirstLine, numberLevels);
         game.getLevels().add(l);
+        changeRatio();
+        startScoreForBricksFirstLine += 10;
     } 
+    
+    public void changeRatio(){
+        Ratio ratio = game.getRatios().get(ratioChoiceChange);
+        ratio.changeRatio();
+        ratioChoiceChange++;
+        if(ratioChoiceChange > game.getRatios().size() - 1){
+            ratioChoiceChange = 0;
+        }
+    }
 }

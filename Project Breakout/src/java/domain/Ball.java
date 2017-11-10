@@ -29,7 +29,7 @@ public class Ball extends Circle{
         this.dy = -speed;
     }
     
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
@@ -151,7 +151,7 @@ public class Ball extends Circle{
     public void updateSpriteBallAfterCollidingWithBrick(Brick b){
         updateSpriteBallAfterCollidingWithRectangle(b);
         //b.setDestroyed(true);
-        level.deleteBrick(b);
+        level.lowerHitsOfBrick(b);
     }
     
     public void updateSpriteAfterCollidingWithCircle(){

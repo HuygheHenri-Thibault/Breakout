@@ -177,18 +177,19 @@ public class MoveAndCollissionTesten {
         Game g = new Game(0, 1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
-        BrickRow br = g.getLevels().get(0).getRowOfBricks().get(4);
+        BrickRow br = g.getLevels().get(0).getRowsOfBricks().get(4);
         Brick brick = br.getBricksOnRow().get(0);
         b.setX(250);
-        b.setY(450);
+        b.setY(515);
         b.setSpeed(2);
         b.setDy(-2); 
         b.setDx(2);
-        b.move(); // x 252 y 448
-        b.move(); // x 253 y 451
-        assertEquals(451, b.getY());
+        b.move(); // x 252 y 513
+        b.move(); // x 253 y 516
+        assertEquals(516, b.getY());
         assertEquals(253, b.getX());
         assertFalse(br.getBricksOnRow().contains(brick));
+        assertEquals(10, l.getScore());
     }
     
     @Test
