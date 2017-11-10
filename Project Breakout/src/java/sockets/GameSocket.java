@@ -50,8 +50,13 @@ public class GameSocket {
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
+                case "gameInfo":
+                    return makeJSONGameInfo(in).toJSONString();
                 default:
-                    return "No match found for type of message..";
+                    JSONObject resultObj = new JSONObject();
+                    resultObj.put("type", "ERROR");
+                    resultObj.put("Message", "No type found for that message.");
+                    return resultObj.toJSONString();
             }
         } catch(ParseException ex) {
             throw new BreakoutException("Couldn't process message", ex);
@@ -61,6 +66,14 @@ public class GameSocket {
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         sessionGame.replace(in, new Game(score, height, width, levens, aantalPlayers));
+    }
+    
+    private JSONObject makeJSONGameInfo(Session in) {
+        JSONObject resultObj = new JSONObject();
+        resultObj.put("type", "gameInfo");
+        resultObj.put("lives", sessionGame.get(in).getLives());
+        resultObj.put("score", sessionGame.get(in).getScore());
+        return resultObj;
     }
     
     private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {

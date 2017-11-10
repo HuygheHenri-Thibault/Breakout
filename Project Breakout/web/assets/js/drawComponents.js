@@ -50,6 +50,13 @@ class Pallet{
             var move = {type: "move", direction: "right"};
             sendMessage(move);
         }
+        $('body').on('keyup', function(){
+            if (key === '37' || key === '39')
+            {
+                var move = {type: "move", direction : "stop"};
+                sendMessage(move);
+            }
+        });
     }
     
     border(){

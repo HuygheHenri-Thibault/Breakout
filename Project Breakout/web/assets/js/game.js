@@ -5,29 +5,51 @@ var pallet;
 var bricks = [];
 var imgArray = [];
 var gameInterval = 0;
+var infoInterval;
+var lives;
+var score;
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
 }
 
-socket.onmessage = function(messageRecieved) {
-  const posArray = JSON.parse(messageRecieved.data);
-  // TODO: Add function to draw pieces here
+function switchOnTypeComponents(message){
+  const posArray = message;
   for (var sprite in posArray){
       switch(posArray[sprite].type){
           case "Pallet":
-              pallet = new Pallet(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].heigth);
+              createPallet(posArray[sprite])
               break;
           case "Ball":
-              ball = new Ball(posArray[sprite].radius, posArray[sprite].x, posArray[sprite].y);
+              createBall(posArray[sprite]);
               break;
           case "Brick":
-              var r = floor(random(0, imgArray.length));
-              bricks.push(new Brick(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].height, imgArray[r]));
+              fillBrickArray(posArray[sprite]);
+              break;
           default:
               break;
       }
   }
+}
+
+function switchOnTypePlayer(player){
+    var lives = player.lives;
+    var score = player.score;
+}
+
+socket.onmessage = function(messageRecieved) {
+    var type = JSON.parse(messageRecieved.data).type;
+    console.log(type);
+    switch(type){
+        case "posistion":
+            switchOnTypeComponents(JSON.parse(messageRecieved.data));
+            break;
+        case "gameInfo":
+            switchOnTypePlayer(JSON.parse(messageRecieved.data));
+            break;
+        default:
+            break;
+    }
 };
 
 socket.onopen = function () {
@@ -37,11 +59,12 @@ socket.onopen = function () {
 function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
-  //getUpdate();
+  getUpdate();
 }
 
 function getUpdate() {
    gameInterval = setInterval(getPosistion, 10);
+   infoInterval = setInterval(getGameInfo, 50);
 }
 
 function stopUpdates() {
@@ -51,6 +74,23 @@ function stopUpdates() {
 function getPosistion() {
   var messageObj = {type: "updateMe"};
   sendMessage(messageObj);
+}
+
+function getGameInfo() {
+  var messageObj = {type: "gameInfo"};
+  sendMessage(messageObj);
+}
+
+function createPallet(palletje){
+    pallet = new Pallet(palletje.x, palletje.y, palletje.width, palletje.heigth);
+}
+
+function createBall(balletje){
+    ball = new Ball(balletje.radius, balletje.x, balletje.y);
+}
+
+function fillBrickArray(brick){
+    bricks.push(new Brick(brick.x, brick.y, brick.width, brick.height, imgArray[1]));
 }
 
 function preload(){
