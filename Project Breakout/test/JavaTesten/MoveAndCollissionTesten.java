@@ -49,15 +49,16 @@ public class MoveAndCollissionTesten {
         Game g = new Game(1000, 1000, 3, 1);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setDx(1);
-        p.move();
+        p.moveRight();
         assertEquals(439, p.getX());
     }
     
     @Test
     public void moveBall(){
         Game g = new Game(1000, 1000, 3, 1);
-        g.getLevels().get(0).getBalls().get(0).move();
-        assertEquals(1000 / 2 + 5, g.getLevels().get(0).getBalls().get(0).getX(), 0.02);
+        Ball b = g.getLevels().get(0).getBalls().get(0);
+        b.move();
+        assertEquals(1000 / 2 + 5, g.getLevels().get(0).getBalls().get(0).getX());
         assertEquals(795, g.getLevels().get(0).getBalls().get(0).getY());
     }
     
@@ -69,32 +70,35 @@ public class MoveAndCollissionTesten {
         p.setDx(1); // normaal via key event
         p.setX(874);
         assertEquals(874, p.getX());
-        p.move();
-        p.move();
+        p.moveRight();
+        p.moveRight();
         assertEquals(875, p.getX());
         p.setX(0);
         p.setDx(-1); //normaal via key event
-        p.move();
+        p.moveLeft();
         assertEquals(0, p.getX());
     }
     
     @Test
     public void CollissionDetectionMeerderePallet(){
         Game g = new Game(1000, 1000, 3, 2);
-        g.getLevels().get(0).getPallets().get(0).setSpeed(1);
-        g.getLevels().get(0).getPallets().get(0).setDx(1); // normaal via key event
+        Pallet p1 = g.getLevels().get(0).getPallets().get(0);
+        Pallet p2 = g.getLevels().get(0).getPallets().get(1);
         
-        g.getLevels().get(0).getPallets().get(1).setSpeed(1);
-        g.getLevels().get(0).getPallets().get(1).setDx(1); // normaal via key event
+        p1.setSpeed(1);
+        p1.setDx(1); // normaal via key event
         
-        g.getLevels().get(0).getPallets().get(0).setX(563);
-        g.getLevels().get(0).getPallets().get(0).move();
-        assertEquals(563, g.getLevels().get(0).getPallets().get(0).getX());
+        p2.setSpeed(1);
+        p2.setDx(1); // normaal via key event
         
-        g.getLevels().get(0).getPallets().get(1).setX(688);
-        g.getLevels().get(0).getPallets().get(1).setDx(-1); // normaal via key event
-        g.getLevels().get(0).getPallets().get(1).move();
-        assertEquals(688, g.getLevels().get(0).getPallets().get(1).getX());
+        p1.setX(563);
+        p1.moveRight();
+        assertEquals(563, p1.getX());
+        
+        p2.setX(688);
+        p2.setDx(-1); // normaal via key event
+        p2.moveLeft();
+        assertEquals(688, p2.getX());
     }
     
     @Test

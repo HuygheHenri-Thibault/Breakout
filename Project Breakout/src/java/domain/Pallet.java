@@ -16,8 +16,6 @@ public class Pallet extends Rectangle {
     private final Level level;
     private float speed;
     private float dx;
-    private int leftKey = KeyEvent.VK_LEFT;
-    private int rightKey = KeyEvent.VK_RIGHT;
 
     public Pallet(String color, Level level, int x, int y, int length, float speed) {
         super(level, color, x, y, length, 50);
@@ -31,44 +29,46 @@ public class Pallet extends Rectangle {
     public float getSpeed() {
         return speed;
     }
-    
-    public void setLeftKey(int key){
-        leftKey = key;
-    }
-    
-    public void setRightKey(int key){
-        rightKey = key;
-    }
 
     public void setSpeed(float speed) {
         this.speed = speed;
     }
-
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == leftKey) {
-            setDx(-speed);
-        }
-
-        if (key == rightKey) {
-            setDx(Math.abs(speed));
-        }
+    
+    public void moveLeft(){
+        setDx(-speed);
+        move();
+    }
+    
+    public void moveRight(){
+        setDx(speed);
+        move();
     }
 
-    public void keyReleased(KeyEvent e) {
+//    public void keyPressed(KeyEvent e) {
+//
+//        int key = e.getKeyCode();
+//
+//        if (key == leftKey) {
+//            
+//        }
+//
+//        if (key == rightKey) {
+//            
+//        }
+//    }
 
-        int key = e.getKeyCode();
-
-        if (key == leftKey) {
-            setDx(0);
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            setDx(0);
-        }
-    }
+//    public void keyReleased(KeyEvent e) {
+//
+//        int key = e.getKeyCode();
+//
+//        if (key == leftKey) {
+//            setDx(0);
+//        }
+//
+//        if (key == KeyEvent.VK_RIGHT) {
+//            setDx(0);
+//        }
+//    }
 
     public void toggleDx() {
         if (dx > 0) {
@@ -78,7 +78,7 @@ public class Pallet extends Rectangle {
         }
     }
 
-    public void move() {
+    private void move() {
         this.setX((int) (this.getX() + dx));
         if (collidesWithOtherRectangleOrBoundaries()) {
             updateSpriteAfterCollidingWithRectangle();
