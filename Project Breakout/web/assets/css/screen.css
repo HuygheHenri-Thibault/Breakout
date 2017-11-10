@@ -167,4 +167,14 @@ p.chapter{
     margin-top: 5rem;
     display:none;
     background-color: white;
+    height: 25rem;
+}
+
+.controllercol{
+    background-color: white;
+}
+
+.controllercol:hover{
+    background-color: transparent;
+    cursor:pointer;
 }

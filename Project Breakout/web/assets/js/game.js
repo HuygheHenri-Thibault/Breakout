@@ -82,7 +82,7 @@ function fireModal(){
     var grootteCols = (cols/players);
     var currentslot = 1;
     while(currentslot<=players){
-    $(".modal-content").append("<div class='col s"+grootteCols+"'>"+currentslot+"</div>");
+    $(".modal-content").append("<div class='controllercol center col s"+grootteCols+"'>"+currentslot+" player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul></div>");
     console.log("new slot");
     currentslot +=1;
     }
