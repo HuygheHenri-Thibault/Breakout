@@ -17,6 +17,7 @@ socket.onopen = function () {
 }
 
 function startGame() {
+  $("#selectController").hide();
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
   getUpdate();
@@ -92,4 +93,5 @@ function fireModal(){
 $(document).ready(function() {
   console.log("DOM is ready");
   fireModal();
+  $(".startGame").on("click", startGame);
 });
