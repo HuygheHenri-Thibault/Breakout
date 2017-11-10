@@ -57,6 +57,7 @@ socket.onopen = function () {
 }
 
 function startGame() {
+  $("#selectController").hide();
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
   getUpdate();
@@ -121,8 +122,22 @@ function draw() {
         bricks[i].show();
     }
 }
-
+function fireModal(){
+    $("#selectController").modal().show();
+    var cols = 12;
+    var players = prompt("How many playersssss?")
+    var grootteCols = (cols/players);
+    var currentslot = 1;
+    while(currentslot<=players){
+    $(".modal-content").append("<div class='controllercol center col s"+grootteCols+"'>"+currentslot+" player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul></div>");
+    console.log("new slot");
+    currentslot +=1;
+    }
+   
+            
+}
 $(document).ready(function() {
   console.log("DOM is ready");
-  startGame();
+  fireModal();
+  $(".startGame").on("click", startGame);
 });
