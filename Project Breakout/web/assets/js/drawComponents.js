@@ -1,11 +1,10 @@
 class Ball {
-
     constructor(radius, x, y) {
         this.x = x;
         this.y = y;
         this.speedx = 5;
         this.speedy = -5;
-        this.diameter = radius/2;
+        this.diameter = radius*2;
     }
     
     edges(){
@@ -24,39 +23,32 @@ class Ball {
     
     show() {
         imageMode(CENTER);
-        image(imgBall, this.x, this.y, imgBall.width*2.5, imgBall.height*2.5); 
-//        fill(255);
-//        ellipse(this.x, this.y, this.diameter*2);
+        image(imgBall, this.x, this.y, this.diameter, this.diameter); 
 
     }
 }
 
 class Pallet{
-    constructor(x, y, length, height, speed){
+    constructor(x, y, length, height){
         this.x =  x;
         this.y = y;
         this.length = length;
         this.height = height;
-        this.speed = speed;
-        this.dir = false;
-        this.xborder = 0;
     }
     
     show(){
-//        fill(255, 0, 0);
-//        rectMode(CENTER);
-//        rect(this.x, this.y, this.length, this.height, 20);
-        imageMode(CENTER);
-        //image(imgPallet, this.x, this.y, imgPallet.width*1.5, this.height*2); 
-        image(imgPallet, this.x, this.y, this.length, this.height*2); 
+        imageMode(CENTER); 
+        image(imgPallet, this.x, this.y, this.length, this.height); 
     }
     
     move(left, right){
         if (keyIsDown(left)) {
-            this.x -= this.speed;
+            var move = {type: "move", direction: "left"};
+            sendMessage(move);
         }
         if (keyIsDown(right)){
-            this.x += this.speed;
+            var move = {type: "move", direction: "right"};
+            sendMessage(move);
         }
     }
     
@@ -79,36 +71,11 @@ class Brick{
         this.x =  x;
         this.y = y;
         this.width = width;
-        this.height = height
+        this.height = height;
         this.img = img;
     }
     
     show(){
-        imageMode(CENTER);
-        image(this.img, this.x, this.y, this.width, this.img.height); 
+        image(this.img, this.x+(this.width/2), this.y+(this.height/2), this.width, this.height); 
     }
 }
-//
-//class Heart{
-//    constructor(startAmmount) {
-//        this.startAmount = startAmmount;
-//    }
-//    
-//    show(){
-//        imageMode(CENTER);
-//        image(heartImg, 15, 15,img.width*0.4, img.height*1.2);
-//        imageMode(CENTER);
-//        image(heartImg, 40, 15,img.width*0.4, img.height*1.2);
-//        imageMode(CENTER);
-//        image(heartImg, 65, 15,img.width*0.4, img.height*1.2);
-//        fill(0, 255, 0);
-//        ellipse(10, 10, 15);
-//        fill(0, 255, 0);
-//        ellipse(25, 10, 15); 
-//        fill(0, 255, 0);
-//        ellipse(40, 10, 15);
-//        fill(0, 255, 0);
-//        ellipse(55, 10, 15); 
-//    }
-//    
-//}

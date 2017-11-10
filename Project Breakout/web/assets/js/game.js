@@ -1,13 +1,10 @@
 var url = "ws://localhost:8080/Project_Breakout/gamepoint";
 var socket = new WebSocket(url);
-<<<<<<< HEAD
 var ball;
 var pallet;
 var bricks = [];
 var imgArray = [];
-=======
 var gameInterval = 0;
->>>>>>> master
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
@@ -17,10 +14,9 @@ socket.onmessage = function(messageRecieved) {
   const posArray = JSON.parse(messageRecieved.data);
   // TODO: Add function to draw pieces here
   for (var sprite in posArray){
-        console.log(posArray[sprite]);
       switch(posArray[sprite].type){
           case "Pallet":
-              pallet = new Pallet(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].heigth, 2);
+              pallet = new Pallet(posArray[sprite].x, posArray[sprite].y, posArray[sprite].width, posArray[sprite].heigth);
               break;
           case "Ball":
               ball = new Ball(posArray[sprite].radius, posArray[sprite].x, posArray[sprite].y);
@@ -41,7 +37,7 @@ socket.onopen = function () {
 function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
-  getUpdate();
+  //getUpdate();
 }
 
 function getUpdate() {
@@ -70,12 +66,6 @@ function preload(){
 function setup() {
     var canvas = createCanvas(750, 400);
     canvas.parent('game-area');
-//    ball = new Ball(30, width/2, 330, 80);
-//    pallet = new Pallet(width/2, 360, 100, 15, 2);
-//    for (var i = 0; i < 14; i++){
-//        var r = floor(random(0, imgArray.length));
-//        bricks[i] = new Brick(i*50+35, 60, imgArray[r]);
-//    }
 }
 
 function draw() {
