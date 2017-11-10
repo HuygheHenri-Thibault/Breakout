@@ -3,6 +3,8 @@
  */
 
 $(document).ready(function () {
+ 
+    
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
     $(".continents").click(function() {
