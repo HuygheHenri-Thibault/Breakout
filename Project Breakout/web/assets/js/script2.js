@@ -3,6 +3,21 @@
  */
 
 $(document).ready(function () {
+  
+
+makeCode();
+
+$("#text").
+    on("blur", function () {
+        makeCode();
+    }).
+    on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            makeCode();
+        }
+    });
+
+    
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
     $(".continents").click(function() {
@@ -59,6 +74,20 @@ $(document).ready(function () {
     });
     
 });
+
+ var qrcode = new QRCode("qrcode");
+
+function makeCode () {
+    var text = document.getElementById("text");
+
+    if (!text.value) {
+        alert("Input a text");
+        text.focus();
+        return;
+    }
+
+    qrcode.makeCode(text.value);
+}
 
 var hidePathsIslandMap = function(){
     $("#PathToLonelyRock").hide();

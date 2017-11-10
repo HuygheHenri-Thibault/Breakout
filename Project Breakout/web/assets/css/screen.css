@@ -124,6 +124,13 @@ fill:#603913;
 cursor: pointer;
 }
 /*-----------------end continents------------*/
+#qrcode {
+  width:160px;
+  height:160px;
+  margin-top:15px;
+  position: absolute;
+}
+
 /*maptextured html page*/
 
 g#toBreakersBay:hover, g#toAlorum:hover, g#selectLighthouse:hover,g#selectMines:hover,g#selectRaider:hover,g#selectWargest:hover{

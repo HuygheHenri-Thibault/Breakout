@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>QrCode smartphone controller</title>
+    <link rel="stylesheet" href="assets/css/screen.css"/>
+    <meta name="author" content="Fredrik Verriest"/>
+  </head>
+  <body>
+    <div id="wrapper">
+    <header><h1>Scan for connection!</h1></header>
+
+    <input id="text" type="text" value="http://localhost:300"/><br />
+<div id="qrcode"></div>
+    <footer><p>Howest University College</p></footer>
+  </div>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+  </script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/qrcode.js"></script>
+  <script type="text/javascript" src="js/script2.js"></script>
+  </body>
+</html>
