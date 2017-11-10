@@ -37,11 +37,19 @@ form.accented input:focus:not([readonly])+label {
   color: var(--accent-color);
 }
 
+form.accented textarea:focus:not([readonly]) {
+  border-bottom-color: var(--accent-color);
+  box-shadow: 0 1px 0 0 var(--accent-color);
+}
+
+form.accented textarea:focus:not([readonly])+label {
+  color: var(--accent-color);
+}
+
 /*!! Page !!*/
 
 body {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 
@@ -53,22 +61,95 @@ header .brand-logo {
   margin-left: 15px;
 }
 
-main {
-  flex: 1 0 auto;
-  display: flex;
-  z-index: 25;
-}
-
 nav i.material-icons {
   font-size: 2.5rem;
   margin-right: 15px;
 }
 
+main {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.modal {
+  background-color: transparent;
+}
+
+.modal-footer.dark-grey {
+  background-color: #1E2124;
+}
+
 footer {
   text-align: center;
   font-style: italic;
+  position: fixed;
+  bottom: 0px;
+  width: 100%
 }
 
 #user-options {
   margin-top: 4rem;
 }
+
+/* Index 4 !!*/
+g{
+    fill:none;
+    stroke:black;
+    pointer-events:all;
+}
+
+.index4{
+    margin-left:auto;
+    margin-right:auto;
+    width: 210px;
+}
+#svg815,#svg825
+{
+    width: 40%;
+    height:90%;
+    display: block;
+    margin-left: auto;
+    margin-right:auto;
+}
+/* continents html page*/
+#continents2
+{
+    width: 50%;
+    height:90%;
+    margin-left: 225px;
+    margin-right:auto;
+}
+g#oceania:hover, #leftupperIsland:hover, #rightUpperIsland:hover, #rightDown:hover{
+fill:#603913;
+cursor: pointer;
+}
+/*-----------------end continents------------*/
+/*maptextured html page*/
+
+g#toBreakersBay:hover, g#toAlorum:hover, g#selectLighthouse:hover,g#selectMines:hover,g#selectRaider:hover,g#selectWargest:hover{
+    cursor: pointer;
+}
+
+
+/*--------------End Map textured--------------*/
+#svg{
+
+    width: 100%;
+    height:auto;
+    display:block;
+
+}
+
+g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hover, g#CentralAmerica:hover,g#SouthAmerica:hover, g#GreenlandIceland:hover{
+    fill: blue;
+}
+
+
+#wrapper{
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #A2846A;
+    box-shadow: black 20px 20px 10px;
+}
+/*End Index 4 !!*/

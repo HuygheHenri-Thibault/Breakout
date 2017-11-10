@@ -1,9 +1,74 @@
-CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+﻿CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE breakout;
+
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) DEFAULT '0',
+  `totalHighscore` int(11) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `bio` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `userhighscore` (
+  `user_id` INT(11) NOT NULL,
+  `highscore` INT(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`highscore`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `effects` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(1) NOT NULL,
+  `name` VARCHAR(120) NOT NULL,
+  `duration` INT(11) NOT NULL,
+  `icon` VARCHAR(120) DEFAULT NULL,
+  `description` VARCHAR(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `naam_UNIQUE` (`name`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `bricks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skin` varchar(60) NOT NULL,
+  `baseLength` int(11) NOT NULL,
+  `hits` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `color_UNIQUE` (`skin`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `spells` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `damage` int(2) DEFAULT NULL,
+  `typeOfDamage` varchar(50) NOT NULL,
+  `type` varchar(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/* Should work, I think :^) */
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Bullet time', 5, 'Bullet time BABY!');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Scaffolds', 5, 'Time to get high');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Double Trouble', 5, 'Prepare for trouble and make it double');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Gravity', 5, 'No, not the movie.');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Slowed', 5, 'Allez');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Shrunk', 5, 'There are pils for that you know.');
+INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Sudden death', 5, 'FIGHT FOR YOUR LIFE');
+
+INSERT INTO blocks(color, baseLength) VALUES('yellow_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('red_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('black_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('green_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('purple_block.png', 1);
+
+/* Should work, I think :^)
+Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017
+wachtwoord voor online database:
+6eiWtTlHo2NBdRWR*/
