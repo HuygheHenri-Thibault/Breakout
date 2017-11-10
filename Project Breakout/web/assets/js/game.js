@@ -76,6 +76,7 @@ function getPosistion() {
   sendMessage(messageObj);
 }
 
+
 function getGameInfo() {
   var messageObj = {type: "gameInfo"};
   sendMessage(messageObj);

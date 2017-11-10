@@ -55,6 +55,14 @@ public class Level {
         this.factoryBall.createBall();
     }
     
+    public void startLevel(){
+        while(!completed || !game.isGameOver()){
+            for (Ball ball : balls) {
+                ball.setMoving(true);
+            }
+        }
+    }
+    
     public List<BrickRow> getRowsOfBricks() {
         return rowsOfBricks;
     }

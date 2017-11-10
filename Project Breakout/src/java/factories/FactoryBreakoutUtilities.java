@@ -15,13 +15,13 @@ import java.util.List;
  */
 public class FactoryBreakoutUtilities {
     protected List<String> usedColors = new ArrayList<>();
-    protected final String[] colors = {"red", "green", "yellow", "blue", "purple"};
+    protected final List<String> colors = new ArrayList<>(); //{"red", "green", "yellow", "blue", "purple"};
      
     protected String findUnusedColor() {
-        for (int i = 0; i < colors.length; i++) {
-            if (usedColors.indexOf(colors[i]) < 0) {
-                usedColors.add(colors[i]);
-                return colors[i];
+        for (int i = 0; i < colors.size(); i++) {
+            if (usedColors.indexOf(colors.get(i)) < 0) {
+                usedColors.add(colors.get(i));
+                return colors.get(i);
             }
         }
         return null;
