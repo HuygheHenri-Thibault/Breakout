@@ -46,15 +46,16 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void movePallet(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
-        g.getLevels().get(0).getPallets().get(0).setDx(1);
-        g.getLevels().get(0).getPallets().get(0).move();
-        assertEquals(439, g.getLevels().get(0).getPallets().get(0).getX());
+        Game g = new Game(1000, 1000, 3, 1);
+        Pallet p = g.getLevels().get(0).getPallets().get(0);
+        p.setDx(1);
+        p.move();
+        assertEquals(439, p.getX());
     }
     
     @Test
     public void moveBall(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         g.getLevels().get(0).getBalls().get(0).move();
         assertEquals(1000 / 2 + 5, g.getLevels().get(0).getBalls().get(0).getX(), 0.02);
         assertEquals(795, g.getLevels().get(0).getBalls().get(0).getY());
@@ -62,7 +63,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void CollissionDetectionPallet(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setSpeed(1);
         p.setDx(1); // normaal via key event
@@ -79,7 +80,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void CollissionDetectionMeerderePallet(){
-        Game g = new Game(0, 1000, 1000, 3, 2);
+        Game g = new Game(1000, 1000, 3, 2);
         g.getLevels().get(0).getPallets().get(0).setSpeed(1);
         g.getLevels().get(0).getPallets().get(0).setDx(1); // normaal via key event
         
@@ -98,7 +99,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInMiddle(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setY(885);
         b.setSpeed(1);
@@ -111,7 +112,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInOnLeftSide(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(464);
         b.setY(885);
@@ -126,7 +127,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInOnLeftBorder(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(438);
         b.setY(885);
@@ -141,7 +142,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletOnSide(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(564);
         b.setY(925);
@@ -156,7 +157,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithBall(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         Ball b2 = new Ball(l, 15, 2, "red", 600, 500);
@@ -174,7 +175,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBrick(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         BrickRow br = g.getLevels().get(0).getRowsOfBricks().get(4);
@@ -194,7 +195,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithTopBoundary(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(50);
@@ -210,7 +211,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithLeftBoundary(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);
@@ -226,7 +227,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithRightBoundary(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(985);
@@ -242,7 +243,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBottomBoundary(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);

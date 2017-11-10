@@ -24,15 +24,14 @@ public class Game {
     private int width;
     private int height;
     
-    private int score;
+    private int score = 0;
     private int aantalSpelers;
     private int lives; 
     private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
 
-    public Game(int score, int height, int width, int lives, int aantalSpelers) {
-        this.score = score;
+    public Game(int height, int width, int lives, int aantalSpelers) {
         this.width = width;
         this.height = height;
         this.lives = lives;
