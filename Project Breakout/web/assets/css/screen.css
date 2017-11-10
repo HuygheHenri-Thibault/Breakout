@@ -150,7 +150,10 @@ g#Australia:hover,g#Africa:hover,g#Asia:hover, g#Europe:hover,g#NorthAmerica:hov
     fill: blue;
 }
 
-
+p.chapter{
+    font-size: 1rem;
+    line-height: 1.3rem;
+}
 #wrapper{
     width: 960px;
     margin-left: auto;
