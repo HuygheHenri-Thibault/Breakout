@@ -75,8 +75,21 @@ function draw() {
         bricks[i].show();
     }
 }
-
+function fireModal(){
+    $("#selectController").modal().show();
+    var cols = 12;
+    var players = prompt("How many playersssss?")
+    var grootteCols = (cols/players);
+    var currentslot = 1;
+    while(currentslot<=players){
+    $(".modal-content").append("<div class='col s"+grootteCols+"'>"+currentslot+"</div>");
+    console.log("new slot");
+    currentslot +=1;
+    }
+   
+            
+}
 $(document).ready(function() {
   console.log("DOM is ready");
-  startGame();
+  fireModal();
 });
