@@ -23,7 +23,7 @@ function startGame() {
 }
 
 function getUpdate() {
-   gameInterval = setInterval(getPosistion, 10);
+   gameInterval = setInterval(getPosistion, 200);
 }
 
 function stopUpdates() {
@@ -35,6 +35,10 @@ function getPosistion() {
   sendMessage(messageObj);
 }
 
+
+
+
+// DRAW FUNCTIONS //
 var bricks = [];
 var imgArray = [];
 
