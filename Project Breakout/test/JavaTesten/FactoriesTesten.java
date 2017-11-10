@@ -10,6 +10,7 @@ import domain.Brick;
 import domain.BrickRow;
 import domain.Game;
 import domain.Level;
+import domain.MultiPlayerGame;
 import domain.Pallet;
 import java.util.HashMap;
 import org.junit.After;
@@ -56,7 +57,7 @@ public class FactoriesTesten {
     
     @Test
     public void testRowOfBlocksForLevel(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level level = g.getLevels().get(0);
         int som = 0;
         for (BrickRow br : level.getRowsOfBricks()) {
@@ -69,7 +70,7 @@ public class FactoriesTesten {
     
     @Test
     public void testEenPalletMaken(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level level = g.getLevels().get(0);
         Pallet p = level.getPallets().get(0);
         assertTrue(p instanceof Pallet);
@@ -78,7 +79,7 @@ public class FactoriesTesten {
     
     @Test
     public void testMeerderePalletMaken(){
-        Game g = new Game(0, 1000, 1000, 3, 2);
+        Game g = new Game(1000, 1000, 3, 2);
         Level level = g.getLevels().get(0);
         Pallet p1 = level.getPallets().get(0);
         Pallet p2 = level.getPallets().get(1);
@@ -90,21 +91,31 @@ public class FactoriesTesten {
     
     @Test
     public void testBallMaken(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         assertTrue(b instanceof Ball);
     }
     
+    @Test 
+    public void meerdereBallen(){
+        Game g = new MultiPlayerGame(1000, 1000, 3);
+        Ball ball1 = g.getLevels().get(0).getBalls().get(0);
+        Ball ball2 = g.getLevels().get(0).getBalls().get(1);
+        assertEquals(250, ball1.getX());
+        assertEquals(750, ball2.getX());
+        assertEquals(800, ball1.getY());
+    }
+    
     @Test
     public void testLevelsMaken(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level level = g.getLevels().get(0);
         assertTrue(level instanceof Level);
     }
     
     @Test
     public void testGameMaken(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         Level level = g.getLevels().get(0);
         Pallet p = level.getPallets().get(0);
         Ball b = level.getBalls().get(0);
@@ -122,7 +133,7 @@ public class FactoriesTesten {
     
     @Test
     public void createNextLevel(){
-        Game g = new Game(0, 1000, 1000, 3, 1);
+        Game g = new Game(1000, 1000, 3, 1);
         g.createNewLevel();
         Pallet palletLevel2 = g.getLevels().get(1).getPallets().get(0);
         g.createNewLevel();

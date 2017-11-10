@@ -6,12 +6,7 @@
 package factories;
 
 import domain.Brick;
-import domain.Brick;
-import domain.Level;
-import domain.Level;
 import domain.BrickRow;
-import domain.BrickRow;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 

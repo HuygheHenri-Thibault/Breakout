@@ -18,6 +18,7 @@ public class Ball extends Circle{
     private float dy;
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;
+    private boolean moving = false;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
         super(level, color, x, y, radius);
@@ -27,6 +28,14 @@ public class Ball extends Circle{
         this.speed = speed * 2;
         this.dx = speed;
         this.dy = -speed;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
     
     public int getSpeed() {
