@@ -9,10 +9,8 @@ import domain.Ball;
 import domain.Brick;
 import domain.Game;
 import domain.Pallet;
-import domain.Rectangle;
 import domain.Sprite;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +23,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
 import util.BreakoutException;
+import java.util.concurrent.TimeUnit;
 /**
  *
  * @author Henri
@@ -48,17 +47,12 @@ public class GameSocket {
             switch ((String)obj.get("type")) {
                 case "startGame":
                     startGame(in, obj);
-                    JSONObject posistions = makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities());
-                    // return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
-                    return posistions.toJSONString();
-//                    return "Started game";
-                case "":
-                    break;
+                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
+                case "updateMe":
+                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 default:
                     return "No match found for type of message..";
             }
-            
-            return sessionGame.get(in).getLevels().get(0).getAllEntities().toString();
         } catch(ParseException ex) {
             throw new BreakoutException("Couldn't process message", ex);
         }
@@ -71,6 +65,7 @@ public class GameSocket {
     
     private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
         JSONObject resultObj = new JSONObject();
+        resultObj.put("type", "posistion");
         int itr = 0;
         for(Sprite aSpirte : listOfSprites) {
             JSONObject spriteJSON = makeSpriteJSONObj(aSpirte, resultObj);
@@ -116,8 +111,18 @@ public class GameSocket {
         }
     }
     
-    // Game game = new Game(score, height, width, levens, aantal_speleres);
-     // = new Game(score, height, width, levens, players); dit moet nog in een init na data van de game van frontend te krijgen
+    private void sendPosistionUpdate() {
+        for(Map.Entry<Session, Game> entry : sessionGame.entrySet()) {
+            Session key = entry.getKey();
+            Game value = entry.getValue();
+            try {
+                key.getBasicRemote().sendText(makeJSONPosistionObj(value.getLevels().get(0).getAllEntities()).toJSONString());
+            } catch(IOException ex) {
+                throw new BreakoutException("Couldn't update posistion in game", ex);
+            }
+            
+        }
+    }
     
     @OnOpen
     public void onOpen(Session s) {

@@ -29,11 +29,11 @@ public class Rectangle extends Sprite{
         this.length = length;
     }
     
-    public float getLength() {
+    public int getLength() {
         return length;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return HEIGHT;
     }
 

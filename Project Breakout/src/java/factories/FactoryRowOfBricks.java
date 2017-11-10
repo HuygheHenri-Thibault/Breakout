@@ -18,7 +18,7 @@ import java.util.List;
  * @author micha
  */
 public class FactoryRowOfBricks{
-    private Level level;
+    private final Level level;
 
     public FactoryRowOfBricks(Level level) {
         this.level = level;
@@ -26,11 +26,13 @@ public class FactoryRowOfBricks{
     
     public List<BrickRow> createRowOfBricks(){
         List<BrickRow> rowsOfBricks = new ArrayList();
+        int achievableScore = level.getStartScoreForBricks();
         FactoryBricks factoryB = new FactoryBricks();
         for (int i = 0; i < level.getMAX_ROWS_BRICKS(); i++) {
-            BrickRow rowBricks = new BrickRow(level);
+            BrickRow rowBricks = new BrickRow(level, achievableScore);
             factoryB.createBricks(rowsOfBricks, rowBricks);
             rowsOfBricks.add(rowBricks);
+            achievableScore -= 10;
         }
         return rowsOfBricks;
     }
