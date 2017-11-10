@@ -1,15 +1,55 @@
 var url = "ws://localhost:8080/Project_Breakout/gamepoint";
 var socket = new WebSocket(url);
+var ball;
+var pallet;
+var bricks = [];
+var imgArray = [];
 var gameInterval = 0;
+var infoInterval;
+var lives;
+var score;
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
 }
 
+function switchOnTypeComponents(message){
+  const posArray = message;
+  for (var sprite in posArray){
+      switch(posArray[sprite].type){
+          case "Pallet":
+              createPallet(posArray[sprite])
+              break;
+          case "Ball":
+              createBall(posArray[sprite]);
+              break;
+          case "Brick":
+              fillBrickArray(posArray[sprite]);
+              break;
+          default:
+              break;
+      }
+  }
+}
+
+function switchOnTypePlayer(player){
+    var lives = player.lives;
+    var score = player.score;
+}
+
 socket.onmessage = function(messageRecieved) {
-  const posArray = JSON.parse(messageRecieved.data);
-  // TODO: Add function to draw pieces here
-  console.log(posArray);
+    var type = JSON.parse(messageRecieved.data).type;
+    console.log(type);
+    switch(type){
+        case "posistion":
+            switchOnTypeComponents(JSON.parse(messageRecieved.data));
+            break;
+        case "gameInfo":
+            switchOnTypePlayer(JSON.parse(messageRecieved.data));
+            break;
+        default:
+            break;
+    }
 };
 
 socket.onopen = function () {
@@ -23,7 +63,8 @@ function startGame() {
 }
 
 function getUpdate() {
-   gameInterval = setInterval(getPosistion, 200);
+   gameInterval = setInterval(getPosistion, 10);
+   infoInterval = setInterval(getGameInfo, 50);
 }
 
 function stopUpdates() {
@@ -36,12 +77,22 @@ function getPosistion() {
 }
 
 
+function getGameInfo() {
+  var messageObj = {type: "gameInfo"};
+  sendMessage(messageObj);
+}
 
+function createPallet(palletje){
+    pallet = new Pallet(palletje.x, palletje.y, palletje.width, palletje.heigth);
+}
 
+function createBall(balletje){
+    ball = new Ball(balletje.radius, balletje.x, balletje.y);
+}
 
-// DRAW FUNCTIONS //
-var bricks = [];
-var imgArray = [];
+function fillBrickArray(brick){
+    bricks.push(new Brick(brick.x, brick.y, brick.width, brick.height, imgArray[1]));
+}
 
 function preload(){
     imgPallet = loadImage('assets/media/pallet.png');
@@ -56,17 +107,11 @@ function preload(){
 function setup() {
     var canvas = createCanvas(750, 400);
     canvas.parent('game-area');
-    ball = new Ball(30, width/2, 330, 80);
-    pallet = new Pallet(width/2, 360, 100, 15, 2);
-    for (var i = 0; i < 14; i++){
-        var r = floor(random(0, imgArray.length));
-        bricks[i] = new Brick(i*50+35, 60, imgArray[r]);
-    }
 }
 
 function draw() {
     background(47, 49, 54);
-    ball.move();
+//    ball.move();
     ball.edges();
     ball.show();
     pallet.move(LEFT_ARROW, RIGHT_ARROW);
