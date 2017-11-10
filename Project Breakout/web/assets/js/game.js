@@ -35,6 +35,7 @@ function switchOnTypeComponents(message){
 function switchOnTypePlayer(player){
     var lives = player.lives;
     var score = player.score;
+    $("#score").html("<p class='white-text center-align'>Lives X" + lives + " Score: " + score + "</p>");
 }
 
 socket.onmessage = function(messageRecieved) {
