@@ -38,6 +38,7 @@ function getPosistion() {
 
 
 
+
 // DRAW FUNCTIONS //
 var bricks = [];
 var imgArray = [];

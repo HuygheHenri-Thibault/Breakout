@@ -5,6 +5,7 @@
  */
 package data;
 
+import domain.BrickData;
 import java.util.List;
 
 /**
@@ -12,5 +13,7 @@ import java.util.List;
  * @author Brecht
  */
 public interface BrickRepository {
-    //public List<Brick> getAllBricks();
+    public List<BrickData> getAllBricks();
+    public void addBrick(BrickData b);
+    public void deleteBrick(BrickData b);
 }
