@@ -5,6 +5,7 @@
  */
 package factories;
 
+import data.Repositories;
 import domain.Brick;
 import domain.BrickRow;
 import java.util.List;
