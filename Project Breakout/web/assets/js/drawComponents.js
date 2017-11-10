@@ -4,7 +4,7 @@ class Ball {
         this.x = x;
         this.y = y;
         this.speedx = 5;
-        this.speedy = 5;
+        this.speedy = -5;
         this.diameter = radius/2;
     }
     
