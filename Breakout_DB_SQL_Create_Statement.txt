@@ -36,14 +36,15 @@ CREATE TABLE `effects` (
   UNIQUE KEY `naam_UNIQUE` (`name`)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `blocks` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `color` VARCHAR(45) NOT NULL,
-  `baseLength` INT(11) NOT NULL,
-  `hits` INT(11) DEFAULT NULL,
+CREATE TABLE `bricks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skin` varchar(60) NOT NULL,
+  `baseLength` int(11) NOT NULL,
+  `hits` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `kleur_UNIQUE` (`color`)
-) ENGINE=INNODB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `color_UNIQUE` (`skin`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `spells` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -61,11 +62,11 @@ INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Slowed', 5, 
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Shrunk', 5, 'There are pils for that you know.');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Sudden death', 5, 'FIGHT FOR YOUR LIFE');
 
-INSERT INTO blocks(color, baseLength) VALUES('Red', 1);
-INSERT INTO blocks(color, baseLength) VALUES('Green', 1);
-INSERT INTO blocks(color, baseLength) VALUES('Yellow', 1);
-INSERT INTO blocks(color, baseLength) VALUES('Blue', 1);
-INSERT INTO blocks(color, baseLength) VALUES('Purple', 1);
+INSERT INTO blocks(color, baseLength) VALUES('yellow_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('red_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('black_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('green_block.png', 1);
+INSERT INTO blocks(color, baseLength) VALUES('purple_block.png', 1);
 
 /* Should work, I think :^)
 Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017
