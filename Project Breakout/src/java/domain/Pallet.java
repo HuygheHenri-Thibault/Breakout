@@ -102,5 +102,9 @@ public class Pallet extends Rectangle {
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithRectangle(this);
     }
-   
+
+    @Override
+    public String toString() {
+        return "Pallet";
+    }
 }

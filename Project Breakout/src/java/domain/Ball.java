@@ -171,4 +171,9 @@ public class Ball extends Circle{
         resetState();
         level.decrementLife();
     }
+    
+    @Override
+    public String toString() {
+        return "Ball";
+    }
 }

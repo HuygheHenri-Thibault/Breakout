@@ -58,4 +58,9 @@ public class Brick extends Rectangle{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithBrick(this);
     }
+    
+    @Override
+    public String toString() {
+        return "Brick";
+    }
 }
