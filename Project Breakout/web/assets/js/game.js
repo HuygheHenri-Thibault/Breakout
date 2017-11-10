@@ -1,3 +1,25 @@
+var url = "ws://localhost:8080/Project_Breakout/gamepoint";
+var socket = new WebSocket(url);
+
+function sendMessage(message) {
+    socket.send(JSON.stringify(message));
+}
+
+socket.onmessage = function(messageRecieved) {
+  const posArray = JSON.parse(messageRecieved.data);
+  // TODO: Add function to draw pieces here
+  console.log(posArray);
+};
+
+socket.onopen = function () {
+  //sendMessage(JSON.stringify({"flppn": 3}));
+}
+
+function startGame() {
+  var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
+  sendMessage(messageObj);
+}
+
 var bricks = [];
 var imgArray = [];
 
@@ -37,5 +59,5 @@ function draw() {
 
 $(document).ready(function() {
   console.log("DOM is ready");
+  startGame();
 });
-
