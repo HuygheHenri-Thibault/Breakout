@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author micha
  */
-public class Game {
+public class Game{
     private List<Level> levels = new ArrayList<>();
     
     private FactoryLevel factoryLevels;

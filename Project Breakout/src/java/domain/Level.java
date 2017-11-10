@@ -10,13 +10,15 @@ import factories.FactoryPallet;
 import factories.FactoryRowOfBricks;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 /**
  *
  * @author micha
  */
-public class Level {
+public class Level{
     private Game game;
+    private Timer timer;
     
     private FactoryRowOfBricks factoryBrick;
     private FactoryPallet factoryPallet;
@@ -53,14 +55,12 @@ public class Level {
         this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
         this.factoryBall.createBall();
-    }
+        
+        timer = new Timer();
+     }
     
     public void startLevel(){
-        while(!completed || !game.isGameOver()){
-            for (Ball ball : balls) {
-                ball.setMoving(true);
-            }
-        }
+        timer.scheduleAtFixedRate(new ScheduleLevelTasker(this), 1000, 10);
     }
     
     public List<BrickRow> getRowsOfBricks() {
@@ -110,6 +110,10 @@ public class Level {
     
     public void decrementLife(){
         game.decrementLife();
+    }
+    
+    public boolean getGameOver(){
+        return game.isGameOver();
     }
 
     public boolean isCompleted() {
@@ -182,6 +186,7 @@ public class Level {
     private void checkForCompletion(){
         if(this.getRowsOfBricks().isEmpty()){
             setCompleted(true);
+            timer.cancel();
         }
     }
 }

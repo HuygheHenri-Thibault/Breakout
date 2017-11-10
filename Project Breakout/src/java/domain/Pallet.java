@@ -36,12 +36,14 @@ public class Pallet extends Rectangle {
     
     public void moveLeft(){
         setDx(-speed);
-        move();
     }
     
     public void moveRight(){
         setDx(speed);
-        move();
+    }
+    
+    public void stopMoving(){
+        setDx(0);
     }
 
 //    public void keyPressed(KeyEvent e) {
@@ -78,7 +80,7 @@ public class Pallet extends Rectangle {
         }
     }
 
-    private void move() {
+    public void move() {
         this.setX((int) (this.getX() + dx));
         if (collidesWithOtherRectangleOrBoundaries()) {
             updateSpriteAfterCollidingWithRectangle();
