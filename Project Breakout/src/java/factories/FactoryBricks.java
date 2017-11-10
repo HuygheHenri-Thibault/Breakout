@@ -34,18 +34,22 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
     private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
         String color = findUnusedColor();
         
-        int x = 250 + rowBricks.getSomLengteGemaakteBricks();
-        int y = 250 + rowsMade.size() * 50;
+        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 10;
+        
+        int x = rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomLengteGemaakteBricks();
+        int y = rowBricks.getMIN_BRICK_BORDER_Y() + (rowsMade.size() * height);
         
         Random rand = new Random();
-        int lengte = rand.nextInt((50-20) + 1) + 20;
+        int maxLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 10;
+        int minLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 25;
+        int lengte = rand.nextInt((maxLengte-minLengte) + 1) + minLengte;
         if(x + lengte > rowBricks.getMAX_BRICK_BORDER_X()){
             lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
         }
         
         int achievedScoreIfDestroyed = rowBricks.getAchievedScoreIfDestroyedForBrickOnRow();
        
-        Brick b = new Brick(rowBricks, lengte, 50, 1, achievedScoreIfDestroyed, color, x, y);
+        Brick b = new Brick(rowBricks, lengte, height, 1, achievedScoreIfDestroyed, color, x, y);
         return b;
     }
     

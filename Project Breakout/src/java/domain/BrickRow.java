@@ -16,14 +16,18 @@ public class BrickRow {
     private final Level level;
     private List<Brick> bricksOnRow = new ArrayList<>();
     private final int achievedScoreIfDestroyedForBrickOnRow;
-    private final int MIN_BRICK_BORDER_X = 250;
-    private final int MAX_BRICK_BORDER_X = 750;
-    private final int MIN_BRICK_BORDER_Y = 250;
-    private final int MAX_BRICK_BORDER_Y = 500;
+    private final int MIN_BRICK_BORDER_X;
+    private final int MAX_BRICK_BORDER_X;
+    private final int MIN_BRICK_BORDER_Y;
+    private final int MAX_BRICK_BORDER_Y;
 
     public BrickRow(Level level, int score) {
         if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
         this.achievedScoreIfDestroyedForBrickOnRow = score;
+        this.MIN_BRICK_BORDER_X = level.getGameWidth() / 4;
+        this.MAX_BRICK_BORDER_X = (level.getGameWidth() / 4) * 3;
+        this.MIN_BRICK_BORDER_Y = level.getGameHeight() / 4;
+        this.MAX_BRICK_BORDER_Y = (level.getGameHeight() / 4) * 3;
     }
 
     public Level getLevel() {
