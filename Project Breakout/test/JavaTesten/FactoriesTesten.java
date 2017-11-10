@@ -11,6 +11,7 @@ import domain.BrickRow;
 import domain.Game;
 import domain.Level;
 import domain.Pallet;
+import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,6 +42,16 @@ public class FactoriesTesten {
     
     @After
     public void tearDown() {
+    }
+    
+    @Test
+    public void testNieuwLevelWithNoGame(){
+        try {
+             Level level = new Level(null, 1, 0);
+        }
+        catch(NullPointerException ex){
+           
+        }
     }
     
     @Test
@@ -113,11 +124,20 @@ public class FactoriesTesten {
     public void createNextLevel(){
         Game g = new Game(0, 1000, 1000, 3, 1);
         g.createNewLevel();
+        Pallet palletLevel2 = g.getLevels().get(1).getPallets().get(0);
         g.createNewLevel();
+        g.createNewLevel();
+        g.createNewLevel();
+        g.createNewLevel();
+        Pallet palletLevel6 = g.getLevels().get(5).getPallets().get(0);
+        Ball ballLevel3 = g.getLevels().get(2).getBalls().get(0);
         Brick b = g.getLevels().get(1).getRowsOfBricks().get(4).getBricksOnRow().get(0);
         Brick b1 = g.getLevels().get(2).getRowsOfBricks().get(4).getBricksOnRow().get(0);
         assertEquals(20, b.getAchievedScore());
         assertEquals(30, b1.getAchievedScore());
+        assertEquals(124, palletLevel2.getLength());
+        assertEquals(12, ballLevel3.getSpeed());
+        assertEquals(123, palletLevel6.getLength());
     }
 
     // TODO add test methods here.

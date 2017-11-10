@@ -17,13 +17,8 @@ public class Pallet extends Rectangle {
     private float speed;
     private float dx;
 
-    public Pallet(String color, Level level, int x, int y, int lenght, int height) {
-        super(level, color, x, y, lenght, height);
-        this.level = level;
-    }
-
-    public Pallet(String color, Level level, int x, int y, int length, int height, float speed) {
-        super(level, color, x, y, length, height);
+    public Pallet(String color, Level level, int x, int y, int length, float speed) {
+        super(level, color, x, y, length, 50);
         this.level = level;
         this.speed = speed;
     }
@@ -107,5 +102,5 @@ public class Pallet extends Rectangle {
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithRectangle(this);
     }
-    
+   
 }

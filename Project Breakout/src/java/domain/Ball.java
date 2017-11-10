@@ -29,7 +29,7 @@ public class Ball extends Circle{
         this.dy = -speed;
     }
     
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 

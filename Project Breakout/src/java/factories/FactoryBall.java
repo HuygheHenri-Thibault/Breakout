@@ -26,7 +26,8 @@ public class FactoryBall extends FactoryBreakoutUtilities{
         String colorPallet = findUnusedColor();
         int x = (int) (level.getGameWidth()/ 2);
         int y = (int) ((level.getGameHeight()/ 10) * 8); 
-        Ball b = new Ball(level, 15, 5, colorPallet, x, y);
+        int speed = Math.round(5 * level.getRatios().get(1).getRatio());
+        Ball b = new Ball(level, 15, speed, colorPallet, x, y);
         level.getBalls().add(b);
     }
 }

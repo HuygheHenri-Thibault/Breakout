@@ -27,8 +27,9 @@ public class Level {
     private List<Ball> balls = new ArrayList<>();
     
     private final int number;
-    private int score;
+    private int score = 0;
     private final int startScoreForBricks;
+
     private final static int MAX_ROWS_BRICKS = 5;
     
     private boolean completed;
@@ -37,11 +38,12 @@ public class Level {
     private final Rectangle LEFT_BOUNDARY = new Rectangle(this, null, -10, 0, 10, 1000);
     private final Rectangle RIGHT_BOUNDARY = new Rectangle(this, null, 1000, 0, 10, 1000);
     private final Rectangle BOTTOM_BOUNDARY = new Rectangle(this, null, 0, 1000, 1000, 10);
+    
+    
 
-    public Level(Game game, int startScoreForBricks, int number, int score) {
+    public Level(Game game, int startScoreForBricks, int number) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
-        this.score = score;
         this.startScoreForBricks = startScoreForBricks;
         this.completed = false;
         
@@ -53,6 +55,10 @@ public class Level {
         this.factoryBall.createBall();
     }
     
+    public List<BrickRow> getRowsOfBricks() {
+        return rowsOfBricks;
+    }
+    
     public List<Pallet> getPallets() {
         return pallets;
     }
@@ -61,9 +67,6 @@ public class Level {
         return balls;
     }
     
-    public List<BrickRow> getRowsOfBricks() {
-        return rowsOfBricks;
-    }
 
     public void setScore(int score) {
         this.score = score;
@@ -79,6 +82,10 @@ public class Level {
 
     public int getScore() {
         return score;
+    }
+       
+    public List<Ratio> getRatios(){
+        return game.getRatios();
     }
 
     public int getGameWidth() {
