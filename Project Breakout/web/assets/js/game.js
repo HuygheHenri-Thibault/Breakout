@@ -1,13 +1,14 @@
 var url = "ws://localhost:8080/Project_Breakout/gamepoint";
 var socket = new WebSocket(url);
-var ball;
-var pallet;
-var bricks = [];
-var imgArray = [];
-var gameInterval = 0;
-var infoInterval;
-var lives;
-var score;
+// var ball = null;
+// var pallet = null;
+// var bricks = [];
+// var imgArray = [];
+// var gameInterval = 0;
+// var infoInterval = 0;
+// var lives = 0;
+// var score = 0;
+// var canvas = null;
 
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
@@ -18,13 +19,13 @@ function switchOnTypeComponents(message){
   for (var sprite in posArray){
       switch(posArray[sprite].type){
           case "Pallet":
-              createPallet(posArray[sprite])
+              pallet = new Pallet(palletje.x, palletje.y, palletje.width, palletje.heigth);
               break;
           case "Ball":
-              createBall(posArray[sprite]);
+              ball = new Ball(balletje.radius, balletje.x, balletje.y);
               break;
           case "Brick":
-              fillBrickArray(posArray[sprite]);
+              bricks.push(new Brick(brick.x, brick.y, brick.width, brick.height, imgArray[1]));
               break;
           default:
               break;
@@ -42,12 +43,11 @@ socket.onmessage = function(messageRecieved) {
     console.log(type);
     switch(type){
         case "posistion":
+        console.log(JSON.parse(messageRecieved.data));
             switchOnTypeComponents(JSON.parse(messageRecieved.data));
             break;
         case "gameInfo":
             switchOnTypePlayer(JSON.parse(messageRecieved.data));
-            break;
-        default:
             break;
     }
 };
@@ -61,6 +61,11 @@ function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
   sendMessage(messageObj);
   getUpdate();
+  function setup() {
+      canvas = createCanvas(750, 400);
+      canvas.parent('game-area');
+  }
+  setup();
 }
 
 function getUpdate() {
@@ -84,18 +89,6 @@ function getGameInfo() {
   sendMessage(messageObj);
 }
 
-function createPallet(palletje){
-    pallet = new Pallet(palletje.x, palletje.y, palletje.width, palletje.heigth);
-}
-
-function createBall(balletje){
-    ball = new Ball(balletje.radius, balletje.x, balletje.y);
-}
-
-function fillBrickArray(brick){
-    bricks.push(new Brick(brick.x, brick.y, brick.width, brick.height, imgArray[1]));
-}
-
 function preload(){
     imgPallet = loadImage('assets/media/pallet.png');
     imgBall = loadImage('assets/media/ball.png');
@@ -106,25 +99,26 @@ function preload(){
     imgArray[4] = loadImage('assets/media/yellow_block.png');
 }
 
-function setup() {
-    var canvas = createCanvas(750, 400);
-    canvas.parent('game-area');
-}
+// function setup() {
+//     var canvas = createCanvas(750, 400);
+//     canvas.parent('game-area');
+// }
+//
+// function draw() {
+//     background(47, 49, 54);
+//     ball.move();
+//     ball.edges();
+//     ball.show();
+//     pallet.move(LEFT_ARROW, RIGHT_ARROW);
+//     pallet.border();
+//     pallet.show();
+//     for (var i = 0; i < bricks.length; i++){
+//         bricks[i].show();
+//     }
+// }
 
-function draw() {
-    background(47, 49, 54);
-//    ball.move();
-    ball.edges();
-    ball.show();
-    pallet.move(LEFT_ARROW, RIGHT_ARROW);
-    pallet.border();
-    pallet.show();
-    for (var i = 0; i < bricks.length; i++){
-        bricks[i].show();
-    }
-}
 function fireModal(){
-    $("#selectController").modal().show();
+    $("#selectController").modal().modal('open');;
     var cols = 12;
     var players = prompt("How many playersssss?")
     var grootteCols = (cols/players);
