@@ -51,7 +51,7 @@ function checkVarsIfEmpty(username, passwd) {
 }
 
 $(document).ready(function() {
-  console.log("DOM is ready");
+  console.log("script.js is loaded");
   // Init Page
   loggedIn();
   $('.modal').modal();

@@ -70,6 +70,7 @@ function getUpdate() {
 
 function stopUpdates() {
   clearInterval(gameInterval);
+  clearInterval(infoInterval);
 }
 
 function getPosistion() {
@@ -133,11 +134,10 @@ function fireModal(){
     console.log("new slot");
     currentslot +=1;
     }
-   
-            
 }
+
 $(document).ready(function() {
-  console.log("DOM is ready");
+  console.log("game.js is loaded");
   fireModal();
   $(".startGame").on("click", startGame);
 });
