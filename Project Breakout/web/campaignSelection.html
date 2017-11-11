@@ -20,21 +20,27 @@ and open the template in the editor.
 
     <body class="med-grey">
         <header class="dark-grey z-depth-4">
-            <nav class="transparent">
-                <div class="nav-wrapper">
-                    <a href="index.html" class="brand-logo">Logo</a>
-                    <ul class="right">
-                        <li id="user">
-                            <a href="#" class="dropdown-button" data-activates="user-options"></a>
-                        </li>
-                        <li><i class="material-icons right">account_circle</i></li>
-                        <!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->
-                    </ul>
-                </div>
-            </nav>
+            
+                <nav class="transparent">
+                    <div class="nav-wrapper">
+                        <a href="index.html" class="brand-logo">Logo</a>
+                        <ul class="right">
+                            <li id="user">
+                                <a href="#" class="dropdown-button" data-activates="user-options"></a>
+                            </li>
+                            <li><i class="material-icons right">account_circle</i></li>
+                            <!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->
+                        </ul>
+                    </div>
+                </nav>
         </header>
 
-        <main>
+        <main class="v-header container">
+            <div class="fullscreen-video-wrap">
+                <video src="assets/media/Globe.mp4" autoplay="true" loop="true"></video>
+            </div>
+            <div class="header-overlay"></div>
+            <div class="header-content">
             <div class="row">
                 <div class="col s4 offset-s4">
                     <h1 class="white-text center-align">Select a campaign</h1>
@@ -106,6 +112,7 @@ and open the template in the editor.
                     <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
 
                 </div>
+            </div>
             </div>
         </main>
 
