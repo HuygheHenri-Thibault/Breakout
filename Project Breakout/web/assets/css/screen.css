@@ -162,3 +162,19 @@ p.chapter{
     box-shadow: black 20px 20px 10px;
 }
 /*End Index 4 !!*/
+
+#selectController{
+    margin-top: 5rem;
+    display:none;
+    background-color: white;
+    height: 25rem;
+}
+
+.controllercol{
+    background-color: white;
+}
+
+.controllercol:hover{
+    background-color: transparent;
+    cursor:pointer;
+}
