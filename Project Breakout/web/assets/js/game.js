@@ -35,7 +35,7 @@ function switchOnTypeComponents(message){
 function switchOnTypePlayer(player){
     var lives = player.lives;
     var score = player.score;
-    $("#score").html("<p class='white-text center-align'>Lives X" + lives + " Score: " + score + "</p>");
+    $("#score").html("<p class='white-text left-align'>Lives x" + lives + "</p><p class='white-text left-align'>Score: " + score + "</p>");
 }
 
 socket.onmessage = function(messageRecieved) {
@@ -55,7 +55,7 @@ socket.onmessage = function(messageRecieved) {
 
 socket.onopen = function () {
   //sendMessage(JSON.stringify({"flppn": 3}));
-}
+};
 
 function startGame() {
   var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
@@ -113,10 +113,10 @@ function setup() {
 function draw() {
     background(47, 49, 54);
 //    ball.move();
-    ball.edges();
+//    ball.edges();
     ball.show();
     pallet.move(LEFT_ARROW, RIGHT_ARROW);
-    pallet.border();
+//    pallet.border();
     pallet.show();
     for (var i = 0; i < bricks.length; i++){
         bricks[i].show();
