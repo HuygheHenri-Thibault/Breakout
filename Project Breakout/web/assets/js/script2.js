@@ -5,6 +5,10 @@
 $(document).ready(function () {
   console.log("script2.js is loaded");
 
+    $("#PathToVillage").on("click", function (){
+        $("ul#slide-out").show();
+    });
+    
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
     $(".continents").click(function() {
@@ -69,6 +73,9 @@ var hidePathsIslandMap = function(){
     $("#PathToDragonsDen").hide();
     $("#PathToSpire").hide();
     $("#PathToTheBlueKeep").hide();
+    
+    //hide sidebar with story
+    $('ul#slide-out').hide();
 };
 
 var hidePathsCrossroadsMap = function(){
