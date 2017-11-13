@@ -3,6 +3,7 @@
  */
 
 $(document).ready(function () {
+  console.log("createQrCode.js is loaded");
 makeCode();
 
 $("#text").
