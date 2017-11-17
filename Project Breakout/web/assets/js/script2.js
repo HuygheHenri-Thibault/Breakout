@@ -35,7 +35,6 @@ $(document).ready(function () {
          console.log("nothing clicked yet");
     }
 });
-
     $("g").on("click", function(){
         console.log($(this).attr("id"));
         var selectedLevel = $(this).attr("id");
@@ -63,8 +62,17 @@ $(document).ready(function () {
  $('g#toBreakersBay').on("click", function () {
        alert("user wants to go to Breakers Bay");
     });
+    
+$('.toastButton').on('click',toast);
+$('.toastButton').click(Materialize.toast("I am toastie", 4000));
 
 });
+
+var toast = function(){
+  console.log("Toast clicked");
+  var $toastContent = $('<span>Achievement acquired</span>').add($('<button class="btn-flat toast-action">Undo (WIP)</button>'));
+  Materialize.toast($toastContent, 5000);
+};
 
 var hidePathsIslandMap = function(){
     $("#PathToLonelyRock").hide();
