@@ -70,7 +70,9 @@ $('.toastButton').click(Materialize.toast("I am toastie", 4000));
 
 var toast = function(){
   console.log("Toast clicked");
-  var $toastContent = $('<span>Achievement acquired</span>').add($('<button class="btn-flat toast-action">Undo (WIP)</button>'));
+  var $toastContent = $('<span>toasted</span>');
+  //var imgUrl = "<img src='../../assets/media/campaign/Openbook.png'/>";
+  //var $toastContent = $(imgUrl);
   Materialize.toast($toastContent, 5000);
 };
 
