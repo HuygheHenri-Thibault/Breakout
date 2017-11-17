@@ -4,13 +4,16 @@
 
 $(document).ready(function () {
   console.log("script2.js is loaded");
-
+  
     $("#PathToVillage").on("click", function (){
         $("ul#slide-out").show();
+        //Materialize.fadeInImage('#img1');
+        //fadeinImage <a href="#!" class="btn" onclick="Materialize.fadeInImage('#image-test')">Click Me</a>
     });
     
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
+    
     $(".continents").click(function() {
         var myClass = $(this).attr("id");
         console.log(myClass);
@@ -34,7 +37,8 @@ $(document).ready(function () {
     default:
          console.log("nothing clicked yet");
     }
-});
+    });
+    
     $("g").on("click", function(){
         console.log($(this).attr("id"));
         var selectedLevel = $(this).attr("id");
