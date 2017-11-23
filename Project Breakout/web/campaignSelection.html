@@ -21,17 +21,21 @@ and open the template in the editor.
     <body class="med-grey">
         <header class="dark-grey z-depth-4">
 
-                <nav class="transparent">
-                    <div class="nav-wrapper">
-                        <a href="index.html" class="brand-logo">Logo</a>
-                        <ul class="right">
-                            <li id="user">
-                                <a href="#" class="dropdown-button" data-activates="user-options"></a>
-                            </li>
-                            <li><i class="material-icons right">account_circle</i></li>
-                        </ul>
-                    </div>
-                </nav>
+            <nav class="transparent">
+                <div class="nav-wrapper">
+                    <a href="index.html" class="brand-logo">Logo</a>
+                    <ul class="right">
+                        <li id="user">
+                            <a href="#" class="dropdown-button" data-activates="user-options"></a>
+                        </li>
+                        <li><i class="material-icons right">account_circle</i></li>
+                       <li>
+                           <a class="modal-trigger" href="#edit-user-modal"><i class="material-icons white-text small">settings</i></a>
+                        </li>
+                    </ul>
+                </div> 
+
+            </nav>
         </header>
 
         <main class="v-header container">
@@ -40,78 +44,76 @@ and open the template in the editor.
             </div>
             <div class="header-overlay"></div>
             <div class="header-content">
-            <div class="row">
-                <div class="col s4 offset-s4">
-                    <h1 class="white-text center-align flow-text">Select a campaign</h1>
-                </div>
-                <div class="col s1 offset-s3">
-                    <a class="modal-trigger" href="#edit-user-modal"><i class="material-icons white-text small">settings</i></a>
-                </div>
-
-                <!-- MODAL START -->
-                <div id="edit-user-modal" class="modal">
-                    <div class="modal-content med-grey white-text">
-                        <h4>Edit user</h4>
-                        <form class="accented" action="editUser" method="post">
-                            <div class="row">
-                                <div class="col s5">
-                                    <div class="input-field">
-                                        <input type="email" id="email" name="email" />
-                                        <label for="email" class="active">Email</label>
-                                    </div>
-
-                                    <div class="input-field">
-                                        <input type="text" id="username" name="username" />
-                                        <label for="username" class="active">Username</label>
-                                    </div>
-                                </div>
-                                <div class="col s5 offset-s1">
-                                    <div class="input-field">
-                                        <input type="password" id="password" name="password" />
-                                        <label for="password" class="active">Password</label>
-                                    </div>
-
-                                    <div class="input-field">
-                                        <input type="password" id="passwordCheck" name="passwordCheck" />
-                                        <label for="passwordCheck" class="active">Password (again)</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 offset-s3 input-field">
-                                    <input type="text" id="bio" name="bio">
-                                    <label for="bio" class="active">Bio</label>
-                                </div>
-                            </div>
-                        </form>
+                <div class="row">
+                    <div class="col s4 offset-s4">
+                        <h1 class="white-text center-align flow-text">Select a campaign</h1>
                     </div>
-                    <div class="modal-footer dark-grey">
-                        <a href="#!" id="cancel-edit" class="modal-action modal-close waves-effect waves-red btn-flat">
-                            <i class="material-icons red-text small">cancel</i>
-                        </a>
-                        <a href="#!" id="confirm-edit" class="modal-action modal-close waves-effect waves-green btn-flat">
-                            <i class="material-icons green-text small">check_circle</i>
-                        </a>
+
+
+                    <!-- MODAL START -->
+                    <div id="edit-user-modal" class="modal">
+                        <div class="modal-content med-grey white-text">
+                            <h4>Edit user</h4>
+                            <form class="accented" action="editUser" method="post">
+                                <div class="row">
+                                    <div class="col s5">
+                                        <div class="input-field">
+                                            <input type="email" id="email" name="email" />
+                                            <label for="email" class="active">Email</label>
+                                        </div>
+
+                                        <div class="input-field">
+                                            <input type="text" id="username" name="username" />
+                                            <label for="username" class="active">Username</label>
+                                        </div>
+                                    </div>
+                                    <div class="col s5 offset-s1">
+                                        <div class="input-field">
+                                            <input type="password" id="password" name="password" />
+                                            <label for="password" class="active">Password</label>
+                                        </div>
+
+                                        <div class="input-field">
+                                            <input type="password" id="passwordCheck" name="passwordCheck" />
+                                            <label for="passwordCheck" class="active">Password (again)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s6 offset-s3 input-field">
+                                        <input type="text" id="bio" name="bio">
+                                        <label for="bio" class="active">Bio</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer dark-grey">
+                            <a href="#!" id="cancel-edit" class="modal-action modal-close waves-effect waves-red btn-flat">
+                                <i class="material-icons red-text small">cancel</i>
+                            </a>
+                            <a href="#!" id="confirm-edit" class="modal-action modal-close waves-effect waves-green btn-flat">
+                                <i class="material-icons green-text small">check_circle</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- MODAL END -->
+
+                </div>
+                <div class="row">
+                    <div class="col s2 offset-s3">
+                        <p class="white-text center-align">Breakers Bay</p>
+                        <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
+                    </div>
+                    <div class="col s2">
+                        <p class="white-text center-align">Alorum</p>
+                        <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
+                    </div>
+                    <div class="col s2">
+                        <p class="white-text center-align">_CAMPAIGNNAME_</p>
+                        <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
+
                     </div>
                 </div>
-                <!-- MODAL END -->
-
-            </div>
-            <div class="row">
-                <div class="col s2 offset-s3">
-                    <p class="white-text center-align">Breakers Bay</p>
-                    <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
-                </div>
-                <div class="col s2">
-                    <p class="white-text center-align">Alorum</p>
-                    <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
-                </div>
-                <div class="col s2">
-                    <p class="white-text center-align">_CAMPAIGNNAME_</p>
-                    <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle">
-
-                </div>
-            </div>
             </div>
         </main>
 
