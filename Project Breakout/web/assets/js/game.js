@@ -13,7 +13,7 @@ var score = 0;
 
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
-var current_url = window.location.href;
+
 
 // INIT FUNCTIONS //
 function preload() {
