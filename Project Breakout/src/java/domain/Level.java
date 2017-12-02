@@ -11,6 +11,9 @@ import factories.FactoryRowOfBricks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import powerUps.NoPower;
+import powerUps.PowerUpOrDown;
+import swing.ScheduleLevelTasker;
 
 /**
  *
@@ -19,7 +22,7 @@ import java.util.Timer;
 public class Level{
     private Game game;
     private Timer timer;
-    private swing.ScheduleLevelTasker taskForLevel;
+    private ScheduleLevelTasker taskForLevel;
     
     private FactoryRowOfBricks factoryBrick;
     private FactoryPallet factoryPallet;
@@ -28,6 +31,9 @@ public class Level{
     private List<BrickRow> rowsOfBricks;
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
+    
+    private List<PowerUpOrDown> powerUps = new ArrayList<>();
+    private PowerUpOrDown powerUpActive = new NoPower();
     
     private final int number;
     private int score = 0;
@@ -42,8 +48,6 @@ public class Level{
     private final Rectangle RIGHT_BOUNDARY = new Rectangle(this, 1000, 0, 10, 1000);
     private final Rectangle BOTTOM_BOUNDARY = new Rectangle(this, 0, 1000, 1000, 10);
     
-    
-
     public Level(Game game, int startScoreForBricks, int number) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
@@ -55,10 +59,10 @@ public class Level{
         this.factoryPallet = new FactoryPallet(this);
         this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
-        this.factoryBall.createBall();
-     }
+        this.factoryBall.createBalls();
+    }
     
-    public void startLevel(swing.ScheduleLevelTasker s){
+    public void startLevel(ScheduleLevelTasker s){
         timer = new Timer();
         taskForLevel = s;
         timer.scheduleAtFixedRate(s, 1000, 10);
@@ -87,11 +91,36 @@ public class Level{
     public List<Pallet> getPallets() {
         return pallets;
     }
+    
+    public void setPowerUpActive(PowerUpOrDown powerUp){
+        powerUpActive = powerUp;
+    }
+    
+    public PowerUpOrDown getActivePowerUp(){
+        return powerUpActive;
+    }
+    
+    public Pallet getUserPallet(int userID){
+        for (Pallet pallet : pallets) {
+            if(pallet.getUserID() == userID){
+                return pallet;
+            }
+        }
+        return null;
+    }
 
     public List<Ball> getBalls() {
         return balls;
     }
     
+    public void createExtraBall(){
+        factoryBall.createExtraBall();
+    }
+    
+     
+    public List<PowerUpOrDown> getPowerUpsShownOnScreen(){
+        return powerUps;
+    }
 
     public void setScore(int score) {
         this.score = score;
@@ -118,11 +147,11 @@ public class Level{
     }
 
     public int getGameWidth() {
-        return game.getWidth();
+        return this.game.getWidth();
     }
 
     public int getGameHeight() {
-        return game.getHeight();
+        return this.game.getHeight();
     }
     
     public int getAantalSpelers(){
@@ -136,13 +165,18 @@ public class Level{
         }
     }
     
-     public void resetStates(){
+    public void resetStates(){
         for (Ball ball : balls) {
             ball.resetState();
         }
         for (Pallet pallet : pallets) {
             pallet.resetState();
         }
+        resetPowerUps();
+    }
+    
+    public void resetPowerUps(){
+        powerUpActive.setDeActive();
     }
     
     public boolean getGameOver(){
@@ -180,6 +214,9 @@ public class Level{
     public List<Shape> getAllEntities(){
         List<Shape> allEntities = new ArrayList<>(pallets);
         allEntities.addAll(balls);
+        for (PowerUpOrDown powerUp : powerUps) {
+            allEntities.add(powerUp);
+        }
         for (BrickRow br : rowsOfBricks) {
             allEntities.addAll(br.getBricksOnRow());
         }
@@ -189,7 +226,6 @@ public class Level{
         allEntities.add(BOTTOM_BOUNDARY);
         return allEntities;
     }
-    
     public void lowerHitsOfBrick(Brick b, int playerIDThatDestroyedBrick){
         b.decrementHits();
         if(b.getHits() == 0){
@@ -199,6 +235,7 @@ public class Level{
     
     public void deleteBrick(Brick b, int playerIDThatDestroyedBrick){
         BrickRow brickLine = searchBrickThroughRows(b);
+        b.getPowerUP().show();
         brickLine.deleteBrick(b);
         score += b.getAchievedScore();
         User player = game.getPlayers().get(playerIDThatDestroyedBrick);

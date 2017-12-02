@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
+import powerUps.PowerUpOrDown;
 
 /**
  *
@@ -97,7 +98,9 @@ public class Board extends JPanel{
                 g2d.drawRect(brick.getX(), brick.getY(), brick.getLength(), brick.getHeight());
             }
         }
-        
+        for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {
+            g2d.drawRect(powerUp.getBoundaries().getX(), powerUp.getBoundaries().getY(), powerUp.getBoundaries().getLength(), powerUp.getBoundaries().getHeight());
+        }
     }
     
     private void drawTexts(Graphics2D g2d) {

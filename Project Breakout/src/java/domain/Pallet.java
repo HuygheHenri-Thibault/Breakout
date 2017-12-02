@@ -30,7 +30,7 @@ public class Pallet extends Rectangle {
         this.INIT_PALLET_X = x;
         this.INIT_PALLET_Y = y;
     }
-    
+
     public int getUserID() {
         return userID;
     }
@@ -121,6 +121,7 @@ public class Pallet extends Rectangle {
         toggleDx();
         int xBeforeCollission = (int) (this.getX() + dx);
         this.setX(xBeforeCollission);
+        toggleDx();
     }
 
     public void setDx(float dx) {

@@ -7,6 +7,7 @@ package domain;
 
 import java.awt.Image;
 import java.io.Serializable;
+import powerUps.PowerUpOrDown;
 
 /**
  *
@@ -58,8 +59,8 @@ public class Ball extends Circle implements Serializable{
     public void setDy(float dy){
         this.dy = dy;
     }
-    
-     public float getDx() {
+
+    public float getDx() {
         return dx;
     }
 
@@ -83,7 +84,7 @@ public class Ball extends Circle implements Serializable{
         }
     }
     
-   public void cutDyBy(float getal){
+    public void cutDyBy(float getal){
         resetDy();
         resetDx();
         if(dx > 0){
@@ -214,8 +215,18 @@ public class Ball extends Circle implements Serializable{
         level.lowerHitsOfBrick(b, getLastUserThatTouchedMe() - 1);
     }
     
+    public void updateSpriteBallAfterCollidingWithPowerUp(PowerUpOrDown powerUpTouched){
+        setDx(-getDx());
+        setDy(-getDy());
+        //powerUpTouched.activate(this);
+        powerUpTouched.setBallActivatedPower(this);
+        level.getPowerUpsShownOnScreen().remove(powerUpTouched);
+        level.resetPowerUps();
+        level.setPowerUpActive(powerUpTouched);
+        powerUpTouched.setActive();
+    }
     
-   public void updateSpriteAfterCollidingWithCircle(){
+    public void updateSpriteAfterCollidingWithCircle(){
         setDx(-getDx());
         setDy(-getDy());
     }

@@ -14,7 +14,7 @@ import domain.Pallet;
  * @author micha
  */
 public class FactoryPallet extends FactoryBreakoutUtilities{
-    private final Level level;
+   private final Level level;
 
     public FactoryPallet(Level level) {
         this.level = level;

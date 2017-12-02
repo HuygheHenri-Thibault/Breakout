@@ -17,7 +17,7 @@ import java.util.Random;
  */
 public class FactoryBricks extends FactoryBreakoutUtilities{
     
-    public FactoryBricks() {
+   public FactoryBricks() {
     }
     
     public void createBricks(List<BrickRow> rowsMade, BrickRow rowBricks){
@@ -25,6 +25,11 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
             Brick b = createSingleBrick(rowsMade, rowBricks);
             rowBricks.addBrickToRow(b);
         }
+        //test for powerup
+        Brick testBrick = rowBricks.getBricksOnRow().get(rowBricks.getBricksOnRow().size() - 1);
+        //make a random powerup
+        //get all the powerups from database
+        //select a random powerup out of the list
     }   
     
     private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){

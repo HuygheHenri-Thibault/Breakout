@@ -17,8 +17,7 @@ import javax.swing.SwingUtilities;
  * @author micha
  */
 public class ScheduleLevelTasker extends TimerTask {
-
-    private Level level;
+ private Level level;
     private JPanel toRepaint;
     private boolean paused = false;
 
@@ -37,7 +36,17 @@ public class ScheduleLevelTasker extends TimerTask {
                 pallet.move();
             }
             
-
+            switch (level.getActivePowerUp().isActivated()) {
+                case ACTIVE:
+                    level.getActivePowerUp().activate();
+                    break;
+                case INACTIVE:
+                    level.getActivePowerUp().deActivate();
+                    break;
+                default:
+                    break;
+            }
+            
             
             SwingUtilities.invokeLater(()->toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui

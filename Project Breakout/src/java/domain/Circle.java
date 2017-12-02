@@ -42,7 +42,6 @@ public class Circle extends Shape implements Collidable{
         double distanceSquared = xDif * xDif + yDif * yDif;
         return distanceSquared < (this.getRadius() + c.getRadius()) * (this.getRadius() + c.getRadius());
     }
-
     
     @Override
     public boolean checkCollission(Shape s){
@@ -53,5 +52,4 @@ public class Circle extends Shape implements Collidable{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteAfterCollidingWithCircle();
     }
-    
 }

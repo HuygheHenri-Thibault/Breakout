@@ -17,7 +17,7 @@ import java.util.List;
  * @author micha
  */
 public class Game{
-    private List<User> players;
+     private List<User> players;
     private List<Level> levels = new ArrayList<>();
     private Level levelPlayedRightNow;
     
@@ -45,13 +45,13 @@ public class Game{
         this.factoryLevels = new FactoryLevel(this);
         createNewLevel();
     }
-    
+
     public List<User> getPlayers() {
         return players;
     }
     
     public void stopGame() {
-        gameOver = true;
+        setGameOver(true);
     }
 
     public int getWidth() {
@@ -69,7 +69,7 @@ public class Game{
     public void createNewLevel(){
         levelPlayedRightNow = factoryLevels.createLevel();
     }
-    
+
     public Level getLevelPlayedRightNow() {
         return levelPlayedRightNow;
     }
@@ -108,11 +108,11 @@ public class Game{
     public void setLives(int lives) {
         this.lives = lives;
     }
-     
+    
     public int getLives() {
         return lives;
     }
-    
+     
     public int getStartLives() {
         return startLives;
     }
@@ -135,5 +135,4 @@ public class Game{
     public boolean isGameOver() {
         return gameOver;
     }
-   
 }
