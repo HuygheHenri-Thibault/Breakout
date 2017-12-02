@@ -6,36 +6,39 @@
 package domain;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 /**
  *
  * @author micha
  */
-public class Ball extends Circle{
+public class Ball extends Circle implements Serializable{
     private final Level level;
+    private Sprite s;
     private int speed;
     private float dx;
     private float dy;
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;
-    private boolean moving = false;
+    private int lastUserThatTouchedMe;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
-        super(level, color, x, y, radius);
+        super(level, x, y, radius);
         this.level = level;
+        this.s = new Sprite(color);
         this.INIT_BALL_X = x;
         this.INIT_BALL_Y = y;
         this.speed = speed * 2;
-        this.dx = speed;
-        this.dy = -speed;
+        this.dx = -speed;
+        this.dy = speed;
     }
 
-    public boolean isMoving() {
-        return moving;
+    public void setLastUserThatTouchedMe(int lastUserThatTouchedMe) {
+        this.lastUserThatTouchedMe = lastUserThatTouchedMe;
     }
-
-    public void setMoving(boolean moving) {
-        this.moving = moving;
+    
+    public int getLastUserThatTouchedMe() {
+        return lastUserThatTouchedMe;
     }
     
     public int getSpeed() {
@@ -48,20 +51,20 @@ public class Ball extends Circle{
         resetDy();
     }
 
-    public void setDx(int dx){
+    public void setDx(float dx){
         this.dx = dx;
     }
     
-    public void setDy(int dy){
+    public void setDy(float dy){
         this.dy = dy;
     }
     
-    public void toggleDx(){
-        dx = -dx;
+     public float getDx() {
+        return dx;
     }
-    
-    public void toggleDy(){
-        dy = -dy;
+
+    public float getDy() {
+        return dy;
     }
     
     public void resetDx(){
@@ -80,34 +83,37 @@ public class Ball extends Circle{
         }
     }
     
-    public void cutDyBy(int getal){
-        resetDx();
+   public void cutDyBy(float getal){
         resetDy();
-        this.dx = Math.round(dx / getal);
+        resetDx();
+        if(dx > 0){
+            this.dx = (float) Math.ceil(dx /getal);
+        } else {
+            this.dx = (float) Math.floor(dx /getal); 
+        }
         if(dy > 0){
             dy = speed - Math.abs(dx);
         } else {
             dy = -speed + Math.abs(dx);
         }
-        toggleDy();
     }
     
     public void move(){
         this.setX(Math.round(this.getX() + dx));
         this.setY(Math.round(this.getY() + dy));
-        Sprite s = findCollidingSprite();
+        Shape s = findCollidingSprite();
         if (s!=null) s.updateSpriteBall(this);
     }
     
     public void resetState(){
         this.setX(INIT_BALL_X);
         this.setY(INIT_BALL_Y);
-        dx = speed / 2;
-        dy = -speed / 2;
+        dx = -speed / 2;
+        dy = speed / 2;
     }
     
-    public Sprite findCollidingSprite() {
-        for (Sprite s : level.getAllEntities()) {
+    public Shape findCollidingSprite() {
+        for (Shape s : level.getAllEntities()) {
             if(this.getX() != s.getX()){
                 if(this.checkCollission(s)){
                     return s;
@@ -117,68 +123,118 @@ public class Ball extends Circle{
         return null;
     }
     
-    public void updateSpriteBallAfterCollidingWithRectangle(Rectangle r){
-        float rectPos = r.getX();
-        float ballLPos = this.getX();
+    public void updateSpriteBallAfterCollidingWithPallet(Pallet p){
+        float rectPosX = p.getX();
+        float rectPosY = p.getY();
+        float ballLPosX = this.getX();
+        float ballPosY = this.getY();
         
-        float leftSide = rectPos;
-        float first = rectPos + (r.getLength() / 5); 
-        float second = rectPos + ((r.getLength() / 5) * 2);
-        float third = rectPos + ((r.getLength() / 5) * 3);
-        float fourth = rectPos + ((r.getLength() / 5) * 4);
-        float rightSide = rectPos + r.getLength();
+        float leftSide = rectPosX;
+        float rightSide = rectPosX + p.getLength();
         
-        if(ballLPos < leftSide){
-            toggleDx();
+        float updside = rectPosY;
+        float downSide = rectPosY + p.getHeight();
+        
+        if(ballLPosX < leftSide){
+            setDx(-Math.abs(getDx()));
         }
+        
+        if(ballPosY < updside){
+            updateSpriteBallAfterCollidingWithPalletUpsideOrDownside(p, rectPosX, ballLPosX, leftSide, rightSide, -1.0f);
+        } 
+        
+        if(ballPosY > downSide){
+            updateSpriteBallAfterCollidingWithPalletUpsideOrDownside(p, rectPosX, ballLPosX, leftSide, rightSide, 1.0f);
+        }
+        
+        if(ballLPosX >= rightSide){
+            setDx(Math.abs(getDx()));
+        }
+        
+        setLastUserThatTouchedMe(p.getUserID());
+        System.out.println(getLastUserThatTouchedMe());
+    }
 
+    private void updateSpriteBallAfterCollidingWithPalletUpsideOrDownside(Pallet p, float rectPosX, float ballLPos, float leftSide, float rightSide, float direction) {
+        float first = rectPosX + (p.getLength() / 5); 
+        float second = rectPosX + ((p.getLength() / 5) * 2);
+        float third = rectPosX + ((p.getLength() / 5) * 3);
+        float fourth = rectPosX + ((p.getLength() / 5) * 4);
+        
         if (ballLPos >= leftSide && ballLPos < first) {
             cutDyBy(4);
+            setDx(Math.abs(getDx()) * -Math.abs(direction));
         }
 
         if (ballLPos >= first && ballLPos < second) {
             cutDyBy(2);
+            setDx(Math.abs(getDx()) * -Math.abs(direction));
         }
         
-        if(ballLPos >= second && ballLPos < third){
-            toggleDy();
-        }
-
         if (ballLPos >= third && ballLPos < fourth) {
             cutDyBy(2);
+            setDx(Math.abs(getDx()));
         }
 
         if (ballLPos >= fourth && ballLPos < rightSide ) {
             cutDyBy(4);
+            setDx(Math.abs(getDx()));
         }
         
-        if(ballLPos >= rightSide){
-            toggleDx();
-        }
+        setDy(Math.abs(getDy()) * direction);
     }
     
     public void updateSpriteBallAfterCollidingWithBrick(Brick b){
-        updateSpriteBallAfterCollidingWithRectangle(b);
-        //b.setDestroyed(true);
-        level.lowerHitsOfBrick(b);
+        float rectPosX = b.getX();
+        float rectPosY = b.getY();
+        float ballLPosX = this.getX();
+        float ballPosY = this.getY();
+        
+        float leftSide = rectPosX;
+        float rightSide = rectPosX + b.getLength();
+        
+        float updside = rectPosY;
+        float downSide = rectPosY + b.getHeight();
+        
+        if(ballLPosX < leftSide){
+            setDx(-Math.abs(getDx()));
+        }
+        
+        if(ballPosY < updside){
+            setDy(-Math.abs(getDy()));
+        } 
+        
+        if(ballPosY > downSide){
+            setDy(Math.abs(getDy()));
+        }
+        
+        if(ballLPosX >= rightSide){
+            setDx(Math.abs(getDx()));
+        }
+        level.lowerHitsOfBrick(b, getLastUserThatTouchedMe() - 1);
     }
     
-    public void updateSpriteAfterCollidingWithCircle(){
-        toggleDx();
-        toggleDy();
+    
+   public void updateSpriteAfterCollidingWithCircle(){
+        setDx(-getDx());
+        setDy(-getDy());
     }
     
-    public void updateSpriteAfterCollidingWithLeftORRighBoundary(){
-        toggleDx();
+    public void updateSpriteAfterCollidingWithLeftBoundary(){
+        setDx(Math.abs(getDx()));
+    }
+    
+    public void updateSpriteAfterCollidingWithRightBoundary(){
+        setDx(-Math.abs(getDx()));
     }
     
     public void updateSpriteAfterCollidingWithTopBoundary(){
-        toggleDy();
+        setDy(-getDy());
     }
     
     public void updateSpriteAfterCollidingWithBottomBoundary(){
-        resetState();
         level.decrementLife();
+        level.resetStates();
     }
     
     @Override

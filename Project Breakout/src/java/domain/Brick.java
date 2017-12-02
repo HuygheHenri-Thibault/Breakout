@@ -12,21 +12,26 @@ import java.awt.Image;
  * @author micha
  */
 public class Brick extends Rectangle{
+    private Sprite s;
     private BrickRow br;
     private int hits;
     private int achievedScore;
     //private boolean destroyed;
 
     public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
-        super(br.getLevel(), color, x, y, lenght, height);
+        super(br.getLevel(), x, y, lenght, height);
+        this.s = new Sprite(color);
         this.br = br;
         this.hits = hits;
         this.achievedScore = achievedScore;
-        //this.destroyed = destroyed;
     }
 
     public BrickRow getBr() {
         return br;
+    }
+    
+    public Level getLevel(){
+        return br.getLevel();
     }
     
 
@@ -45,14 +50,6 @@ public class Brick extends Rectangle{
     public int getAchievedScore() {
         return achievedScore;
     }
-
-//    public void setDestroyed(boolean destroyed) {
-//        this.destroyed = destroyed;
-//    }
-//    
-//    public boolean isDestroyed() {
-//        return destroyed;
-//    }
     
     @Override
     public void updateSpriteBall(Ball aBall) {

@@ -50,6 +50,7 @@ public class MoveAndCollissionTesten {
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setDx(1);
         p.moveRight();
+        p.move();
         assertEquals(439, p.getX());
     }
     
@@ -71,7 +72,8 @@ public class MoveAndCollissionTesten {
         p.setX(874);
         assertEquals(874, p.getX());
         p.moveRight();
-        p.moveRight();
+        p.move();
+        p.move();
         assertEquals(875, p.getX());
         p.setX(0);
         p.setDx(-1); //normaal via key event

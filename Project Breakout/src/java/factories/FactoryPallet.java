@@ -32,7 +32,7 @@ public class FactoryPallet extends FactoryBreakoutUtilities{
             int x =  startX + (nextXDistance * multiplierDistance) - (lenght / 2);
             int y = (level.getGameHeight()/ 10) * 9;
          
-            Pallet p = new Pallet(colorPallet, level, x, y, lenght, 1);
+            Pallet p = new Pallet(i + 1, colorPallet, level, x, y, lenght, 4);
             level.getPallets().add(p);
         }
     }

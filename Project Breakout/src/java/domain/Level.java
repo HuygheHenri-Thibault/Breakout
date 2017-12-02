@@ -19,6 +19,7 @@ import java.util.Timer;
 public class Level{
     private Game game;
     private Timer timer;
+    private swing.ScheduleLevelTasker taskForLevel;
     
     private FactoryRowOfBricks factoryBrick;
     private FactoryPallet factoryPallet;
@@ -36,10 +37,10 @@ public class Level{
     
     private boolean completed;
     
-    private final Rectangle TOP_BOUNDARY = new Rectangle(this, null, 0, -10, 1000, 10);
-    private final Rectangle LEFT_BOUNDARY = new Rectangle(this, null, -10, 0, 10, 1000);
-    private final Rectangle RIGHT_BOUNDARY = new Rectangle(this, null, 1000, 0, 10, 1000);
-    private final Rectangle BOTTOM_BOUNDARY = new Rectangle(this, null, 0, 1000, 1000, 10);
+    private final Rectangle TOP_BOUNDARY = new Rectangle(this, 0, -10, 1000, 10);
+    private final Rectangle LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, 1000);
+    private final Rectangle RIGHT_BOUNDARY = new Rectangle(this, 1000, 0, 10, 1000);
+    private final Rectangle BOTTOM_BOUNDARY = new Rectangle(this, 0, 1000, 1000, 10);
     
     
 
@@ -55,12 +56,28 @@ public class Level{
         this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
         this.factoryBall.createBall();
-        
-        timer = new Timer();
      }
     
-    public void startLevel(){
-        timer.scheduleAtFixedRate(new ScheduleLevelTasker(this), 1000, 10);
+    public void startLevel(swing.ScheduleLevelTasker s){
+        timer = new Timer();
+        taskForLevel = s;
+        timer.scheduleAtFixedRate(s, 1000, 10);
+    }
+    
+    public void pause(){
+        this.taskForLevel.setPaused(true);
+    }
+    
+    public void unpause(){
+        this.taskForLevel.setPaused(false);
+    }
+    
+    public void endLevel(){
+        this.timer.cancel();
+    }
+    
+    public List<User> getPlayers(){
+        return game.getPlayers();
     }
     
     public List<BrickRow> getRowsOfBricks() {
@@ -95,6 +112,10 @@ public class Level{
     public List<Ratio> getRatios(){
         return game.getRatios();
     }
+    
+    public Game getGame(){
+        return this.game;
+    }
 
     public int getGameWidth() {
         return game.getWidth();
@@ -110,6 +131,18 @@ public class Level{
     
     public void decrementLife(){
         game.decrementLife();
+        if(game.isGameOver()){
+            endLevel();
+        }
+    }
+    
+     public void resetStates(){
+        for (Ball ball : balls) {
+            ball.resetState();
+        }
+        for (Pallet pallet : pallets) {
+            pallet.resetState();
+        }
     }
     
     public boolean getGameOver(){
@@ -144,8 +177,8 @@ public class Level{
         return BOTTOM_BOUNDARY;
     }
     
-    public List<Sprite> getAllEntities(){
-        List<Sprite> allEntities = new ArrayList<>(pallets);
+    public List<Shape> getAllEntities(){
+        List<Shape> allEntities = new ArrayList<>(pallets);
         allEntities.addAll(balls);
         for (BrickRow br : rowsOfBricks) {
             allEntities.addAll(br.getBricksOnRow());
@@ -156,18 +189,21 @@ public class Level{
         allEntities.add(BOTTOM_BOUNDARY);
         return allEntities;
     }
-    public void lowerHitsOfBrick(Brick b){
+    
+    public void lowerHitsOfBrick(Brick b, int playerIDThatDestroyedBrick){
         b.decrementHits();
         if(b.getHits() == 0){
-            deleteBrick(b);
+            deleteBrick(b, playerIDThatDestroyedBrick);
         }
     }
     
-    public void deleteBrick(Brick b){
+    public void deleteBrick(Brick b, int playerIDThatDestroyedBrick){
         BrickRow brickLine = searchBrickThroughRows(b);
         brickLine.deleteBrick(b);
         score += b.getAchievedScore();
-        game.setScore(game.getScore() + score);
+        User player = game.getPlayers().get(playerIDThatDestroyedBrick);
+        player.setScore(player.getScore() + b.getAchievedScore());
+        game.setScore(game.getScore() + b.getAchievedScore());
         if(brickLine.getBricksOnRow().isEmpty()){
             getRowsOfBricks().remove(brickLine);
         }
@@ -186,7 +222,8 @@ public class Level{
     private void checkForCompletion(){
         if(this.getRowsOfBricks().isEmpty()){
             setCompleted(true);
-            timer.cancel();
+            endLevel();
+            game.createNewLevel();
         }
     }
 }

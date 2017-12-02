@@ -14,29 +14,35 @@ import java.util.List;
  */
 public class BrickRow {
     private final Level level;
+    private BrickData brickData;
     private List<Brick> bricksOnRow = new ArrayList<>();
-    private final int achievedScoreIfDestroyedForBrickOnRow;
+   // private final int achievedScoreIfDestroyedForBrickOnRow;
     private final int MIN_BRICK_BORDER_X;
     private final int MAX_BRICK_BORDER_X;
     private final int MIN_BRICK_BORDER_Y;
     private final int MAX_BRICK_BORDER_Y;
 
-    public BrickRow(Level level, int score) {
+    public BrickRow(Level level, BrickData brickData) {
         if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
-        this.achievedScoreIfDestroyedForBrickOnRow = score;
-        this.MIN_BRICK_BORDER_X = level.getGameWidth() / 4;
-        this.MAX_BRICK_BORDER_X = (level.getGameWidth() / 4) * 3;
-        this.MIN_BRICK_BORDER_Y = level.getGameHeight() / 4;
-        this.MAX_BRICK_BORDER_Y = (level.getGameHeight() / 4) * 3;
+        //this.achievedScoreIfDestroyedForBrickOnRow = brickData.getBaseScore();
+        this.brickData = brickData;
+        this.MIN_BRICK_BORDER_X = 0;
+        this.MAX_BRICK_BORDER_X = level.getGameWidth();
+        this.MIN_BRICK_BORDER_Y = level.getGameHeight() / 8;
+        this.MAX_BRICK_BORDER_Y = level.getGameHeight() / 2;
     }
 
     public Level getLevel() {
         return level;
     }
     
-    public int getAchievedScoreIfDestroyedForBrickOnRow() {
-        return achievedScoreIfDestroyedForBrickOnRow;
+    public BrickData getBrickData(){
+        return brickData;
     }
+    
+//    public int getAchievedScoreIfDestroyedForBrickOnRow() {
+//        return achievedScoreIfDestroyedForBrickOnRow;
+//    }
     
     public int getMIN_BRICK_BORDER_X() {
         return MIN_BRICK_BORDER_X;

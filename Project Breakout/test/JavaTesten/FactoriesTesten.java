@@ -5,14 +5,17 @@
  */
 package JavaTesten;
 
+import data.MySQLBrickRepository;
 import domain.Ball;
 import domain.Brick;
+import domain.BrickData;
 import domain.BrickRow;
 import domain.Game;
 import domain.Level;
 import domain.MultiPlayerGame;
 import domain.Pallet;
 import java.util.HashMap;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

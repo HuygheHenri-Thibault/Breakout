@@ -17,7 +17,9 @@ import java.util.List;
  * @author micha
  */
 public class Game{
+    private List<User> players;
     private List<Level> levels = new ArrayList<>();
+    private Level levelPlayedRightNow;
     
     private FactoryLevel factoryLevels;
 
@@ -26,19 +28,26 @@ public class Game{
     
     private int score = 0;
     private int aantalSpelers;
+    private int startLives;
     private int lives; 
     private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
 
-    public Game(int height, int width, int lives, int aantalSpelers) {
+    public Game(List<User> players, int height, int width, int lives, int aantalSpelers) {
+        this.players = players;
         this.width = width;
         this.height = height;
-        this.lives = lives;
+        this.startLives = lives;
+        this.lives = startLives;
         this.aantalSpelers = aantalSpelers;
         addRatiosToGame();
         this.factoryLevels = new FactoryLevel(this);
-        this.factoryLevels.createLevel();
+        createNewLevel();
+    }
+    
+    public List<User> getPlayers() {
+        return players;
     }
     
     public void stopGame() {
@@ -58,9 +67,25 @@ public class Game{
     }
     
     public void createNewLevel(){
-        factoryLevels.createLevel();
+        levelPlayedRightNow = factoryLevels.createLevel();
+    }
+    
+    public Level getLevelPlayedRightNow() {
+        return levelPlayedRightNow;
     }
 
+    public void setLevelPlayedRightNow(Level levelPlayedRightNow) {
+        this.levelPlayedRightNow = levelPlayedRightNow;
+    }
+
+    public FactoryLevel getFactoryLevels() {
+        return factoryLevels;
+    }
+
+    public void setFactoryLevels(FactoryLevel factoryLevels) {
+        this.factoryLevels = factoryLevels;
+    }
+    
     public List<Ratio> getRatios() {
         return ratios;
     }
@@ -87,6 +112,10 @@ public class Game{
     public int getLives() {
         return lives;
     }
+    
+    public int getStartLives() {
+        return startLives;
+    }
 
     public int getAantalSpelers() {
         return aantalSpelers;
@@ -95,7 +124,7 @@ public class Game{
     public void decrementLife(){
         lives--;
         if(lives == 0){
-            setGameOver(true);
+            stopGame();
         }
     }
 

@@ -5,14 +5,16 @@
  */
 package domain;
 
+import java.util.List;
+
 /**
  *
  * @author micha
  */
 public class MultiPlayerGame extends Game {
 
-    public MultiPlayerGame(int height, int width, int aantalSpelers) {
-        super(height, width, 2 * aantalSpelers, aantalSpelers);
+    public MultiPlayerGame(List<User> players, int height, int width, int aantalSpelers) {
+        super(players, height, width, 2 * aantalSpelers, aantalSpelers);
     }
     
 }
