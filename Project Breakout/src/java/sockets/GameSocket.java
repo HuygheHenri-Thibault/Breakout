@@ -9,6 +9,7 @@ import domain.Ball;
 import domain.Brick;
 import domain.Game;
 import domain.Pallet;
+import domain.Rectangle;
 import domain.Shape;
 import domain.SinglePlayerGame;
 import domain.Sprite;
@@ -43,14 +44,17 @@ public class GameSocket {
         JSONParser jparse = new JSONParser();
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
-            
+     
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
                 case "startGame":
+                    System.out.println("started");
                     startGame(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
+                    System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
+                    System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
                 default:
                     JSONObject resultObj = new JSONObject();
@@ -66,6 +70,7 @@ public class GameSocket {
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
     
     private JSONObject makeJSONGameInfo(Session in) {
@@ -88,18 +93,18 @@ public class GameSocket {
         return resultObj;
     }
 
-    private JSONObject makeSpriteJSONObj(Shape aSpirte, JSONObject resultObj) {
+    private JSONObject makeSpriteJSONObj(Shape aShape, JSONObject resultObj) {
         JSONObject spriteObj = new JSONObject();
         
-        String typeOfSprite = aSpirte.toString();
+        String typeOfSprite = aShape.toString();
         spriteObj.put("type", typeOfSprite);
         
-        int xPos = aSpirte.getX();
-        int yPos = aSpirte.getY();
+        int xPos = aShape.getX();
+        int yPos = aShape.getY();
         spriteObj.put("x", xPos);
         spriteObj.put("y", yPos);
         
-        setDimension(typeOfSprite, aSpirte, spriteObj);
+        setDimension(typeOfSprite, aShape, spriteObj);
         return spriteObj;
     }
     private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
@@ -117,6 +122,12 @@ public class GameSocket {
                 Brick brick = (Brick)aSpirte;
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
+                break;
+            //boundaries
+            case "Rectangle":
+                Rectangle rect = (Rectangle) aSpirte;
+                spriteObj.put("width", Math.round(rect.getLength())); // x
+                spriteObj.put("height", Math.round(rect.getHeight())); // y
                 break;
             default:
                 spriteObj.put("width", -1); // x

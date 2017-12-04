@@ -88,6 +88,7 @@ socket.onopen = function () {
 };
 socket.onmessage = function(messageRecieved) {
   var message = JSON.parse(messageRecieved.data);
+  console.log(message);
   switch (message.type) {
     case "posistion":
       gui.drawFromPosistion(message);
