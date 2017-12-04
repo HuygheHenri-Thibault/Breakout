@@ -5,9 +5,7 @@
  */
 package domain;
 
-import factories.FactoryBall;
 import factories.FactoryLevel;
-import factories.FactoryPallet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

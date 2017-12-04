@@ -72,15 +72,20 @@ public class Rectangle extends Shape implements Collidable{
 
     @Override
     public void updateSpriteBall(Ball aBall) {
-        if(this.getLength() == level.getGameWidth() && this.getY() == -10){
+        if(this.getLength() == level.getTOP_BOUNDARY().getLength() && this.getY() == level.getTOP_BOUNDARY().getY()){
             aBall.updateSpriteAfterCollidingWithTopBoundary();
-        } else if(this.getHeight() == level.getGameHeight() && this.getX() == -10){
+        } else if(this.getHeight() == level.getLEFT_BOUNDARY().getHeight() && this.getX() == level.getLEFT_BOUNDARY().getX()){
             aBall.updateSpriteAfterCollidingWithLeftBoundary();
-        } else if(this.getHeight() == level.getGameHeight() && this.getX() == 1000){
+        } else if(this.getHeight() == level.getRIGHT_BOUNDARY().getHeight() && this.getX() == level.getRIGHT_BOUNDARY().getX()){
             aBall.updateSpriteAfterCollidingWithRightBoundary();
-        }else if(this.getLength() == level.getGameWidth() && this.getY() == 1000){
+        }else if(this.getLength() == level.getBOTTOM_BOUNDARY().getLength() && this.getY() == level.getBOTTOM_BOUNDARY().getY()){
             aBall.updateSpriteAfterCollidingWithBottomBoundary();
         }        
+    }
+    
+    @Override
+    public String toString() {
+        return "Rectangle";
     }
     
 }

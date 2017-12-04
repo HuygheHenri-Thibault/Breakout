@@ -52,4 +52,9 @@ public class Circle extends Shape implements Collidable{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteAfterCollidingWithCircle();
     }
+    
+    @Override
+    public String toString() {
+        return "Circle";
+    }
 }
