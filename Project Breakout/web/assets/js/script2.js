@@ -4,9 +4,16 @@
 
 $(document).ready(function () {
   console.log("script2.js is loaded");
-
+  
+    $("#PathToVillage").on("click", function (){
+        $("ul#slide-out").show();
+        //Materialize.fadeInImage('#img1');
+        //fadeinImage <a href="#!" class="btn" onclick="Materialize.fadeInImage('#image-test')">Click Me</a>
+    });
+    
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
+    
     $(".continents").click(function() {
         var myClass = $(this).attr("id");
         console.log(myClass);
@@ -30,8 +37,8 @@ $(document).ready(function () {
     default:
          console.log("nothing clicked yet");
     }
-});
-
+    });
+    
     $("g").on("click", function(){
         console.log($(this).attr("id"));
         var selectedLevel = $(this).attr("id");
@@ -59,8 +66,19 @@ $(document).ready(function () {
  $('g#toBreakersBay').on("click", function () {
        alert("user wants to go to Breakers Bay");
     });
+    
+$('.toastButton').on('click',toast);
+$('.toastButton').click(Materialize.toast("I am toastie", 4000));
 
 });
+
+var toast = function(){
+  console.log("Toast clicked");
+  var $toastContent = $('<span>toasted</span>');
+  //var imgUrl = "<img src='../../assets/media/campaign/Openbook.png'/>";
+  //var $toastContent = $(imgUrl);
+  Materialize.toast($toastContent, 5000);
+};
 
 var hidePathsIslandMap = function(){
     $("#PathToLonelyRock").hide();
@@ -69,6 +87,9 @@ var hidePathsIslandMap = function(){
     $("#PathToDragonsDen").hide();
     $("#PathToSpire").hide();
     $("#PathToTheBlueKeep").hide();
+    
+    //hide sidebar with story
+    $('ul#slide-out').hide();
 };
 
 var hidePathsCrossroadsMap = function(){
