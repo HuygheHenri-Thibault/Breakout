@@ -9,6 +9,7 @@ import factories.FactoryBall;
 import factories.FactoryLevel;
 import factories.FactoryPallet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,7 +18,13 @@ import java.util.List;
  * @author micha
  */
 public class Game{
-     private List<User> players;
+    //hardcoded Users
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe");
+    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe");
+    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe");
+    
+    private List<User> players;
     private List<Level> levels = new ArrayList<>();
     private Level levelPlayedRightNow;
     
@@ -33,6 +40,34 @@ public class Game{
     private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
+    
+    //hardcoded constructor
+    public Game(int height, int width, int lives, int aantalSpelers){
+        switch(aantalSpelers){
+            case 1:
+                this.players = new ArrayList<>(Arrays.asList(me));
+                break;
+            case 2:
+                this.players = new ArrayList<>(Arrays.asList(me, me1));
+                break;
+            case 3:
+                this.players = new ArrayList<>(Arrays.asList(me, me1, me2));
+                break;
+            case 4:
+                this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
+                break;
+        }
+        
+        this.width = width;
+        this.height = height;
+        this.startLives = lives;
+        this.lives = startLives;
+        this.aantalSpelers = aantalSpelers;
+        addRatiosToGame();
+        this.factoryLevels = new FactoryLevel(this);
+        createNewLevel();
+    }
+    
 
     public Game(List<User> players, int height, int width, int lives, int aantalSpelers) {
         this.players = players;

@@ -9,6 +9,8 @@ import domain.Ball;
 import domain.Brick;
 import domain.Game;
 import domain.Pallet;
+import domain.Shape;
+import domain.SinglePlayerGame;
 import domain.Sprite;
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,14 +61,14 @@ public class GameSocket {
     
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        sessionGame.replace(in, new Game(height, width, levens, aantalPlayers));
+        sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
     }
     
-    private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
+    private JSONObject makeJSONPosistionObj(List<Shape> listOfSprites) {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "posistion");
         int itr = 0;
-        for(Sprite aSpirte : listOfSprites) {
+        for(Shape aSpirte : listOfSprites) {
             JSONObject spriteJSON = makeSpriteJSONObj(aSpirte, resultObj);
             resultObj.put(itr+"", spriteJSON);
             itr++;
@@ -74,7 +76,7 @@ public class GameSocket {
         return resultObj;
     }
 
-    private JSONObject makeSpriteJSONObj(Sprite aSpirte, JSONObject resultObj) {
+    private JSONObject makeSpriteJSONObj(Shape aSpirte, JSONObject resultObj) {
         JSONObject spriteObj = new JSONObject();
         
         String typeOfSprite = aSpirte.toString();
@@ -88,7 +90,7 @@ public class GameSocket {
         setDimension(typeOfSprite, aSpirte, spriteObj);
         return spriteObj;
     }
-    private void setDimension(String typeOfSprite, Sprite aSpirte, JSONObject spriteObj) {
+    private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet)aSpirte;
