@@ -44,8 +44,8 @@ public class GameSocket {
         JSONParser jparse = new JSONParser();
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
-
-            switch ((String)obj.get("type")) {
+     
+            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
                 case "startGame":
                     System.out.println("started");
                     startGame(in, obj);

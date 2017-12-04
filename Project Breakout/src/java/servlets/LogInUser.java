@@ -41,7 +41,7 @@ public class LogInUser extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             session.setAttribute("password", password);
-            response.sendRedirect("userPage");
+            request.getRequestDispatcher("userPage.jsp").forward(request, response);
         } else {
             response.sendRedirect("login.html");
         }
