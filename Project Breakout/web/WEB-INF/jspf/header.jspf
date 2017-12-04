@@ -1,0 +1,16 @@
+</head>
+
+<body class="med-grey">
+  <header class="dark-grey z-depth-4">
+    <nav class="transparent">
+      <div class="nav-wrapper">
+        <a href="index.html" class="brand-logo">Logo</a>
+        <ul class="right">
+          <li id="user">
+            <a href="#" class="dropdown-button" data-activates="user-options"></a>
+          </li>
+          <li><i class="material-icons right">account_circle</i></li>
+        </ul>
+      </div>
+    </nav>
+  </header>

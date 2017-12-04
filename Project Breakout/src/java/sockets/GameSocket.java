@@ -44,7 +44,7 @@ public class GameSocket {
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
             
-            switch ((String)obj.get("type")) {
+            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
                 case "startGame":
                     startGame(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();

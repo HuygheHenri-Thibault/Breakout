@@ -11,21 +11,11 @@ var infoInterval = null;
 var lives = 0;
 var score = 0;
 
-// INIT FUNCTIONS //
-function preload() {
-  imgPallet = loadImage('assets/media/pallet.png');
-  imgBall = loadImage('assets/media/ball.png');
-  imgArray[0] = loadImage('assets/media/black_block.png');
-  imgArray[1] = loadImage('assets/media/green_block.png');
-  imgArray[2] = loadImage('assets/media/purple_block.png');
-  imgArray[3] = loadImage('assets/media/red_block.png');
-  imgArray[4] = loadImage('assets/media/yellow_block.png');
-}
-
-function fireModal(){
+var init = function() {
+  var fireModal = function() {
     $("#selectController").modal().modal('open');;
     var cols = 12;
-    var players = prompt("How many playersssss?")
+    var players = prompt("How many playersssss?");
     var grootteCols = (cols/players);
     var currentslot = 1;
     while(currentslot<=players){
@@ -33,88 +23,95 @@ function fireModal(){
     console.log("new slot");
     currentslot +=1;
     }
-}
+  };
+  return {fireModal};
+}();
+var comms = function() {
+  // Private
+  var getGameInfo = function() {
+    var messageObj = {type: "gameInfo"};
+    sendMessage(messageObj);
+  };
+  var getPosistion = function() {
+    var messageObj = {type: "updateMe"};
+    sendMessage(messageObj);
+  };
+  // Public
+  var startGame = function() {
+    //$("#selectController").hide();
+    var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
+    sendMessage(messageObj);
+    getUpdate();
+  };
+  var getUpdate = function() {
+    gameInterval = setInterval(getPosistion, 10);
+    infoInterval = setInterval(getGameInfo, 50);
+  };
+  var stopUpdates = function () {
+    clearInterval(gameInterval);
+    clearInterval(infoInterval);
+  };
+  return {startGame, getUpdate, stopUpdates};
+}();
+var gui = function() {
+  var drawFromPosistion = function(message) {
+    const posArray = message;
+    bricks = [];
+    for (var sprite in posArray) {
+      var oneSprite = posArray[sprite];
+      switch (oneSprite.type) {
+        case "Pallet":
+          pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgPallet);
+          break;
+        case "Ball":
+          ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall);
+          break;
+        case "Brick":
+          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgArray[1]));
+          break;
+      }
+    }
+  };
+  var gameInfo = function(player) {
+    var lives = player.lives;
+    var score = player.score;
+  };
+  return {drawFromPosistion, gameInfo};
+}();
 
 // SOCKET FUNCTIONS //
 function sendMessage(message) {
     socket.send(JSON.stringify(message));
 }
-
 socket.onopen = function () {
   //sendMessage(JSON.stringify({"flppn": 3}));
-}
-
+};
 socket.onmessage = function(messageRecieved) {
   var message = JSON.parse(messageRecieved.data);
   switch (message.type) {
     case "posistion":
-      drawFromPosistion(message);
+      gui.drawFromPosistion(message);
       break;
     case "gameInfo":
-      gameInfo(message);
+      gui.gameInfo(message);
       break;
   }
 };
 
-// COMUNICATION FUNCTIONS //
-function startGame() {
-  //$("#selectController").hide();
-  var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
-  sendMessage(messageObj);
-  getUpdate();
-}
-
-function getUpdate() {
-   gameInterval = setInterval(getPosistion, 10);
-   infoInterval = setInterval(getGameInfo, 50);
-}
-
-function stopUpdates() {
-  clearInterval(gameInterval);
-  clearInterval(infoInterval);
-}
-
-function getPosistion() {
-  var messageObj = {type: "updateMe"};
-  sendMessage(messageObj);
-}
-
-function getGameInfo() {
-  var messageObj = {type: "gameInfo"};
-  sendMessage(messageObj);
-}
-
-// UPDATE GAME FUNCTIONS (TIED TO COMUNICATION FUNCTIONS) //
-function drawFromPosistion(message){
-  const posArray = message;
-  bricks = [];
-  for (var sprite in posArray) {
-    var oneSprite = posArray[sprite]
-    switch (oneSprite.type) {
-      case "Pallet":
-        pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgPallet);
-        break;
-      case "Ball":
-        ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall);
-        break;
-      case "Brick":
-        bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgArray[1]));
-        break;
-    }
-  }
-}
-
-function gameInfo(player){
-    var lives = player.lives;
-    var score = player.score;
-}
-
 // DRAW FUNCTIONS (P5.JS) //
+var preload = function() {
+  imgPallet = loadImage('assets/media/pallet.png');
+  imgBall = loadImage('assets/media/ball.png');
+  imgArray[0] = loadImage('assets/media/black_block.png');
+  imgArray[1] = loadImage('assets/media/green_block.png');
+  imgArray[2] = loadImage('assets/media/purple_block.png');
+  imgArray[3] = loadImage('assets/media/red_block.png');
+  imgArray[4] = loadImage('assets/media/yellow_block.png');
+};
 function setup() {
   var canvas = createCanvas(750, 400);
   canvas.parent('game-area');
 }
-
 function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check);
@@ -130,6 +127,6 @@ function draw() {
 
 $(document).ready(function() {
   console.log("game.js is loaded");
-  fireModal();
-  $(".startGame").on("click", startGame);
+  init.fireModal();
+  $(".startGame").on("click", comms.startGame);
 });
