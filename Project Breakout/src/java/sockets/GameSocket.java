@@ -9,6 +9,9 @@ import domain.Ball;
 import domain.Brick;
 import domain.Game;
 import domain.Pallet;
+import domain.Rectangle;
+import domain.Shape;
+import domain.SinglePlayerGame;
 import domain.Sprite;
 import java.io.IOException;
 import java.util.Collections;
@@ -47,14 +50,17 @@ public class GameSocket {
         JSONParser jparse = new JSONParser();
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
-            
-            switch ((String)obj.get("type")) {
+     
+            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
                 case "startGame":
+                    System.out.println("started");
                     startGame(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
+                    System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
+                    System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
                 default:
                     JSONObject resultObj = new JSONObject();
@@ -69,7 +75,8 @@ public class GameSocket {
     
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        sessionGame.replace(in, new Game(height, width, levens, aantalPlayers));
+        sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
     
     private JSONObject makeJSONGameInfo(Session in) {
@@ -80,11 +87,11 @@ public class GameSocket {
         return resultObj;
     }
     
-    private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
+    private JSONObject makeJSONPosistionObj(List<Shape> listOfSprites) {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "posistion");
         int itr = 0;
-        for(Sprite aSpirte : listOfSprites) {
+        for(Shape aSpirte : listOfSprites) {
             JSONObject spriteJSON = makeSpriteJSONObj(aSpirte, resultObj);
             resultObj.put(itr+"", spriteJSON);
             itr++;
@@ -92,21 +99,21 @@ public class GameSocket {
         return resultObj;
     }
 
-    private JSONObject makeSpriteJSONObj(Sprite aSpirte, JSONObject resultObj) {
+    private JSONObject makeSpriteJSONObj(Shape aShape, JSONObject resultObj) {
         JSONObject spriteObj = new JSONObject();
         
-        String typeOfSprite = aSpirte.toString();
+        String typeOfSprite = aShape.toString();
         spriteObj.put("type", typeOfSprite);
         
-        int xPos = aSpirte.getX();
-        int yPos = aSpirte.getY();
+        int xPos = aShape.getX();
+        int yPos = aShape.getY();
         spriteObj.put("x", xPos);
         spriteObj.put("y", yPos);
         
-        setDimension(typeOfSprite, aSpirte, spriteObj);
+        setDimension(typeOfSprite, aShape, spriteObj);
         return spriteObj;
     }
-    private void setDimension(String typeOfSprite, Sprite aSpirte, JSONObject spriteObj) {
+    private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet)aSpirte;
@@ -121,6 +128,12 @@ public class GameSocket {
                 Brick brick = (Brick)aSpirte;
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
+                break;
+            //boundaries
+            case "Rectangle":
+                Rectangle rect = (Rectangle) aSpirte;
+                spriteObj.put("width", Math.round(rect.getLength())); // x
+                spriteObj.put("height", Math.round(rect.getHeight())); // y
                 break;
             default:
                 spriteObj.put("width", -1); // x

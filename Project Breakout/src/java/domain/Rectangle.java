@@ -11,15 +11,14 @@ import collissionDetectors.CollissionDetectorUtilities;
  *
  * @author micha
  */
-public class Rectangle extends Sprite{
-    //private Sprite s;
+public class Rectangle extends Shape implements Collidable{
     private final CollissionDetectorUtilities cdu = new CollissionDetectorUtilities();
     private final Level level;
     private int length;
     private final int HEIGHT;
 
-    public Rectangle(Level level, String color, int x, int y, int lenght, int height) {
-        super(color, x, y);
+    public Rectangle(Level level, int x, int y, int lenght, int height) {
+        super(x, y);
         if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
         this.length = lenght;
         this.HEIGHT = height;
@@ -36,10 +35,6 @@ public class Rectangle extends Sprite{
     public int getHeight() {
         return HEIGHT;
     }
-
-//    public Sprite getS() {
-//        return s;
-//    }
 
     @Override
     public boolean checkCollissionWithRect(Rectangle rect) {
@@ -71,19 +66,26 @@ public class Rectangle extends Sprite{
     }
 
     @Override
-    public boolean checkCollission(Sprite s) {
+    public boolean checkCollission(Shape s) {
         return s.checkCollissionWithRect(this);
     }
 
     @Override
     public void updateSpriteBall(Ball aBall) {
-        if(this.getLength() == level.getGameWidth() && this.getHeight() == 10 && this.getY() == -10){
+        if(this.getLength() == level.getTOP_BOUNDARY().getLength() && this.getY() == level.getTOP_BOUNDARY().getY()){
             aBall.updateSpriteAfterCollidingWithTopBoundary();
-        } else if(this.getLength() == 10 && this.getHeight() == level.getGameHeight()){
-            aBall.updateSpriteAfterCollidingWithLeftORRighBoundary();
-        } else if(this.getLength() == level.getGameWidth() && this.getHeight() == 10 && this.getY() == 1000){
+        } else if(this.getHeight() == level.getLEFT_BOUNDARY().getHeight() && this.getX() == level.getLEFT_BOUNDARY().getX()){
+            aBall.updateSpriteAfterCollidingWithLeftBoundary();
+        } else if(this.getHeight() == level.getRIGHT_BOUNDARY().getHeight() && this.getX() == level.getRIGHT_BOUNDARY().getX()){
+            aBall.updateSpriteAfterCollidingWithRightBoundary();
+        }else if(this.getLength() == level.getBOTTOM_BOUNDARY().getLength() && this.getY() == level.getBOTTOM_BOUNDARY().getY()){
             aBall.updateSpriteAfterCollidingWithBottomBoundary();
-        }
+        }        
+    }
+    
+    @Override
+    public String toString() {
+        return "Rectangle";
     }
     
 }

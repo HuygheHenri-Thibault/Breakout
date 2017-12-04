@@ -5,10 +5,9 @@
  */
 package domain;
 
-import factories.FactoryBall;
 import factories.FactoryLevel;
-import factories.FactoryPallet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,8 +15,16 @@ import java.util.List;
  *
  * @author micha
  */
-public class Game {
+public class Game{
+    //hardcoded Users
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe");
+    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe");
+    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe");
+    
+    private List<User> players;
     private List<Level> levels = new ArrayList<>();
+    private Level levelPlayedRightNow;
     
     private FactoryLevel factoryLevels;
 
@@ -26,23 +33,58 @@ public class Game {
     
     private int score = 0;
     private int aantalSpelers;
+    private int startLives;
     private int lives; 
     private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
-
-    public Game(int height, int width, int lives, int aantalSpelers) {
+    
+    //hardcoded constructor
+    public Game(int height, int width, int lives, int aantalSpelers){
+        switch(aantalSpelers){
+            case 1:
+                this.players = new ArrayList<>(Arrays.asList(me));
+                break;
+            case 2:
+                this.players = new ArrayList<>(Arrays.asList(me, me1));
+                break;
+            case 3:
+                this.players = new ArrayList<>(Arrays.asList(me, me1, me2));
+                break;
+            case 4:
+                this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
+                break;
+        }
+        
         this.width = width;
         this.height = height;
-        this.lives = lives;
+        this.startLives = lives;
+        this.lives = startLives;
         this.aantalSpelers = aantalSpelers;
         addRatiosToGame();
         this.factoryLevels = new FactoryLevel(this);
-        this.factoryLevels.createLevel();
+        createNewLevel();
+    }
+    
+
+    public Game(List<User> players, int height, int width, int lives, int aantalSpelers) {
+        this.players = players;
+        this.width = width;
+        this.height = height;
+        this.startLives = lives;
+        this.lives = startLives;
+        this.aantalSpelers = aantalSpelers;
+        addRatiosToGame();
+        this.factoryLevels = new FactoryLevel(this);
+        createNewLevel();
+    }
+
+    public List<User> getPlayers() {
+        return players;
     }
     
     public void stopGame() {
-        gameOver = true;
+        setGameOver(true);
     }
 
     public int getWidth() {
@@ -58,9 +100,25 @@ public class Game {
     }
     
     public void createNewLevel(){
-        factoryLevels.createLevel();
+        levelPlayedRightNow = factoryLevels.createLevel();
     }
 
+    public Level getLevelPlayedRightNow() {
+        return levelPlayedRightNow;
+    }
+
+    public void setLevelPlayedRightNow(Level levelPlayedRightNow) {
+        this.levelPlayedRightNow = levelPlayedRightNow;
+    }
+
+    public FactoryLevel getFactoryLevels() {
+        return factoryLevels;
+    }
+
+    public void setFactoryLevels(FactoryLevel factoryLevels) {
+        this.factoryLevels = factoryLevels;
+    }
+    
     public List<Ratio> getRatios() {
         return ratios;
     }
@@ -83,9 +141,13 @@ public class Game {
     public void setLives(int lives) {
         this.lives = lives;
     }
-     
+    
     public int getLives() {
         return lives;
+    }
+     
+    public int getStartLives() {
+        return startLives;
     }
 
     public int getAantalSpelers() {
@@ -95,7 +157,7 @@ public class Game {
     public void decrementLife(){
         lives--;
         if(lives == 0){
-            setGameOver(true);
+            stopGame();
         }
     }
 
@@ -106,5 +168,4 @@ public class Game {
     public boolean isGameOver() {
         return gameOver;
     }
-   
 }

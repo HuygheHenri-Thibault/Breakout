@@ -21,7 +21,7 @@ import util.BreakoutException;
  */
 public class MySQLBrickRepository implements BrickRepository {
     private static final String FIELD_ID = "id";
-    private static final String FIELD_COLOR = "color";
+    private static final String FIELD_COLOR = "skin";
     private static final String FIELD_BASE_LENGTH = "baseLength";
     private static final String FIELD_HITS = "hits";
     private static final String FIELD_SCORE = "score";

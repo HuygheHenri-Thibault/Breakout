@@ -6,27 +6,51 @@
 package domain;
 
 import java.awt.Image;
+import powerUps.NoPower;
+import powerUps.PowerUpOrDown;
 
 /**
  *
  * @author micha
  */
 public class Brick extends Rectangle{
+   private Sprite s;
     private BrickRow br;
     private int hits;
     private int achievedScore;
-    //private boolean destroyed;
+    private PowerUpOrDown powerUp = new NoPower();
 
     public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
-        super(br.getLevel(), color, x, y, lenght, height);
+        super(br.getLevel(), x, y, lenght, height);
+        this.s = new Sprite(color);
         this.br = br;
         this.hits = hits;
         this.achievedScore = achievedScore;
-        //this.destroyed = destroyed;
+    }
+    
+    public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, PowerUpOrDown power, String color, int x, int y) {
+        super(br.getLevel(), x, y, lenght, height);
+        this.s = new Sprite(color);
+        this.br = br;
+        this.hits = hits;
+        this.achievedScore = achievedScore;
+        this.powerUp = power;
+    }
+    
+    public void setPowerUp(PowerUpOrDown powerUp){
+        this.powerUp = powerUp;
+    }
+    
+    public PowerUpOrDown getPowerUP(){
+        return powerUp;
     }
 
     public BrickRow getBr() {
         return br;
+    }
+    
+    public Level getLevel(){
+        return br.getLevel();
     }
     
 
@@ -45,14 +69,6 @@ public class Brick extends Rectangle{
     public int getAchievedScore() {
         return achievedScore;
     }
-
-//    public void setDestroyed(boolean destroyed) {
-//        this.destroyed = destroyed;
-//    }
-//    
-//    public boolean isDestroyed() {
-//        return destroyed;
-//    }
     
     @Override
     public void updateSpriteBall(Ball aBall) {

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Henri
  */
-@WebFilter(filterName = "LoggedInFilter", urlPatterns = {"/userPage"})
+@WebFilter(filterName = "LoggedInFilter", urlPatterns = {"/userPage.jsp"})
 public class LoggedInFilter implements Filter {
     
     private static final boolean debug = true;
@@ -45,30 +45,11 @@ public class LoggedInFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         
-        if(httpRequest.getSession().getAttribute("username") == null) {
-            httpResponse.sendRedirect("login.html");
-        }
+        System.out.println("---->" + httpRequest.getSession().getAttribute("username"));
         
-        // Write code here to process the request and/or response before
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-        /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-         */
+        if(httpRequest.getSession().getAttribute("username") == null) {
+            httpRequest.getRequestDispatcher("login.html").forward(request, response);
+        }
     }    
     
     private void doAfterProcessing(ServletRequest request, ServletResponse response)

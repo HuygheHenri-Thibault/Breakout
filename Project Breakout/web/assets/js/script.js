@@ -10,7 +10,7 @@ function loggedIn() {
       $(".login").hide();
     } else {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a href='userPage' class='white-text'>Account</a></li>"+
+      .append("<li><a href='userPage.jsp' class='white-text'>Account</a></li>"+
       "<li class='divider'></li>"+
       "<li><a href='LogOutUser' class='white-text red'>Log out</a></li>")
       $(".no-login").hide();

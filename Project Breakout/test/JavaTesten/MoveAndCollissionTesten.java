@@ -10,20 +10,32 @@ import domain.Brick;
 import domain.BrickRow;
 import domain.Game;
 import domain.Level;
+import domain.MultiPlayerGame;
 import domain.Pallet;
+import domain.Shape;
+import domain.SinglePlayerGame;
+import domain.User;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import powerUps.PowerUpOrDown;
 
 /**
  *
  * @author micha
  */
 public class MoveAndCollissionTesten {
+    
+    User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio");
+    User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio");
+    User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
     
     public MoveAndCollissionTesten() {
     }
@@ -46,7 +58,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void movePallet(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setDx(1);
         p.moveRight();
@@ -55,7 +67,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void moveBall(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.move();
         assertEquals(1000 / 2 + 5, g.getLevels().get(0).getBalls().get(0).getX());
@@ -64,7 +76,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void CollissionDetectionPallet(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setSpeed(1);
         p.setDx(1); // normaal via key event
@@ -81,7 +93,8 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void CollissionDetectionMeerderePallet(){
-        Game g = new Game(1000, 1000, 3, 2);
+        List<User> players = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
+        Game g = new MultiPlayerGame(players, 1000, 1000, 2);
         Pallet p1 = g.getLevels().get(0).getPallets().get(0);
         Pallet p2 = g.getLevels().get(0).getPallets().get(1);
         
@@ -103,7 +116,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInMiddle(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setY(885);
         b.setSpeed(1);
@@ -111,12 +124,13 @@ public class MoveAndCollissionTesten {
         b.setDx(1);
         b.move();
         b.move();
-        assertEquals(885, b.getY());        
+        assertEquals(885, b.getY()); 
+        assertEquals(1, b.getLastUserThatTouchedMe());
     }
     
     @Test
     public void testBallCollissionWithPalletInOnLeftSide(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(464);
         b.setY(885);
@@ -131,7 +145,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInOnLeftBorder(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(438);
         b.setY(885);
@@ -146,7 +160,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletOnSide(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(564);
         b.setY(925);
@@ -161,7 +175,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithBall(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         Ball b2 = new Ball(l, 15, 2, "red", 600, 500);
@@ -179,7 +193,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBrick(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         BrickRow br = g.getLevels().get(0).getRowsOfBricks().get(4);
@@ -199,7 +213,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithTopBoundary(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(50);
@@ -215,7 +229,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithLeftBoundary(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);
@@ -231,7 +245,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithRightBoundary(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(985);
@@ -247,7 +261,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBottomBoundary(){
-        Game g = new Game(1000, 1000, 3, 1);
+        Game g = new SinglePlayerGame(me, 1000, 1000);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);
@@ -260,6 +274,23 @@ public class MoveAndCollissionTesten {
         assertEquals(798, b.getY());
         assertEquals(502, b.getX());
         assertEquals(2, g.getLives());
+    }
+    
+    @Test
+    public void testBallTouchedPowerUp(){
+        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Level l = g.getLevels().get(0);
+        Ball b = l.getBalls().get(0);
+        BrickRow lastRow = l.getRowsOfBricks().get(l.getRowsOfBricks().size() - 1);
+        Brick brick = lastRow.getBricksOnRow().get(lastRow.getBricksOnRow().size() - 1);
+        l.deleteBrick(brick, b.getLastUserThatTouchedMe());
+        PowerUpOrDown powerup = brick.getPowerUP();
+        List<Shape> allEntities = l.getAllEntities();
+        b.setX(powerup.getBoundaries().getX() - 15);
+        b.setY(powerup.getBoundaries().getY() + 5);
+        b.setDx(1);
+        b.setDy(-1);
+        b.move();
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
