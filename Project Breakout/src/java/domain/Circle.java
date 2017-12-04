@@ -11,14 +11,13 @@ import collissionDetectors.CollissionDetectorUtilities;
  *
  * @author micha
  */
-public class Circle extends Sprite{
-    //private Sprite s;
+public class Circle extends Shape implements Collidable{
     private final Level level;
     private final CollissionDetectorUtilities cdu = new CollissionDetectorUtilities();
     private int radius;
 
-    public Circle(Level level, String color, int x, int y, int radius) {
-        super(color, x, y);
+    public Circle(Level level, int x, int y, int radius) {
+        super(x, y);
         if(level != null){ this.level = level; } else {throw new NullPointerException("Level may not be null");}
         this.radius = radius;
     }
@@ -30,10 +29,6 @@ public class Circle extends Sprite{
     public void setRadius(int radius) {
         this.radius = radius;
     }
-
-//    public Sprite getS() {
-//        return s;
-//    }
     
     @Override
     public boolean checkCollissionWithRect(Rectangle rect){        
@@ -42,21 +37,14 @@ public class Circle extends Sprite{
     
     @Override
     public boolean checkCollissionWithCircle(Circle c){
-        int d = (int) Math.sqrt((this.getX() - c.getX()) + (this.getY() - c.getY()));
-        int d1 = (int) (Math.pow(this.getRadius(), 2) - Math.pow(c.getRadius(), 2) + Math.pow(d, 2) / 2 * d);
-        int h = (int) Math.sqrt(Math.pow(this.getRadius(), 2) - Math.pow(d1, 2));
-        int x3 = (int) (this.getX() + (d1 * (c.getX()- this.getX()) / d));
-        int y3 =  this.getY() + (d1 * (c.getY()- this.getY()) / d);
-        int x4_i =  x3 + ((h * (c.getY() - this.getY())) / d);
-        int y4_i =  (int) (y3 - ((h * (c.getX()- this.getX())) / d));
-        int x4_ii =  x3 - ((h * (c.getY() - this.getY())) / d);
-        int y4_ii =  (int) (y3 + ((h * (c.getX()- this.getX())) / d));
-        return x4_i > 0 && y4_i > 0 && x4_ii > 0 && y4_ii > 0;
+        double xDif = this.getX() - c.getX();
+        double yDif = this.getY()- c.getY();
+        double distanceSquared = xDif * xDif + yDif * yDif;
+        return distanceSquared < (this.getRadius() + c.getRadius()) * (this.getRadius() + c.getRadius());
     }
-
     
     @Override
-    public boolean checkCollission(Sprite s){
+    public boolean checkCollission(Shape s){
         return s.checkCollissionWithCircle(this);
     }
 
@@ -64,5 +52,4 @@ public class Circle extends Sprite{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteAfterCollidingWithCircle();
     }
-    
 }

@@ -5,14 +5,23 @@
  */
 package domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  *
  * @author micha
  */
 public class SinglePlayerGame extends Game{
     
-    public SinglePlayerGame(int height, int width) {
+    //hardcoded constructor
+    public SinglePlayerGame(int height, int width, int aantalspelers){
         super(height, width, 3, 1);
     }
+    
+    public SinglePlayerGame(User player, int height, int width) {
+        super(new ArrayList<User>(Arrays.asList(player)), height, width, 3, 1);
+    }
+    
     
 }

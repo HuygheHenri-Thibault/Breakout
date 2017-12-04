@@ -5,7 +5,9 @@
  */
 package factories;
 
+import data.MySQLBrickRepository;
 import domain.Brick;
+import domain.BrickData;
 import domain.Level;
 import domain.Level;
 import domain.BrickRow;
@@ -19,20 +21,20 @@ import java.util.List;
  */
 public class FactoryRowOfBricks{
     private final Level level;
+    private MySQLBrickRepository BrickREPO = new MySQLBrickRepository();
 
     public FactoryRowOfBricks(Level level) {
         this.level = level;
     }
     
     public List<BrickRow> createRowOfBricks(){
+        List<BrickData> brickDatas = BrickREPO.getAllBricks();
         List<BrickRow> rowsOfBricks = new ArrayList();
-        int achievableScore = level.getStartScoreForBricks();
         FactoryBricks factoryB = new FactoryBricks();
-        for (int i = 0; i < level.getMAX_ROWS_BRICKS(); i++) {
-            BrickRow rowBricks = new BrickRow(level, achievableScore);
+        for (int i = level.getMAX_ROWS_BRICKS() - 1; i >= 0 ; i--) {
+            BrickRow rowBricks = new BrickRow(level, brickDatas.get(i));
             factoryB.createBricks(rowsOfBricks, rowBricks);
             rowsOfBricks.add(rowBricks);
-            achievableScore -= 10;
         }
         return rowsOfBricks;
     }

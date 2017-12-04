@@ -13,14 +13,26 @@ import java.awt.event.KeyEvent;
  * @author micha
  */
 public class Pallet extends Rectangle {
+    private Sprite s;
+    private final int userID;
     private final Level level;
     private float speed;
     private float dx;
+    private final int INIT_PALLET_X;
+    private final int INIT_PALLET_Y;
 
-    public Pallet(String color, Level level, int x, int y, int length, float speed) {
-        super(level, color, x, y, length, 50);
+    public Pallet(int userID, String color, Level level, int x, int y, int length, float speed) {
+        super(level, x, y, length, 10);
+        this.userID = userID;
         this.level = level;
+        this.s = new Sprite(color);
         this.speed = speed;
+        this.INIT_PALLET_X = x;
+        this.INIT_PALLET_Y = y;
+    }
+
+    public int getUserID() {
+        return userID;
     }
 
     public Level getLevel() {
@@ -36,39 +48,46 @@ public class Pallet extends Rectangle {
     
     public void moveLeft(){
         setDx(-speed);
-        move();
     }
     
     public void moveRight(){
         setDx(speed);
-        move();
+    }
+    
+    public void stopMoving(){
+        setDx(0);
+    }
+    
+    public void resetState(){
+        setX(INIT_PALLET_X);
+        setY(INIT_PALLET_Y);
     }
 
-//    public void keyPressed(KeyEvent e) {
-//
-//        int key = e.getKeyCode();
-//
-//        if (key == leftKey) {
-//            
-//        }
-//
-//        if (key == rightKey) {
-//            
-//        }
-//    }
+    public void keyPressed(KeyEvent e) {
 
-//    public void keyReleased(KeyEvent e) {
-//
-//        int key = e.getKeyCode();
-//
-//        if (key == leftKey) {
-//            setDx(0);
-//        }
-//
-//        if (key == KeyEvent.VK_RIGHT) {
-//            setDx(0);
-//        }
-//    }
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            moveLeft();
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            moveRight();
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            stopMoving();
+        }
+
+        if (key == KeyEvent.VK_RIGHT) {
+            stopMoving();
+        }
+    }
 
     public void toggleDx() {
         if (dx > 0) {
@@ -78,7 +97,7 @@ public class Pallet extends Rectangle {
         }
     }
 
-    private void move() {
+    public void move() {
         this.setX((int) (this.getX() + dx));
         if (collidesWithOtherRectangleOrBoundaries()) {
             updateSpriteAfterCollidingWithRectangle();
@@ -102,6 +121,7 @@ public class Pallet extends Rectangle {
         toggleDx();
         int xBeforeCollission = (int) (this.getX() + dx);
         this.setX(xBeforeCollission);
+        toggleDx();
     }
 
     public void setDx(float dx) {
@@ -110,7 +130,7 @@ public class Pallet extends Rectangle {
 
     @Override
     public void updateSpriteBall(Ball aBall) {
-        aBall.updateSpriteBallAfterCollidingWithRectangle(this);
+        aBall.updateSpriteBallAfterCollidingWithPallet(this);
     }
 
     @Override
