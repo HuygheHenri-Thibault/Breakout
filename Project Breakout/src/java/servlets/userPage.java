@@ -34,12 +34,12 @@ public class userPage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         if(session != null) {
             String username = (String)session.getAttribute("username");
             String password = (String)session.getAttribute("password");
-        
+
             User u = Repositories.getUserRepository().getUserWithUsername(username);
             if (u.getHashPassword().equals(password)) {
                 response.setContentType("text/html;charset=UTF-8");
@@ -69,7 +69,6 @@ public class userPage extends HttpServlet {
 "            <a href=\"#\" class=\"dropdown-button\" data-activates=\"user-options\"></a>\n" +
 "          </li>\n" +
 "          <li><i class=\"material-icons right\">account_circle</i></li>\n" +
-"          <!-- TODO: Add username username here if logged in & otherwise 'sign in' button -->\n" +
 "        </ul>\n" +
 "      </div>\n" +
 "    </nav>\n" +
@@ -206,7 +205,7 @@ public class userPage extends HttpServlet {
             }
         } else {
             response.sendRedirect("login.html");
-        }  
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
