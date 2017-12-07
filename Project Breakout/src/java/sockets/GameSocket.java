@@ -8,6 +8,7 @@ package sockets;
 import domain.Ball;
 import domain.Brick;
 import domain.Game;
+import domain.MultiPlayerGame;
 import domain.Pallet;
 import domain.Rectangle;
 import domain.Shape;
@@ -77,7 +78,11 @@ public class GameSocket {
     
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+        if(aantalPlayers > 1){
+            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers));
+        } else {
+            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+        }
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
     
@@ -151,9 +156,9 @@ public class GameSocket {
     
     private void movePalletToDirection(Session in, JSONObject obj){
         int playerID = Integer.parseInt((String) obj.get("player"));
-        System.out.println(playerID);
+        //System.out.println(playerID);
         String direction = (String) obj.get("direction");
-        System.out.println(direction);
+        //System.out.println(direction);
         Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
         switch(direction){
             case "left":

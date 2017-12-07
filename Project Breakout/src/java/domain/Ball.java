@@ -14,6 +14,9 @@ import powerUps.PowerUpOrDown;
  * @author micha
  */
 public class Ball extends Circle implements Serializable{
+    //id
+    //private int id;
+    //
     private final Level level;
     private Sprite s;
     private int speed;
@@ -25,6 +28,7 @@ public class Ball extends Circle implements Serializable{
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
         super(level, x, y, radius);
+        //this.id = id;
         this.level = level;
         this.s = new Sprite(color);
         this.INIT_BALL_X = x;
@@ -34,6 +38,10 @@ public class Ball extends Circle implements Serializable{
         this.dy = speed;
     }
 
+//    public int getId(){
+//        return id;
+//    }
+    
     public void setLastUserThatTouchedMe(int lastUserThatTouchedMe) {
         this.lastUserThatTouchedMe = lastUserThatTouchedMe;
     }
@@ -153,7 +161,7 @@ public class Ball extends Circle implements Serializable{
         }
         
         setLastUserThatTouchedMe(p.getUserID());
-        System.out.println(getLastUserThatTouchedMe());
+        //System.out.println(getLastUserThatTouchedMe());
     }
 
     private void updateSpriteBallAfterCollidingWithPalletUpsideOrDownside(Pallet p, float rectPosX, float ballLPos, float leftSide, float rightSide, float direction) {
@@ -246,6 +254,7 @@ public class Ball extends Circle implements Serializable{
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         level.decrementLife();
         level.resetStates();
+        //level.decrementBallsOnScreen(this);
     }
     
     @Override
