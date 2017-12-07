@@ -32,7 +32,8 @@ Player.prototype.move = function (map) {
   }
 };
 
-
+var ip = 'x.x.x.x'; //voor later
+var port = ':8080';
 var map = {};
 var players = [new Player(65, 90, 69, "player1"),
 new Player(85, 73, 68, "player2"), new Player(70, 71, 68, "player3"),
@@ -181,3 +182,6 @@ $(document).ready(function() {
   init.fireModal();
   $(".startGame").on("click", comms.startGame);
 });
+
+
+

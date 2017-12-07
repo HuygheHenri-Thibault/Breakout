@@ -55,6 +55,26 @@ CREATE TABLE `spells` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `campaign` (
+  `campaignID` int(11) NOT NULL AUTO_INCREMENT,
+  `campaignName` varchar(40) DEFAULT NULL,
+  `picture` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`campaignID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `story` (
+  `IDstory` int(11) NOT NULL AUTO_INCREMENT,
+  `storyText` varchar(500) DEFAULT NULL,
+  `storyName` varchar(40) DEFAULT NULL,
+  `imagePath` varchar(120) DEFAULT NULL,
+  `campaignId` int(11) NOT NULL,
+  PRIMARY KEY (`IDstory`),
+  KEY `FKcampaign_idx` (`campaignId`),
+  CONSTRAINT `FKcampaign` FOREIGN KEY (`campaignId`) REFERENCES `campaign` (`campaignID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Bullet time', 5, 'Bullet time BABY!');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Scaffolds', 5, 'Time to get high');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Double Trouble', 5, 'Prepare for trouble and make it double');

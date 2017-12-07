@@ -14,6 +14,7 @@ import java.util.Timer;
 import powerUps.NoPower;
 import powerUps.PowerUpOrDown;
 import swing.ScheduleLevelTasker;
+import swing.ScheduleLevelTaskerJavascript;
 
 /**
  *
@@ -43,10 +44,10 @@ public class Level{
     
     private boolean completed;
     
-    private final Rectangle TOP_BOUNDARY = new Rectangle(this, 0, -10, 1000, 10);
-    private final Rectangle LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, 1000);
-    private final Rectangle RIGHT_BOUNDARY = new Rectangle(this, 1000, 0, 10, 1000);
-    private final Rectangle BOTTOM_BOUNDARY = new Rectangle(this, 0, 1000, 1000, 10);
+    private final Rectangle TOP_BOUNDARY;
+    private final Rectangle LEFT_BOUNDARY;
+    private final Rectangle RIGHT_BOUNDARY;
+    private final Rectangle BOTTOM_BOUNDARY;
     
     public Level(Game game, int startScoreForBricks, int number) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
@@ -60,12 +61,23 @@ public class Level{
         this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
         this.factoryBall.createBalls();
+        this.TOP_BOUNDARY = new Rectangle(this, 0, -10, getGameWidth(), 10);
+        this.LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, getGameHeight());
+        this.RIGHT_BOUNDARY = new Rectangle(this, getGameWidth(), 0, 10, getGameHeight());
+        this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
     }
     
+    //voor swing
     public void startLevel(ScheduleLevelTasker s){
         timer = new Timer();
         taskForLevel = s;
         timer.scheduleAtFixedRate(s, 1000, 10);
+    }
+
+    public void startLevel(){
+        timer = new Timer();
+        ScheduleLevelTaskerJavascript taskForLevelNow = new ScheduleLevelTaskerJavascript(this);
+        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 10);
     }
     
     public void pause(){
