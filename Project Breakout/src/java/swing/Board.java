@@ -10,6 +10,7 @@ import domain.Brick;
 import domain.BrickRow;
 import domain.Game;
 import domain.Level;
+import domain.MultiPlayerGame;
 import domain.Pallet;
 import domain.SinglePlayerGame;
 import domain.User;
@@ -23,6 +24,9 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
@@ -43,6 +47,10 @@ public class Board extends JPanel{
 
     private void initBoard() {
         User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+        User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+        User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+        User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
         game = new SinglePlayerGame(me, 1000, 1000);
         addKeyListener(new TAdapter());
         setFocusable(true);

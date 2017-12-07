@@ -42,7 +42,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         int speed = Math.round(2 * level.getRatios().get(1).getRatio());
         
-        Ball b = new Ball(level, 15, speed, colorPallet, x, y);
+        Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         level.getBalls().add(b);
     }
     
@@ -54,7 +54,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         int speed = Math.round(2 * level.getRatios().get(1).getRatio());
         
-        Ball b = new Ball(level, 15, speed, colorPallet, x, y);
+        Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         //level.getBallIterator().add(b);
         level.getBalls().add(b);
     }
