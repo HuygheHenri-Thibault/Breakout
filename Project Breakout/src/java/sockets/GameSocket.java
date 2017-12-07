@@ -62,6 +62,8 @@ public class GameSocket {
                 case "gameInfo":
                     System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
+                case "move":
+                    movePalletToDirection(in, obj);
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
@@ -138,6 +140,23 @@ public class GameSocket {
             default:
                 spriteObj.put("width", -1); // x
                 spriteObj.put("height", -1); // y
+        }
+    }
+    
+    private void movePalletToDirection(Session in, JSONObject obj){
+        int playerID = (int) obj.get("player");
+        String direction = (String) obj.get("direction");
+        Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
+        switch(direction){
+            case "left":
+                playerPallet.moveLeft();
+                break;
+            case "right":
+                playerPallet.moveRight();
+                break;
+            case "stop":
+                playerPallet.stopMoving();
+                break;
         }
     }
     
