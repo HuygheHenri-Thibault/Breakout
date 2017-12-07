@@ -7,15 +7,15 @@ class Player {
     this.intervalLeft = null;
     this.intervalRight = null;
   }
-  moveInterval(name, direction) {
-    $("."+name +" ."+direction).append("1")
-    console.log(name+": "+direction);
-  }
 }
+Player.prototype.moveInterval = function (name, direction) {
+  $("."+name +" ."+direction).append("1")
+  console.log(name+": "+direction);
+};
 Player.prototype.move = function (map) {
   if(map[this.leftKey]) {
     if (this.intervalLeft == null) {
-      this.intervalLeft == setInterval(this.moveInterval(this.name, "left"), 100);
+      this.intervalLeft == setInterval(this.moveInterval(this.name, "left"), 10);
     }
   } else if(!map[this.leftKey]) {
     clearInterval(this.intervalLeft);
@@ -25,13 +25,13 @@ Player.prototype.move = function (map) {
   if (map[this.rightKey]) {
     if (this.intervalRight == null) {
       this.intervalRight == setInterval(this.moveInterval(this.name, "right"), 100);
-
     }
   } else if(!map[this.rightKey]) {
     clearInterval(this.intervalRight);
     this.intervalRight == null;
   }
 };
+
 
 var map = {};
 var players = [new Player(65, 90, 69, "player1"),
