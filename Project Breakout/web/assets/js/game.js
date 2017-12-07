@@ -4,47 +4,53 @@ class Player {
     this.rightKey = right;
     this.abilityKey = ability;
     this.name = name;
-    this.intervalLeft = null;
-    this.intervalRight = null;
   }
 }
-Player.prototype.moveInterval = function (name, direction) {
-  $("."+name +" ."+direction).append("1")
-  console.log(name+": "+direction);
-};
-Player.prototype.move = function (map) {
-  if(map[this.leftKey]) {
-    if (this.intervalLeft == null) {
-      this.intervalLeft == setInterval(this.moveInterval(this.name, "left"), 10);
+Player.prototype.move = function(keyMap) {
+  var messageObj = {type: "move", player: this.name};
+  if (keyMap[this.leftKey]) {
+    if (!messageObj.hasOwnProperty("direction")) {
+      messageObj.direction = "left";
+      console.log(messageObj);
+      socket.sendMessage(messageObj);
     }
-  } else if(!map[this.leftKey]) {
-    clearInterval(this.intervalLeft);
-    this.intervalLeft == null;
+  }
+  if (keyMap[this.rightKey]) {
+    if (!messageObj.hasOwnProperty("direction")) {
+      messageObj.direction = "right";
+      console.log(messageObj);
+      socket.sendMessage(messageObj);
+    }
   }
 
-  if (map[this.rightKey]) {
-    if (this.intervalRight == null) {
-      this.intervalRight == setInterval(this.moveInterval(this.name, "right"), 100);
+  if (!keyMap[this.leftKey]) {
+    if (!messageObj.hasOwnProperty("direction")) {
+      messageObj.direction = "stop";
+      console.log(messageObj);
+      socket.sendMessage(messageObj);
     }
-  } else if(!map[this.rightKey]) {
-    clearInterval(this.intervalRight);
-    this.intervalRight == null;
+  }
+  if (!keyMap[this.rightKey]) {
+    if (!messageObj.hasOwnProperty("direction")) {
+      messageObj.direction = "stop";
+      console.log(messageObj);
+      socket.sendMessage(messageObj);
+    }
   }
 };
 
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
-var map = {};
-var players = [new Player(65, 90, 69, "player1"),
-new Player(85, 73, 68, "player2"), new Player(70, 71, 68, "player3"),
-new Player(98, 99, 68, "player4")];
+
+var keyMap = {};
+var players = [];
 onkeydown = onkeyup = function(e) {
   e = e || event; // to deal with IE
-  map[e.keyCode] = e.type == 'keydown';
+  keyMap[e.keyCode] = e.type == 'keydown';
   $(".key").html("" + e.keyCode);
 
   for (var player in players) {
-    players[player].move(map);
+    players[player].move(keyMap);
   }
 }
 
@@ -53,32 +59,50 @@ var init = function() {
     $("#selectController").modal().modal('open');;
     var cols = 12;
     var players = prompt("How many playersssss?");
-    var grootteCols = (cols/players);
+    var grootteCols = (cols / players);
     var currentslot = 1;
-    while(currentslot<=players){
-    $(".modal-content").append("<div class='controllercol center col s"+grootteCols+"'>"+currentslot+" player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul></div>");
-    console.log("new slot");
-    currentslot +=1;
+    while (currentslot <= players) {
+      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul></div>");
+      console.log("new slot");
+      currentslot += 1;
     }
   };
-  return {fireModal};
+  return {
+    fireModal
+  };
 }();
 var comms = function() {
   // Private
   var gameInterval = null;
   var infoInterval = null;
   var getGameInfo = function() {
-    var messageObj = {type: "gameInfo"};
+    var messageObj = {
+      type: "gameInfo"
+    };
     socket.sendMessage(messageObj);
   };
   var getPosistion = function() {
-    var messageObj = {type: "updateMe"};
+    var messageObj = {
+      type: "updateMe"
+    };
     socket.sendMessage(messageObj);
   };
   // Public
   var startGame = function() {
     //$("#selectController").hide();
-    var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
+    var playerAmount = prompt("How many players");
+    for (var i = 0; i < parseInt(playerAmount); i++) {
+      var leftKeyCode = parseInt(prompt("left Key:"));
+      var rightKeyCode = parseInt(prompt("right key:"));
+      var abilityKeyCode = parseInt(prompt("ability"));
+      players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, "player" + (i + 1)));
+    }
+    var messageObj = {
+      type: "startGame",
+      playerAmount
+    };
+    console.log("sending start ...");
+    console.log(messageObj);
     socket.sendMessage(messageObj);
     getUpdate();
   };
@@ -86,7 +110,7 @@ var comms = function() {
     gameInterval = setInterval(getPosistion, 10);
     infoInterval = setInterval(getGameInfo, 50);
   };
-  var stopUpdates = function () {
+  var stopUpdates = function() {
     clearInterval(gameInterval);
     clearInterval(infoInterval);
   };
@@ -115,13 +139,16 @@ var gui = function() {
     var lives = player.lives;
     var score = player.score;
   };
-  return {drawFromPosistion, gameInfo};
+  return {
+    drawFromPosistion,
+    gameInfo
+  };
 }();
-var socket = function(){
+var socket = function() {
   // Private
   var url = "ws://localhost:8080/Project_Breakout/gamepoint";
   var socket = new WebSocket(url);
-  socket.onopen = function () {
+  socket.onopen = function() {
     //socket.sendMessage(JSON.stringify({"flppn": 3}));
   };
   socket.onmessage = function(messageRecieved) {
@@ -137,9 +164,11 @@ var socket = function(){
   };
   // Public
   function sendMessage(message) {
-      socket.send(JSON.stringify(message));
+    socket.send(JSON.stringify(message));
   }
-  return {sendMessage};
+  return {
+    sendMessage
+  };
 }();
 
 // DRAW FUNCTIONS (P5.JS) //
@@ -160,10 +189,12 @@ var preload = function() {
   imgArray[3] = loadImage('assets/media/red_block.png');
   imgArray[4] = loadImage('assets/media/yellow_block.png');
 };
+
 function setup() {
   var canvas = createCanvas(750, 400);
   canvas.parent('game-area');
 }
+
 function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check);
@@ -182,6 +213,3 @@ $(document).ready(function() {
   init.fireModal();
   $(".startGame").on("click", comms.startGame);
 });
-
-
-
