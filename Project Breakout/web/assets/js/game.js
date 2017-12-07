@@ -46,7 +46,7 @@ var keyMap = {};
 var players = [];
 onkeydown = onkeyup = function(e) {
   e = e || event; // to deal with IE
-  keyMap[e.keyCode] = e.type == 'keydown';
+  keyMap[e.keyCode] = e.type === 'keydown';
   $(".key").html("" + e.keyCode);
 
   for (var player in players) {
@@ -92,10 +92,10 @@ var comms = function() {
     //$("#selectController").hide();
     var playerAmount = prompt("How many players");
     for (var i = 0; i < parseInt(playerAmount); i++) {
-      var leftKeyCode = parseInt(prompt("left Key:"));
-      var rightKeyCode = parseInt(prompt("right key:"));
-      var abilityKeyCode = parseInt(prompt("ability"));
-      players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, "player" + (i + 1)));
+      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32);
+      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32);
+      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
+      players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, i));
     }
     var messageObj = {
       type: "startGame",
@@ -116,6 +116,7 @@ var comms = function() {
   };
   return {startGame, getUpdate, stopUpdates};
 }();
+var lel = true;
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -130,7 +131,7 @@ var gui = function() {
           ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall);
           break;
         case "Brick":
-          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgArray[1]));
+          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
       }
     }
@@ -166,9 +167,7 @@ var socket = function() {
   function sendMessage(message) {
     socket.send(JSON.stringify(message));
   }
-  return {
-    sendMessage
-  };
+  return {sendMessage};
 }();
 
 // DRAW FUNCTIONS (P5.JS) //
@@ -177,24 +176,44 @@ var pallet = null;
 var imgBall = null;
 var imgPallet = null;
 var bricks = [];
-var imgArray = [];
+var imgArray = {};
 var lives = 0;
 var score = 0;
 var preload = function() {
   imgPallet = loadImage('assets/media/pallet.png');
   imgBall = loadImage('assets/media/ball.png');
-  imgArray[0] = loadImage('assets/media/black_block.png');
-  imgArray[1] = loadImage('assets/media/green_block.png');
-  imgArray[2] = loadImage('assets/media/purple_block.png');
-  imgArray[3] = loadImage('assets/media/red_block.png');
-  imgArray[4] = loadImage('assets/media/yellow_block.png');
+  imgArray.black = loadImage('assets/media/black_block.png');
+  imgArray.green = loadImage('assets/media/green_block.png');
+  imgArray.purple = loadImage('assets/media/purple_block.png');
+  imgArray.red = loadImage('assets/media/red_block.png');
+  imgArray.yellow = loadImage('assets/media/yellow_block.png');
 };
-
+function getImage(color) {
+  switch (color) {
+    case "Yellow":
+      return imgArray.yellow;
+      break;
+    case "Blue":
+      return imgArray.black; // TODO: Actually make this be the blue blocks..
+      break;
+    case "Purple":
+      return imgArray.purple;
+      break;
+    case "Red":
+      return imgArray.red;
+      break;
+    case "Green":
+      return imgArray.green;
+      break;
+    default:
+      return imgArray.green;
+      break;
+  }
+}
 function setup() {
   var canvas = createCanvas(750, 400);
   canvas.parent('game-area');
 }
-
 function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check);
