@@ -32,6 +32,7 @@ public class Level{
     private List<BrickRow> rowsOfBricks;
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
+    //private int ballsonScreen = balls.size() + 1;
     
     private List<PowerUpOrDown> powerUps = new ArrayList<>();
     private PowerUpOrDown powerUpActive = new NoPower();
@@ -125,7 +126,21 @@ public class Level{
         return balls;
     }
     
+    public void addBallOnScreen(){
+        //ballsonScreen++;
+    }
+//    
+//    public void decrementBallsOnScreen(Ball ball){
+//        ballsonScreen--;
+//        System.out.println("ball " + ball.getId() + "activated balls " +ballsonScreen);
+//        if(ballsonScreen == 0){
+//            resetStates();
+//            ballsonScreen = balls.size() + 1;
+//        }
+//    }
+    
     public void createExtraBall(){
+        //addBallOnScreen();
         factoryBall.createExtraBall();
     }
     

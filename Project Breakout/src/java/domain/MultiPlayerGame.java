@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class MultiPlayerGame extends Game {
 
+    //hardcoded constructor
+    public MultiPlayerGame(int height, int width, int aantalspelers){
+        super(height, width, 2 * aantalspelers, aantalspelers);
+    }
+    
     public MultiPlayerGame(List<User> players, int height, int width, int aantalSpelers) {
         super(players, height, width, 2 * aantalSpelers, aantalSpelers);
     }

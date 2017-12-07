@@ -44,6 +44,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         level.getBalls().add(b);
+        level.addBallOnScreen();
     }
     
     public void createExtraBall(){

@@ -120,15 +120,23 @@ var lel = true;
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
+    pallet = null;
+    ball = null;
     bricks = [];
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgPallet);
+          if(pallet == null) {
+              pallet = [];
+          }
+          pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgPallet));
           break;
         case "Ball":
-          ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall);
+            if(ball == null) {
+              ball = [];
+          }
+          ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall));
           break;
         case "Brick":
           if(lel) { console.log(oneSprite); lel = false;}
@@ -220,8 +228,12 @@ function draw() {
   console.log(check);
   if (check) {
     background(47, 49, 54);
-    ball.show();
-    pallet.show();
+    for(var b in ball) {
+        ball[b].show();
+    }
+    for(var p in pallet) {
+        pallet[p].show();
+    }
     for (var i = 0; i < bricks.length; i++) {
       bricks[i].show();
     }

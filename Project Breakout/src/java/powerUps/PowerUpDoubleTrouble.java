@@ -42,6 +42,8 @@ public class PowerUpDoubleTrouble extends PowerUpOrDown{
     public void deActivate() {
         System.out.println("deactivated");
         level.getBalls().remove(level.getBalls().size() - 1);
+        level.decrementLife();
+        //level.decrementBallsOnScreen();
         level.setPowerUpActive(new NoPower());
     }
     
