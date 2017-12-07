@@ -62,7 +62,9 @@ public class Pallet extends Rectangle {
         setX(INIT_PALLET_X);
         setY(INIT_PALLET_Y);
     }
-
+    
+    
+    //voor swing
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
@@ -88,6 +90,7 @@ public class Pallet extends Rectangle {
             stopMoving();
         }
     }
+    //
 
     public void toggleDx() {
         if (dx > 0) {

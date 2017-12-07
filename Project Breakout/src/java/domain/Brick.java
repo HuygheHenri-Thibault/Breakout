@@ -14,7 +14,7 @@ import powerUps.PowerUpOrDown;
  * @author micha
  */
 public class Brick extends Rectangle{
-   private Sprite s;
+    private Sprite s;
     private BrickRow br;
     private int hits;
     private int achievedScore;
