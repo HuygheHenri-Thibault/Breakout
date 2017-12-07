@@ -14,9 +14,12 @@ import domain.Shape;
 import domain.SinglePlayerGame;
 import domain.Sprite;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
 import org.json.simple.parser.JSONParser;
@@ -39,6 +42,9 @@ public class GameSocket {
     int levens = 3;
     int players = 1;
 
+    //added for smartphone controller
+    private static final Set<Session> activeSessions = Collections.synchronizedSet(new HashSet<Session>());
+    
     @OnMessage
     public String onMessage(String message, Session in) {
         JSONParser jparse = new JSONParser();

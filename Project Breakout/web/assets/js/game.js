@@ -1,15 +1,52 @@
-var url = "ws://localhost:8080/Project_Breakout/gamepoint";
-var socket = new WebSocket(url);
-var ball = null;
-var pallet = null;
-var imgBall = null;
-var imgPallet = null;
-var bricks = [];
-var imgArray = [];
-var gameInterval = null;
-var infoInterval = null;
-var lives = 0;
-var score = 0;
+class Player {
+  constructor(left, right, ability, name) {
+    this.leftKey = left;
+    this.rightKey = right;
+    this.abilityKey = ability;
+    this.name = name;
+    this.intervalLeft = null;
+    this.intervalRight = null;
+  }
+}
+Player.prototype.moveInterval = function (name, direction) {
+  $("."+name +" ."+direction).append("1")
+  console.log(name+": "+direction);
+};
+Player.prototype.move = function (map) {
+  if(map[this.leftKey]) {
+    if (this.intervalLeft == null) {
+      this.intervalLeft == setInterval(this.moveInterval(this.name, "left"), 10);
+    }
+  } else if(!map[this.leftKey]) {
+    clearInterval(this.intervalLeft);
+    this.intervalLeft == null;
+  }
+
+  if (map[this.rightKey]) {
+    if (this.intervalRight == null) {
+      this.intervalRight == setInterval(this.moveInterval(this.name, "right"), 100);
+    }
+  } else if(!map[this.rightKey]) {
+    clearInterval(this.intervalRight);
+    this.intervalRight == null;
+  }
+};
+
+var ip = 'x.x.x.x'; //voor later
+var port = ':8080';
+var map = {};
+var players = [new Player(65, 90, 69, "player1"),
+new Player(85, 73, 68, "player2"), new Player(70, 71, 68, "player3"),
+new Player(98, 99, 68, "player4")];
+onkeydown = onkeyup = function(e) {
+  e = e || event; // to deal with IE
+  map[e.keyCode] = e.type == 'keydown';
+  $(".key").html("" + e.keyCode);
+
+  for (var player in players) {
+    players[player].move(map);
+  }
+}
 
 var init = function() {
   var fireModal = function() {
@@ -28,19 +65,21 @@ var init = function() {
 }();
 var comms = function() {
   // Private
+  var gameInterval = null;
+  var infoInterval = null;
   var getGameInfo = function() {
     var messageObj = {type: "gameInfo"};
-    sendMessage(messageObj);
+    socket.sendMessage(messageObj);
   };
   var getPosistion = function() {
     var messageObj = {type: "updateMe"};
-    sendMessage(messageObj);
+    socket.sendMessage(messageObj);
   };
   // Public
   var startGame = function() {
     //$("#selectController").hide();
     var messageObj = {type: "startGame", playerAmount: prompt("How many players")};
-    sendMessage(messageObj);
+    socket.sendMessage(messageObj);
     getUpdate();
   };
   var getUpdate = function() {
@@ -78,28 +117,40 @@ var gui = function() {
   };
   return {drawFromPosistion, gameInfo};
 }();
-
-// SOCKET FUNCTIONS //
-function sendMessage(message) {
-    socket.send(JSON.stringify(message));
-}
-socket.onopen = function () {
-  //sendMessage(JSON.stringify({"flppn": 3}));
-};
-socket.onmessage = function(messageRecieved) {
-  var message = JSON.parse(messageRecieved.data);
-  console.log(message);
-  switch (message.type) {
-    case "posistion":
-      gui.drawFromPosistion(message);
-      break;
-    case "gameInfo":
-      gui.gameInfo(message);
-      break;
+var socket = function(){
+  // Private
+  var url = "ws://localhost:8080/Project_Breakout/gamepoint";
+  var socket = new WebSocket(url);
+  socket.onopen = function () {
+    //socket.sendMessage(JSON.stringify({"flppn": 3}));
+  };
+  socket.onmessage = function(messageRecieved) {
+    var message = JSON.parse(messageRecieved.data);
+    switch (message.type) {
+      case "posistion":
+        gui.drawFromPosistion(message);
+        break;
+      case "gameInfo":
+        gui.gameInfo(message);
+        break;
+    }
+  };
+  // Public
+  function sendMessage(message) {
+      socket.send(JSON.stringify(message));
   }
-};
+  return {sendMessage};
+}();
 
 // DRAW FUNCTIONS (P5.JS) //
+var ball = null;
+var pallet = null;
+var imgBall = null;
+var imgPallet = null;
+var bricks = [];
+var imgArray = [];
+var lives = 0;
+var score = 0;
 var preload = function() {
   imgPallet = loadImage('assets/media/pallet.png');
   imgBall = loadImage('assets/media/ball.png');
@@ -131,3 +182,6 @@ $(document).ready(function() {
   init.fireModal();
   $(".startGame").on("click", comms.startGame);
 });
+
+
+
