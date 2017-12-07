@@ -95,7 +95,7 @@ var comms = function() {
       var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32);
       var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32);
       var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
-      players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, i));
+      players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1)));
     }
     var messageObj = {
       type: "startGame",
@@ -107,7 +107,7 @@ var comms = function() {
     getUpdate();
   };
   var getUpdate = function() {
-    gameInterval = setInterval(getPosistion, 10);
+    gameInterval = setInterval(getPosistion, 15);
     infoInterval = setInterval(getGameInfo, 50);
   };
   var stopUpdates = function() {
@@ -131,6 +131,7 @@ var gui = function() {
           ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall);
           break;
         case "Brick":
+          if(lel) { console.log(oneSprite); lel = false;}
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
       }
@@ -190,19 +191,19 @@ var preload = function() {
 };
 function getImage(color) {
   switch (color) {
-    case "Yellow":
+    case "yellow":
       return imgArray.yellow;
       break;
-    case "Blue":
+    case "blue":
       return imgArray.black; // TODO: Actually make this be the blue blocks..
       break;
-    case "Purple":
+    case "purple":
       return imgArray.purple;
       break;
-    case "Red":
+    case "red":
       return imgArray.red;
       break;
-    case "Green":
+    case "green":
       return imgArray.green;
       break;
     default:

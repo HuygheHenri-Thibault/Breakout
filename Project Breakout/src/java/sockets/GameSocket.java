@@ -53,15 +53,17 @@ public class GameSocket {
      
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
                 case "startGame":
-                    System.out.println("started");
+                    //System.out.println("started");
                     startGame(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
-                    System.out.println("updated");
+                    //System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
-                    System.out.println("gameInfo");
+                    //System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
+                case "move":
+                    movePalletToDirection(in, obj);
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
@@ -105,7 +107,8 @@ public class GameSocket {
         String spriteString[] = aShape.toString().split(" ");
         String typeOfSprite = spriteString[0];
         if(typeOfSprite.equals("Brick")) {
-            String color = spriteString[1];
+            String[] colorPath = spriteString[1].split("_");
+            String color = colorPath[0];
             spriteObj.put("color", color);
         }
         spriteObj.put("type", typeOfSprite);
@@ -143,6 +146,25 @@ public class GameSocket {
             default:
                 spriteObj.put("width", -1); // x
                 spriteObj.put("height", -1); // y
+        }
+    }
+    
+    private void movePalletToDirection(Session in, JSONObject obj){
+        int playerID = Integer.parseInt((String) obj.get("player"));
+        System.out.println(playerID);
+        String direction = (String) obj.get("direction");
+        System.out.println(direction);
+        Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
+        switch(direction){
+            case "left":
+                playerPallet.moveLeft();
+                break;
+            case "right":
+                playerPallet.moveRight();
+                break;
+            case "stop":
+                playerPallet.stopMoving();
+                break;
         }
     }
     

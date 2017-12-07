@@ -77,7 +77,7 @@ public class Level{
     public void startLevel(){
         timer = new Timer();
         ScheduleLevelTaskerJavascript taskForLevelNow = new ScheduleLevelTaskerJavascript(this);
-        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 10);
+        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 15);
     }
     
     public void pause(){
