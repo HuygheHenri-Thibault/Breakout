@@ -46,7 +46,7 @@ var keyMap = {};
 var players = [];
 onkeydown = onkeyup = function(e) {
   e = e || event; // to deal with IE
-  keyMap[e.keyCode] = e.type == 'keydown';
+  keyMap[e.keyCode] = e.type === 'keydown';
   $(".key").html("" + e.keyCode);
 
   for (var player in players) {
@@ -92,9 +92,9 @@ var comms = function() {
     //$("#selectController").hide();
     var playerAmount = prompt("How many players");
     for (var i = 0; i < parseInt(playerAmount); i++) {
-      var leftKeyCode = parseInt(prompt("left Key:"));
-      var rightKeyCode = parseInt(prompt("right key:"));
-      var abilityKeyCode = parseInt(prompt("ability"));
+      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32);
+      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32);
+      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
       players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, "player" + (i + 1)));
     }
     var messageObj = {
@@ -166,9 +166,7 @@ var socket = function() {
   function sendMessage(message) {
     socket.send(JSON.stringify(message));
   }
-  return {
-    sendMessage
-  };
+  return {sendMessage};
 }();
 
 // DRAW FUNCTIONS (P5.JS) //
@@ -189,12 +187,10 @@ var preload = function() {
   imgArray[3] = loadImage('assets/media/red_block.png');
   imgArray[4] = loadImage('assets/media/yellow_block.png');
 };
-
 function setup() {
   var canvas = createCanvas(750, 400);
   canvas.parent('game-area');
 }
-
 function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check);
