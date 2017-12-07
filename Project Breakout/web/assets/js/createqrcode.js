@@ -19,13 +19,13 @@ $("#text").
  var qrcode = new QRCode("qrcode");
 
 function makeCode () {
-    var text = document.getElementById("text");
+    var qrText = document.getElementById("text");
 
-    if (!text.value) {
+    if (!qrText.value) {
         alert("Input a text");
-        text.focus();
+        qrText.focus();
         return;
     }
 
-    qrcode.makeCode(text.value);
+    qrcode.makeCode(qrText.value);
 }
