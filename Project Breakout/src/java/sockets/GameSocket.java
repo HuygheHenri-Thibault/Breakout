@@ -104,7 +104,12 @@ public class GameSocket {
     private JSONObject makeSpriteJSONObj(Shape aShape, JSONObject resultObj) {
         JSONObject spriteObj = new JSONObject();
         
-        String typeOfSprite = aShape.toString();
+        String spriteString[] = aShape.toString().split(" ");
+        String typeOfSprite = spriteString[0];
+        if(typeOfSprite.equals("Brick")) {
+            String color = spriteString[1];
+            spriteObj.put("color", color);
+        }
         spriteObj.put("type", typeOfSprite);
         
         int xPos = aShape.getX();
