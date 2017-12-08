@@ -104,9 +104,6 @@ var comms = function() {
   };
   return {startGame, getUpdate, stopUpdates};
 }();
-
-var i = true; // TODO: DELETE DIS
-
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -115,16 +112,12 @@ var gui = function() {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, imgPallet);
+          pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet);
           break;
         case "Ball":
-          ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall); // TODO: Move this to seperate functions?
+          ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball); // TODO: Move this to seperate functions?
           break;
         case "Brick":
-        if(i) {
-          console.log(oneSprite);
-          i = false;
-        }
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
       }
@@ -164,23 +157,23 @@ var socket = function() {
 // DRAW FUNCTIONS (P5.JS) //
 var ball = null; // TODO: SOOO MANYY GLOBALS ;-;
 var pallet = null;
-var imgBall = null;
-var imgPallet = null;
 var bricks = [];
-var blockImages = {};
-var preload = function() { // TODO: could this be done better???
-  imgPallet = loadImage('assets/media/pallet.png');
-  imgBall = loadImage('assets/media/ball.png');
-  blockImages.black_block = loadImage('assets/media/black_block.png'); // TODO: Split on '/' take last then split on '.' and take first.
-  blockImages.green_block = loadImage('assets/media/green_block.png');
-  blockImages.purple_block = loadImage('assets/media/purple_block.png');
-  blockImages.red_block = loadImage('assets/media/red_block.png');
-  blockImages.yellow_block = loadImage('assets/media/yellow_block.png');
+var images = {};
+var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png'];
+function setImages(listOfImagesToLoad) {
+  for (var i = 0; i<listOfImagesToLoad.length;i++) {
+    var imgPath = listOfImagesToLoad[i].split("/");
+    var imgKey = imgPath[imgPath.length-1].split(".")[0];
+    images[imgKey] = loadImage(listOfImagesToLoad[i]);
+  }
+}
+var preload = function() {
+  setImages(imagesToLoad);
 };
 function getImage(color) {
-  var graphic = blockImages[color]
+  var graphic = images[color];
   if(graphic == undefined) {
-    graphic = blockImages.green_block;
+    graphic = images.green_block;
   }
   return graphic;
 }
