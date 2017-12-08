@@ -50,6 +50,11 @@ function checkVarsIfEmpty(username, passwd) {
     return err;
 }
 
+function loginQuote() {
+  var lines = ["This is where the fun begins", "Hasta la vista baby",
+  "Member breakout? I member breakout", "Yo dawg I heard you like breakout"];
+}
+
 $(document).ready(function() {
   console.log("script.js is loaded");
   // Init Page
