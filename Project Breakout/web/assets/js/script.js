@@ -1,4 +1,4 @@
-function loggedIn() {
+function loggedIn() { // TODO: do this with JSP pages instead???
   $.ajax({url: "CheckLoggedIn", success: function(result){
     $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
     $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content light-grey'>"+
@@ -55,14 +55,9 @@ $(document).ready(function() {
   // Init Page
   loggedIn();
   $('.modal').modal();
-   //Dropdowns have to be init'ed if they're dynamic.
 
   $("#login-area button").on("click", checkBeforeSignIn);
   $("#login-area form").on("submit", checkBeforeSignIn);
   $("#register-area button").on("click", checkBeforeSignIn);
   $("#register-area form").on("submit", checkBeforeSignIn);
-
-  // document.documentElement.style.setProperty(`--accent-color`, 'red');
-  // TODO: Nice idea for accent color change but needs to be done another way
-  // Maybe with add & remove class?
 });
