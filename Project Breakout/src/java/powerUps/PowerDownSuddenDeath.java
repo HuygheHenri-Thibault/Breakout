@@ -17,8 +17,8 @@ import java.util.Timer;
 public class PowerDownSuddenDeath extends PowerUpOrDown{
     private Timer t;
 
-    public PowerDownSuddenDeath(Level level, Brick theBrick, String name, int duration, String description) {
-        super(level, theBrick, name, duration, description);
+    public PowerDownSuddenDeath(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     }
     
 //    @Override
