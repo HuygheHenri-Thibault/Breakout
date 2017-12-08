@@ -23,8 +23,8 @@ public class PowerUpBulletTime extends PowerUpOrDown {
     private Pallet palletOfUser;
     private Timer t;
 
-    public PowerUpBulletTime(Level level, Brick brick) {
-        super(level, brick, "Bullet Time", 10, "Makes pallet quicker");
+    public PowerUpBulletTime(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     }
     
 //    @Override

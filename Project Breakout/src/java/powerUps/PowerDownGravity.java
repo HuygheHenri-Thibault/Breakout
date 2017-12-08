@@ -15,8 +15,8 @@ import domain.Level;
  */
 public class PowerDownGravity extends PowerUpOrDown{
 
-    public PowerDownGravity(Level level, Brick theBrick, String name, int duration, String description) {
-        super(level, theBrick, name, duration, description);
+    public PowerDownGravity(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     }
     
 //    @Override

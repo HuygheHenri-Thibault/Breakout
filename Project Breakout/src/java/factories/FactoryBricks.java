@@ -5,11 +5,14 @@
  */
 package factories;
 
+import data.MySQLEffectRepository;
 import data.Repositories;
 import domain.Brick;
 import domain.BrickRow;
 import java.util.List;
 import java.util.Random;
+import powerUps.AllPowerUps;
+import powerUps.PowerUpOrDown;
 
 /**
  *
@@ -26,7 +29,7 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
             rowBricks.addBrickToRow(b);
         }
         //test for powerup
-        Brick testBrick = rowBricks.getBricksOnRow().get(rowBricks.getBricksOnRow().size() - 1);
+        //Brick testBrick = rowBricks.getBricksOnRow().get(rowBricks.getBricksOnRow().size() - 1);
         //make a random powerup
         //get all the powerups from database
         //select a random powerup out of the list
@@ -56,6 +59,13 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
         int hits = 1; //rowBricks.getBrickData().getBaseHits();
        
         Brick b = new Brick(rowBricks, lengte, height, hits, achievedScoreIfDestroyed, color, x, y);
+        
+        if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
+            PowerUpOrDown power = Repositories.getEffectRepository().getAllPowerUpsAndDowns().getRandomPowerUpOrDown(rowBricks.getLevel());
+            power.setBrickHiddenIn(b);
+            //System.out.println("added " + power.getName() + " in brick x:" + b.getX() + " y:" + b.getY());
+        }
+
         return b;
     }
     

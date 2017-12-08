@@ -19,8 +19,8 @@ public class PowerDownShrunk extends PowerUpOrDown{
     private Pallet palletOfUser;
     private Timer t;
 
-    public PowerDownShrunk(Level level, Brick theBrick, String name, int duration, String description) {
-        super(level, theBrick, name, duration, description);
+    public PowerDownShrunk(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     }
 
 //    @Override

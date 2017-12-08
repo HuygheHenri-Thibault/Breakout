@@ -19,8 +19,8 @@ public class PowerDownSlowed extends PowerUpOrDown{
     private Pallet palletOfUser;
     private Timer t;
 
-    public PowerDownSlowed(Level level, Brick theBrick, String name, int duration, String description) {
-        super(level, theBrick, name, duration, description);
+    public PowerDownSlowed(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     }
 
 //    @Override

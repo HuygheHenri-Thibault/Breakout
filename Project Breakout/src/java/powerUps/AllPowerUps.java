@@ -16,9 +16,6 @@ import java.util.Random;
  * @author micha
  */
 public class AllPowerUps {
-    //alle power ups van de database halen
-    //van alle data, variabelen maken. 
-    
     List<PowerUpOrDown> powerUps = new ArrayList<>();
     List<PowerUpOrDown> powerDowns = new ArrayList<>();
     
@@ -37,38 +34,31 @@ public class AllPowerUps {
         return allPowerUps;
     }
     
-    public PowerUpOrDown getRandomPowerUpOrDown(Level thisLevel, List<PowerUpOrDown> powerUpsAlreadyInLevel){
+    public PowerUpOrDown getRandomPowerUpOrDown(Level thisLevel){
+        
+//        int randomNumber = r.nextInt(powerUpsAlreadyInLevel.size() - 1 + 1) + 1;
+//        while(powerUpsAlreadyInLevel.contains(getAllPowerUpsAndDowns().get(randomNumber))){
+//            randomNumber =  r.nextInt(powerUpsAlreadyInLevel.size() - 1 + 1) + 1;
+//        }
         Random r = new Random();
-        int randomNumber = r.nextInt(powerUpsAlreadyInLevel.size() - 1 + 1) + 1;
-        while(powerUpsAlreadyInLevel.contains(getAllPowerUpsAndDowns().get(randomNumber))){
-            randomNumber =  r.nextInt(powerUpsAlreadyInLevel.size() - 1 + 1) + 1;
-        }
         int powerUpOrDownsChance = r.nextInt(100 - 0 + 0) + 0;
         if(powerUpOrDownsChance < 50 * thisLevel.getRatios().get(2).getRatio()){
-            return getRandomPowerUp(randomNumber);
+            return getRandomPowerUp(r, 0, powerUps.size() - 1);
         } else {
-            return getRandomPowerDown(randomNumber);
+            return getRandomPowerDown(r, 0, powerDowns.size() - 1);
         }        
     }
     
-    private PowerUpOrDown getRandomPowerUp(int randomNumber){
+    private PowerUpOrDown getRandomPowerUp(Random r, int min, int max){
+        //((max-min) + 1) + min 
+        int randomNumber = r.nextInt((max - min) + 1) + min;
+        System.out.println(randomNumber);
         return powerUps.get(randomNumber);
     }
     
-    private PowerUpOrDown getRandomPowerDown(int randomNumber){
+    private PowerUpOrDown getRandomPowerDown(Random r, int min, int max){
+        int randomNumber = r.nextInt((max - min) + 1) + min;
+        System.out.println(randomNumber);
         return powerDowns.get(randomNumber);
     }
-//    enum AllBonuses{
-//    Bonus1(BonusClass1::new),
-//    // ...
-//    Bonus9(BonusClass9::new);
-//
-//    private final Supplier<Bonus> bonus;
-//    AllBonuses(Supplier<Bonus> bonus) { this.bonus = bonus; }
-//    public Bonus create() { return bonus.get(); }
-//}
-//
-//// Usage:
-//int randomNumber = generateRandomNumber(AllBonuses.values().length);
-//Bonus randomBonus = AllBonuses.values()[randomNumber].create();
 }
