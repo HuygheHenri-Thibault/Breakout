@@ -107,8 +107,7 @@ public class GameSocket {
         String spriteString[] = aShape.toString().split(" ");
         String typeOfSprite = spriteString[0];
         if(typeOfSprite.equals("Brick")) {
-            String[] colorPath = spriteString[1].split("_");
-            String color = colorPath[0];
+            String color = spriteString[1];
             spriteObj.put("color", color);
         }
         spriteObj.put("type", typeOfSprite);

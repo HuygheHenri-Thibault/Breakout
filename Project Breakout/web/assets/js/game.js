@@ -63,7 +63,7 @@ var input = function() {
     for (var player in players) {
       players[player].move(keyMap);
     }
-  }
+  };
   // Public
   var players = [];
   return {players};
@@ -104,6 +104,9 @@ var comms = function() {
   };
   return {startGame, getUpdate, stopUpdates};
 }();
+
+var i = true; // TODO: DELETE DIS
+
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -118,6 +121,10 @@ var gui = function() {
           ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, imgBall); // TODO: Move this to seperate functions?
           break;
         case "Brick":
+        if(i) {
+          console.log(oneSprite);
+          i = false;
+        }
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
       }
@@ -164,33 +171,18 @@ var blockImages = {};
 var preload = function() { // TODO: could this be done better???
   imgPallet = loadImage('assets/media/pallet.png');
   imgBall = loadImage('assets/media/ball.png');
-  blockImages.black = loadImage('assets/media/black_block.png');
-  blockImages.green = loadImage('assets/media/green_block.png');
-  blockImages.purple = loadImage('assets/media/purple_block.png');
-  blockImages.red = loadImage('assets/media/red_block.png');
-  blockImages.yellow = loadImage('assets/media/yellow_block.png');
+  blockImages.black_block = loadImage('assets/media/black_block.png'); // TODO: Split on '/' take last then split on '.' and take first.
+  blockImages.green_block = loadImage('assets/media/green_block.png');
+  blockImages.purple_block = loadImage('assets/media/purple_block.png');
+  blockImages.red_block = loadImage('assets/media/red_block.png');
+  blockImages.yellow_block = loadImage('assets/media/yellow_block.png');
 };
-function getImage(color) { // TODO: pls let there be a way to do this better
-  switch (color) {
-    case "yellow":
-      return blockImages.yellow;
-      break;
-    case "blue":
-      return blockImages.black; // TODO: Actually make this be the blue blocks..
-      break;
-    case "purple":
-      return blockImages.purple;
-      break;
-    case "red":
-      return blockImages.red;
-      break;
-    case "green":
-      return blockImages.green;
-      break;
-    default:
-      return blockImages.green;
-      break;
+function getImage(color) {
+  var graphic = blockImages[color]
+  if(graphic == undefined) {
+    graphic = blockImages.green_block;
   }
+  return graphic;
 }
 function setup() {
   var canvas = createCanvas(750, 400);
