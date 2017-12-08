@@ -47,4 +47,8 @@ public class PowerUpDoubleTrouble extends PowerUpOrDown{
         level.setPowerUpActive(new NoPower());
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + " double-trouble"; 
+    }
 }

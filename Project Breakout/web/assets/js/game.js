@@ -37,6 +37,7 @@ Player.prototype.move = function(keyMap) {
 
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
+var lel = true //TODO: DELETE DIS
 
 var init = function() {
   var fireModal = function() {
@@ -124,11 +125,16 @@ var gui = function() {
               ball = [];
           }
           ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
-
           break;
         case "Brick":
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
+        case "Powerup":
+        if(lel) {
+          console.log(oneSprite);
+          lel = false;
+        }
+
       }
     }
   };
