@@ -126,8 +126,8 @@ public class Game{
     public final void addRatiosToGame(){
        ratios.add(new Ratio("Pallet", -0.01f));
        ratios.add(new Ratio("Ball", +0.1f));
-       ratios.add(new Ratio("Power up", -0.01f));
-       ratios.add(new Ratio("Power down", +0.01f));
+       ratios.add(new Ratio("Power up And Down", -0.01f));
+       //ratios.add(new Ratio("Power down", +0.01f));
     }
 
     public int getScore() {

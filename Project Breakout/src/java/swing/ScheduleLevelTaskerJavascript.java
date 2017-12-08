@@ -29,7 +29,6 @@ public class ScheduleLevelTaskerJavascript extends TimerTask {
         if (!paused) {
             for (Ball ball : level.getBalls()) {
                 ball.move();
-                System.out.println(ball.getX());
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();

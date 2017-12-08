@@ -13,6 +13,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import powerUps.AllPowerUps;
+import powerUps.PowerDownGravity;
+import powerUps.PowerDownShrunk;
+import powerUps.PowerDownSlowed;
+import powerUps.PowerDownSuddenDeath;
+import powerUps.PowerUpBulletTime;
+import powerUps.PowerUpDoubleTrouble;
+import powerUps.PowerUpOrDown;
+import powerUps.PowerUpScaffolds;
 import util.BreakoutException;
 
 /**
@@ -34,47 +43,81 @@ public class MySQLEffectRepository implements EffectRepository {
     private static final String DELETE_EFFECT = "DELETE FROM breakout.effect WHERE id = ?";
     
     @Override
-    public List<Effect> getAllEffects() {
+    public AllPowerUps getAllPowerUpsAndDowns() {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_ALL_EFFECTS)) {
             
             try(ResultSet rs = stmt.executeQuery()) {
-                List<Effect> effects = new ArrayList<>();
+                AllPowerUps allPowerUps = new AllPowerUps();
                 while(rs.next()) {
-                    int id = rs.getInt(FIELD_ID);
-                    String type = rs.getString(FIELD_TYPE);
-                    String name = rs.getString(FIELD_NAME);
-                    int duration = rs.getInt(FIELD_DURATION);
-                    String iconPath = rs.getString(FIELD_ICON);
-                    String description = rs.getString(FIELD_DESCRIPTION);
-                    effects.add(new Effect(id, type, name, duration, iconPath, description));
+                    createPowerUpOrDown(rs, allPowerUps);
                 }
-                return effects;
+                return allPowerUps;
             }
             
         } catch(SQLException ex) {
-            throw new BreakoutException("Couldn't get all effects", ex);
+            throw new BreakoutException("Couldn't get all powerUps", ex);
         }
+    }
+    
+    private void createPowerUpOrDown(ResultSet rs, AllPowerUps powerUpList) throws SQLException{
+        PowerUpOrDown p = givePowerUpOrDown(rs);
+        if(p.getType().equals("U")){
+            powerUpList.addToPowerUpList(p);
+        } else {
+            powerUpList.addToPowerDownList(p);
+        }
+    }
+    
+    private PowerUpOrDown givePowerUpOrDown(ResultSet rs) throws SQLException{
+        int id = rs.getInt(FIELD_ID);
+        String type = rs.getString(FIELD_TYPE);
+        String name = rs.getString(FIELD_NAME);
+        int duration = rs.getInt(FIELD_DURATION);
+        String iconPath = rs.getString(FIELD_ICON);
+        String description = rs.getString(FIELD_DESCRIPTION);
+        PowerUpOrDown p = null;
+         
+        switch(name){
+            case"Bullet time":
+                p = new PowerUpBulletTime(id, name, type, duration, iconPath, description);
+                break;
+            case"Scaffolds":
+                p = new PowerUpScaffolds(id, name, type, duration, iconPath, description);
+                break;
+            case"Double Trouble":
+                p = new PowerUpDoubleTrouble(id, name, type, duration, iconPath, description);
+                break;
+            case"Gravity":
+                p = new PowerDownGravity(id, name, type, duration, iconPath, description);
+                break;
+            case"Slowed":
+                p = new PowerDownSlowed(id, name, type, duration, iconPath, description);
+                break;
+            case"Shrunk":
+                p = new PowerDownShrunk(id, name, type, duration, iconPath, description);
+                break;
+            case"Sudden death":
+                p = new PowerDownSuddenDeath(id, name, type, duration, iconPath, description);
+                break;
+        }
+        
+        return p;
     }
 
     @Override
-    public Effect getEffectWithName(String name) {
+    public PowerUpOrDown getPowerUpOrDownWithName(String name) {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_EFFECT_WITH_NAME)) {
             
             stmt.setString(1, name);
             
             try(ResultSet rs = stmt.executeQuery()) {
-                Effect e = null;
+                PowerUpOrDown p = null;
                 while(rs.next()) {
-                    int id = rs.getInt(FIELD_ID);
-                    String type = rs.getString(FIELD_TYPE);
-                    int duration = rs.getInt(FIELD_DURATION);
-                    String iconPath = rs.getString(FIELD_ICON);
-                    String description = rs.getString(FIELD_DESCRIPTION);
-                    e = new Effect(id, type, name, duration, iconPath, description);
+                    p = givePowerUpOrDown(rs);
                 }
-                return e;
+                return p;
             }
             
         } catch(SQLException ex) {
@@ -83,23 +126,18 @@ public class MySQLEffectRepository implements EffectRepository {
     }
 
     @Override
-    public Effect getEffectWithId(int id) {
+    public PowerUpOrDown getPowerUpOrDownWithId(int id) {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_EFFECT_WITH_ID)) {
             
             stmt.setInt(1, id);
             
             try(ResultSet rs = stmt.executeQuery()) {
-                Effect e = null;
+                PowerUpOrDown p = null;
                 while(rs.next()) {
-                    String type = rs.getString(FIELD_TYPE);
-                    String name = rs.getString(FIELD_NAME);
-                    int duration = rs.getInt(FIELD_DURATION);
-                    String iconPath = rs.getString(FIELD_ICON);
-                    String description = rs.getString(FIELD_DESCRIPTION);
-                    e = new Effect(id, type, name, duration, iconPath, description);
+                    p = givePowerUpOrDown(rs);
                 }
-                return e;
+                return p;
             }
             
         } catch(SQLException ex) {
@@ -108,15 +146,15 @@ public class MySQLEffectRepository implements EffectRepository {
     }
 
     @Override
-    public void addEffect(Effect e) {
+    public void addPowerUpOrDown(PowerUpOrDown p) {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(ADD_EFFECT)) {
             
-            stmt.setString(1, e.getType());
-            stmt.setString(2, e.getName());
-            stmt.setInt(3, e.getDuration());
-            stmt.setString(4, e.getIconPath());
-            stmt.setString(5, e.getDescription());
+            stmt.setString(1, p.getType());
+            stmt.setString(2, p.getName());
+            stmt.setInt(3, p.getDuration());
+            stmt.setString(4, p.getIconPath());
+            stmt.setString(5, p.getDescription());
             stmt.executeUpdate();
             
         } catch(SQLException ex) {
@@ -125,16 +163,15 @@ public class MySQLEffectRepository implements EffectRepository {
     }
 
     @Override
-    public void deleteEffect(Effect e) {
+    public void deletePowerUpOrDown(PowerUpOrDown p) {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(DELETE_EFFECT)) {
             
-            stmt.setInt(1, e.getId());
+            stmt.setInt(1, p.getId());
             stmt.executeUpdate();
             
         } catch(SQLException ex) {
             throw new BreakoutException("Couldn't delete effect with id", ex);
         }
     }
-    
 }

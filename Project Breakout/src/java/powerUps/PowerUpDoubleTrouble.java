@@ -16,8 +16,8 @@ import java.util.Timer;
  */
 public class PowerUpDoubleTrouble extends PowerUpOrDown{
 
-    public PowerUpDoubleTrouble(Level level, Brick theBrick, String name, int duration, String description) {
-        super(level, theBrick, name, duration, description);
+    public PowerUpDoubleTrouble(int id, String name, String type, int duration, String iconPath, String description) {
+        super(id, name, type, duration, iconPath, description);
     } 
     
 //    @Override
@@ -42,6 +42,8 @@ public class PowerUpDoubleTrouble extends PowerUpOrDown{
     public void deActivate() {
         System.out.println("deactivated");
         level.getBalls().remove(level.getBalls().size() - 1);
+        level.decrementLife();
+        //level.decrementBallsOnScreen();
         level.setPowerUpActive(new NoPower());
     }
     

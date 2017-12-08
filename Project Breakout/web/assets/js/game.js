@@ -107,15 +107,24 @@ var comms = function() {
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
+    pallet = null;
+    ball = null;
     bricks = [];
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          pallet = new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet);
+          if(pallet == null) {
+              pallet = [];
+          }
+          pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
           break;
         case "Ball":
-          ball = new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball); // TODO: Move this to seperate functions?
+          if(ball == null) {
+              ball = [];
+          }
+          ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
+
           break;
         case "Brick":
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
@@ -186,8 +195,12 @@ function draw() {
   console.log(check); // TODO: remove this in final version, also move the boolean check to the if then
   if (check) {
     background(47, 49, 54);
-    ball.show();
-    pallet.show();
+    for(var b in ball) {
+        ball[b].show();
+    }
+    for(var p in pallet) {
+        pallet[p].show();
+    }
     for (var i = 0; i < bricks.length; i++) {
       bricks[i].show();
     }

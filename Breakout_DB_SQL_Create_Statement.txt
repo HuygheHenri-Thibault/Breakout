@@ -83,11 +83,11 @@ INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Slowed', 5, 
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Shrunk', 5, 'There are pils for that you know.');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Sudden death', 5, 'FIGHT FOR YOUR LIFE');
 
-INSERT INTO bricks(skin, baseLength, hits, score) VALUES('yellow_block.png', 1, 1, 10);
-INSERT INTO bricks(skin, baseLength, hits, score) VALUES('red_block.png', 1, 1, 20);
-INSERT INTO bricks(skin, baseLength, hits, score) VALUES('black_block.png', 1, 1, 30);
-INSERT INTO bricks(skin, baseLength, hits, score) VALUES('green_block.png', 1, 1, 40);
-INSERT INTO bricks(skin, baseLength, hits, score) VALUES('purple_block.png', 1, 1, 50);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('yellow_block', 1, 1, 10);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('red_block', 1, 1, 20);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('black_block', 1, 1, 30);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('green_block', 1, 1, 40);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('purple_block', 1, 1, 50);
 
 /* Should work, I think :^)
 Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017

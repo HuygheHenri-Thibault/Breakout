@@ -13,6 +13,7 @@ public class Repositories {
     private final static UserRepository USER_REPOSITORY = new MySQLUserRepository();
     private final static BrickRepository BRICK_REPOSITORY = new MySQLBrickRepository();
     private final static HighscoreRepository HIGHSCORE_REPOSITORY = new MySQLHighscoreRepository();
+    private final static EffectRepository EFFECT_REPOSITORY = new MySQLEffectRepository();
 
     public static UserRepository getUserRepository() {
         return USER_REPOSITORY;
@@ -24,5 +25,9 @@ public class Repositories {
 
     public static HighscoreRepository getHighscoreRepository() {
         return HIGHSCORE_REPOSITORY;
+    }
+
+    public static EffectRepository getEffectRepository() {
+        return EFFECT_REPOSITORY;
     }
 }
