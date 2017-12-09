@@ -116,6 +116,10 @@ public class GameSocket {
             String color = spriteString[1];
             spriteObj.put("color", color);
         }
+        if(typeOfSprite.equals("Powerup")) {
+            String icon = spriteString[1];
+            spriteObj.put("icon", icon);
+        }
         spriteObj.put("type", typeOfSprite);
         
         int xPos = aShape.getX();
@@ -149,8 +153,8 @@ public class GameSocket {
                 spriteObj.put("height", Math.round(rect.getHeight())); // y
                 break;
             case "Powerup":
-                spriteObj.put("width", 10); // x // FIXME!!!!!!
-                spriteObj.put("height", 10); // y // FIXME!!!!!!
+                spriteObj.put("width", 20); // x // FIXME!!!!!!
+                spriteObj.put("height", 20); // y // FIXME!!!!!!
                 break;
             default:
                 spriteObj.put("width", -1); // x
