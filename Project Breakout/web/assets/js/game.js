@@ -37,6 +37,7 @@ Player.prototype.move = function(keyMap) {
 
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
+var lel = true //TODO: DELETE DIS
 
 var init = function() {
   var fireModal = function() {
@@ -110,6 +111,7 @@ var gui = function() {
     pallet = null;
     ball = null;
     bricks = [];
+    effects = [];
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
@@ -124,11 +126,13 @@ var gui = function() {
               ball = [];
           }
           ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
-
           break;
         case "Brick":
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
+        case "Powerup":
+        effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+        break; // TODO: Doesn't work yet ;-;
       }
     }
   };
@@ -167,8 +171,9 @@ var socket = function() {
 var ball = null; // TODO: SOOO MANYY GLOBALS ;-;
 var pallet = null;
 var bricks = [];
+var effects = [];
 var images = {};
-var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png'];
+var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png'];
 function setImages(listOfImagesToLoad) {
   for (var i = 0; i<listOfImagesToLoad.length;i++) {
     var imgPath = listOfImagesToLoad[i].split("/");
@@ -200,6 +205,9 @@ function draw() {
     }
     for(var p in pallet) {
         pallet[p].show();
+    }
+    for(var e in effects) {
+        effects[e].show();
     }
     for (var i = 0; i < bricks.length; i++) {
       bricks[i].show();
