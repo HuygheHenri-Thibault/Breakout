@@ -45,4 +45,8 @@ public class PowerDownGravity extends PowerUpOrDown{
         level.setPowerUpActive(new NoPower());
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + " gravity"; 
+    }
 }

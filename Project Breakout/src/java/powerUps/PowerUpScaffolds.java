@@ -54,4 +54,8 @@ public class PowerUpScaffolds extends PowerUpOrDown{
         level.setPowerUpActive(new NoPower());
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + " scaffolds"; 
+    }
 }

@@ -80,4 +80,9 @@ public abstract class PowerUpOrDown extends Shape{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithPowerUp(this);
     }
+    
+    @Override
+    public String toString() {
+        return "Powerup";
+    }
 }

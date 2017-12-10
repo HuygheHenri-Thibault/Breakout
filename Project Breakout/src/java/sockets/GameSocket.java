@@ -29,6 +29,7 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
+import powerUps.PowerUpOrDown;
 import util.BreakoutException;
 /**
  *
@@ -112,9 +113,12 @@ public class GameSocket {
         String spriteString[] = aShape.toString().split(" ");
         String typeOfSprite = spriteString[0];
         if(typeOfSprite.equals("Brick")) {
-            String[] colorPath = spriteString[1].split("_");
-            String color = colorPath[0];
+            String color = spriteString[1];
             spriteObj.put("color", color);
+        }
+        if(typeOfSprite.equals("Powerup")) {
+            String icon = spriteString[1];
+            spriteObj.put("icon", icon);
         }
         spriteObj.put("type", typeOfSprite);
         
@@ -147,6 +151,10 @@ public class GameSocket {
                 Rectangle rect = (Rectangle) aSpirte;
                 spriteObj.put("width", Math.round(rect.getLength())); // x
                 spriteObj.put("height", Math.round(rect.getHeight())); // y
+                break;
+            case "Powerup":
+                spriteObj.put("width", 20); // x // FIXME!!!!!!
+                spriteObj.put("height", 20); // y // FIXME!!!!!!
                 break;
             default:
                 spriteObj.put("width", -1); // x
