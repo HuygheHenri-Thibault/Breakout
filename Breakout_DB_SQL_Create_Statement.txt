@@ -91,10 +91,10 @@ INSERT INTO bricks(skin, baseLength, hits, score) VALUES('purple_block', 1, 1, 5
 
 CREATE USER 'usrbreakout'@'localhost' IDENTIFIED BY 'TIbreakout2017';
 
-GRANT DELETE ON usrbreakout.* TO 'usrbreakout'@'localhost';
-GRANT INSERT ON usrbreakout.* TO 'usrbreakout'@'localhost';
-GRANT SELECT ON usrbreakout.* TO 'usrbreakout'@'localhost';
-GRANT UPDATE ON usrbreakout.* TO 'usrbreakout'@'localhost';
+GRANT DELETE ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT INSERT ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT SELECT ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT UPDATE ON breakout.* TO 'usrbreakout'@'localhost';
 
 /* Should work, I think :^)
 Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017
