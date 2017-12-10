@@ -74,6 +74,7 @@ public class Level{
         taskForLevel = s;
         timer.scheduleAtFixedRate(s, 1000, 10);
     }
+    //
 
     public void startLevel(){
         timer = new Timer();

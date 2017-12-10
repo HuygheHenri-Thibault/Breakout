@@ -12,7 +12,9 @@ import domain.BrickRow;
 import java.util.List;
 import java.util.Random;
 import powerUps.AllPowerUps;
+import powerUps.PowerUpDoubleTrouble;
 import powerUps.PowerUpOrDown;
+import powerUps.PowerUpScaffolds;
 
 /**
  *
@@ -38,7 +40,7 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
     private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
         String color = rowBricks.getBrickData().getColor();
         
-        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 10;
+        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 6;
         
         int bricksLenghtMadeSoFar = rowBricks.getSomLengteGemaakteBricks();
         int x = rowBricks.getMIN_BRICK_BORDER_X() + bricksLenghtMadeSoFar;

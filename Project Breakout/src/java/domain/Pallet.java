@@ -102,22 +102,21 @@ public class Pallet extends Rectangle {
 
     public void move() {
         this.setX((int) (this.getX() + dx));
-        if (collidesWithOtherRectangleOrBoundaries()) {
-            updateSpriteAfterCollidingWithRectangle();
-        }
+        Shape shape = collidesWithOtherRectangleOrBoundaries();
+        if(shape != null) updateSpriteAfterCollidingWithRectangle();
     }
 
-    public boolean collidesWithOtherRectangleOrBoundaries() {
+    public Shape collidesWithOtherRectangleOrBoundaries() {
         for (Rectangle r : level.getPallets()) {
             if (this.getX() != r.getX()) {
                 if (this.checkCollission(r)) {
-                    return true;
+                    return r;
                 }
             }
         }
-        if (this.checkCollission(level.getLEFT_BOUNDARY())) { return true;}
-        if (this.checkCollission(level.getRIGHT_BOUNDARY())) { return true;}
-        return false;
+        if (this.checkCollission(level.getLEFT_BOUNDARY())) { return level.getLEFT_BOUNDARY();}
+        if (this.checkCollission(level.getRIGHT_BOUNDARY())) { return level.getRIGHT_BOUNDARY();}
+        return null;
     }
 
     public void updateSpriteAfterCollidingWithRectangle() {

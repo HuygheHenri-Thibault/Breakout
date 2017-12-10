@@ -63,7 +63,7 @@ public abstract class PowerUpOrDown extends Shape{
         this.brick = b;
         b.setPowerUp(this);
         setX(brick.getX() + brick.getLength() / 2);
-        setY(brick.getY() + brick.getHeight() / 2);
+        setY(brick.getY());
         this.boundaries =  new Rectangle(brick.getLevel(), getX(), getY(), 10, 10);
     }
     
