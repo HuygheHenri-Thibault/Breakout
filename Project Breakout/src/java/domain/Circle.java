@@ -54,6 +54,9 @@ public class Circle extends Shape implements Collidable{
     }
     
     @Override
+    public void updateSpritePallet(Pallet p){}
+    
+    @Override
     public String toString() {
         return "Circle";
     }

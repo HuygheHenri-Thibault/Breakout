@@ -69,6 +69,16 @@ public class Rectangle extends Shape implements Collidable{
     public boolean checkCollission(Shape s) {
         return s.checkCollissionWithRect(this);
     }
+    
+    @Override
+    public void updateSpritePallet(Pallet p){
+        if(this.getHeight() == level.getLEFT_BOUNDARY().getHeight() && this.getX() == level.getLEFT_BOUNDARY().getX()){
+            p.updateSpriteAfterCollidingWithLeftBoundary();
+        }
+        if(this.getHeight() == level.getRIGHT_BOUNDARY().getHeight() && this.getX() == level.getRIGHT_BOUNDARY().getX()){
+            p.updateSpriteAfterCollidingWithRightBoundary();
+        }
+    }
 
     @Override
     public void updateSpriteBall(Ball aBall) {

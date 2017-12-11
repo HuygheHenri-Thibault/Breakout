@@ -53,4 +53,7 @@ public abstract class Shape implements Collidable{
     }
     @Override
     public abstract void updateSpriteBall(Ball aBall);
+    
+    @Override
+    public abstract void updateSpritePallet(Pallet p);
 }

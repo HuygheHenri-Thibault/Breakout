@@ -9,6 +9,7 @@ import domain.Ball;
 import domain.Brick;
 import domain.Circle;
 import domain.Level;
+import domain.Pallet;
 import domain.Rectangle;
 import domain.Shape;
 import domain.Sprite;
@@ -80,6 +81,9 @@ public abstract class PowerUpOrDown extends Shape{
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithPowerUp(this);
     }
+    
+    @Override
+    public void updateSpritePallet(Pallet p){}
     
     @Override
     public String toString() {

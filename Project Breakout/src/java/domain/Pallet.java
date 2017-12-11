@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
  * @author micha
  */
 public class Pallet extends Rectangle {
+
     private Sprite s;
     private final int userID;
     private final Level level;
@@ -38,6 +39,7 @@ public class Pallet extends Rectangle {
     public Level getLevel() {
         return level;
     }
+
     public float getSpeed() {
         return speed;
     }
@@ -45,25 +47,24 @@ public class Pallet extends Rectangle {
     public void setSpeed(float speed) {
         this.speed = speed;
     }
-    
-    public void moveLeft(){
+
+    public void moveLeft() {
         setDx(-speed);
     }
-    
-    public void moveRight(){
+
+    public void moveRight() {
         setDx(speed);
     }
-    
-    public void stopMoving(){
+
+    public void stopMoving() {
         setDx(0);
     }
-    
-    public void resetState(){
+
+    public void resetState() {
         setX(INIT_PALLET_X);
         setY(INIT_PALLET_Y);
     }
-    
-    
+
     //voor swing
     public void keyPressed(KeyEvent e) {
 
@@ -103,9 +104,12 @@ public class Pallet extends Rectangle {
     public void move() {
         this.setX((int) (this.getX() + dx));
         Shape shape = collidesWithOtherRectangleOrBoundaries();
-        if(shape != null) updateSpriteAfterCollidingWithRectangle();
+        if (shape != null) {
+            shape.updateSpritePallet(this);
+        }
     }
 
+    //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
     public Shape collidesWithOtherRectangleOrBoundaries() {
         for (Rectangle r : level.getPallets()) {
             if (this.getX() != r.getX()) {
@@ -114,16 +118,61 @@ public class Pallet extends Rectangle {
                 }
             }
         }
-        if (this.checkCollission(level.getLEFT_BOUNDARY())) { return level.getLEFT_BOUNDARY();}
-        if (this.checkCollission(level.getRIGHT_BOUNDARY())) { return level.getRIGHT_BOUNDARY();}
+        if (this.checkCollission(level.getLEFT_BOUNDARY())) {
+            return level.getLEFT_BOUNDARY();
+        }
+        if (this.checkCollission(level.getRIGHT_BOUNDARY())) {
+            return level.getRIGHT_BOUNDARY();
+        }
         return null;
     }
 
-    public void updateSpriteAfterCollidingWithRectangle() {
-        toggleDx();
-        int xBeforeCollission = (int) (this.getX() + dx);
-        this.setX(xBeforeCollission);
-        toggleDx();
+    @Override
+    public void updateSpritePallet(Pallet OurPallet) {
+        if (OurPallet.collidesWithRightSide(this)) {
+            OurPallet.updateSpriteAfterCollidingWithRightBoundary();
+//           if(this.dx == 0){
+//              this.moveRight();
+//              
+//              if(OurPallet.dx != speed){
+//                  this.stopMoving();
+//              }
+//            }
+        } else if (OurPallet.collidesWithLeftSide(this)) {
+                OurPallet.updateSpriteAfterCollidingWithLeftBoundary();
+//            if(this.dx == 0){
+//                this.moveLeft();
+//                if(OurPallet.dx != -speed){
+//                    this.stopMoving();
+//                }
+//            }
+        }
+    }
+
+    public boolean collidesWithRightSide(Rectangle p) {
+        return this.getX() + this.getLength() > p.getX() && this.getX() + this.getLength() < p.getX() + p.getLength();
+    }
+
+    public boolean collidesWithLeftSide(Rectangle p) {
+        return this.getX() > p.getX() && this.getX() < p.getX() + p.getLength();
+    }
+
+    public void updateSpriteAfterCollidingWithLeftBoundary() {
+        moveRight();
+        while (collidesWithOtherRectangleOrBoundaries() != null) {
+            int xToBoundary = (int) (getX() + dx);
+            this.setX(xToBoundary);
+        }
+        moveLeft();
+    }
+
+    public void updateSpriteAfterCollidingWithRightBoundary() {
+        moveLeft();
+        while (collidesWithOtherRectangleOrBoundaries() != null) {
+            int xToBoundary = (int) (getX() + dx);
+            this.setX(xToBoundary);
+        }
+        moveRight();
     }
 
     public void setDx(float dx) {

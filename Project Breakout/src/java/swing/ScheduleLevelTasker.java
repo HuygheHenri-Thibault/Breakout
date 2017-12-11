@@ -34,7 +34,6 @@ public class ScheduleLevelTasker extends TimerTask {
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
-                System.out.println("pallet x: "+ pallet.getX());
             }
             
             switch (level.getActivePowerUp().isActivated()) {
