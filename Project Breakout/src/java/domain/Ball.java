@@ -227,11 +227,11 @@ public class Ball extends Circle implements Serializable{
         setDx(-getDx());
         setDy(-getDy());
         //powerUpTouched.activate(this);
-        powerUpTouched.setBallActivatedPower(this);
+        powerUpTouched.setEntetiesOfLevel(this);
         level.getPowerUpsShownOnScreen().remove(powerUpTouched);
         level.resetPowerUps();
         level.setPowerUpActive(powerUpTouched);
-        powerUpTouched.setActive();
+        powerUpTouched.activate();
     }
     
     public void updateSpriteAfterCollidingWithCircle(){

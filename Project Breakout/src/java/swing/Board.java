@@ -51,7 +51,7 @@ public class Board extends JPanel{
         User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
         User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
         List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
-        game = new MultiPlayerGame(users, 1000, 1000, 3);
+        game = new SinglePlayerGame(me, 1000, 1000);
         addKeyListener(new TAdapter());
         setFocusable(true);
         setDoubleBuffered(true);

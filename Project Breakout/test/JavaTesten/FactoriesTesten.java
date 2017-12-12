@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import spells.Spell;
 
 /**
  *
@@ -199,6 +200,13 @@ public class FactoriesTesten {
     private static double round (double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
+    }
+    
+    @Test
+    public void testSpell(){
+        Spell spell = new Spell();
+        System.out.println(spell.getName());
+        System.out.println(spell.cast());
     }
 
     // TODO add test methods here.

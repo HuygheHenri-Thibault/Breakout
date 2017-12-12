@@ -11,23 +11,23 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class TimerTaskPower extends TimerTask {
+public class TimerTaskEffect extends TimerTask {
 
-    private final PowerUpOrDown powerUp;
+    private final DummyEffect effect;
 
     private final long start;
     private final long end;
 
-    public TimerTaskPower(PowerUpOrDown powerUp) {
-        this.powerUp = powerUp;
+    public TimerTaskEffect(DummyEffect effect) {
+        this.effect = effect;
         this.start = System.currentTimeMillis();
-        this.end = start + (powerUp.duration * 1000);
+        this.end = start + (effect.getDuration() * 1000);
     }
 
     @Override
     public void run() {
         if (System.currentTimeMillis() > end) {
-            powerUp.setDeActive();
+            effect.setDeActive();
             cancel();
         }
     }

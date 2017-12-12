@@ -14,7 +14,10 @@ public class Repositories {
     private final static BrickRepository BRICK_REPOSITORY = new MySQLBrickRepository();
     private final static HighscoreRepository HIGHSCORE_REPOSITORY = new MySQLHighscoreRepository();
     private final static EffectRepository EFFECT_REPOSITORY = new MySQLEffectRepository();
-
+    //voor test
+    private final static SpellRepository SPELL_REPOSITORY = new MySQLSpellRepository();
+    //
+    
     public static UserRepository getUserRepository() {
         return USER_REPOSITORY;
     }
@@ -30,4 +33,10 @@ public class Repositories {
     public static EffectRepository getEffectRepository() {
         return EFFECT_REPOSITORY;
     }
+    
+    //voor test
+    public static SpellRepository getSpellRepository() {
+        return SPELL_REPOSITORY;
+    }
+    //
 }

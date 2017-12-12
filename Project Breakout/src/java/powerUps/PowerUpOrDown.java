@@ -13,27 +13,28 @@ import domain.Pallet;
 import domain.Rectangle;
 import domain.Shape;
 import domain.Sprite;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author micha
  */
-public abstract class PowerUpOrDown extends Shape{
-    protected Level level;
-    protected Ball ballActivatedPower;
-    protected Sprite s;
-    protected Rectangle boundaries;
-    protected Brick brick;
-    protected int id;
-    protected String name;
-    protected String type;
-    protected int duration;
-    protected String iconPath;
-    protected String description;
+public class PowerUpOrDown extends Shape implements Effect{
+    private List<DummyEffect> effects = new ArrayList<>(); 
     
-    //status
-    protected PowerUpStatus status = PowerUpStatus.INACTIVE;
-
+    private Level level;
+    //private Ball ballActivatedPower;
+    private Sprite s;
+    private Rectangle boundaries;
+    private Brick brick;
+    private int id;
+    private String name;
+    private String type;
+    private int duration;
+    private String iconPath;
+    private String description;
+    
     public PowerUpOrDown() {
     }
 
@@ -41,6 +42,7 @@ public abstract class PowerUpOrDown extends Shape{
         this.name = name;
         this.type = type;
         this.duration = duration;
+        this.iconPath = iconPath;
         this.description = description;
     }
     
@@ -50,14 +52,9 @@ public abstract class PowerUpOrDown extends Shape{
     public int getDuration(){return duration;}
     public String getIconPath(){return iconPath;}
     public String getDescription(){return description;}
-    public void setActive(){status = PowerUpStatus.ACTIVE;}
-    public void setRunning(){status = PowerUpStatus.RUNNING;}
-    public void setDeActive(){status = PowerUpStatus.INACTIVE;}
-    public PowerUpStatus isActivated(){return status;}
+    
     public Rectangle getBoundaries(){return boundaries;}
     public void show(){brick.getLevel().getPowerUpsShownOnScreen().add(this);}
-    public abstract void activate();
-    public abstract void deActivate();
     
     public void setBrickHiddenIn(Brick b){
         this.level = b.getLevel();
@@ -68,8 +65,34 @@ public abstract class PowerUpOrDown extends Shape{
         this.boundaries =  new Rectangle(brick.getLevel(), getX(), getY(), 10, 10);
     }
     
-    public void setBallActivatedPower(Ball ballActivated){
-        this.ballActivatedPower = ballActivated;
+    public void addEffect(DummyEffect effect){
+        effects.add(effect);
+    }
+
+    public List<DummyEffect> getEffects() {
+        return effects;
+    }
+    
+    public void setEntetiesOfLevel(Ball ballActivated){
+        for (DummyEffect effect : effects) {
+            effect.setLastBallActivated(ballActivated);
+            effect.setLevel(level);
+            effect.setDuration(duration);
+        }
+    }
+    
+    @Override
+    public void activate(){
+        for (DummyEffect effect : effects) {
+            effect.setActive();
+        }
+    }
+    
+    @Override
+    public void deActivate(){
+        for (DummyEffect effect : effects) {
+            effect.setDeActive();
+        }
     }
     
     @Override

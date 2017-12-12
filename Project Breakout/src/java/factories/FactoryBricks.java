@@ -12,9 +12,9 @@ import domain.BrickRow;
 import java.util.List;
 import java.util.Random;
 import powerUps.AllPowerUps;
-import powerUps.PowerUpDoubleTrouble;
+import powerUps.EffectDoubleTrouble;
 import powerUps.PowerUpOrDown;
-import powerUps.PowerUpScaffolds;
+import powerUps.EffectScaffolds;
 
 /**
  *

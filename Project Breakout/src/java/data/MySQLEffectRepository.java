@@ -14,14 +14,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import powerUps.AllPowerUps;
-import powerUps.PowerDownGravity;
-import powerUps.PowerDownShrunk;
-import powerUps.PowerDownSlowed;
-import powerUps.PowerDownSuddenDeath;
-import powerUps.PowerUpBulletTime;
-import powerUps.PowerUpDoubleTrouble;
+import powerUps.DummyEffect;
+import powerUps.EffectGravity;
+import powerUps.EffectShrunk;
+import powerUps.EffectSlowed;
+import powerUps.EffectSuddenDeath;
+import powerUps.EffectBulletTime;
+import powerUps.EffectDoubleTrouble;
 import powerUps.PowerUpOrDown;
-import powerUps.PowerUpScaffolds;
+import powerUps.EffectScaffolds;
 import util.BreakoutException;
 
 /**
@@ -76,29 +77,37 @@ public class MySQLEffectRepository implements EffectRepository {
         int duration = rs.getInt(FIELD_DURATION);
         String iconPath = rs.getString(FIELD_ICON);
         String description = rs.getString(FIELD_DESCRIPTION);
-        PowerUpOrDown p = null;
-         
+        PowerUpOrDown p = new PowerUpOrDown(id, name, type, duration, iconPath, description);;
+        DummyEffect effect; 
+        
         switch(name){
             case"Bullet time":
-                p = new PowerUpBulletTime(id, name, type, duration, iconPath, description);
+                effect = new EffectBulletTime(duration);
+                p.addEffect(effect);
                 break;
             case"Scaffolds":
-                p = new PowerUpScaffolds(id, name, type, duration, iconPath, description);
+                effect = new EffectScaffolds(duration);
+                p.addEffect(effect);
                 break;
             case"Double Trouble":
-                p = new PowerUpDoubleTrouble(id, name, type, duration, iconPath, description);
+                effect = new EffectDoubleTrouble(duration);
+                p.addEffect(effect);
                 break;
             case"Gravity":
-                p = new PowerDownGravity(id, name, type, duration, iconPath, description);
+                effect = new EffectGravity(duration);
+                p.addEffect(effect);
                 break;
             case"Slowed":
-                p = new PowerDownSlowed(id, name, type, duration, iconPath, description);
+                effect = new EffectSlowed(duration);
+                p.addEffect(effect);
                 break;
             case"Shrunk":
-                p = new PowerDownShrunk(id, name, type, duration, iconPath, description);
+                effect = new EffectShrunk(duration);
+                p.addEffect(effect);
                 break;
             case"Sudden death":
-                p = new PowerDownSuddenDeath(id, name, type, duration, iconPath, description);
+                effect = new EffectSuddenDeath(duration);
+                p.addEffect(effect);
                 break;
         }
         

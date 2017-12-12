@@ -204,7 +204,7 @@ public class Level{
     }
     
     public void resetPowerUps(){
-        powerUpActive.setDeActive();
+        powerUpActive.deActivate();
     }
     
     public boolean getGameOver(){

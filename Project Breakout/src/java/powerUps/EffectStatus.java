@@ -9,6 +9,6 @@ package powerUps;
  *
  * @author micha
  */
-public enum PowerUpStatus {
+public enum EffectStatus {
     ACTIVE, INACTIVE, RUNNING;
 }

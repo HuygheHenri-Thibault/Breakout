@@ -11,13 +11,16 @@ import domain.Pallet;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import powerUps.DummyEffect;
+import powerUps.Effect;
 
 /**
  *
  * @author micha
  */
 public class ScheduleLevelTasker extends TimerTask {
- private Level level;
+
+    private Level level;
     private JPanel toRepaint;
     private boolean paused = false;
 
@@ -35,20 +38,22 @@ public class ScheduleLevelTasker extends TimerTask {
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
             }
-            
-            switch (level.getActivePowerUp().isActivated()) {
-                case ACTIVE:
-                    level.getActivePowerUp().activate();
-                    break;
-                case INACTIVE:
-                    level.getActivePowerUp().deActivate();
-                    break;
-                default:
-                    break;
+
+            //voor elke powerup, zijn effecten checken
+            for (DummyEffect effect : level.getActivePowerUp().getEffects()) {
+                switch (effect.isActivated()) {
+                    case ACTIVE:
+                        effect.activate();
+                        break;
+                    case INACTIVE:
+                        effect.deActivate();
+                        break;
+                    default:
+                        break;
+                }
             }
-            
-            
-            SwingUtilities.invokeLater(()->toRepaint.repaint());
+
+            SwingUtilities.invokeLater(() -> toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui
         }
     }
