@@ -34,8 +34,7 @@ public class EffectSuddenDeath extends Effect{
         System.out.println("deactivated");
         getT().cancel();
         getThisLevel().getGame().setLives(getThisLevel().getGame().getStartLives());
-        getThisLevel().setPowerUpActive(new NoPower());
-        setReady();
+        setDone();
     }
     
     @Override

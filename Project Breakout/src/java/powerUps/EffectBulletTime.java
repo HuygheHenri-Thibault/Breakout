@@ -27,14 +27,14 @@ public class EffectBulletTime extends Effect{
 
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getLastBallActivated().getLastUserThatTouchedMe());
+        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
         setUserPallet(palletOfUser);
-
+        
         setRunning();
         
         getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
         
-        System.out.println("activated");
+        System.out.println("activated bullet time");
       
         setT(new Timer());
         getT().schedule(new TimerTaskEffect(this), 0, 1000);
@@ -45,8 +45,7 @@ public class EffectBulletTime extends Effect{
         System.out.println("deactivated");
         getT().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
-        getThisLevel().setPowerUpActive(new NoPower());
-        setReady();
+        setDone();
     }
 
     @Override

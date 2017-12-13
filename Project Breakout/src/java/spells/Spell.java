@@ -6,6 +6,7 @@
 package spells;
 
 import data.Repositories;
+import domain.Ball;
 import domain.Level;
 import domain.User;
 import java.awt.event.KeyEvent;
@@ -81,7 +82,7 @@ public class Spell{
     
 
     
-    public void setReady(){status = SpellStatus.READY; level.updateSpellOfUser(user, this);}
+    public void setReady(){status = SpellStatus.READY; level.updateSpellOfUser(user, this); }
     public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfUser(user, this);}
     public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfUser(user, this);}
     public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfUser(user, this);}
@@ -95,17 +96,23 @@ public class Spell{
         setActive();
     }
     
-    public int cast(){
+    public void cast(){
         setEntetiesOfEffect();
-        int combinedDamage = zelfstandigNaamwoord.cast();
+        List<Ball> allBallsInLevel = level.getBalls();
+        for (Ball ball : allBallsInLevel) {
+            ball.setDamage(zelfstandigNaamwoord.cast());
+        }
         setDeActive();
-        return combinedDamage;
     }
     
     public void startCooldown(){
         setCoolDown();
         Timer t = new Timer();
         t.schedule(new TimerTaskSpell(this), 0, 1000);
+    }
+    
+    public void resetSpell(){
+        zelfstandigNaamwoord.resetEffect();
     }
     
     public List<Effect> getSpellEffects(){
@@ -117,7 +124,7 @@ public class Spell{
 
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_SPACE) {
             if(status == SpellStatus.READY){
                 setReadyToCast();
             }

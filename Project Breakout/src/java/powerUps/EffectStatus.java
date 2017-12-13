@@ -10,5 +10,5 @@ package powerUps;
  * @author micha
  */
 public enum EffectStatus {
-    READY, ACTIVE, INACTIVE, RUNNING;
+    READY, ACTIVE, INACTIVE, RUNNING, DONE;
 }

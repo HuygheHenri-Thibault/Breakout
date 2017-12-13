@@ -14,7 +14,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectDoubleTrouble extends Effect{
+public class EffectDoubleTrouble extends Effect {
 
     public EffectDoubleTrouble(int duration) {
         super(duration);
@@ -22,9 +22,12 @@ public class EffectDoubleTrouble extends Effect{
 
     @Override
     public void activate() {
-        setRunning();
-        getThisLevel().createExtraBall();
-        System.out.println("activated");
+        int amountOfBallsInLevel = (int) Math.ceil((double) getThisLevel().getAantalSpelers() / 2);
+        if (!(getThisLevel().getBalls().size() >= amountOfBallsInLevel + 1)) {
+            setRunning();
+            getThisLevel().createExtraBall(this);
+            System.out.println("activated");
+        }
     }
 
     @Override
@@ -32,12 +35,12 @@ public class EffectDoubleTrouble extends Effect{
         System.out.println("deactivated");
         getThisLevel().getBalls().remove(getThisLevel().getBalls().size() - 1);
         //getThisLevel().decrementLife();
-        getThisLevel().setPowerUpActive(new NoPower());
-        setReady();
+        setDone();
     }
-    
+
     @Override
     public String toString() {
-        return super.toString() + " double-trouble"; 
+        return super.toString() + " double-trouble";
     }
+
 }

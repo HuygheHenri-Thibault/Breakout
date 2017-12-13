@@ -39,6 +39,7 @@ public class ZelfstandigNaamwoord extends Woord{
         effect.setUserPallet(level.getUserPallet(userId));
         effect.setLastBallActivated(effect.getUserPallet().getLastBallTouched());
         effect.setLevel(level);
+        effect.setUserActivatedEffect(level.getPlayers().get(userId - 1));
         for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
             bijvoegelijkNaamwoord.setEntetiesOfEffect(level, userId);
         }
@@ -59,6 +60,13 @@ public class ZelfstandigNaamwoord extends Woord{
             spellEffects.add(bijvoegelijkNaamwoord.getEffect());
         }
         return spellEffects;
+    }
+    
+    public void resetEffect(){
+        effect.setReady();
+        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+            bijvoegelijkNaamwoord.resetEffect();
+        }
     }
     
     public int cast(){

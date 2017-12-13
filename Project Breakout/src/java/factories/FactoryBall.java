@@ -6,18 +6,19 @@
 package factories;
 
 import domain.Ball;
+import domain.DoubleTroubleBall;
 import domain.Game;
 import domain.Level;
 import java.util.ArrayList;
 import java.util.List;
+import powerUps.EffectDoubleTrouble;
 
 /**
  *
  * @author micha
  */
 public class FactoryBall extends FactoryBreakoutUtilities {
-
-     private final Level level;
+    private final Level level;
 
     public FactoryBall(Level level) {
         this.level = level;
@@ -44,10 +45,9 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         level.getBalls().add(b);
-        level.addBallOnScreen();
     }
     
-    public void createExtraBall(){
+    public void createExtraBallDoubleTrouble(EffectDoubleTrouble effect){
         String colorPallet = findUnusedColor();
         
         int x =  level.getGameWidth() / 2;
@@ -55,8 +55,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         int speed = Math.round(2 * level.getRatios().get(1).getRatio());
         
-        Ball b = new Ball(level, 10, speed, colorPallet, x, y);
-        //level.getBallIterator().add(b);
+        Ball b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
         level.getBalls().add(b);
     }
 }

@@ -50,7 +50,7 @@ public class Circle extends Shape implements Collidable{
 
     @Override
     public void updateSpriteBall(Ball aBall) {
-        aBall.updateSpriteAfterCollidingWithCircle();
+        aBall.updateSpriteAfterCollidingWithCircle(this);
     }
     
     @Override

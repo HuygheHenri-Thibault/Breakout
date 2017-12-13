@@ -22,17 +22,18 @@ public class EffectGravity extends Effect{
     @Override
     public void activate() {       
         setRunning();
-        getLastBallActivated().setDx(0);
-        getLastBallActivated().setDy(getLastBallActivated().getSpeed() / 2);
-        System.out.println("activated");
+        for (Ball ball : getThisLevel().getBalls()) {
+            ball.setDx(0);
+            ball.setDy(ball.getSpeed() / 2);           
+        }
+        System.out.println("activated gravity");
         setDeActive();
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated");
-        getThisLevel().setPowerUpActive(new NoPower());
-        setReady();
+        System.out.println("deactivated gravity");
+        setDone();
     }
     
     @Override

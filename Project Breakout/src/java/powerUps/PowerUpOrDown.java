@@ -35,6 +35,9 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     private String iconPath;
     private String description;
     
+     //status
+    private EffectStatus status = EffectStatus.READY;
+    
     public PowerUpOrDown() {
     }
 
@@ -45,6 +48,13 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
         this.iconPath = iconPath;
         this.description = description;
     }
+    
+    public void setReady(){status = EffectStatus.READY;}
+    public void setActive(){status = EffectStatus.ACTIVE;}
+    public void setRunning(){status = EffectStatus.RUNNING;}
+    public void setDeActive(){status = EffectStatus.INACTIVE;}
+    public void setDone(){status = EffectStatus.DONE;}
+    public EffectStatus isActivated(){return status;}
     
     public int getId(){return id;}
     public String getName(){return name;}
@@ -78,6 +88,9 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
             effect.setLastBallActivated(ballActivated);
             effect.setLevel(level);
             effect.setDuration(duration);
+            if(ballActivated.getLastUserThatTouchedMe() > 0){
+                effect.setUserActivatedEffect(level.getPlayers().get(ballActivated.getLastUserThatTouchedMe() - 1));
+            }
         }
     }
     
@@ -86,6 +99,7 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
         for (Effect effect : effects) {
             effect.setActive();
         }
+        setRunning();
     }
     
     @Override
@@ -93,6 +107,7 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
         for (Effect effect : effects) {
             effect.setDeActive();
         }
+        setRunning();
     }
     
     @Override

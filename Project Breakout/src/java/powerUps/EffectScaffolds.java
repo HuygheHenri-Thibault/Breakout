@@ -23,7 +23,7 @@ public class EffectScaffolds extends Effect{
 
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getLastBallActivated().getLastUserThatTouchedMe());
+        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
         setUserPallet(palletOfUser);
         setRunning();
         
@@ -40,8 +40,7 @@ public class EffectScaffolds extends Effect{
         System.out.println("deactivated");
         getT().cancel();
         getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getLength() * 0.2)));
-        getThisLevel().setPowerUpActive(new NoPower());
-        setReady();
+        setDone();
     }
     
     @Override

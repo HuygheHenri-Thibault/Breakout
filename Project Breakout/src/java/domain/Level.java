@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import powerUps.EffectDoubleTrouble;
 import powerUps.NoPower;
 import powerUps.PowerUpOrDown;
 import spells.Spell;
@@ -35,7 +36,6 @@ public class Level{
     private List<BrickRow> rowsOfBricks;
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
-    //private int ballsonScreen = balls.size() + 1;
     
     private List<PowerUpOrDown> powerUps = new ArrayList<>();
     private PowerUpOrDown powerUpActive = new NoPower();
@@ -176,9 +176,9 @@ public class Level{
         return balls;
     }
     
-    public void addBallOnScreen(){
-        //ballsonScreen++;
-    }
+//    public void addBallOnScreen(){
+//        //ballsonScreen++;
+//    }
 //    
 //    public void decrementBallsOnScreen(Ball ball){
 //        ballsonScreen--;
@@ -189,9 +189,9 @@ public class Level{
 //        }
 //    }
     
-    public void createExtraBall(){
+    public void createExtraBall(EffectDoubleTrouble effect){
         //addBallOnScreen();
-        factoryBall.createExtraBall();
+        factoryBall.createExtraBallDoubleTrouble(effect);
     }
     
      
@@ -253,7 +253,7 @@ public class Level{
     }
     
     public void resetPowerUps(){
-        powerUpActive.deActivate();
+        powerUpActive.setDeActive();
     }
     
     public boolean getGameOver(){
@@ -303,9 +303,9 @@ public class Level{
         allEntities.add(BOTTOM_BOUNDARY);
         return allEntities;
     }
-    public void lowerHitsOfBrick(Brick b, int playerIDThatDestroyedBrick){
-        b.decrementHits();
-        if(b.getHits() == 0){
+    public void lowerHitsOfBrick(Ball ball, Brick b, int playerIDThatDestroyedBrick){
+        b.decrementHits(ball);
+        if(b.getHits() <= 0){
             deleteBrick(b, playerIDThatDestroyedBrick);
         }
     }

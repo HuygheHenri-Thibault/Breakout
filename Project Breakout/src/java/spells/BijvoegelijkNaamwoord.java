@@ -28,6 +28,7 @@ public class BijvoegelijkNaamwoord extends Woord{
         effect.setUserPallet(level.getUserPallet(userId));
         effect.setLastBallActivated(effect.getUserPallet().getLastBallTouched());
         effect.setLevel(level);
+        effect.setUserActivatedEffect(level.getPlayers().get(userId - 1));
     }
     
     public void cast(){
@@ -36,6 +37,10 @@ public class BijvoegelijkNaamwoord extends Woord{
     
     public int combineDamage(int totalDamageSoFar){
         return totalDamageSoFar += getAmountOfDamage();
+    }
+    
+    public void resetEffect(){
+        effect.setReady();
     }
     
     public Effect getEffect(){

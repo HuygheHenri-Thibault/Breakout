@@ -27,4 +27,14 @@ public class NoPower extends PowerUpOrDown{
      public List<Effect> getEffects() {
         return new ArrayList<>();
     }
+     
+      @Override
+    public void activate(){
+       
+    }
+    
+    @Override
+    public void deActivate(){
+       
+    }
 }

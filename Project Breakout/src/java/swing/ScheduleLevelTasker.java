@@ -9,6 +9,7 @@ import domain.Ball;
 import domain.Level;
 import domain.Pallet;
 import domain.User;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import powerUps.Effect;
 import powerUps.EffectHandeler;
+import powerUps.EffectStatus;
+import powerUps.NoPower;
 import spells.Spell;
 
 /**
@@ -36,15 +39,34 @@ public class ScheduleLevelTasker extends TimerTask {
     @Override
     public void run() {
         if (!paused) {
-            for (Ball ball : level.getBalls()) {
-                ball.move();
-            }
+//            for (Ball ball : level.getBalls()) {
+//                ball.move();
+//                //System.out.println(ball.getX() + " " +ball.getDamage());
+//            }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
+                //System.out.println(pallet.getSpeed());
             }
 
             //voor elke powerup, zijn effecten checken
-            changeStateEffect(level.getActivePowerUp().getEffects());
+            switch (level.getActivePowerUp().isActivated()) {
+                case ACTIVE:
+                    level.getActivePowerUp().activate();
+                    break;
+                case INACTIVE:
+                    level.getActivePowerUp().deActivate();
+                    break;
+                case RUNNING:
+                    changeStateEffect(level.getActivePowerUp().getEffects());
+                    if(checkAllPowerUpEffects()){
+                        level.getActivePowerUp().setDone();
+                    }
+                case DONE:
+                    level.setPowerUpActive(new NoPower());
+                    break;
+                default:
+                    break;
+            }
 
             for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 switch (entry.getValue().isActivated()) {
@@ -60,9 +82,8 @@ public class ScheduleLevelTasker extends TimerTask {
 
             }
             for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
-                 changeStateEffect(entry.getValue().getSpellEffects());
+                changeStateEffect(entry.getValue().getSpellEffects());
             }
-            
 
             SwingUtilities.invokeLater(() -> toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui
@@ -82,6 +103,15 @@ public class ScheduleLevelTasker extends TimerTask {
                     break;
             }
         }
+    }
+
+    private boolean checkAllPowerUpEffects() {
+        for (Effect effect : level.getActivePowerUp().getEffects()) {
+            if (effect.isActivated() != EffectStatus.DONE) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void setPaused(boolean paused) {

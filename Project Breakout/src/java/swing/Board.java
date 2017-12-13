@@ -92,7 +92,7 @@ public class Board extends JPanel{
     }
 
     private void drawObjects(Graphics2D g2d) {
-        Level level = game.getLevels().get(game.getLevels().size() - 1);
+        Level level = game.getLevelPlayedRightNow();
         g2d.setColor(Color.BLUE);
         for (Pallet pallet : level.getPallets()) {
             g2d.fillRect(pallet.getX(), pallet.getY(), pallet.getLength(), pallet.getHeight());
