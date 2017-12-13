@@ -204,11 +204,12 @@ public class FactoriesTesten {
     
     @Test
     public void testSpell(){
-        Spell spell = new Spell();
+        Game game = new SinglePlayerGame(me, 1000, 1000);
+        Level level = new Level(game, 10, 1);
+        Spell spell = me.getSpell();
         System.out.println(spell.getName());
         System.out.println(spell.cast());
     }
-
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

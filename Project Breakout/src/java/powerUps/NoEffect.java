@@ -5,26 +5,23 @@
  */
 package powerUps;
 
-import domain.Ball;
-import domain.Brick;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author micha
  */
-public class NoPower extends PowerUpOrDown{
+public class NoEffect extends Effect{
 
-    public NoPower() {
+    public NoEffect() {
+        super(0);
     }
 
     @Override
-    public void show() {
+    public void activate() {
+     
     }
-    
+
     @Override
-     public List<Effect> getEffects() {
-        return new ArrayList<>();
+    public void deActivate() {
+     
     }
 }

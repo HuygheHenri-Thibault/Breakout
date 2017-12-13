@@ -11,7 +11,7 @@ import domain.Pallet;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import powerUps.DummyEffect;
+import powerUps.Effect;
 
 /**
  *
@@ -36,7 +36,7 @@ public class ScheduleLevelTaskerJavascript extends TimerTask {
             }
             
              //voor elke powerup, zijn effecten checken
-            for (DummyEffect effect : level.getActivePowerUp().getEffects()) {
+            for (Effect effect : level.getActivePowerUp().getEffects()) {
                 switch (effect.isActivated()) {
                     case ACTIVE:
                         effect.activate();

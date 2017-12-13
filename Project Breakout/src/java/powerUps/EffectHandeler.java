@@ -9,6 +9,7 @@ package powerUps;
  *
  * @author micha
  */
-public enum EffectStatus {
-    READY, ACTIVE, INACTIVE, RUNNING;
+public interface EffectHandeler {
+    public void activate();
+    public void deActivate();
 }

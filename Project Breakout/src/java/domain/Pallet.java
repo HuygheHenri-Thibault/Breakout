@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
  * @author micha
  */
 public class Pallet extends Rectangle {
-
+    
     private Sprite s;
     private final int userID;
     private final Level level;
@@ -21,6 +21,7 @@ public class Pallet extends Rectangle {
     private float dx;
     private final int INIT_PALLET_X;
     private final int INIT_PALLET_Y;
+    private Ball lastBallTouched;
 
     public Pallet(int userID, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
@@ -46,6 +47,14 @@ public class Pallet extends Rectangle {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public Ball getLastBallTouched() {
+        return lastBallTouched;
+    }
+
+    public void setLastBallTouched(Ball lastBallTouched) {
+        this.lastBallTouched = lastBallTouched;
     }
 
     public void moveLeft() {

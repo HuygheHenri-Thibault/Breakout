@@ -15,7 +15,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectShrunk extends DummyEffect{
+public class EffectShrunk extends Effect{
 
     public EffectShrunk(int duration) {
         super(duration);
@@ -40,6 +40,7 @@ public class EffectShrunk extends DummyEffect{
         getT().cancel();
         getUserPallet().setLength((int) (getUserPallet().getLength() + (getUserPallet().getLength() * 0.2)));
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
     
     @Override

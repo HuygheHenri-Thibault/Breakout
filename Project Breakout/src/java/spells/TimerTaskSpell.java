@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package powerUps;
+package spells;
 
 import java.util.TimerTask;
 
@@ -11,25 +11,26 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class TimerTaskEffect extends TimerTask {
-
-    private final Effect effect;
+public class TimerTaskSpell extends TimerTask{
+    
+    private final Spell spell;
 
     private final long start;
     private final long end;
 
-    public TimerTaskEffect(Effect effect) {
-        this.effect = effect;
+    public TimerTaskSpell(Spell spell) {
+       this.spell = spell;
         this.start = System.currentTimeMillis();
-        this.end = start + (effect.getDuration() * 1000);
+        this.end = start + (5 * 1000);
+        // 5 veranderen naar spell.getCoolDown
     }
 
     @Override
     public void run() {
-        if (System.currentTimeMillis() > end) {
-            effect.setDeActive();
+         if (System.currentTimeMillis() > end) {
+            spell.setReady();
             cancel();
         }
     }
-
+    
 }

@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import powerUps.EffectBulletTime;
+import powerUps.EffectDoubleTrouble;
+import powerUps.EffectSuddenDeath;
+import powerUps.NoEffect;
 import spells.BijvoegelijkNaamwoord;
 import spells.Woord;
 import spells.ZelfstandigNaamwoord;
@@ -35,15 +39,15 @@ public class MySQLSpellRepository implements SpellRepository{
 
     public MySQLSpellRepository() {
         zelfstandigeNaamWoorden = Arrays.asList(
-                new ZelfstandigNaamwoord("chicken", 1, "fire"),
-                new ZelfstandigNaamwoord("tsunami", 2, "water")
+                new ZelfstandigNaamwoord("chicken", 1, "fire", new EffectDoubleTrouble(5)),
+                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectDoubleTrouble(5))
         );
         
         bijvoegelijkeNaamwoorden = Arrays.asList(
-                new BijvoegelijkNaamwoord("fire", 2, "fire"),
-                new BijvoegelijkNaamwoord("roasted", 3, "fire"),
-                new BijvoegelijkNaamwoord("stormy", 2, "water"),
-                new BijvoegelijkNaamwoord("dangerous", 5, "darkness")
+                new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectSuddenDeath(5)),
+                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectSuddenDeath(5)),
+                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectSuddenDeath(5)),
+                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectSuddenDeath(5))
         );
     }
     //

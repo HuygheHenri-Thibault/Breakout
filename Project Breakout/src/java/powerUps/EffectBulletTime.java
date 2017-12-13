@@ -19,7 +19,7 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class EffectBulletTime extends DummyEffect{
+public class EffectBulletTime extends Effect{
 
     public EffectBulletTime(int duration) {
         super(duration);
@@ -46,6 +46,7 @@ public class EffectBulletTime extends DummyEffect{
         getT().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
 
     @Override

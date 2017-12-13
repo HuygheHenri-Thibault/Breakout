@@ -15,7 +15,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectSlowed extends DummyEffect{
+public class EffectSlowed extends Effect{
 
     public EffectSlowed(int duration) {
         super(duration);
@@ -41,6 +41,7 @@ public class EffectSlowed extends DummyEffect{
         getT().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
     
     @Override

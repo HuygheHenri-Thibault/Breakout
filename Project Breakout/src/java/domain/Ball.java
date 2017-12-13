@@ -24,6 +24,7 @@ public class Ball extends Circle implements Serializable{
     private float dy;
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;
+    private Pallet palletLastTouched;
     private int lastUserThatTouchedMe;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
@@ -41,6 +42,14 @@ public class Ball extends Circle implements Serializable{
 //    public int getId(){
 //        return id;
 //    }
+
+    public Pallet getPalletLastTouched() {
+        return palletLastTouched;
+    }
+
+    public void setPalletLastTouched(Pallet palletLastTouched) {
+        this.palletLastTouched = palletLastTouched;
+    }
     
     public void setLastUserThatTouchedMe(int lastUserThatTouchedMe) {
         this.lastUserThatTouchedMe = lastUserThatTouchedMe;
@@ -160,6 +169,8 @@ public class Ball extends Circle implements Serializable{
             setDx(Math.abs(getDx()));
         }
         
+        p.setLastBallTouched(this);
+        setPalletLastTouched(p);
         setLastUserThatTouchedMe(p.getUserID());
         //System.out.println(getLastUserThatTouchedMe());
     }
@@ -220,6 +231,7 @@ public class Ball extends Circle implements Serializable{
         if(ballLPosX >= rightSide){
             setDx(Math.abs(getDx()));
         }
+        level.getSpellByUser(level.getPlayers().get(getLastUserThatTouchedMe() - 1)).setDeActive();
         level.lowerHitsOfBrick(b, getLastUserThatTouchedMe() - 1);
     }
     

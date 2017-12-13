@@ -31,12 +31,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import powerUps.PowerUpOrDown;
+import spells.Spell;
 
 /**
  *
  * @author micha
  */
 public class Board extends JPanel{
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
     private Game game;
     private Level level;
     private ScheduleLevelTasker s;
@@ -46,18 +51,17 @@ public class Board extends JPanel{
     }
 
     private void initBoard() {
-        User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-        User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-        User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-        User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
         List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
         game = new SinglePlayerGame(me, 1000, 1000);
         addKeyListener(new TAdapter());
+        addKeyListener(new TEdaper());
         setFocusable(true);
         setDoubleBuffered(true);
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTasker(level, this);
         level.startLevel(s);
+        level.setUserSpell(me, new Spell(level));
+        System.out.println(me.getSpell().getName());
     }
 
     @Override
@@ -151,6 +155,15 @@ public class Board extends JPanel{
         @Override
         public void keyPressed(KeyEvent e) {
             level.getPallets().get(0).keyPressed(e);
+        }
+    }
+    
+    private class TEdaper extends KeyAdapter {
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            Spell spell = level.getSpellByUser(me); 
+            spell.keyPressed(e); 
         }
     }
 

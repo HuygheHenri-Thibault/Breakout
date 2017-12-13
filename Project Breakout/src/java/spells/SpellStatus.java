@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package powerUps;
+package spells;
 
 /**
  *
  * @author micha
  */
-public enum EffectStatus {
-    READY, ACTIVE, INACTIVE, RUNNING;
+public enum SpellStatus {
+    READY, ACTIVE, DEACTIVE, COOLDOWN
 }

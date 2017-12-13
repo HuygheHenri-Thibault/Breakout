@@ -14,7 +14,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectDoubleTrouble extends DummyEffect{
+public class EffectDoubleTrouble extends Effect{
 
     public EffectDoubleTrouble(int duration) {
         super(duration);
@@ -33,6 +33,7 @@ public class EffectDoubleTrouble extends DummyEffect{
         getThisLevel().getBalls().remove(getThisLevel().getBalls().size() - 1);
         //getThisLevel().decrementLife();
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
     
     @Override

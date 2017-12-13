@@ -20,8 +20,8 @@ import java.util.List;
  *
  * @author micha
  */
-public class PowerUpOrDown extends Shape implements Effect{
-    private List<DummyEffect> effects = new ArrayList<>(); 
+public class PowerUpOrDown extends Shape implements EffectHandeler{
+    private List<Effect> effects = new ArrayList<>(); 
     
     private Level level;
     //private Ball ballActivatedPower;
@@ -65,16 +65,16 @@ public class PowerUpOrDown extends Shape implements Effect{
         this.boundaries =  new Rectangle(brick.getLevel(), getX(), getY(), 10, 10);
     }
     
-    public void addEffect(DummyEffect effect){
+    public void addEffect(Effect effect){
         effects.add(effect);
     }
 
-    public List<DummyEffect> getEffects() {
+    public List<Effect> getEffects() {
         return effects;
     }
     
     public void setEntetiesOfLevel(Ball ballActivated){
-        for (DummyEffect effect : effects) {
+        for (Effect effect : effects) {
             effect.setLastBallActivated(ballActivated);
             effect.setLevel(level);
             effect.setDuration(duration);
@@ -83,14 +83,14 @@ public class PowerUpOrDown extends Shape implements Effect{
     
     @Override
     public void activate(){
-        for (DummyEffect effect : effects) {
+        for (Effect effect : effects) {
             effect.setActive();
         }
     }
     
     @Override
     public void deActivate(){
-        for (DummyEffect effect : effects) {
+        for (Effect effect : effects) {
             effect.setDeActive();
         }
     }
@@ -110,6 +110,6 @@ public class PowerUpOrDown extends Shape implements Effect{
     
     @Override
     public String toString() {
-        return "Powerup";
+        return "Powerup " + getName().toLowerCase(); // moet aangepast worden
     }
 }

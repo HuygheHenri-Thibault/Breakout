@@ -5,18 +5,22 @@
  */
 package spells;
 
+import domain.Level;
 import java.util.ArrayList;
 import java.util.List;
+import powerUps.Effect;
 
 /**
  *
  * @author micha
  */
 public class ZelfstandigNaamwoord extends Woord{
+    private Effect effect;
     private final List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = new ArrayList<>();
     
-    public ZelfstandigNaamwoord(String naam, int amountOfDamage, String typeOfDamage) {
+    public ZelfstandigNaamwoord(String naam, int amountOfDamage, String typeOfDamage, Effect effect) {
         super(naam, amountOfDamage, typeOfDamage);
+        this.effect = effect;
     }
     
     public void addBijvoegelijkNaamwoord(BijvoegelijkNaamwoord bn){
@@ -31,6 +35,15 @@ public class ZelfstandigNaamwoord extends Woord{
         return bijvoegelijkeNaamwoorden.contains(bn);
     }
     
+    public void setEntetiesOfEffect(Level level, int userId){
+        effect.setUserPallet(level.getUserPallet(userId));
+        effect.setLastBallActivated(effect.getUserPallet().getLastBallTouched());
+        effect.setLevel(level);
+        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+            bijvoegelijkNaamwoord.setEntetiesOfEffect(level, userId);
+        }
+    }
+    
     public String combineNames(){
         String completeName = getNaam();
         for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
@@ -39,7 +52,21 @@ public class ZelfstandigNaamwoord extends Woord{
         return completeName;
     }
     
-    public int combineDamage(){
+    public List<Effect> getEffects(){
+        List<Effect> spellEffects = new ArrayList<>();
+        spellEffects.add(effect);
+        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+            spellEffects.add(bijvoegelijkNaamwoord.getEffect());
+        }
+        return spellEffects;
+    }
+    
+    public int cast(){
+        effect.setActive();
+        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+            bijvoegelijkNaamwoord.cast();
+        }
+        
         int totalDamage = getAmountOfDamage();
         for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
             totalDamage = bijvoegelijkNaamwoord.combineDamage(totalDamage);

@@ -14,7 +14,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectSuddenDeath extends DummyEffect{
+public class EffectSuddenDeath extends Effect{
 
     public EffectSuddenDeath(int duration) {
         super(duration);
@@ -22,6 +22,7 @@ public class EffectSuddenDeath extends DummyEffect{
     
     @Override
     public void activate() {
+        System.out.println("activated");
         setRunning();
         getThisLevel().getGame().setLives(1);
         setT(new Timer());
@@ -34,6 +35,7 @@ public class EffectSuddenDeath extends DummyEffect{
         getT().cancel();
         getThisLevel().getGame().setLives(getThisLevel().getGame().getStartLives());
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
     
     @Override

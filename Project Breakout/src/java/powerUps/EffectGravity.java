@@ -13,7 +13,7 @@ import domain.Level;
  *
  * @author micha
  */
-public class EffectGravity extends DummyEffect{
+public class EffectGravity extends Effect{
 
     public EffectGravity(int duration) {
         super(duration);
@@ -32,6 +32,7 @@ public class EffectGravity extends DummyEffect{
     public void deActivate() {
         System.out.println("deactivated");
         getThisLevel().setPowerUpActive(new NoPower());
+        setReady();
     }
     
     @Override

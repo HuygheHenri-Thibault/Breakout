@@ -7,14 +7,13 @@ package data;
 
 import java.sql.Connection;
 import data.util.MySQLConnection;
-import domain.Effect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import powerUps.AllPowerUps;
-import powerUps.DummyEffect;
+import powerUps.Effect;
 import powerUps.EffectGravity;
 import powerUps.EffectShrunk;
 import powerUps.EffectSlowed;
@@ -78,7 +77,7 @@ public class MySQLEffectRepository implements EffectRepository {
         String iconPath = rs.getString(FIELD_ICON);
         String description = rs.getString(FIELD_DESCRIPTION);
         PowerUpOrDown p = new PowerUpOrDown(id, name, type, duration, iconPath, description);;
-        DummyEffect effect; 
+        Effect effect; 
         
         switch(name){
             case"Bullet time":

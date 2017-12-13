@@ -5,7 +5,6 @@
  */
 package data;
 
-import domain.Effect;
 import java.util.List;
 import powerUps.AllPowerUps;
 import powerUps.PowerUpOrDown;

@@ -6,19 +6,40 @@
 package spells;
 
 import data.Repositories;
+import domain.Level;
+import domain.User;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import powerUps.Effect;
 
 /**
  *
  * @author micha
  */
 public class Spell{
+    private User user;
+    private Level level;
+    private int cooldown;
     private ZelfstandigNaamwoord zelfstandigNaamwoord;
     private String name;
+    
+    //status
+    private SpellStatus status = SpellStatus.READY;
 
-    public Spell() {
+    public Spell(Level level) {
+        this.level = level;
         randomizeWords();
+    }
+    
+    public void setUserID(User user){
+        this.user = user;
+    }
+
+    public int getCooldown() {
+        return cooldown;
     }
     
     private void randomizeWords(){
@@ -31,6 +52,7 @@ public class Spell{
                 zelfstandigNaamwoord.addBijvoegelijkNaamwoord(fetchNewBijvoegelijkNaamwoord(generator));
             }
         }
+        System.out.println(Arrays.toString(zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().toArray()));
         this.name = zelfstandigNaamwoord.combineNames();
     }
     
@@ -57,7 +79,49 @@ public class Spell{
         return name;
     }
     
-    public int cast(){
-        return zelfstandigNaamwoord.combineDamage();
+
+    
+    public void setReady(){status = SpellStatus.READY; level.updateSpellOfUser(user, this);}
+    public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfUser(user, this);}
+    public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfUser(user, this);}
+    public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfUser(user, this);}
+    public SpellStatus isActivated(){return status;}
+    
+    public void setEntetiesOfEffect(){
+        zelfstandigNaamwoord.setEntetiesOfEffect(level, user.getUserId());
     }
+    
+    public void setReadyToCast(){
+        setActive();
+    }
+    
+    public int cast(){
+        setEntetiesOfEffect();
+        int combinedDamage = zelfstandigNaamwoord.cast();
+        setDeActive();
+        return combinedDamage;
+    }
+    
+    public void startCooldown(){
+        setCoolDown();
+        Timer t = new Timer();
+        t.schedule(new TimerTaskSpell(this), 0, 1000);
+    }
+    
+    public List<Effect> getSpellEffects(){
+        return zelfstandigNaamwoord.getEffects();
+    } 
+    
+    //voor swing
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_LEFT) {
+            if(status == SpellStatus.READY){
+                setReadyToCast();
+            }
+        }
+    }
+    //
 }

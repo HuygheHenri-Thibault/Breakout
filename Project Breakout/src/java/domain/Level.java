@@ -9,10 +9,13 @@ import factories.FactoryBall;
 import factories.FactoryPallet;
 import factories.FactoryRowOfBricks;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import powerUps.NoPower;
 import powerUps.PowerUpOrDown;
+import spells.Spell;
 import swing.ScheduleLevelTasker;
 import swing.ScheduleLevelTaskerJavascript;
 
@@ -36,6 +39,9 @@ public class Level{
     
     private List<PowerUpOrDown> powerUps = new ArrayList<>();
     private PowerUpOrDown powerUpActive = new NoPower();
+    
+    private List<Spell> spells = new ArrayList<>();
+    private Map<User, Spell> spellsInGame = new HashMap<User, Spell>();
     
     private final int number;
     private int score = 0;
@@ -66,7 +72,46 @@ public class Level{
         this.LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, getGameHeight());
         this.RIGHT_BOUNDARY = new Rectangle(this, getGameWidth(), 0, 10, getGameHeight());
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
+        //createNewRandomSpells();
     }
+    
+    //spells
+    private void createNewRandomSpells(){
+        for (int i = 0; i < 3; i++) {
+            Spell newSpell = new Spell(this);
+            if(!spells.contains(newSpell)){
+                spells.add(newSpell);
+            } else {
+                i--;
+            }
+        }
+    }
+    
+    public void setUserSpell(User u, Spell s){
+        u.setSpell(s);
+        spellsInGame.put(u, s);
+    }
+    
+//    public void addActiavtedSpelltoLevel(Spell spell){
+//        activatedSpells.add(spell);
+//    }
+//    
+//    public void removeActivatedSpellFromLevel(Spell spell){
+//        activatedSpells.remove(spell);
+//    }
+    
+    public Spell getSpellByUser(User u){
+        return spellsInGame.get(u);
+    }
+    
+    public void updateSpellOfUser(User u, Spell spell){
+        spellsInGame.replace(u, spell);
+    }
+    
+    public Map<User, Spell> getAllSpellsInGame(){
+        return spellsInGame;
+    }
+    //
     
     //voor swing
     public void startLevel(ScheduleLevelTasker s){
@@ -105,6 +150,10 @@ public class Level{
     public List<Pallet> getPallets() {
         return pallets;
     }
+
+//    public Spell getSpell() {
+//        return spell;
+//    }
     
     public void setPowerUpActive(PowerUpOrDown powerUp){
         powerUpActive = powerUp;

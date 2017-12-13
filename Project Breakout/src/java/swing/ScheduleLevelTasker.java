@@ -8,11 +8,15 @@ package swing;
 import domain.Ball;
 import domain.Level;
 import domain.Pallet;
+import domain.User;
+import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import powerUps.DummyEffect;
 import powerUps.Effect;
+import powerUps.EffectHandeler;
+import spells.Spell;
 
 /**
  *
@@ -40,21 +44,43 @@ public class ScheduleLevelTasker extends TimerTask {
             }
 
             //voor elke powerup, zijn effecten checken
-            for (DummyEffect effect : level.getActivePowerUp().getEffects()) {
-                switch (effect.isActivated()) {
+            changeStateEffect(level.getActivePowerUp().getEffects());
+
+            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+                switch (entry.getValue().isActivated()) {
                     case ACTIVE:
-                        effect.activate();
+                        entry.getValue().cast();
                         break;
-                    case INACTIVE:
-                        effect.deActivate();
+                    case DEACTIVE:
+                        entry.getValue().startCooldown();
                         break;
                     default:
                         break;
                 }
+
             }
+            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+                 changeStateEffect(entry.getValue().getSpellEffects());
+            }
+            
 
             SwingUtilities.invokeLater(() -> toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui
+        }
+    }
+
+    private void changeStateEffect(List<Effect> effects) {
+        for (Effect effect : effects) {
+            switch (effect.isActivated()) {
+                case ACTIVE:
+                    effect.activate();
+                    break;
+                case INACTIVE:
+                    effect.deActivate();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
