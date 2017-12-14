@@ -11,26 +11,23 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class TimerTaskSpell extends TimerTask{
-    
+public class TimerTaskSpell extends TimerTask {
+
     private final Spell spell;
 
-    private final long start;
-    private final long end;
-
     public TimerTaskSpell(Spell spell) {
-       this.spell = spell;
-        this.start = System.currentTimeMillis();
-        this.end = start + (5 * 1000);
+        this.spell = spell;
         // 5 veranderen naar spell.getCoolDown
     }
 
     @Override
     public void run() {
-         if (System.currentTimeMillis() > end) {
+        spell.setCoolDown(spell.getCooldown() - 1);
+        if (spell.getCooldown() < 0) {
             spell.setReady();
+            spell.setCoolDown(spell.getOriginalCoolDown());
             cancel();
         }
     }
-    
+
 }

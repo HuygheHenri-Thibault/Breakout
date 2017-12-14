@@ -125,6 +125,6 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     
     @Override
     public String toString() {
-        return "Powerup " + getName().toLowerCase(); // moet aangepast worden
+        return "Powerup " + getIconPath(); // moet aangepast worden
     }
 }

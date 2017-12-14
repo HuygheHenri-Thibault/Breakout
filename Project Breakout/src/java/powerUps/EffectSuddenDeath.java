@@ -22,7 +22,7 @@ public class EffectSuddenDeath extends Effect{
     
     @Override
     public void activate() {
-        System.out.println("activated");
+        System.out.println("activated sudden death");
         setRunning();
         getThisLevel().getGame().setLives(1);
         setT(new Timer());
@@ -31,7 +31,7 @@ public class EffectSuddenDeath extends Effect{
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated");
+        System.out.println("deactivated sudden death");
         getT().cancel();
         getThisLevel().getGame().setLives(getThisLevel().getGame().getStartLives());
         setDone();

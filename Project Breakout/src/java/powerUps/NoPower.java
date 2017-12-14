@@ -37,4 +37,9 @@ public class NoPower extends PowerUpOrDown{
     public void deActivate(){
        
     }
+
+    @Override
+    public String toString() {
+        return "NoPower";
+    }
 }

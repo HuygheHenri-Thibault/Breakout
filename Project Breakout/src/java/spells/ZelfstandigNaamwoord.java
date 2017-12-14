@@ -62,12 +62,12 @@ public class ZelfstandigNaamwoord extends Woord{
         return spellEffects;
     }
     
-    public void resetEffect(){
-        effect.setReady();
-        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
-            bijvoegelijkNaamwoord.resetEffect();
-        }
-    }
+//    public void resetEffect(){
+//        effect.setReady();
+//        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+//            bijvoegelijkNaamwoord.resetEffect();
+//        }
+//    }
     
     public int cast(){
         effect.setActive();

@@ -244,7 +244,7 @@ public class Ball extends Circle implements Serializable{
         if(ballLPosX >= rightSide){
             setDx(Math.abs(getDx()));
         }
-        level.getSpellByUser(level.getPlayers().get(getLastUserThatTouchedMe() - 1)).setDeActive();
+        //level.getSpellByUser(level.getPlayers().get(getLastUserThatTouchedMe() - 1)).setDeActive(); // is never replaced
         setDamage(1);
         level.lowerHitsOfBrick(this, b, getLastUserThatTouchedMe() - 1);
     }
@@ -254,10 +254,10 @@ public class Ball extends Circle implements Serializable{
         setDy(-getDy());
 
         level.getPowerUpsShownOnScreen().remove(powerUpTouched);
-        level.resetPowerUps();
-        level.setPowerUpActive(powerUpTouched);
+        //level.resetPowerUps();
         powerUpTouched.setEntetiesOfLevel(this);
         powerUpTouched.setActive();
+        level.addPowerUpActive(powerUpTouched);
     }
     
     public void updateSpriteAfterCollidingWithCircle(Circle circle){

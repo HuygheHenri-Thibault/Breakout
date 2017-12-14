@@ -23,6 +23,7 @@ import powerUps.Effect;
 public class Spell{
     private User user;
     private Level level;
+    private int originalCooldown;
     private int cooldown;
     private ZelfstandigNaamwoord zelfstandigNaamwoord;
     private String name;
@@ -33,14 +34,24 @@ public class Spell{
     public Spell(Level level) {
         this.level = level;
         randomizeWords();
+        this.originalCooldown = 5;
+        this.cooldown = originalCooldown;
     }
     
     public void setUserID(User user){
         this.user = user;
     }
+    
+    public void setCoolDown(int cooldown){
+        this.cooldown = cooldown;
+    }
 
     public int getCooldown() {
         return cooldown;
+    }
+    
+    public int getOriginalCoolDown(){
+        return originalCooldown;
     }
     
     private void randomizeWords(){
@@ -48,17 +59,22 @@ public class Spell{
         int numberBetween1And3 = generator.nextInt((3 - 1) + 1) + 1;
         for (int i = 1; i <= numberBetween1And3; i++) {
             if(i == 1){
-                zelfstandigNaamwoord = fetchNewZelfstandigNaamwoord(generator);
+                this.zelfstandigNaamwoord = fetchNewZelfstandigNaamwoord(generator);
             } else {
-                zelfstandigNaamwoord.addBijvoegelijkNaamwoord(fetchNewBijvoegelijkNaamwoord(generator));
+                BijvoegelijkNaamwoord bn = fetchNewBijvoegelijkNaamwoord(generator);
+                while(zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().contains(bn)){
+                    bn = fetchNewBijvoegelijkNaamwoord(generator);
+                }
+                this.zelfstandigNaamwoord.addBijvoegelijkNaamwoord(bn);
             }
         }
-        System.out.println(Arrays.toString(zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().toArray()));
-        this.name = zelfstandigNaamwoord.combineNames();
+        //System.out.println(Arrays.toString(this.zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().toArray()));
+        this.name = this.zelfstandigNaamwoord.combineNames();
     }
     
     private ZelfstandigNaamwoord fetchNewZelfstandigNaamwoord(Random generator){
-        List<ZelfstandigNaamwoord> zelfstandigeNaamwoorden = Repositories.getSpellRepository().getHardcodedZelfstandigeNaamwoorden();
+        Repositories repos = new Repositories(); //nadat database is gefixt mag dit weg;
+        List<ZelfstandigNaamwoord> zelfstandigeNaamwoorden = repos.getSpellRepository().getHardcodedZelfstandigeNaamwoorden();
         int max = (zelfstandigeNaamwoorden.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) + min;
@@ -66,11 +82,12 @@ public class Spell{
     }
     
     private BijvoegelijkNaamwoord fetchNewBijvoegelijkNaamwoord(Random generator){
-        List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = Repositories.getSpellRepository().getHardCodedBijvoegelijkeNaamwoorden();
+        Repositories repos = new Repositories(); //nadat database is gefixt mag dit weg;
+        List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = repos.getSpellRepository().getHardCodedBijvoegelijkeNaamwoorden();
         int max = (bijvoegelijkeNaamwoorden.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) + min;
-        while(zelfstandigNaamwoord.hasBijvoegelijkNaamwoord(bijvoegelijkeNaamwoorden.get(randomIndex))){
+        while(this.zelfstandigNaamwoord.hasBijvoegelijkNaamwoord(bijvoegelijkeNaamwoorden.get(randomIndex))){
             randomIndex = generator.nextInt((max - min) + 1) + min;
         }
         return bijvoegelijkeNaamwoorden.get(randomIndex);
@@ -89,7 +106,7 @@ public class Spell{
     public SpellStatus isActivated(){return status;}
     
     public void setEntetiesOfEffect(){
-        zelfstandigNaamwoord.setEntetiesOfEffect(level, user.getUserId());
+        this.zelfstandigNaamwoord.setEntetiesOfEffect(level, user.getUserId());
     }
     
     public void setReadyToCast(){
@@ -100,10 +117,10 @@ public class Spell{
         setEntetiesOfEffect();
         List<Ball> allBallsInLevel = level.getBalls();
         for (Ball ball : allBallsInLevel) {
-            ball.setDamage(zelfstandigNaamwoord.cast());
+            ball.setDamage(this.zelfstandigNaamwoord.cast());
         }
         setDeActive();
-    }
+    } 
     
     public void startCooldown(){
         setCoolDown();
@@ -111,12 +128,12 @@ public class Spell{
         t.schedule(new TimerTaskSpell(this), 0, 1000);
     }
     
-    public void resetSpell(){
-        zelfstandigNaamwoord.resetEffect();
-    }
+//    public void resetSpell(){
+//        zelfstandigNaamwoord.resetEffect();
+//    }
     
     public List<Effect> getSpellEffects(){
-        return zelfstandigNaamwoord.getEffects();
+        return this.zelfstandigNaamwoord.getEffects();
     } 
     
     //voor swing

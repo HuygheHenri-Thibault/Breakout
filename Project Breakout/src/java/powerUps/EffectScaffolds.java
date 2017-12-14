@@ -29,7 +29,7 @@ public class EffectScaffolds extends Effect{
         
         palletOfUser.setLength((int) (palletOfUser.getLength() + (palletOfUser.getLength() * 0.2)));
         
-        System.out.println("activated");
+        System.out.println("activated scaffolds");
       
         setT(new Timer());
         getT().schedule(new TimerTaskEffect(this), 0, 1000);
@@ -37,7 +37,7 @@ public class EffectScaffolds extends Effect{
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated");
+        System.out.println("deactivated scaffolds");
         getT().cancel();
         getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getLength() * 0.2)));
         setDone();

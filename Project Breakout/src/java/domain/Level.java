@@ -13,10 +13,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+import powerUps.Effect;
 import powerUps.EffectDoubleTrouble;
+import powerUps.EffectStatus;
 import powerUps.NoPower;
 import powerUps.PowerUpOrDown;
 import spells.Spell;
+import spells.SpellStatus;
 import swing.ScheduleLevelTasker;
 import swing.ScheduleLevelTaskerJavascript;
 
@@ -38,7 +41,7 @@ public class Level{
     private List<Ball> balls = new ArrayList<>();
     
     private List<PowerUpOrDown> powerUps = new ArrayList<>();
-    private PowerUpOrDown powerUpActive = new NoPower();
+    private List<PowerUpOrDown> powerupsActive = new ArrayList<>();
     
     private List<Spell> spells = new ArrayList<>();
     private Map<User, Spell> spellsInGame = new HashMap<User, Spell>();
@@ -72,14 +75,14 @@ public class Level{
         this.LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, getGameHeight());
         this.RIGHT_BOUNDARY = new Rectangle(this, getGameWidth(), 0, 10, getGameHeight());
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
-        //createNewRandomSpells();
+        createNewRandomSpells();
     }
     
     //spells
     private void createNewRandomSpells(){
         for (int i = 0; i < 3; i++) {
             Spell newSpell = new Spell(this);
-            if(!spells.contains(newSpell)){
+            if(!LevelAlreadyContainsSpell(newSpell)){
                 spells.add(newSpell);
             } else {
                 i--;
@@ -87,9 +90,22 @@ public class Level{
         }
     }
     
+    public boolean LevelAlreadyContainsSpell(Spell s){
+        for (Spell spell : spells) {
+            if(spell.getName() == null ? s.getName() == null : spell.getName().equals(s.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void setUserSpell(User u, Spell s){
         u.setSpell(s);
         spellsInGame.put(u, s);
+    }
+    
+    public List<Spell> getAllSpells(){
+        return spells;
     }
     
 //    public void addActiavtedSpelltoLevel(Spell spell){
@@ -155,12 +171,12 @@ public class Level{
 //        return spell;
 //    }
     
-    public void setPowerUpActive(PowerUpOrDown powerUp){
-        powerUpActive = powerUp;
+    public void addPowerUpActive(PowerUpOrDown powerUp){
+        powerupsActive.add(powerUp);
     }
     
-    public PowerUpOrDown getActivePowerUp(){
-        return powerUpActive;
+    public List<PowerUpOrDown> getAllActivePowerUps(){
+        return powerupsActive;
     }
     
     public Pallet getUserPallet(int userID){
@@ -250,10 +266,27 @@ public class Level{
             pallet.resetState();
         }
         resetPowerUps();
+        resetSpellEffects();
     }
     
     public void resetPowerUps(){
-        powerUpActive.setDeActive();
+        for (PowerUpOrDown powerUpOrDown : powerupsActive) {
+            powerUpOrDown.setDeActive();
+        }
+    }
+    
+    public void resetSpellEffects(){
+         for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+             for (Effect spellEffect : entry.getValue().getSpellEffects()) {
+                 if(spellEffect.isActivated() == EffectStatus.RUNNING){
+                    spellEffect.setDeActive();
+                 }
+             }
+             if(entry.getValue().isActivated() != SpellStatus.READY){
+                entry.getValue().setReady();
+                entry.getValue().setCoolDown(entry.getValue().getOriginalCoolDown());
+             }
+         }
     }
     
     public boolean getGameOver(){

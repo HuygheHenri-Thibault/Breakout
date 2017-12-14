@@ -32,8 +32,10 @@ public class EffectDoubleTrouble extends Effect {
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated");
-        getThisLevel().getBalls().remove(getThisLevel().getBalls().size() - 1);
+        System.out.println("deactivated double trouble");
+        if(getThisLevel().getBalls().size() > 1){
+            getThisLevel().getBalls().remove(getThisLevel().getBalls().size() - 1);
+        }
         //getThisLevel().decrementLife();
         setDone();
     }

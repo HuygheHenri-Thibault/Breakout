@@ -39,9 +39,9 @@ public class BijvoegelijkNaamwoord extends Woord{
         return totalDamageSoFar += getAmountOfDamage();
     }
     
-    public void resetEffect(){
-        effect.setReady();
-    }
+//    public void resetEffect(){
+//        effect.setReady();
+//    }
     
     public Effect getEffect(){
         return effect;

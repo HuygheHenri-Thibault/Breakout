@@ -11,6 +11,7 @@ import domain.Pallet;
 import domain.User;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.TimerTask;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import powerUps.Effect;
 import powerUps.EffectHandeler;
 import powerUps.EffectStatus;
 import powerUps.NoPower;
+import powerUps.PowerUpOrDown;
 import spells.Spell;
 
 /**
@@ -39,33 +41,37 @@ public class ScheduleLevelTasker extends TimerTask {
     @Override
     public void run() {
         if (!paused) {
-//            for (Ball ball : level.getBalls()) {
-//                ball.move();
-//                //System.out.println(ball.getX() + " " +ball.getDamage());
-//            }
+            for (Ball ball : level.getBalls()) {
+                ball.move();
+                //System.out.println(ball.getX() + " " +ball.getDamage());
+            }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
                 //System.out.println(pallet.getSpeed());
             }
 
             //voor elke powerup, zijn effecten checken
-            switch (level.getActivePowerUp().isActivated()) {
-                case ACTIVE:
-                    level.getActivePowerUp().activate();
-                    break;
-                case INACTIVE:
-                    level.getActivePowerUp().deActivate();
-                    break;
-                case RUNNING:
-                    changeStateEffect(level.getActivePowerUp().getEffects());
-                    if(checkAllPowerUpEffects()){
-                        level.getActivePowerUp().setDone();
-                    }
-                case DONE:
-                    level.setPowerUpActive(new NoPower());
-                    break;
-                default:
-                    break;
+            for (ListIterator<PowerUpOrDown> iter = level.getAllActivePowerUps().listIterator(); iter.hasNext();) {
+                PowerUpOrDown power = iter.next();
+                switch (power.isActivated()) {
+                    case ACTIVE:
+                        power.activate();
+                        break;
+                    case INACTIVE:
+                        power.deActivate();
+                        break;
+                    case RUNNING:
+                        changeStateEffect(power.getEffects());
+                        if (checkAllPowerUpEffects(power)) {
+                            power.setDone();
+                        }
+                        break;
+                    case DONE:
+                        iter.remove();
+                        break;
+                    default:
+                        break;
+                }
             }
 
             for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
@@ -105,8 +111,8 @@ public class ScheduleLevelTasker extends TimerTask {
         }
     }
 
-    private boolean checkAllPowerUpEffects() {
-        for (Effect effect : level.getActivePowerUp().getEffects()) {
+    private boolean checkAllPowerUpEffects(PowerUpOrDown power) {
+        for (Effect effect : power.getEffects()) {
             if (effect.isActivated() != EffectStatus.DONE) {
                 return false;
             }

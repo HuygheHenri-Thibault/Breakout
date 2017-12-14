@@ -29,9 +29,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import powerUps.Effect;
+import powerUps.EffectStatus;
 import powerUps.PowerUpOrDown;
 import spells.Spell;
+import spells.SpellStatus;
 
 /**
  *
@@ -59,9 +63,20 @@ public class Board extends JPanel{
         setDoubleBuffered(true);
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTasker(level, this);
+        showSpellChoices();
+    }
+    
+    public void showSpellChoices(){
+        List<Spell> spells = level.getAllSpells();
+        String[] options = new String[spells.size()];
+        for (int i = 0; i < spells.size(); i++) {
+            options[i] = spells.get(i).getName();
+        }
+        int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, options, options[0]);
+        level.setUserSpell(me, level.getAllSpells().get(response));
         level.startLevel(s);
-        level.setUserSpell(me, new Spell(level));
-        System.out.println(me.getSpell().getName());
     }
 
     @Override
@@ -82,7 +97,7 @@ public class Board extends JPanel{
             if(level.isCompleted()){
                 level = game.getLevelPlayedRightNow();
                 s = new ScheduleLevelTasker(level, this);
-                level.startLevel(s);
+                showSpellChoices();
             }
         } else {
             gameFinished(g2d);
@@ -121,6 +136,18 @@ public class Board extends JPanel{
         String lives = "Lives x " + game.getLives();
         String score = "Score " + game.getPlayers().get(0).getScore();
         String scoreTotal = "Total Score " + game.getScore();
+        String powerup = "PowerUp Active: ";
+        for (PowerUpOrDown powerUp : level.getAllActivePowerUps()) {
+            powerup += powerUp.toString();
+        }
+        String spell = "effects of spell active: ";
+        for (Effect effect :  level.getAllSpellsInGame().get(me).getSpellEffects()) {
+            if(effect.isActivated() == EffectStatus.RUNNING){
+                spell += effect.toString() + ", ";
+            }
+        }
+        String spellCooldown = "Cooldown " + level.getAllSpellsInGame().get(me).getCooldown();
+        
 
         g2d.setColor(Color.BLACK);
         g2d.setFont(font);
@@ -128,6 +155,11 @@ public class Board extends JPanel{
         g2d.drawString(lives, 5, 50);
         g2d.drawString(score, 5, 80);
         g2d.drawString(scoreTotal, 5, 110);
+        g2d.drawString(powerup, 100, 20);
+        g2d.drawString(spell, 100, 50);
+        if(level.getAllSpellsInGame().get(me).isActivated() == SpellStatus.COOLDOWN){
+            g2d.drawString(spellCooldown, 100, 80);
+        }
     }
     
     private void gameFinished(Graphics2D g2d) {

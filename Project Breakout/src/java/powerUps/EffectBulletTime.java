@@ -42,7 +42,7 @@ public class EffectBulletTime extends Effect{
     
     @Override
     public void deActivate() {
-        System.out.println("deactivated");
+        System.out.println("deactivated bullet time");
         getT().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
         setDone();
