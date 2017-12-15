@@ -17,6 +17,7 @@ import java.util.Timer;
  * @author micha
  */
 public abstract class Effect{
+    private String name;
     private Pallet userPallet;
     private User userActivatedEffect;
     private Ball lastBallActivated;
@@ -24,7 +25,7 @@ public abstract class Effect{
     private Level thisLevel;
     private Timer t;
 
-    public Effect(int duration) {
+    public Effect(String name, int duration) {
         this.duration = duration;
     }
     
@@ -40,6 +41,10 @@ public abstract class Effect{
     
     public abstract void activate();
     public abstract void deActivate();
+
+    public String getName() {
+        return name;
+    }
     
     public void setUserActivatedEffect(User u){
         this.userActivatedEffect = u;

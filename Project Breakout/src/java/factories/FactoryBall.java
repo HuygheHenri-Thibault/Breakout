@@ -41,7 +41,8 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         int x =  startX + (nextXDistance * multiplierDistance);
         int y = (level.getGameHeight()/ 10) * 6;
         
-        int speed = Math.round(2 * level.getRatios().get(1).getRatio());
+        int speed = 3 * Math.round(level.getRatios().get(1).getRatio());//original 2
+        System.out.println(speed);
         
         Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         level.getBalls().add(b);
@@ -53,7 +54,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         int x =  level.getGameWidth() / 2;
         int y = (level.getGameHeight()/ 10) * 6;
         
-        int speed = Math.round(2 * level.getRatios().get(1).getRatio());
+        int speed = Math.round(3 * level.getRatios().get(1).getRatio());
         
         Ball b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
         level.getBalls().add(b);

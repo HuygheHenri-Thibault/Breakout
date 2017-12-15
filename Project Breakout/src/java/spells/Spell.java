@@ -25,6 +25,7 @@ public class Spell{
     private Level level;
     private int originalCooldown;
     private int cooldown;
+    private Timer CooldownTimer = new Timer();
     private ZelfstandigNaamwoord zelfstandigNaamwoord;
     private String name;
     
@@ -132,8 +133,12 @@ public class Spell{
     
     public void startCooldown(){
         setCoolDown();
-        Timer t = new Timer();
-        t.schedule(new TimerTaskSpell(this), 0, 1000);
+        CooldownTimer = new Timer();
+        CooldownTimer.schedule(new TimerTaskSpell(this), 0, 1000);
+    }
+    
+    public void stopCooldown(){
+        CooldownTimer.cancel();
     }
     
 //    public void resetSpell(){

@@ -16,10 +16,9 @@ import java.util.Timer;
  * @author micha
  */
 public class EffectShrunk extends Effect{
-    private int originalLenght;
 
-    public EffectShrunk(int duration) {
-        super(duration);
+    public EffectShrunk(String name, int duration) {
+        super(name, duration);
     }
 
     @Override
@@ -28,8 +27,8 @@ public class EffectShrunk extends Effect{
         setUserPallet(palletOfUser);
  
         setRunning();
-        originalLenght = getUserPallet().getLength();
-        getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getLength() * 0.2)));
+        
+        getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getOriginalLenght()* 0.2)));
         System.out.println("activated shrunk");
         
         setT(new Timer());
@@ -40,7 +39,7 @@ public class EffectShrunk extends Effect{
     public void deActivate() {
         System.out.println("deactivated shrunk");
         getT().cancel();
-        getUserPallet().setLength(originalLenght);
+        getUserPallet().setLength((int) (getUserPallet().getLength() + (getUserPallet().getOriginalLenght()* 0.2)));
         setDone();
     }
     

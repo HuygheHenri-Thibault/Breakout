@@ -12,7 +12,7 @@ package powerUps;
 public class NoEffect extends Effect{
 
     public NoEffect() {
-        super(0);
+        super(null, 0);
     }
 
     @Override

@@ -17,8 +17,8 @@ import java.util.Timer;
  */
 public class EffectScaffolds extends Effect{
 
-    public EffectScaffolds(int duration) {
-        super(duration);
+    public EffectScaffolds(String name, int duration) {
+        super(name, duration);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class EffectScaffolds extends Effect{
         setUserPallet(palletOfUser);
         setRunning();
         
-        palletOfUser.setLength((int) (palletOfUser.getLength() + (palletOfUser.getLength() * 0.2)));
+        palletOfUser.setLength((int) (palletOfUser.getLength() + (palletOfUser.getOriginalLenght()* 0.2)));
         
         System.out.println("activated scaffolds");
       
@@ -39,7 +39,7 @@ public class EffectScaffolds extends Effect{
     public void deActivate() {
         System.out.println("deactivated scaffolds");
         getT().cancel();
-        getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getLength() * 0.2)));
+        getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getOriginalLenght()* 0.2)));
         setDone();
     }
     

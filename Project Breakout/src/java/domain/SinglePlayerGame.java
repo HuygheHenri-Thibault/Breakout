@@ -15,12 +15,12 @@ import java.util.Arrays;
 public class SinglePlayerGame extends Game{
     
     //hardcoded constructor
-    public SinglePlayerGame(int height, int width, int aantalspelers){
-        super(height, width, 3, 1);
+    public SinglePlayerGame(int height, int width, int aantalspelers, GameDifficulty difficulty){
+        super(height, width, 3, 1, difficulty);
     }
     
-    public SinglePlayerGame(User player, int height, int width) {
-        super(new ArrayList<User>(Arrays.asList(player)), height, width, 3, 1);
+    public SinglePlayerGame(User player, int height, int width, GameDifficulty difficulty) {
+        super(new ArrayList<User>(Arrays.asList(player)), height, width, 3, 1, difficulty);
     }
     
     

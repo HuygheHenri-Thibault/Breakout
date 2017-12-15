@@ -133,14 +133,14 @@ public class Level{
     public void startLevel(ScheduleLevelTasker s){
         timer = new Timer();
         taskForLevel = s;
-        timer.scheduleAtFixedRate(s, 1000, 10);
+        timer.scheduleAtFixedRate(s, 1000, 15);
     }
     //
 
     public void startLevel(){
         timer = new Timer();
         ScheduleLevelTaskerJavascript taskForLevelNow = new ScheduleLevelTaskerJavascript(this);
-        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 15);
+        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 20);
     }
     
     public void pause(){
@@ -284,6 +284,7 @@ public class Level{
              }
              if(entry.getValue().isActivated() != SpellStatus.READY){
                 entry.getValue().setReady();
+                entry.getValue().stopCooldown();
                 entry.getValue().setCoolDown(entry.getValue().getOriginalCoolDown());
              }
          }

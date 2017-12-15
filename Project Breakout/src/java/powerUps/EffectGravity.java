@@ -15,8 +15,8 @@ import domain.Level;
  */
 public class EffectGravity extends Effect{
 
-    public EffectGravity(int duration) {
-        super(duration);
+    public EffectGravity(String name, int duration) {
+        super(name, duration);
     }
     
     @Override

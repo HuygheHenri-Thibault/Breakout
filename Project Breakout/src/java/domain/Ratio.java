@@ -9,14 +9,15 @@ package domain;
  *
  * @author micha
  */
-public class Ratio {
+public final class Ratio {
     private String elementForChange;
     private float ratio = 1.00f;
     private float changeAfterLevel;
 
-    public Ratio(String elementForChange, float changeAfterLevel) {
+    public Ratio(String elementForChange, float changeAfterLevel, GameDifficulty difficuly) {
         this.elementForChange = elementForChange;
         this.changeAfterLevel = changeAfterLevel;
+        changeRatioFromDifficulty(difficuly);
     }
 
     public String getElementForChange() {
@@ -33,6 +34,14 @@ public class Ratio {
     
     public void changeRatio(){
         ratio = ratio + changeAfterLevel;
+    }
+    
+    public void changeRatioFromDifficulty(GameDifficulty difficulty){
+        float ratioChangeDifficulty = difficulty.getRatioChange();
+        if(elementForChange.equals("Ball")){
+            ratioChangeDifficulty = -ratioChangeDifficulty;
+        }
+        this.ratio += ratioChangeDifficulty;
     }
     
 }

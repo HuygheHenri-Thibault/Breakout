@@ -9,6 +9,7 @@ import domain.Ball;
 import domain.Brick;
 import domain.BrickRow;
 import domain.Game;
+import domain.GameDifficulty;
 import domain.Level;
 import domain.MultiPlayerGame;
 import domain.Pallet;
@@ -46,24 +47,38 @@ public class Board extends JPanel{
     User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
     User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
     User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
     private ScheduleLevelTasker s;
 
     public Board() {
+        this.difficulties = new ArrayList<>(Arrays.asList(new GameDifficulty("Easy", 0.2f), new GameDifficulty("Medium", -0.2f), new GameDifficulty("Hard", -0.4f)));
         initBoard();
     }
 
     private void initBoard() {
-        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
-        game = new SinglePlayerGame(me, 1000, 1000);
         addKeyListener(new TAdapter());
         addKeyListener(new TEdaper());
         setFocusable(true);
         setDoubleBuffered(true);
+        showDifficulties();
+    }
+    
+    public void showDifficulties(){
+        String[] options = new String[difficulties.size()];
+        for (int i = 0; i < difficulties.size(); i++) {
+            options[i] = difficulties.get(i).getName();
+        }
+        int response = JOptionPane.showOptionDialog(null, "Choose a Difficulty", "difficulties",
+        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+        null, options, options[0]);
+        
+        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
+        game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
         level = game.getLevelPlayedRightNow();
-        s = new ScheduleLevelTasker(level, this);
-        showSpellChoices();
+         s = new ScheduleLevelTasker(level, this);
+         showSpellChoices();
     }
     
     public void showSpellChoices(){
@@ -123,6 +138,7 @@ public class Board extends JPanel{
                 g2d.fillRect(brick.getX(), brick.getY(), brick.getLength(), brick.getHeight());
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(brick.getX(), brick.getY(), brick.getLength(), brick.getHeight());
+                g2d.drawString(""+brick.getHits(), (brick.getX() + (brick.getLength() / 2)), (brick.getY() + (brick.getHeight() / 2)));
             }
         }
         for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {

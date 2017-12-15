@@ -291,6 +291,10 @@ public class Ball extends Circle implements Serializable{
         level.resetStates();
     }
     
+    public User giveUserActivatedSpecialBall(){
+        return null;
+    }
+    
     @Override
     public String toString() {
         return "Ball";

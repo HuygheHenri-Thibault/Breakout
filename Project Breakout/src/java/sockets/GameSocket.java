@@ -8,6 +8,7 @@ package sockets;
 import domain.Ball;
 import domain.Brick;
 import domain.Game;
+import domain.GameDifficulty;
 import domain.MultiPlayerGame;
 import domain.Pallet;
 import domain.Rectangle;
@@ -87,9 +88,9 @@ public class GameSocket {
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         if(aantalPlayers > 1){
-            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers));
+            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f)));
         } else {
-            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f)));
         }
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }

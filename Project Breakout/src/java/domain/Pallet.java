@@ -17,6 +17,7 @@ public class Pallet extends Rectangle {
     private Sprite s;
     private final int userID;
     private final Level level;
+    private int originalLenght;
     private float speed;
     private float dx;
     private final int INIT_PALLET_X;
@@ -29,6 +30,7 @@ public class Pallet extends Rectangle {
         this.level = level;
         this.s = new Sprite(color);
         this.speed = speed;
+        this.originalLenght = length;
         this.INIT_PALLET_X = x;
         this.INIT_PALLET_Y = y;
     }
@@ -47,6 +49,10 @@ public class Pallet extends Rectangle {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public int getOriginalLenght() {
+        return originalLenght;
     }
 
     public Ball getLastBallTouched() {

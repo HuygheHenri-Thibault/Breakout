@@ -31,16 +31,17 @@ public class Game{
     private int width;
     private int height;
     
+    private GameDifficulty difficulty;
     private int score = 0;
     private int aantalSpelers;
-    private int startLives;
+    private int livesLeftOriginally;
     private int lives; 
     private List<Ratio> ratios = new ArrayList<>();
     
     private boolean gameOver = false;
     
     //hardcoded constructor
-    public Game(int height, int width, int lives, int aantalSpelers){
+    public Game(int height, int width, int lives, int aantalSpelers, GameDifficulty difficulty){
         switch(aantalSpelers){
             case 1:
                 this.players = new ArrayList<>(Arrays.asList(me));
@@ -58,23 +59,26 @@ public class Game{
         
         this.width = width;
         this.height = height;
-        this.startLives = lives;
-        this.lives = startLives;
+        this.livesLeftOriginally = lives;
+        this.lives = lives;
         this.aantalSpelers = aantalSpelers;
-        addRatiosToGame();
+        this.difficulty = difficulty;
+        addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
         createNewLevel();
     }
+    //
     
 
-    public Game(List<User> players, int height, int width, int lives, int aantalSpelers) {
+    public Game(List<User> players, int height, int width, int lives, int aantalSpelers, GameDifficulty difficulty) {
         this.players = players;
         this.width = width;
         this.height = height;
-        this.startLives = lives;
-        this.lives = startLives;
+        this.livesLeftOriginally = lives;
+        this.lives = lives;
         this.aantalSpelers = aantalSpelers;
-        addRatiosToGame();
+        this.difficulty = difficulty;
+        addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
         createNewLevel();
     }
@@ -123,10 +127,10 @@ public class Game{
         return ratios;
     }
     
-    public final void addRatiosToGame(){
-       ratios.add(new Ratio("Pallet", -0.01f));
-       ratios.add(new Ratio("Ball", +0.1f));
-       ratios.add(new Ratio("Power up And Down", -0.01f));
+    public final void addRatiosToGame(GameDifficulty difficulty){
+       ratios.add(new Ratio("Pallet", -0.01f, difficulty));
+       ratios.add(new Ratio("Ball", +0.1f, difficulty));
+       ratios.add(new Ratio("Power up And Down", -0.1f, difficulty));
        //ratios.add(new Ratio("Power down", +0.01f));
     }
 
@@ -146,8 +150,8 @@ public class Game{
         return lives;
     }
      
-    public int getStartLives() {
-        return startLives;
+    public int getLivesLeftOriginally() {
+        return livesLeftOriginally;
     }
 
     public int getAantalSpelers() {
@@ -156,6 +160,7 @@ public class Game{
     
     public void decrementLife(){
         lives--;
+        livesLeftOriginally--;
         if(lives == 0){
             stopGame();
         }

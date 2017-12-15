@@ -15,15 +15,17 @@ import java.util.Timer;
  * @author micha
  */
 public class EffectSuddenDeath extends Effect{
-
-    public EffectSuddenDeath(int duration) {
-        super(duration);
+    private int originalLivesLeft;
+    
+    public EffectSuddenDeath(String name, int duration) {
+        super(name, duration);
     }
     
     @Override
     public void activate() {
         System.out.println("activated sudden death");
         setRunning();
+        originalLivesLeft = getThisLevel().getGame().getLivesLeftOriginally();
         getThisLevel().getGame().setLives(1);
         setT(new Timer());
         getT().schedule(new TimerTaskEffect(this), 0, 1000);
@@ -33,7 +35,7 @@ public class EffectSuddenDeath extends Effect{
     public void deActivate() {
         System.out.println("deactivated sudden death");
         getT().cancel();
-        getThisLevel().getGame().setLives(getThisLevel().getGame().getStartLives());
+        getThisLevel().getGame().setLives(originalLivesLeft);
         setDone();
     }
     

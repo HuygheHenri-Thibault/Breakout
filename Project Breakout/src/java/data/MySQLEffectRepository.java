@@ -66,25 +66,25 @@ public class MySQLEffectRepository implements EffectRepository{
         Effect effect = null;
         switch(name){
             case"quickerPallet":
-                effect = new EffectBulletTime(duration);
+                effect = new EffectBulletTime(name, duration);
                 break;
             case"biggerPallet":
-                effect = new EffectScaffolds(duration);
+                effect = new EffectScaffolds(name, duration);
                 break;
             case"extraBall":
-                effect = new EffectDoubleTrouble(duration);
+                effect = new EffectDoubleTrouble(name, duration);
                 break;
             case"straightDownBall":
-                effect = new EffectGravity(duration);
+                effect = new EffectGravity(name, duration);
                 break;
             case"slowerPallet":
-                effect = new EffectSlowed(duration);
+                effect = new EffectSlowed(name, duration);
                 break;
             case"littlePallet":
-                effect = new EffectShrunk(duration);
+                effect = new EffectShrunk(name, duration);
                 break;
             case"oneLifeLeft":
-                effect = new EffectSuddenDeath(duration);
+                effect = new EffectSuddenDeath(name, duration);
                 break;
         }
         return effect;

@@ -14,12 +14,12 @@ import java.util.List;
 public class MultiPlayerGame extends Game {
 
     //hardcoded constructor
-    public MultiPlayerGame(int height, int width, int aantalspelers){
-        super(height, width, 2 * aantalspelers, aantalspelers);
+    public MultiPlayerGame(int height, int width, int aantalspelers, GameDifficulty difficulty){
+        super(height, width, 2 * aantalspelers, aantalspelers, difficulty);
     }
     
-    public MultiPlayerGame(List<User> players, int height, int width, int aantalSpelers) {
-        super(players, height, width, 2 * aantalSpelers, aantalSpelers);
+    public MultiPlayerGame(List<User> players, int height, int width, int aantalSpelers, GameDifficulty difficulty) {
+        super(players, height, width, 2 * aantalSpelers, aantalSpelers, difficulty);
     }
     
 }

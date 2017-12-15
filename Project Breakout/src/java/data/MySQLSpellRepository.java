@@ -43,15 +43,15 @@ public class MySQLSpellRepository implements SpellRepository{
 
     public MySQLSpellRepository() {
         zelfstandigeNaamWoorden = Arrays.asList(
-                new ZelfstandigNaamwoord("chicken", 1, "fire", new EffectScaffolds(5)),
-                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectScaffolds(5))
+                new ZelfstandigNaamwoord("chicken", 1, "fire", new EffectSlowed("slowerPallet", 5)),
+                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectSlowed("slowerPallet", 5))
         );
         
         bijvoegelijkeNaamwoorden = Arrays.asList(
-                new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectBulletTime(5)),
-                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectBulletTime(5)),
-                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectDoubleTrouble(5)),
-                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectDoubleTrouble(5))
+                new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectBulletTime("bullet time", 5)),
+                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectBulletTime("bullet time", 5)),
+                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectBulletTime("bullet time", 5)),
+                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectBulletTime("bullet time", 5))
         );
     }
     //

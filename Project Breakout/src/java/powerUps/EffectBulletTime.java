@@ -21,8 +21,8 @@ import java.util.TimerTask;
  */
 public class EffectBulletTime extends Effect{
 
-    public EffectBulletTime(int duration) {
-        super(duration);
+    public EffectBulletTime(String name, int duration) {
+        super(name, duration);
     }
 
     @Override

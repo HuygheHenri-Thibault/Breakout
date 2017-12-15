@@ -15,22 +15,22 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectSlowed extends Effect{
+public class EffectSlowed extends Effect {
 
-    public EffectSlowed(int duration) {
-        super(duration);
+    public EffectSlowed(String name, int duration) {
+        super(name, duration);
     }
 
     @Override
     public void activate() {
         Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
         setUserPallet(palletOfUser);
-        setRunning();   
-        
+        setRunning();
+
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
-        
+
         System.out.println("activated slowed");
-      
+
         setT(new Timer());
         getT().schedule(new TimerTaskEffect(this), 0, 1000);
     }
@@ -42,9 +42,9 @@ public class EffectSlowed extends Effect{
         getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
         setDone();
     }
-    
+
     @Override
     public String toString() {
-        return super.toString() + " slowed"; 
+        return super.toString() + " slowed";
     }
 }
