@@ -8,9 +8,17 @@ package swing;
 import domain.Ball;
 import domain.Level;
 import domain.Pallet;
+import domain.User;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import powerUps.Effect;
+import powerUps.EffectStatus;
+import powerUps.PowerUpOrDown;
+import spells.Spell;
 
 /**
  *
@@ -34,12 +42,57 @@ public class ScheduleLevelTaskerJavascript extends TimerTask {
                 pallet.move();
             }
             
-            switch (level.getActivePowerUp().isActivated()) {
+           for (ListIterator<PowerUpOrDown> iter = level.getAllActivePowerUps().listIterator(); iter.hasNext();) {
+                PowerUpOrDown power = iter.next();
+                switch (power.isActivated()) {
+                    case ACTIVE:
+                        power.activate();
+                        break;
+                    case INACTIVE:
+                        power.deActivate();
+                        break;
+                    case RUNNING:
+                        changeStateEffect(power.getEffects());
+                        if (checkAllPowerUpEffects(power)) {
+                            power.setDone();
+                        }
+                        break;
+                    case DONE:
+                        iter.remove();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+                switch (entry.getValue().isActivated()) {
+                    case ACTIVE:
+                        entry.getValue().cast();
+                        break;
+                    case DEACTIVE:
+                        entry.getValue().startCooldown();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+                changeStateEffect(entry.getValue().getSpellEffects());
+            }
+        }
+    }
+
+    
+    private void changeStateEffect(List<Effect> effects) {
+        for (Effect effect : effects) {
+            switch (effect.isActivated()) {
                 case ACTIVE:
-                    level.getActivePowerUp().activate();
+                    effect.activate();
                     break;
                 case INACTIVE:
-                    level.getActivePowerUp().deActivate();
+                    effect.deActivate();
                     break;
                 default:
                     break;
@@ -47,6 +100,15 @@ public class ScheduleLevelTaskerJavascript extends TimerTask {
         }
     }
 
+    private boolean checkAllPowerUpEffects(PowerUpOrDown power) {
+        for (Effect effect : power.getEffects()) {
+            if (effect.isActivated() != EffectStatus.DONE) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public void setPaused(boolean paused) {
         this.paused = paused;
     }

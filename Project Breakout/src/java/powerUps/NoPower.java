@@ -7,6 +7,8 @@ package powerUps;
 
 import domain.Ball;
 import domain.Brick;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,21 +18,28 @@ public class NoPower extends PowerUpOrDown{
 
     public NoPower() {
     }
-    
-    @Override
-    public void setActive(){ 
-    }
-    
-    @Override
-    public void activate() {
-    }
 
     @Override
     public void show() {
     }
-
+    
     @Override
-    public void deActivate() {
+     public List<Effect> getEffects() {
+        return new ArrayList<>();
+    }
+     
+      @Override
+    public void activate(){
+       
     }
     
+    @Override
+    public void deActivate(){
+       
+    }
+
+    @Override
+    public String toString() {
+        return "NoPower";
+    }
 }

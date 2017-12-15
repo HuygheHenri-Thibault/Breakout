@@ -5,14 +5,17 @@
  */
 package factories;
 
-import data.MySQLEffectRepository;
+import data.MySQLPowerUpOrDownRepository;
 import data.Repositories;
 import domain.Brick;
 import domain.BrickRow;
 import java.util.List;
 import java.util.Random;
 import powerUps.AllPowerUps;
+import powerUps.EffectBulletTime;
+import powerUps.EffectDoubleTrouble;
 import powerUps.PowerUpOrDown;
+import powerUps.EffectScaffolds;
 
 /**
  *
@@ -28,6 +31,8 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
             Brick b = createSingleBrick(rowsMade, rowBricks);
             rowBricks.addBrickToRow(b);
         }
+        //weg doen als alle testen gedaan zijn
+        
         //test for powerup
         //Brick testBrick = rowBricks.getBricksOnRow().get(rowBricks.getBricksOnRow().size() - 1);
         //make a random powerup
@@ -38,7 +43,7 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
     private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
         String color = rowBricks.getBrickData().getColor();
         
-        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 10;
+        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 6;
         
         int bricksLenghtMadeSoFar = rowBricks.getSomLengteGemaakteBricks();
         int x = rowBricks.getMIN_BRICK_BORDER_X() + bricksLenghtMadeSoFar;
@@ -61,7 +66,7 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
         Brick b = new Brick(rowBricks, lengte, height, hits, achievedScoreIfDestroyed, color, x, y);
         
         if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
-            PowerUpOrDown power = Repositories.getEffectRepository().getAllPowerUpsAndDowns().getRandomPowerUpOrDown(rowBricks.getLevel());
+            PowerUpOrDown power = Repositories.getPowerUpDownRepository().getAllPowerUpsAndDowns().getRandomPowerUpOrDown(rowBricks.getLevel());
             power.setBrickHiddenIn(b);
             //System.out.println("added " + power.getName() + " in brick x:" + b.getX() + " y:" + b.getY());
         }

@@ -52,13 +52,13 @@ public class AllPowerUps {
     private PowerUpOrDown getRandomPowerUp(Random r, int min, int max){
         //((max-min) + 1) + min 
         int randomNumber = r.nextInt((max - min) + 1) + min;
-        System.out.println(randomNumber);
+        //System.out.println(randomNumber);
         return powerUps.get(randomNumber);
     }
     
     private PowerUpOrDown getRandomPowerDown(Random r, int min, int max){
         int randomNumber = r.nextInt((max - min) + 1) + min;
-        System.out.println(randomNumber);
+        //System.out.println(randomNumber);
         return powerDowns.get(randomNumber);
     }
 }

@@ -58,8 +58,8 @@ public class Brick extends Rectangle{
         return hits;
     }
     
-    public void decrementHits(){
-        hits--;
+    public void decrementHits(Ball ball){
+        hits = hits - ball.getDamage();
     }
     
     public void setAcheievedScore(int acheievedScore) {

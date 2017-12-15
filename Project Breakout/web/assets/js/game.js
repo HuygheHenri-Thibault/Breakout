@@ -82,6 +82,20 @@ var comms = function() {
     socket.sendMessage(messageObj);
   };
   // Public
+  //new from michael
+//  var showSpells = function(){
+//    var playerAmount = prompt("How many players");
+//    for (var i = 0; i < parseInt(playerAmount); i++) {
+//      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32); // TODO: move to a seperate fucntion perhaps?
+//      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32); // #readability
+//      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
+//      input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1)));
+//    }
+//    var messageObj = {type: "showSpells", playerAmount};
+//    socket.sendMessage(messageObj);
+//  }
+  //
+  
   var startGame = function() {
     //$("#selectController").hide();
     var playerAmount = prompt("How many players");
@@ -152,6 +166,11 @@ var socket = function() {
   socket.onmessage = function(messageRecieved) {
     var message = JSON.parse(messageRecieved.data);
     switch (message.type) {
+      //new from michael
+//      case "spells":
+//        comm.askSpells();
+//        break;
+     //
       case "posistion":
         gui.drawFromPosistion(message);
         break;

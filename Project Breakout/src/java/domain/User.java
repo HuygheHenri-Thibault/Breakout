@@ -5,6 +5,8 @@
  */
 package domain;
 
+import spells.Spell;
+
 /**
  *
  * @author Henri
@@ -17,6 +19,7 @@ public class User {
     private int level;
     private String bio;
     private int score;
+    private Spell spell;
     
     public User(int id, String username, String password, String email, int lvl, String bio) {
         this.userId = id;
@@ -71,5 +74,14 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setSpell(Spell spell) {
+        this.spell = spell;
+        spell.setUserID(this);
+    }
+
+    public Spell getSpell() {
+        return spell;
     }
 }

@@ -5,19 +5,15 @@
  */
 package data;
 
-import domain.Effect;
 import java.util.List;
-import powerUps.AllPowerUps;
-import powerUps.PowerUpOrDown;
+import powerUps.Effect;
 
 /**
  *
- * @author Henri
+ * @author micha
  */
 public interface EffectRepository {
-    public AllPowerUps getAllPowerUpsAndDowns();
-    public PowerUpOrDown getPowerUpOrDownWithName(String name);
-    public PowerUpOrDown getPowerUpOrDownWithId(int id);
-    public void addPowerUpOrDown(PowerUpOrDown p);
-    public void deletePowerUpOrDown(PowerUpOrDown p);
+    public List<Effect> getAllEffects();
+    public Effect getEffect(int effectID);
+    public List<Effect> getEffectOfPowerUp(int powerUpID);
 }

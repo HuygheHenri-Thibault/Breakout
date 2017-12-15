@@ -15,6 +15,7 @@ import domain.Shape;
 import domain.SinglePlayerGame;
 import domain.Sprite;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
 import powerUps.PowerUpOrDown;
+import spells.Spell;
 import util.BreakoutException;
 /**
  *
@@ -54,6 +56,11 @@ public class GameSocket {
             JSONObject obj = (JSONObject) jparse.parse(message);
      
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
+                //new
+                //    case "showSpells":
+                //    makeGame(in, obj);
+                //    return makeJSONSpells(sessionGame.get(in).getLevelPlayedRightNow().getAllSpells()).toJSONString();
+                //                
                 case "startGame":
                     //System.out.println("started");
                     startGame(in, obj);
@@ -86,6 +93,21 @@ public class GameSocket {
         }
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
+    //new
+//    public void startGame(Session in){
+//       sessionGame.get(in).getLevelPlayedRightNow().startLevel();
+//    }
+//    
+//    private JSONObject makeJSONSpells(List<Spell> spells){
+//        JSONObject resultObj = new JSONObject();
+//        int itr = 1;
+//        for (Spell spell : spells) {
+//           resultObj.put("spell " + itr, spell.getName());
+//           itr++;
+//        }
+//        return resultObj;
+//    }
+    //
     
     private JSONObject makeJSONGameInfo(Session in) {
         JSONObject resultObj = new JSONObject();

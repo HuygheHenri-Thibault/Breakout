@@ -14,4 +14,5 @@ public interface Collidable {
     public boolean checkCollissionWithCircle(Circle c);
     public boolean checkCollission(Shape s);
     public void updateSpriteBall(Ball aBall);
+    public void updateSpritePallet(Pallet p);
 }

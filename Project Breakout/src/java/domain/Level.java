@@ -9,10 +9,17 @@ import factories.FactoryBall;
 import factories.FactoryPallet;
 import factories.FactoryRowOfBricks;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
+import powerUps.Effect;
+import powerUps.EffectDoubleTrouble;
+import powerUps.EffectStatus;
 import powerUps.NoPower;
 import powerUps.PowerUpOrDown;
+import spells.Spell;
+import spells.SpellStatus;
 import swing.ScheduleLevelTasker;
 import swing.ScheduleLevelTaskerJavascript;
 
@@ -32,10 +39,12 @@ public class Level{
     private List<BrickRow> rowsOfBricks;
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
-    //private int ballsonScreen = balls.size() + 1;
     
     private List<PowerUpOrDown> powerUps = new ArrayList<>();
-    private PowerUpOrDown powerUpActive = new NoPower();
+    private List<PowerUpOrDown> powerupsActive = new ArrayList<>();
+    
+    private List<Spell> spells = new ArrayList<>();
+    private Map<User, Spell> spellsInGame = new HashMap<User, Spell>();
     
     private final int number;
     private int score = 0;
@@ -66,7 +75,59 @@ public class Level{
         this.LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, getGameHeight());
         this.RIGHT_BOUNDARY = new Rectangle(this, getGameWidth(), 0, 10, getGameHeight());
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
+        createNewRandomSpells();
     }
+    
+    //spells
+    private void createNewRandomSpells(){
+        for (int i = 0; i < 3; i++) {
+            Spell newSpell = new Spell(this);
+            if(!LevelAlreadyContainsSpell(newSpell)){
+                spells.add(newSpell);
+            } else {
+                i--;
+            }
+        }
+    }
+    
+    public boolean LevelAlreadyContainsSpell(Spell s){
+        for (Spell spell : spells) {
+            if(spell.getName() == null ? s.getName() == null : spell.getName().equals(s.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void setUserSpell(User u, Spell s){
+        u.setSpell(s);
+        spellsInGame.put(u, s);
+    }
+    
+    public List<Spell> getAllSpells(){
+        return spells;
+    }
+    
+//    public void addActiavtedSpelltoLevel(Spell spell){
+//        activatedSpells.add(spell);
+//    }
+//    
+//    public void removeActivatedSpellFromLevel(Spell spell){
+//        activatedSpells.remove(spell);
+//    }
+    
+    public Spell getSpellByUser(User u){
+        return spellsInGame.get(u);
+    }
+    
+    public void updateSpellOfUser(User u, Spell spell){
+        spellsInGame.replace(u, spell);
+    }
+    
+    public Map<User, Spell> getAllSpellsInGame(){
+        return spellsInGame;
+    }
+    //
     
     //voor swing
     public void startLevel(ScheduleLevelTasker s){
@@ -74,6 +135,7 @@ public class Level{
         taskForLevel = s;
         timer.scheduleAtFixedRate(s, 1000, 10);
     }
+    //
 
     public void startLevel(){
         timer = new Timer();
@@ -104,13 +166,17 @@ public class Level{
     public List<Pallet> getPallets() {
         return pallets;
     }
+
+//    public Spell getSpell() {
+//        return spell;
+//    }
     
-    public void setPowerUpActive(PowerUpOrDown powerUp){
-        powerUpActive = powerUp;
+    public void addPowerUpActive(PowerUpOrDown powerUp){
+        powerupsActive.add(powerUp);
     }
     
-    public PowerUpOrDown getActivePowerUp(){
-        return powerUpActive;
+    public List<PowerUpOrDown> getAllActivePowerUps(){
+        return powerupsActive;
     }
     
     public Pallet getUserPallet(int userID){
@@ -126,9 +192,9 @@ public class Level{
         return balls;
     }
     
-    public void addBallOnScreen(){
-        //ballsonScreen++;
-    }
+//    public void addBallOnScreen(){
+//        //ballsonScreen++;
+//    }
 //    
 //    public void decrementBallsOnScreen(Ball ball){
 //        ballsonScreen--;
@@ -139,9 +205,9 @@ public class Level{
 //        }
 //    }
     
-    public void createExtraBall(){
+    public void createExtraBall(EffectDoubleTrouble effect){
         //addBallOnScreen();
-        factoryBall.createExtraBall();
+        factoryBall.createExtraBallDoubleTrouble(effect);
     }
     
      
@@ -200,10 +266,27 @@ public class Level{
             pallet.resetState();
         }
         resetPowerUps();
+        resetSpellEffects();
     }
     
     public void resetPowerUps(){
-        powerUpActive.setDeActive();
+        for (PowerUpOrDown powerUpOrDown : powerupsActive) {
+            powerUpOrDown.setDeActive();
+        }
+    }
+    
+    public void resetSpellEffects(){
+         for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+             for (Effect spellEffect : entry.getValue().getSpellEffects()) {
+                 if(spellEffect.isActivated() == EffectStatus.RUNNING){
+                    spellEffect.setDeActive();
+                 }
+             }
+             if(entry.getValue().isActivated() != SpellStatus.READY){
+                entry.getValue().setReady();
+                entry.getValue().setCoolDown(entry.getValue().getOriginalCoolDown());
+             }
+         }
     }
     
     public boolean getGameOver(){
@@ -253,9 +336,9 @@ public class Level{
         allEntities.add(BOTTOM_BOUNDARY);
         return allEntities;
     }
-    public void lowerHitsOfBrick(Brick b, int playerIDThatDestroyedBrick){
-        b.decrementHits();
-        if(b.getHits() == 0){
+    public void lowerHitsOfBrick(Ball ball, Brick b, int playerIDThatDestroyedBrick){
+        b.decrementHits(ball);
+        if(b.getHits() <= 0){
             deleteBrick(b, playerIDThatDestroyedBrick);
         }
     }
