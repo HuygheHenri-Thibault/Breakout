@@ -34,7 +34,7 @@ public class Spell{
     public Spell(Level level) {
         this.level = level;
         randomizeWords();
-        this.originalCooldown = 5;
+        this.originalCooldown = generateCooldown();
         this.cooldown = originalCooldown;
     }
     
@@ -52,6 +52,14 @@ public class Spell{
     
     public int getOriginalCoolDown(){
         return originalCooldown;
+    }
+    
+    private int generateCooldown(){
+        int spellCooldown = 10;
+        for (int i = 0; i < getSpellEffects().size(); i++) {
+            spellCooldown += 2;
+        }
+        return spellCooldown;
     }
     
     private void randomizeWords(){
