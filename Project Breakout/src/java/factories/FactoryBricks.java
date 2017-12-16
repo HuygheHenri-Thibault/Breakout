@@ -5,8 +5,8 @@
  */
 package factories;
 
-import data.MySQLPowerUpOrDownRepository;
-import data.Repositories;
+import be.howest.ti.breakout.data.MySQLPowerUpOrDownRepository;
+import be.howest.ti.breakout.data.Repositories;
 import domain.Brick;
 import domain.BrickRow;
 import java.util.List;

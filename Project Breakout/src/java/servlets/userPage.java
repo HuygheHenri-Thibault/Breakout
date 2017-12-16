@@ -5,7 +5,7 @@
  */
 package servlets;
 
-import data.Repositories;
+import be.howest.ti.breakout.data.Repositories;
 import domain.User;
 import java.io.IOException;
 import java.io.PrintWriter;

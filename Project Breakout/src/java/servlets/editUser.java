@@ -6,8 +6,8 @@
 package servlets;
 
 
-import data.Repositories;
-import data.UserRepository;
+import be.howest.ti.breakout.data.Repositories;
+import be.howest.ti.breakout.data.UserRepository;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

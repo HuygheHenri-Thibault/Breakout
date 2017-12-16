@@ -259,11 +259,11 @@ public class Level{
     }
     
     public void resetStates(){
-        for (Ball ball : balls) {
-            ball.resetState();
-        }
         for (Pallet pallet : pallets) {
             pallet.resetState();
+        }
+        for (Ball ball : balls) {
+            ball.resetState();
         }
         resetPowerUps();
         resetSpellEffects();
@@ -348,10 +348,18 @@ public class Level{
         BrickRow brickLine = searchBrickThroughRows(b);
         b.getPowerUP().show();
         brickLine.deleteBrick(b);
+        
         score += b.getAchievedScore();
         User player = game.getPlayers().get(playerIDThatDestroyedBrick);
         player.setScore(player.getScore() + b.getAchievedScore());
         game.setScore(game.getScore() + b.getAchievedScore());
+        //XP nog aan toevoegen
+        //als gameover -> XP behouden
+        //als gameover -> score valt weg
+        //als succes -> XP awarden 
+        //als succes -> level score aan totale score toevoegen.
+        
+        
         if(brickLine.getBricksOnRow().isEmpty()){
             getRowsOfBricks().remove(brickLine);
         }

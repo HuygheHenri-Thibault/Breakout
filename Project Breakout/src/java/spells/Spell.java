@@ -5,7 +5,7 @@
  */
 package spells;
 
-import data.Repositories;
+import be.howest.ti.breakout.data.Repositories;
 import domain.Ball;
 import domain.Level;
 import domain.User;

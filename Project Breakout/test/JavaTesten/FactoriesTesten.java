@@ -5,12 +5,13 @@
  */
 package JavaTesten;
 
-import data.MySQLBrickRepository;
+import be.howest.ti.breakout.data.MySQLBrickRepository;
 import domain.Ball;
 import domain.Brick;
 import domain.BrickData;
 import domain.BrickRow;
 import domain.Game;
+import domain.GameDifficulty;
 import domain.Level;
 import domain.MultiPlayerGame;
 import domain.Pallet;
@@ -37,6 +38,13 @@ public class FactoriesTesten {
     User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio");
     User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio");
     User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
+    List<User> players2 = new ArrayList<>(Arrays.asList(me, otherMe));
+    List<User> players3 = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
+    GameDifficulty easy = new GameDifficulty("easy", 0.2f);
+    Game singlePlayerGame = new SinglePlayerGame(me, 1000, 1000, easy);;
+    Game multiPlayerGame2P = new MultiPlayerGame(players2, 1000, 1000, 2, easy);
+    Game multiPlayerGame3P = new MultiPlayerGame(players3, 1000, 1000, 3, easy);
+
 
     public FactoriesTesten() {
     }
@@ -68,69 +76,60 @@ public class FactoriesTesten {
 
     @Test
     public void testRowOfBlocksForLevel() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        Level level = g.getLevels().get(0);
+        Level level = singlePlayerGame.getLevelPlayedRightNow();
         int som = 0;
         for (BrickRow br : level.getRowsOfBricks()) {
             for (Brick b : br.getBricksOnRow()) {
                 som += b.getLength();
             }
         }
-        assertEquals(2500, som);
+        assertEquals(5000, som);
     }
 
     @Test
     public void testEenPalletMaken() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        Level level = g.getLevels().get(0);
-        Pallet p = level.getPallets().get(0);
+        Level level = singlePlayerGame.getLevelPlayedRightNow();
+        Pallet p = level.getUserPallet(me.getUserId());
         assertTrue(p instanceof Pallet);
-        assertEquals(438, p.getX());
+        assertEquals(425, p.getX());
     }
 
     @Test
     public void testMeerderePalletMaken() {
-        List<User> players = new ArrayList<>(Arrays.asList(me, otherMe));
-        Game g = new MultiPlayerGame(players, 1000, 1000, 2);
-        Level level = g.getLevels().get(0);
-        Pallet p1 = level.getPallets().get(0);
-        Pallet p2 = level.getPallets().get(1);
+        Level level = multiPlayerGame2P.getLevelPlayedRightNow();
+        Pallet p1 = level.getUserPallet(me.getUserId());
+        Pallet p2 = level.getUserPallet(otherMe.getUserId());
 
-        assertTrue(level.getPallets().get(0) instanceof Pallet);
-        assertEquals(188, p1.getX());
-        assertEquals(688, p2.getX());
+        assertTrue(level.getUserPallet(me.getUserId()) instanceof Pallet);
+        assertEquals(175, p1.getX());
+        assertEquals(675, p2.getX());
     }
 
     @Test
     public void testBallMaken() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        Ball b = g.getLevels().get(0).getBalls().get(0);
+        Ball b = singlePlayerGame.getLevelPlayedRightNow().getBalls().get(0);
         assertTrue(b instanceof Ball);
     }
 
     @Test
     public void meerdereBallen() {
-        List<User> players = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
-        Game g = new MultiPlayerGame(players, 1000, 1000, 3);
-        Ball ball1 = g.getLevels().get(0).getBalls().get(0);
-        Ball ball2 = g.getLevels().get(0).getBalls().get(1);
+        Ball ball1 = multiPlayerGame3P.getLevelPlayedRightNow().getBalls().get(0);
+        Ball ball2 = multiPlayerGame3P.getLevelPlayedRightNow().getBalls().get(1);
         assertEquals(250, ball1.getX());
         assertEquals(750, ball2.getX());
-        assertEquals(800, ball1.getY());
+        assertEquals(600, ball1.getY());
     }
 
     @Test
     public void testLevelsMaken() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        Level level = g.getLevels().get(0);
+        Level level = singlePlayerGame.getLevelPlayedRightNow();
         assertTrue(level instanceof Level);
     }
 
     @Test
     public void testGameMaken() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        Level level = g.getLevels().get(0);
-        Pallet p = level.getPallets().get(0);
+        Level level = singlePlayerGame.getLevelPlayedRightNow();
+        Pallet p = level.getUserPallet(me.getUserId());
         Ball b = level.getBalls().get(0);
         BrickRow br = level.getRowsOfBricks().get(0);
         Brick brick = br.getBricksOnRow().get(0);
@@ -146,22 +145,21 @@ public class FactoriesTesten {
 
     @Test
     public void createNextLevel() {
-        Game g = new SinglePlayerGame(me, 1000, 1000);
-        g.createNewLevel();
-        Pallet palletLevel2 = g.getLevels().get(1).getPallets().get(0);
-        g.createNewLevel();
-        g.createNewLevel();
-        g.createNewLevel();
-        g.createNewLevel();
-        Pallet palletLevel6 = g.getLevels().get(5).getPallets().get(0);
-        Ball ballLevel3 = g.getLevels().get(2).getBalls().get(0);
-        Brick b = g.getLevels().get(1).getRowsOfBricks().get(4).getBricksOnRow().get(0);
-        Brick b1 = g.getLevels().get(2).getRowsOfBricks().get(4).getBricksOnRow().get(0);
+        singlePlayerGame.createNewLevel();
+        Pallet palletLevel2 = singlePlayerGame.getLevels().get(1).getPallets().get(0);
+        singlePlayerGame.createNewLevel();
+        singlePlayerGame.createNewLevel();
+        singlePlayerGame.createNewLevel();
+        singlePlayerGame.createNewLevel();
+        Pallet palletLevel6 = singlePlayerGame.getLevels().get(5).getPallets().get(0);
+        Ball ballLevel3 = singlePlayerGame.getLevels().get(2).getBalls().get(0);
+        Brick b = singlePlayerGame.getLevels().get(1).getRowsOfBricks().get(4).getBricksOnRow().get(0);
+        Brick b1 = singlePlayerGame.getLevels().get(2).getRowsOfBricks().get(4).getBricksOnRow().get(0);
         assertEquals(20, b.getAchievedScore());
         assertEquals(30, b1.getAchievedScore());
-        assertEquals(124, palletLevel2.getLength());
-        assertEquals(12, ballLevel3.getSpeed());
-        assertEquals(123, palletLevel6.getLength());
+        assertEquals(149, palletLevel2.getLength());
+        assertEquals(6, ballLevel3.getSpeed());
+        assertEquals(148, palletLevel6.getLength());
     }
 
     @Test
@@ -173,9 +171,9 @@ public class FactoriesTesten {
         double angle;
         angle = (double) round(Math.toDegrees(Math.atan2(targetY - y, targetX - x)), 1);
         
-        System.out.println(angle);
-        System.out.println(Math.cos(angle * Math.PI / 180));
-        System.out.println(Math.sin(angle * Math.PI / 180));
+//        System.out.println(angle);
+//        System.out.println(Math.cos(angle * Math.PI / 180));
+//        System.out.println(Math.sin(angle * Math.PI / 180));
         
         if (angle < 0) {
             angle += 360;
@@ -184,17 +182,17 @@ public class FactoriesTesten {
         double dx = 4 * Math.cos(angle * Math.PI / 180);
         double dy = 4 * Math.sin(angle * Math.PI / 180);
         
-        System.out.println(dx);
-        System.out.println(dy);
+//        System.out.println(dx);
+//        System.out.println(dy);
         
         x = x + (int) dx;
         y = y + (int) dy;
         
         //System.out.println(angle);
-        System.out.println(dx);
-        System.out.println(dy);
-        System.out.println(x);
-        System.out.println(y);
+//        System.out.println(dx);
+//        System.out.println(dy);
+//        System.out.println(x);
+//        System.out.println(y);
     }
     
     private static double round (double value, int precision) {
@@ -204,10 +202,9 @@ public class FactoriesTesten {
     
     @Test
     public void testSpell(){
-        Game game = new SinglePlayerGame(me, 1000, 1000);
-        Level level = new Level(game, 10, 1);
+        Level level = new Level(singlePlayerGame, 10, 1);
         Spell spell = me.getSpell();
-        System.out.println(spell.getName());
+        //System.out.println(spell.getName());
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

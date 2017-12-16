@@ -5,7 +5,7 @@
  */
 package factories;
 
-import data.MySQLBrickRepository;
+import be.howest.ti.breakout.data.MySQLBrickRepository;
 import domain.Brick;
 import domain.BrickData;
 import domain.Level;

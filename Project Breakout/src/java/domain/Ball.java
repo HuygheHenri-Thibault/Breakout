@@ -7,6 +7,7 @@ package domain;
 
 import java.awt.Image;
 import java.io.Serializable;
+import java.util.List;
 import powerUps.PowerUpOrDown;
 
 /**
@@ -36,8 +37,51 @@ public class Ball extends Circle implements Serializable{
         this.INIT_BALL_X = x;
         this.INIT_BALL_Y = y;
         this.speed = speed * 2;
-        this.dx = -speed;
-        this.dy = speed;
+        //this.dx = -speed;
+        //this.dy = speed;
+        setAngleDirectionToNearestPallet();
+    }
+    
+    public void setAngleDirectionToNearestPallet(){
+        List<Pallet> userPallets = level.getPallets();
+        int nearestPalletUserID = calculateNearestPalletUserID(userPallets);
+        //System.out.println(nearestPalletUserID);
+        Pallet selectedPallet = level.getUserPallet(nearestPalletUserID);
+        int targetX = selectedPallet.getX() + (selectedPallet.getLength() / 2);
+        int targetY = selectedPallet.getY();
+        //System.out.println(targetX);
+        //System.out.println(targetY);
+        int x = getX();
+        int y = getY();
+        double angle;
+        angle = (double) round(Math.toDegrees(Math.atan2(targetY - y, targetX - x)), 1);
+        
+        if (angle < 0) {
+            angle += 360;
+        }
+        
+        this.dx = (float) Math.round(speed * Math.cos(angle * Math.PI / 180));
+        this.dy = (float) Math.round(speed * Math.sin(angle * Math.PI / 180));
+        //System.out.println(dx);
+        //System.out.println(dy);
+    }
+    
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
+    
+    public int calculateNearestPalletUserID(List<Pallet> pallets){
+        int palletUserID = 0;
+        int nearestX = 1000;
+        for (Pallet pallet : pallets) {
+            int difference = Math.abs(pallet.getX() - this.getX());
+            if(difference < nearestX){
+                nearestX = difference;
+                palletUserID = pallet.getUserID();
+            }
+        }
+        return palletUserID;
     }
 
 //    public int getId(){
@@ -139,8 +183,9 @@ public class Ball extends Circle implements Serializable{
     public void resetState(){
         this.setX(INIT_BALL_X);
         this.setY(INIT_BALL_Y);
-        dx = -speed / 2;
-        dy = speed / 2;
+        //dx = -speed / 2;
+        //dy = speed / 2;
+        setAngleDirectionToNearestPallet();
     }
     
     public Shape findCollidingSprite() {

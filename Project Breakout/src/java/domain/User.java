@@ -16,9 +16,11 @@ public class User {
     private String email;
     private String username;
     private String hashPassword;
+    private int XP;
     private int level;
     private String bio;
     private int score;
+    private int totalScore;
     private Spell spell;
     
     public User(int id, String username, String password, String email, int lvl, String bio) {
@@ -74,6 +76,22 @@ public class User {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getXP() {
+        return XP;
+    }
+
+    public void setXP(int XP) {
+        this.XP = XP;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 
     public void setSpell(Spell spell) {
