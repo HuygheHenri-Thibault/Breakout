@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.data;
 
-import domain.BrickData;
+import be.howest.ti.breakout.domain.BrickData;
 import java.util.List;
 
 /**

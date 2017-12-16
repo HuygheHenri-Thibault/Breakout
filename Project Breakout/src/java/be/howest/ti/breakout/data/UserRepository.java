@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.data;
 
-import domain.User;
+import be.howest.ti.breakout.domain.User;
 import java.util.List;
 
 /**

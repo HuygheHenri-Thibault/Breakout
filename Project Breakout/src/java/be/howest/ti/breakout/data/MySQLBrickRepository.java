@@ -5,15 +5,15 @@
  */
 package be.howest.ti.breakout.data;
 
-import data.util.MySQLConnection;
-import domain.BrickData;
+import be.howest.ti.breakout.data.util.MySQLConnection;
+import be.howest.ti.breakout.domain.BrickData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import util.BreakoutException;
+import be.howest.ti.breakout.util.BreakoutException;
 
 /**
  *

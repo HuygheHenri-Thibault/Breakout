@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.data;
 
-import data.util.MySQLConnection;
+import be.howest.ti.breakout.data.util.MySQLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,18 +16,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import powerUps.EffectBulletTime;
-import powerUps.EffectDoubleTrouble;
-import powerUps.EffectGravity;
-import powerUps.EffectScaffolds;
-import powerUps.EffectShrunk;
-import powerUps.EffectSlowed;
-import powerUps.EffectSuddenDeath;
-import powerUps.NoEffect;
-import spells.BijvoegelijkNaamwoord;
-import spells.Woord;
-import spells.ZelfstandigNaamwoord;
-import util.BreakoutException;
+import be.howest.ti.breakout.domain.powerUps.EffectQuickerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.powerUps.EffectStraightDownBall;
+import be.howest.ti.breakout.domain.powerUps.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectSmallerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectSlowerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectOneLifeLeft;
+import be.howest.ti.breakout.domain.powerUps.NoEffect;
+import be.howest.ti.breakout.spells.BijvoegelijkNaamwoord;
+import be.howest.ti.breakout.spells.Woord;
+import be.howest.ti.breakout.spells.ZelfstandigNaamwoord;
+import be.howest.ti.breakout.util.BreakoutException;
 
 /**
  *
@@ -42,16 +42,14 @@ public class MySQLSpellRepository implements SpellRepository{
     private List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden;
 
     public MySQLSpellRepository() {
-        zelfstandigeNaamWoorden = Arrays.asList(
-                new ZelfstandigNaamwoord("chicken", 1, "fire", new EffectSlowed("slowerPallet", 5)),
-                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectSlowed("slowerPallet", 5))
+        zelfstandigeNaamWoorden = Arrays.asList(new ZelfstandigNaamwoord("chicken", 1, "fire", new EffectSlowerPallet("slowerPallet", 5)),
+                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectSlowerPallet("slowerPallet", 5))
         );
         
-        bijvoegelijkeNaamwoorden = Arrays.asList(
-                new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectBulletTime("bullet time", 5)),
-                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectBulletTime("bullet time", 5)),
-                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectBulletTime("bullet time", 5)),
-                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectBulletTime("bullet time", 5))
+        bijvoegelijkeNaamwoorden = Arrays.asList(new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectQuickerPallet("bullet time", 5)),
+                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectQuickerPallet("bullet time", 5)),
+                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectQuickerPallet("bullet time", 5)),
+                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectQuickerPallet("bullet time", 5))
         );
     }
     //

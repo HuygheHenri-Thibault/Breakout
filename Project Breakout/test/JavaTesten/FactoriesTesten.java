@@ -6,17 +6,17 @@
 package JavaTesten;
 
 import be.howest.ti.breakout.data.MySQLBrickRepository;
-import domain.Ball;
-import domain.Brick;
-import domain.BrickData;
-import domain.BrickRow;
-import domain.Game;
-import domain.GameDifficulty;
-import domain.Level;
-import domain.MultiPlayerGame;
-import domain.Pallet;
-import domain.SinglePlayerGame;
-import domain.User;
+import be.howest.ti.breakout.domain.Ball;
+import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.BrickData;
+import be.howest.ti.breakout.domain.BrickRow;
+import be.howest.ti.breakout.domain.Game;
+import be.howest.ti.breakout.domain.GameDifficulty;
+import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.MultiPlayerGame;
+import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.SinglePlayerGame;
+import be.howest.ti.breakout.domain.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import spells.Spell;
+import be.howest.ti.breakout.spells.Spell;
 
 /**
  *

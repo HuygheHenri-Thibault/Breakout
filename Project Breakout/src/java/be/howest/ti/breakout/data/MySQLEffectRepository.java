@@ -5,24 +5,24 @@
  */
 package be.howest.ti.breakout.data;
 
-import data.util.MySQLConnection;
+import be.howest.ti.breakout.data.util.MySQLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import powerUps.AllPowerUps;
-import powerUps.Effect;
-import powerUps.EffectBulletTime;
-import powerUps.EffectDoubleTrouble;
-import powerUps.EffectGravity;
-import powerUps.EffectScaffolds;
-import powerUps.EffectShrunk;
-import powerUps.EffectSlowed;
-import powerUps.EffectSuddenDeath;
-import powerUps.PowerUpOrDown;
-import util.BreakoutException;
+import be.howest.ti.breakout.domain.powerUps.AllPowerUps;
+import be.howest.ti.breakout.domain.powerUps.Effect;
+import be.howest.ti.breakout.domain.powerUps.EffectQuickerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.powerUps.EffectStraightDownBall;
+import be.howest.ti.breakout.domain.powerUps.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectSmallerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectSlowerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectOneLifeLeft;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
+import be.howest.ti.breakout.util.BreakoutException;
 
 /**
  *
@@ -66,25 +66,25 @@ public class MySQLEffectRepository implements EffectRepository{
         Effect effect = null;
         switch(name){
             case"quickerPallet":
-                effect = new EffectBulletTime(name, duration);
+                effect = new EffectQuickerPallet(name, duration);
                 break;
             case"biggerPallet":
-                effect = new EffectScaffolds(name, duration);
+                effect = new EffectBiggerPallet(name, duration);
                 break;
             case"extraBall":
-                effect = new EffectDoubleTrouble(name, duration);
+                effect = new EffectExtraBall(name, duration);
                 break;
             case"straightDownBall":
-                effect = new EffectGravity(name, duration);
+                effect = new EffectStraightDownBall(name, duration);
                 break;
             case"slowerPallet":
-                effect = new EffectSlowed(name, duration);
+                effect = new EffectSlowerPallet(name, duration);
                 break;
             case"littlePallet":
-                effect = new EffectShrunk(name, duration);
+                effect = new EffectSmallerPallet(name, duration);
                 break;
             case"oneLifeLeft":
-                effect = new EffectSuddenDeath(name, duration);
+                effect = new EffectOneLifeLeft(name, duration);
                 break;
         }
         return effect;

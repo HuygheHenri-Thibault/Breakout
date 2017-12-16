@@ -6,23 +6,23 @@
 package be.howest.ti.breakout.data;
 
 import java.sql.Connection;
-import data.util.MySQLConnection;
+import be.howest.ti.breakout.data.util.MySQLConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import powerUps.AllPowerUps;
-import powerUps.Effect;
-import powerUps.EffectGravity;
-import powerUps.EffectShrunk;
-import powerUps.EffectSlowed;
-import powerUps.EffectSuddenDeath;
-import powerUps.EffectBulletTime;
-import powerUps.EffectDoubleTrouble;
-import powerUps.PowerUpOrDown;
-import powerUps.EffectScaffolds;
-import util.BreakoutException;
+import be.howest.ti.breakout.domain.powerUps.AllPowerUps;
+import be.howest.ti.breakout.domain.powerUps.Effect;
+import be.howest.ti.breakout.domain.powerUps.EffectStraightDownBall;
+import be.howest.ti.breakout.domain.powerUps.EffectSmallerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectSlowerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectOneLifeLeft;
+import be.howest.ti.breakout.domain.powerUps.EffectQuickerPallet;
+import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
+import be.howest.ti.breakout.domain.powerUps.EffectBiggerPallet;
+import be.howest.ti.breakout.util.BreakoutException;
 
 /**
  *

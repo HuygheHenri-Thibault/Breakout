@@ -5,17 +5,17 @@
  */
 package JavaTesten;
 
-import domain.Ball;
-import domain.Brick;
-import domain.BrickRow;
-import domain.Game;
-import domain.GameDifficulty;
-import domain.Level;
-import domain.MultiPlayerGame;
-import domain.Pallet;
-import domain.Shape;
-import domain.SinglePlayerGame;
-import domain.User;
+import be.howest.ti.breakout.domain.Ball;
+import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.BrickRow;
+import be.howest.ti.breakout.domain.Game;
+import be.howest.ti.breakout.domain.GameDifficulty;
+import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.MultiPlayerGame;
+import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.SinglePlayerGame;
+import be.howest.ti.breakout.domain.User;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import powerUps.PowerUpOrDown;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
 /**
  *
