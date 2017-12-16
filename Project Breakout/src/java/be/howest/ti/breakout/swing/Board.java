@@ -7,7 +7,6 @@ package be.howest.ti.breakout.swing;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.BrickRow;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
@@ -53,7 +52,7 @@ public class Board extends JPanel{
     private ScheduleLevelTasker s;
 
     public Board() {
-        this.difficulties = new ArrayList<>(Arrays.asList(new GameDifficulty("Easy", 0.2f), new GameDifficulty("Medium", -0.2f), new GameDifficulty("Hard", -0.4f)));
+        this.difficulties = new ArrayList<>(Arrays.asList(new GameDifficulty("Easy", 0.2f, 1), new GameDifficulty("Medium", -0.2f, 3), new GameDifficulty("Hard", -0.4f, 5)));
         initBoard();
     }
 
@@ -132,15 +131,15 @@ public class Board extends JPanel{
             g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
         }
         
-        for (BrickRow rowsOfBrick : level.getRowsOfBricks()) {
-            for (Brick brick : rowsOfBrick.getBricksOnRow()) {
+        //for (BrickRow rowsOfBrick : level.getBricks()) {
+            for (Brick brick : level.getBricks()) {
                 g2d.setColor(Color.RED);
                 g2d.fillRect(brick.getX(), brick.getY(), brick.getLength(), brick.getHeight());
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(brick.getX(), brick.getY(), brick.getLength(), brick.getHeight());
                 g2d.drawString(""+brick.getHits(), (brick.getX() + (brick.getLength() / 2)), (brick.getY() + (brick.getHeight() / 2)));
             }
-        }
+        //}
         for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {
             g2d.drawRect(powerUp.getBoundaries().getX(), powerUp.getBoundaries().getY(), powerUp.getBoundaries().getLength(), powerUp.getBoundaries().getHeight());
         }

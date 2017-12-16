@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.swing;
+package be.howest.ti.breakout.domain.game;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
@@ -24,11 +24,11 @@ import be.howest.ti.breakout.domain.spells.Spell;
  *
  * @author micha
  */
-public class ScheduleLevelTaskerJavascript extends TimerTask {
+public class LevelTasker extends TimerTask {
     private Level level;
     private boolean paused = false;
 
-    public ScheduleLevelTaskerJavascript(Level level) {
+    public LevelTasker(Level level) {
         this.level = level;
     }
 

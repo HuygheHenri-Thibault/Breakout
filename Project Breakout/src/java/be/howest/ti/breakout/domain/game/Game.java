@@ -149,6 +149,10 @@ public class Game{
     public int getLives() {
         return lives;
     }
+
+    public GameDifficulty getDifficulty() {
+        return difficulty;
+    }
      
     public int getLivesLeftOriginally() {
         return livesLeftOriginally;

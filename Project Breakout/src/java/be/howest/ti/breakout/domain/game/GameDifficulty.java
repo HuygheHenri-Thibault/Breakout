@@ -12,10 +12,12 @@ package be.howest.ti.breakout.domain.game;
 public class GameDifficulty {
     private String Name;
     private float ratioChange;
+    private int hitChangeBricks;
 
-    public GameDifficulty(String Name, float ratioChange) {
+    public GameDifficulty(String Name, float ratioChange, int hitChangeBricks) {
         this.Name = Name;
         this.ratioChange = ratioChange;
+        this.hitChangeBricks = hitChangeBricks;
     }
 
     public String getName() {
@@ -32,6 +34,10 @@ public class GameDifficulty {
 
     public void setRatioChange(float ratioChange) {
         this.ratioChange = ratioChange;
+    }
+
+    public int getHitChangeBricks() {
+        return hitChangeBricks;
     }
 
     @Override

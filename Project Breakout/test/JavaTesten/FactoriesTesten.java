@@ -9,7 +9,6 @@ import be.howest.ti.breakout.data.MySQLBrickRepository;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.BrickData;
-import be.howest.ti.breakout.domain.BrickRow;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
@@ -40,7 +39,7 @@ public class FactoriesTesten {
     User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
     List<User> players2 = new ArrayList<>(Arrays.asList(me, otherMe));
     List<User> players3 = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
-    GameDifficulty easy = new GameDifficulty("easy", 0.2f);
+    GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
     Game singlePlayerGame = new SinglePlayerGame(me, 1000, 1000, easy);;
     Game multiPlayerGame2P = new MultiPlayerGame(players2, 1000, 1000, 2, easy);
     Game multiPlayerGame3P = new MultiPlayerGame(players3, 1000, 1000, 3, easy);
@@ -78,10 +77,8 @@ public class FactoriesTesten {
     public void testRowOfBlocksForLevel() {
         Level level = singlePlayerGame.getLevelPlayedRightNow();
         int som = 0;
-        for (BrickRow br : level.getRowsOfBricks()) {
-            for (Brick b : br.getBricksOnRow()) {
-                som += b.getLength();
-            }
+        for (Brick b : level.getBricks()) {
+            som += b.getLength();
         }
         assertEquals(5000, som);
     }
@@ -131,15 +128,13 @@ public class FactoriesTesten {
         Level level = singlePlayerGame.getLevelPlayedRightNow();
         Pallet p = level.getUserPallet(me.getUserId());
         Ball b = level.getBalls().get(0);
-        BrickRow br = level.getRowsOfBricks().get(0);
-        Brick brick = br.getBricksOnRow().get(0);
+        Brick brick  = level.getBricks().get(0);
 
         assertTrue(level instanceof Level);
         assertEquals(1, level.getPallets().size());
         assertTrue(p instanceof Pallet);
         assertEquals(1, level.getBalls().size());
         assertTrue(b instanceof Ball);
-        assertEquals(5, level.getRowsOfBricks().size());
         assertTrue(brick instanceof Brick);
     }
 
@@ -153,10 +148,8 @@ public class FactoriesTesten {
         singlePlayerGame.createNewLevel();
         Pallet palletLevel6 = singlePlayerGame.getLevels().get(5).getPallets().get(0);
         Ball ballLevel3 = singlePlayerGame.getLevels().get(2).getBalls().get(0);
-        Brick b = singlePlayerGame.getLevels().get(1).getRowsOfBricks().get(4).getBricksOnRow().get(0);
-        Brick b1 = singlePlayerGame.getLevels().get(2).getRowsOfBricks().get(4).getBricksOnRow().get(0);
+        Brick b = singlePlayerGame.getLevels().get(1).getBricks().get(0);
         assertEquals(20, b.getAchievedScore());
-        assertEquals(30, b1.getAchievedScore());
         assertEquals(149, palletLevel2.getLength());
         assertEquals(6, ballLevel3.getSpeed());
         assertEquals(148, palletLevel6.getLength());

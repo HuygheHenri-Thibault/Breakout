@@ -16,23 +16,23 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
  */
 public class Brick extends Rectangle{
     private Sprite s;
-    private BrickRow br;
+    //private BrickRow br;
     private int hits;
     private int achievedScore;
     private PowerUpOrDown powerUp = new NoPower();
 
-    public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
-        super(br.getLevel(), x, y, lenght, height);
+    public Brick(Level level, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
+        super(level, x, y, lenght, height);
         this.s = new Sprite(color);
-        this.br = br;
+        //this.br = br;
         this.hits = hits;
         this.achievedScore = achievedScore;
     }
     
-    public Brick(BrickRow br, int lenght, int height, int hits, int achievedScore, PowerUpOrDown power, String color, int x, int y) {
-        super(br.getLevel(), x, y, lenght, height);
+    public Brick(Level level, int lenght, int height, int hits, int achievedScore, PowerUpOrDown power, String color, int x, int y) {
+        super(level, x, y, lenght, height);
         this.s = new Sprite(color);
-        this.br = br;
+        //this.br = br;
         this.hits = hits;
         this.achievedScore = achievedScore;
         this.powerUp = power;
@@ -46,13 +46,13 @@ public class Brick extends Rectangle{
         return powerUp;
     }
 
-    public BrickRow getBr() {
-        return br;
-    }
+//    public BrickRow getBr() {
+//        return br;
+//    }
     
-    public Level getLevel(){
-        return br.getLevel();
-    }
+//    public Level getLevel(){
+//        return ;
+//    }
     
 
     public int getHits() {

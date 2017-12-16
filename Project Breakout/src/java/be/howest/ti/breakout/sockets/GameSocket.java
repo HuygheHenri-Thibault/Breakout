@@ -88,9 +88,9 @@ public class GameSocket {
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         if(aantalPlayers > 1){
-            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f)));
+            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
         } else {
-            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f)));
+            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
         }
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }

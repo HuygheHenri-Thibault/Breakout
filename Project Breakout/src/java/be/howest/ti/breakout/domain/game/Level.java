@@ -7,13 +7,11 @@ package be.howest.ti.breakout.domain.game;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.BrickRow;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.factories.FactoryBall;
 import be.howest.ti.breakout.factories.FactoryPallet;
-import be.howest.ti.breakout.factories.FactoryRowOfBricks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +24,8 @@ import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
+import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTasker;
-import be.howest.ti.breakout.swing.ScheduleLevelTaskerJavascript;
 
 /**
  *
@@ -38,11 +36,11 @@ public class Level{
     private Timer timer;
     private ScheduleLevelTasker taskForLevel;
     
-    private FactoryRowOfBricks factoryBrick;
+    private FactoryBricks factoryBrick;
     private FactoryPallet factoryPallet;
     private FactoryBall factoryBall;
     
-    private List<BrickRow> rowsOfBricks;
+    private List<Brick> bricks;
     private List<Pallet> pallets = new ArrayList<>();
     private List<Ball> balls = new ArrayList<>();
     
@@ -71,8 +69,8 @@ public class Level{
         this.startScoreForBricks = startScoreForBricks;
         this.completed = false;
         
-        this.factoryBrick = new FactoryRowOfBricks(this);
-        this.rowsOfBricks = factoryBrick.createRowOfBricks();
+        this.factoryBrick = new FactoryBricks(this);
+        this.bricks = factoryBrick.createBricks();
         this.factoryPallet = new FactoryPallet(this);
         this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
@@ -145,7 +143,7 @@ public class Level{
 
     public void startLevel(){
         timer = new Timer();
-        ScheduleLevelTaskerJavascript taskForLevelNow = new ScheduleLevelTaskerJavascript(this);
+        LevelTasker taskForLevelNow = new LevelTasker(this);
         timer.scheduleAtFixedRate(taskForLevelNow, 1000, 20);
     }
     
@@ -165,8 +163,8 @@ public class Level{
         return game.getPlayers();
     }
     
-    public List<BrickRow> getRowsOfBricks() {
-        return rowsOfBricks;
+    public List<Brick> getBricks() {
+        return bricks;
     }
     
     public List<Pallet> getPallets() {
@@ -334,9 +332,7 @@ public class Level{
         for (PowerUpOrDown powerUp : powerUps) {
             allEntities.add(powerUp);
         }
-        for (BrickRow br : rowsOfBricks) {
-            allEntities.addAll(br.getBricksOnRow());
-        }
+        allEntities.addAll(bricks);
         allEntities.add(TOP_BOUNDARY);
         allEntities.add(LEFT_BOUNDARY);
         allEntities.add(RIGHT_BOUNDARY);
@@ -351,9 +347,10 @@ public class Level{
     }
     
     public void deleteBrick(Brick b, int playerIDThatDestroyedBrick){
-        BrickRow brickLine = searchBrickThroughRows(b);
+        //BrickRow brickLine = searchBrickThroughRows(b);
         b.getPowerUP().show();
-        brickLine.deleteBrick(b);
+        //brickLine.deleteBrick(b);
+        bricks.remove(b);
         
         score += b.getAchievedScore();
         User player = game.getPlayers().get(playerIDThatDestroyedBrick);
@@ -366,23 +363,23 @@ public class Level{
         //als succes -> level score aan totale score toevoegen.
         
         
-        if(brickLine.getBricksOnRow().isEmpty()){
-            getRowsOfBricks().remove(brickLine);
-        }
+//        if(brickLine.getBricksOnRow().isEmpty()){
+//            getBricks().remove(brickLine);
+//        }
         checkForCompletion();
     }
     
-    private BrickRow searchBrickThroughRows(Brick b){
-        for (BrickRow rowsOfBrick : rowsOfBricks) {
-            if(rowsOfBrick.getBricksOnRow().contains(b)){
-                return rowsOfBrick;
-            }
-        }
-        return null;
-    }
+//    private BrickRow searchBrickThroughRows(Brick b){
+//        for (BrickRow rowsOfBrick : rowsOfBricks) {
+//            if(rowsOfBrick.getBricksOnRow().contains(b)){
+//                return rowsOfBrick;
+//            }
+//        }
+//        return null;
+//    }
     
     private void checkForCompletion(){
-        if(this.getRowsOfBricks().isEmpty()){
+        if(this.getBricks().isEmpty()){
             setCompleted(true);
             endLevel();
             game.createNewLevel();

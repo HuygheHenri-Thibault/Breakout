@@ -37,6 +37,10 @@ public class Rectangle extends Shape implements Collidable{
         return HEIGHT;
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
     @Override
     public boolean checkCollissionWithRect(Rectangle rect) {
         int tw = (int) this.getLength();

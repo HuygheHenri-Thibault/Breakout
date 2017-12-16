@@ -55,15 +55,16 @@ public class Ball extends Circle implements Serializable{
         //System.out.println(targetY);
         int x = getX();
         int y = getY();
-        double angle;
-        angle = (double) round(Math.toDegrees(Math.atan2(targetY - y, targetX - x)), 1);
+        double angle = (double) round(Math.toDegrees(Math.atan2(targetY - y, targetX - x)), 1);
         
         if (angle < 0) {
             angle += 360;
         }
         
-        this.dx = (float) Math.round(speed * Math.cos(angle * Math.PI / 180));
-        this.dy = (float) Math.round(speed * Math.sin(angle * Math.PI / 180));
+        //System.out.println(speed / 2);
+        
+        this.dx = (float) Math.round((speed / 2) * Math.cos(angle * Math.PI / 180));
+        this.dy = (float) Math.round((speed / 2) * Math.sin(angle * Math.PI / 180));
         //System.out.println(dx);
         //System.out.println(dy);
     }
@@ -292,8 +293,8 @@ public class Ball extends Circle implements Serializable{
             setDx(Math.abs(getDx()));
         }
         //level.getSpellByUser(level.getPlayers().get(getLastUserThatTouchedMe() - 1)).setDeActive(); // is never replaced
-        setDamage(1);
         level.lowerHitsOfBrick(this, b, getLastUserThatTouchedMe() - 1);
+        setDamage(1);
     }
     
     public void updateSpriteBallAfterCollidingWithPowerUp(PowerUpOrDown powerUpTouched){

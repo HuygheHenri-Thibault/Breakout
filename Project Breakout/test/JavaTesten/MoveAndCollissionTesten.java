@@ -7,7 +7,6 @@ package JavaTesten;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.BrickRow;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
@@ -37,7 +36,7 @@ public class MoveAndCollissionTesten {
     User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio");
     User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio");
     User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
-    GameDifficulty easy = new GameDifficulty("easy", 0.2f);
+    GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
     
     public MoveAndCollissionTesten() {
     }
@@ -198,8 +197,7 @@ public class MoveAndCollissionTesten {
         Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
-        BrickRow br = g.getLevels().get(0).getRowsOfBricks().get(4);
-        Brick brick = br.getBricksOnRow().get(0);
+        Brick brick = g.getLevelPlayedRightNow().getBricks().get(0);
         b.setX(250);
         b.setY(515);
         b.setSpeed(2);
@@ -209,7 +207,7 @@ public class MoveAndCollissionTesten {
         b.move(); // x 253 y 516
         assertEquals(516, b.getY());
         assertEquals(253, b.getX());
-        assertFalse(br.getBricksOnRow().contains(brick));
+        assertFalse(g.getLevelPlayedRightNow().getBricks().contains(brick));
         assertEquals(10, l.getScore());
     }
     
@@ -283,8 +281,7 @@ public class MoveAndCollissionTesten {
         Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
-        BrickRow lastRow = l.getRowsOfBricks().get(l.getRowsOfBricks().size() - 1);
-        Brick brick = lastRow.getBricksOnRow().get(lastRow.getBricksOnRow().size() - 1);
+        Brick brick = l.getBricks().get(l.getBricks().size() - 1);
         l.deleteBrick(brick, b.getLastUserThatTouchedMe());
         PowerUpOrDown powerup = brick.getPowerUP();
         List<Shape> allEntities = l.getAllEntities();
