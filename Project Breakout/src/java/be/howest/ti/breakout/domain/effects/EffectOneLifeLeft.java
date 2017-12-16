@@ -3,48 +3,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain.powerUps;
+package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.game.Level;
 import java.util.Timer;
 
 /**
  *
  * @author micha
  */
-public class EffectSlowerPallet extends Effect {
-
-    public EffectSlowerPallet(String name, int duration) {
+public class EffectOneLifeLeft extends Effect{
+    private int originalLivesLeft;
+    
+    public EffectOneLifeLeft(String name, int duration) {
         super(name, duration);
     }
-
+    
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
-        setUserPallet(palletOfUser);
+        System.out.println("activated sudden death");
         setRunning();
-
-        getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
-
-        System.out.println("activated slowed");
-
+        originalLivesLeft = getThisLevel().getGame().getLivesLeftOriginally();
+        getThisLevel().getGame().setLives(1);
         setT(new Timer());
         getT().schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated slowed");
+        System.out.println("deactivated sudden death");
         getT().cancel();
-        getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
+        getThisLevel().getGame().setLives(originalLivesLeft);
         setDone();
     }
-
+    
     @Override
     public String toString() {
-        return super.toString() + " slowed";
+        return super.toString() + " sudden-death"; 
     }
 }

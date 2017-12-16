@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain.powerUps;
+package be.howest.ti.breakout.domain.effects;
 
 /**
  *

@@ -10,13 +10,13 @@ import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.BrickData;
 import be.howest.ti.breakout.domain.BrickRow;
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.GameDifficulty;
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.MultiPlayerGame;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.GameDifficulty;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.SinglePlayerGame;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.SinglePlayerGame;
+import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import be.howest.ti.breakout.spells.Spell;
+import be.howest.ti.breakout.domain.spells.Spell;
 
 /**
  *

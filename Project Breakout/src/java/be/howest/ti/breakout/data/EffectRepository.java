@@ -6,7 +6,7 @@
 package be.howest.ti.breakout.data;
 
 import java.util.List;
-import be.howest.ti.breakout.domain.powerUps.Effect;
+import be.howest.ti.breakout.domain.effects.Effect;
 
 /**
  *

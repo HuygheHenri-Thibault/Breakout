@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain;
 
+import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 

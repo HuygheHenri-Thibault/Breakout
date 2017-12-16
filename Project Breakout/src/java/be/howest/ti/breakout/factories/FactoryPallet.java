@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.factories;
 
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
 
 

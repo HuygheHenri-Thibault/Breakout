@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain;
+package be.howest.ti.breakout.domain.game;
 
-import be.howest.ti.breakout.spells.Spell;
+import be.howest.ti.breakout.domain.spells.Spell;
 
 /**
  *

@@ -6,7 +6,7 @@
 package be.howest.ti.breakout.servlets;
 
 import be.howest.ti.breakout.data.Repositories;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

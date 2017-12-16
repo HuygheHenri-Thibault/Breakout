@@ -6,9 +6,9 @@
 package be.howest.ti.breakout.data;
 
 import java.util.List;
-import be.howest.ti.breakout.spells.BijvoegelijkNaamwoord;
-import be.howest.ti.breakout.spells.Woord;
-import be.howest.ti.breakout.spells.ZelfstandigNaamwoord;
+import be.howest.ti.breakout.domain.spells.BijvoegelijkNaamwoord;
+import be.howest.ti.breakout.domain.spells.Woord;
+import be.howest.ti.breakout.domain.spells.ZelfstandigNaamwoord;
 
 /**
  *

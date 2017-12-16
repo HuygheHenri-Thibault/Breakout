@@ -5,8 +5,8 @@
  */
 package be.howest.ti.breakout.data;
 
-import be.howest.ti.breakout.domain.Highscore;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.Highscore;
+import be.howest.ti.breakout.domain.game.User;
 import java.util.List;
 
 /**

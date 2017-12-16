@@ -7,11 +7,11 @@ package be.howest.ti.breakout.factories;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
-import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 
 /**
  *

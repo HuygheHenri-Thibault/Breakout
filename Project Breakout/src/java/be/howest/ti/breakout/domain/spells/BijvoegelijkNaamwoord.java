@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.spells;
+package be.howest.ti.breakout.domain.spells;
 
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.powerUps.Effect;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.effects.Effect;
 
 /**
  *

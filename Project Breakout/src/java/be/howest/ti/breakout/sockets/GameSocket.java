@@ -7,13 +7,13 @@ package be.howest.ti.breakout.sockets;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.GameDifficulty;
-import be.howest.ti.breakout.domain.MultiPlayerGame;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.GameDifficulty;
+import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
-import be.howest.ti.breakout.domain.SinglePlayerGame;
+import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.Sprite;
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
-import be.howest.ti.breakout.spells.Spell;
+import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.util.BreakoutException;
 /**
  *

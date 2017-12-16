@@ -16,17 +16,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import be.howest.ti.breakout.domain.powerUps.EffectQuickerPallet;
-import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
-import be.howest.ti.breakout.domain.powerUps.EffectStraightDownBall;
-import be.howest.ti.breakout.domain.powerUps.EffectBiggerPallet;
-import be.howest.ti.breakout.domain.powerUps.EffectSmallerPallet;
-import be.howest.ti.breakout.domain.powerUps.EffectSlowerPallet;
-import be.howest.ti.breakout.domain.powerUps.EffectOneLifeLeft;
-import be.howest.ti.breakout.domain.powerUps.NoEffect;
-import be.howest.ti.breakout.spells.BijvoegelijkNaamwoord;
-import be.howest.ti.breakout.spells.Woord;
-import be.howest.ti.breakout.spells.ZelfstandigNaamwoord;
+import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
+import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectStraightDownBall;
+import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.effects.EffectSmallerPallet;
+import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
+import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
+import be.howest.ti.breakout.domain.effects.NoEffect;
+import be.howest.ti.breakout.domain.spells.BijvoegelijkNaamwoord;
+import be.howest.ti.breakout.domain.spells.Woord;
+import be.howest.ti.breakout.domain.spells.ZelfstandigNaamwoord;
 import be.howest.ti.breakout.util.BreakoutException;
 
 /**

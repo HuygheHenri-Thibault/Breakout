@@ -8,13 +8,13 @@ package be.howest.ti.breakout.swing;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.BrickRow;
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.GameDifficulty;
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.MultiPlayerGame;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.GameDifficulty;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.SinglePlayerGame;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.SinglePlayerGame;
+import be.howest.ti.breakout.domain.game.User;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -32,11 +32,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import be.howest.ti.breakout.domain.powerUps.Effect;
-import be.howest.ti.breakout.domain.powerUps.EffectStatus;
+import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
-import be.howest.ti.breakout.spells.Spell;
-import be.howest.ti.breakout.spells.SpellStatus;
+import be.howest.ti.breakout.domain.spells.Spell;
+import be.howest.ti.breakout.domain.spells.SpellStatus;
 
 /**
  *

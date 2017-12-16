@@ -5,9 +5,9 @@
  */
 package be.howest.ti.breakout.factories;
 
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.Ratio;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.Ratio;
 import java.util.HashMap;
 import java.util.List;
 

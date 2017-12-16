@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain;
 
+import be.howest.ti.breakout.domain.game.Level;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 

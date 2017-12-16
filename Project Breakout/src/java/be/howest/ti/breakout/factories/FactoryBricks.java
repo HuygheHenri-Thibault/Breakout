@@ -12,10 +12,10 @@ import be.howest.ti.breakout.domain.BrickRow;
 import java.util.List;
 import java.util.Random;
 import be.howest.ti.breakout.domain.powerUps.AllPowerUps;
-import be.howest.ti.breakout.domain.powerUps.EffectQuickerPallet;
-import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
+import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
-import be.howest.ti.breakout.domain.powerUps.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
 
 /**
  *

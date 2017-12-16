@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain.powerUps;
+package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Level;
 
 /**
  *

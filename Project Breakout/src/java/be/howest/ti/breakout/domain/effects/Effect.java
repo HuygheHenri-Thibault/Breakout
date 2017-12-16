@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain.powerUps;
+package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.User;
 import java.util.List;
 import java.util.Timer;
 

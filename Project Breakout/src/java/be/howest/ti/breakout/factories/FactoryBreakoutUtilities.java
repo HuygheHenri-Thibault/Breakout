@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.factories;
 
-import be.howest.ti.breakout.domain.Game;
+import be.howest.ti.breakout.domain.game.Game;
 import java.util.ArrayList;
 import java.util.List;
 

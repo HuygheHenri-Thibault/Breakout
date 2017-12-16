@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain.powerUps;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.effects.Effect;
 import java.util.ArrayList;
 import java.util.List;
 

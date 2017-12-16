@@ -3,8 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.domain;
+package be.howest.ti.breakout.domain.game;
 
+import be.howest.ti.breakout.domain.Ball;
+import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.BrickRow;
+import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.Rectangle;
+import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.factories.FactoryBall;
 import be.howest.ti.breakout.factories.FactoryPallet;
 import be.howest.ti.breakout.factories.FactoryRowOfBricks;
@@ -13,13 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import be.howest.ti.breakout.domain.powerUps.Effect;
-import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
-import be.howest.ti.breakout.domain.powerUps.EffectStatus;
+import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
-import be.howest.ti.breakout.spells.Spell;
-import be.howest.ti.breakout.spells.SpellStatus;
+import be.howest.ti.breakout.domain.spells.Spell;
+import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.swing.ScheduleLevelTasker;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerJavascript;
 

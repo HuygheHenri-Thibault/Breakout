@@ -6,9 +6,9 @@
 package be.howest.ti.breakout.swing;
 
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.User;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import be.howest.ti.breakout.domain.powerUps.Effect;
-import be.howest.ti.breakout.domain.powerUps.EffectHandeler;
-import be.howest.ti.breakout.domain.powerUps.EffectStatus;
+import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.effects.EffectHandeler;
+import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
-import be.howest.ti.breakout.spells.Spell;
+import be.howest.ti.breakout.domain.spells.Spell;
 
 /**
  *

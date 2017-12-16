@@ -5,8 +5,8 @@
  */
 package be.howest.ti.breakout.domain.powerUps;
 
-import be.howest.ti.breakout.domain.Game;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

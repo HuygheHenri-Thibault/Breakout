@@ -8,11 +8,14 @@ package be.howest.ti.breakout.domain.powerUps;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.Circle;
-import be.howest.ti.breakout.domain.Level;
+import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.Sprite;
+import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.effects.EffectHandeler;
+import be.howest.ti.breakout.domain.effects.EffectStatus;
 import java.util.ArrayList;
 import java.util.List;
 

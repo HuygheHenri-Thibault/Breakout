@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.spells;
+package be.howest.ti.breakout.domain.effects;
 
 /**
  *
  * @author micha
  */
-public enum SpellStatus {
-    READY, ACTIVE, DEACTIVE, COOLDOWN
+public enum EffectStatus {
+    READY, ACTIVE, INACTIVE, RUNNING, DONE;
 }

@@ -5,7 +5,9 @@
  */
 package be.howest.ti.breakout.domain;
 
-import be.howest.ti.breakout.domain.powerUps.EffectExtraBall;
+import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 
 /**
  *

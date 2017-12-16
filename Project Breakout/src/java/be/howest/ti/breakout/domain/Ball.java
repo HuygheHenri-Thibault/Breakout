@@ -5,6 +5,8 @@
  */
 package be.howest.ti.breakout.domain;
 
+import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.game.Level;
 import java.awt.Image;
 import java.io.Serializable;
 import java.util.List;

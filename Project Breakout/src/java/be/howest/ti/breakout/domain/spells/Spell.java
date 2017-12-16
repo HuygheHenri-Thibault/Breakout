@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package be.howest.ti.breakout.spells;
+package be.howest.ti.breakout.domain.spells;
 
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Level;
-import be.howest.ti.breakout.domain.User;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.User;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
-import be.howest.ti.breakout.domain.powerUps.Effect;
+import be.howest.ti.breakout.domain.effects.Effect;
 
 /**
  *
