@@ -9,7 +9,7 @@ package be.howest.ti.breakout.domain;
  *
  * @author Henri
  */
-public class BrickData {
+public final class BrickData {
     private final int id;
     private final String color;
     private final int baseLen;

@@ -5,14 +5,12 @@
  */
 package be.howest.ti.breakout.domain.game;
 
-import be.howest.ti.breakout.domain.game.GameDifficulty;
-
 /**
  *
  * @author micha
  */
 public final class Ratio {
-    private String elementForChange;
+    private final String elementForChange;
     private float ratio = 1.00f;
     private float changeAfterLevel;
 

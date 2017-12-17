@@ -6,14 +6,12 @@
 package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.game.Level;
 
 /**
  *
  * @author micha
  */
-public class EffectStraightDownBall extends Effect{
+public final class EffectStraightDownBall extends Effect{
 
     public EffectStraightDownBall(String name, int duration) {
         super(name, duration);
@@ -22,7 +20,7 @@ public class EffectStraightDownBall extends Effect{
     @Override
     public void activate() {       
         setRunning();
-        for (Ball ball : getThisLevel().getBalls()) {
+        for (Ball ball : getLevelOfEffect().getBalls()) {
             ball.setDx(0);
             ball.setDy(ball.getSpeed() / 2);           
         }

@@ -114,7 +114,7 @@ public class GameSocket {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "gameInfo");
         resultObj.put("lives", sessionGame.get(in).getLives());
-        resultObj.put("score", sessionGame.get(in).getScore());
+        resultObj.put("score", sessionGame.get(in).getTotalGameScore());
         return resultObj;
     }
     

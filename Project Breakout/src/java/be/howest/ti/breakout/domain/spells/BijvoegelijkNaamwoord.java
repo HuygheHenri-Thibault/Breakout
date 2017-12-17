@@ -7,41 +7,38 @@ package be.howest.ti.breakout.domain.spells;
 
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.game.User;
 
 /**
  *
  * @author micha
  */
-public class BijvoegelijkNaamwoord extends Woord{
-    private Effect effect;
+public final class BijvoegelijkNaamwoord extends Woord{
+    private final Effect effect;
     
     public BijvoegelijkNaamwoord(String naam, int amountOfDamage, String typeOfDamage, Effect effect) {
         super(naam, amountOfDamage, typeOfDamage);
         this.effect = effect;
     }
     
-    public String combineName(String combinedName){
-        return getNaam() + " " + combinedName;
-    }
-    
-    public void setEntetiesOfEffect(Level level, int userId){
-        effect.setUserPallet(level.getUserPallet(userId));
-        effect.setLastBallActivated(effect.getUserPallet().getLastBallTouched());
-        effect.setLevel(level);
-        effect.setUserActivatedEffect(level.getPlayers().get(userId - 1));
+    public void setEntetiesOfEffect(Level level, User user){
+        effect.setUserPallet(level.getUserPallet(user));
+        effect.setBallActivatedEffect(effect.getUserPallet().getLastBallTouched());
+        effect.setLevelOfEffect(level);
+        effect.setUserActivatedEffect(user);
     }
     
     public void cast(){
         effect.setActive();
     }
     
+    public String combineName(String combinedName){
+        return getNaam() + " " + combinedName;
+    }
+    
     public int combineDamage(int totalDamageSoFar){
         return totalDamageSoFar += getAmountOfDamage();
     }
-    
-//    public void resetEffect(){
-//        effect.setReady();
-//    }
     
     public Effect getEffect(){
         return effect;

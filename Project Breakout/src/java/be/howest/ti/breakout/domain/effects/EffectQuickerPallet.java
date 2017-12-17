@@ -5,21 +5,13 @@
  */
 package be.howest.ti.breakout.domain.effects;
 
-import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.Circle;
-import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.Rectangle;
-import be.howest.ti.breakout.domain.Sprite;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
  * @author micha
  */
-public class EffectQuickerPallet extends Effect{
+public final class EffectQuickerPallet extends Effect{
 
     public EffectQuickerPallet(String name, int duration) {
         super(name, duration);
@@ -27,8 +19,8 @@ public class EffectQuickerPallet extends Effect{
 
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
-        setUserPallet(palletOfUser);
+        //Pallet palletOfUser = getUserPallet();
+        //setUserPallet(palletOfUser);
         
         setRunning();
         
@@ -36,14 +28,14 @@ public class EffectQuickerPallet extends Effect{
         
         System.out.println("activated bullet time");
       
-        setT(new Timer());
-        getT().schedule(new TimerTaskEffect(this), 0, 1000);
+        setTimerEffect(new Timer());
+        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
     }
     
     @Override
     public void deActivate() {
         System.out.println("deactivated bullet time");
-        getT().cancel();
+        getTimerEffect().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
         setDone();
     }

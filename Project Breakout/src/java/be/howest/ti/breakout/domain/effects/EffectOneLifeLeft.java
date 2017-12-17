@@ -14,7 +14,7 @@ import java.util.Timer;
  *
  * @author micha
  */
-public class EffectOneLifeLeft extends Effect{
+public final class EffectOneLifeLeft extends Effect{
     private int originalLivesLeft;
     
     public EffectOneLifeLeft(String name, int duration) {
@@ -25,17 +25,17 @@ public class EffectOneLifeLeft extends Effect{
     public void activate() {
         System.out.println("activated sudden death");
         setRunning();
-        originalLivesLeft = getThisLevel().getGame().getLivesLeftOriginally();
-        getThisLevel().getGame().setLives(1);
-        setT(new Timer());
-        getT().schedule(new TimerTaskEffect(this), 0, 1000);
+        originalLivesLeft = getLevelOfEffect().getGame().getLivesLeftOriginally();
+        getLevelOfEffect().getGame().setLives(1);
+        setTimerEffect(new Timer());
+        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated sudden death");
-        getT().cancel();
-        getThisLevel().getGame().setLives(originalLivesLeft);
+        getTimerEffect().cancel();
+        getLevelOfEffect().getGame().setLives(originalLivesLeft);
         setDone();
     }
     

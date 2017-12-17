@@ -12,7 +12,6 @@ import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
-import be.howest.ti.breakout.domain.Sprite;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectHandeler;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
@@ -24,11 +23,9 @@ import java.util.List;
  * @author micha
  */
 public class PowerUpOrDown extends Shape implements EffectHandeler{
-    private List<Effect> effects = new ArrayList<>(); 
+    private final List<Effect> effects = new ArrayList<>(); 
     
     private Level level;
-    //private Ball ballActivatedPower;
-    private Sprite s;
     private Rectangle boundaries;
     private Brick brick;
     private int id;
@@ -67,7 +64,7 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     public String getDescription(){return description;}
     
     public Rectangle getBoundaries(){return boundaries;}
-    public void show(){brick.getLevel().getPowerUpsShownOnScreen().add(this);}
+    public void show(){level.getPowerUpsShownOnScreen().add(this);}
     
     public void setBrickHiddenIn(Brick b){
         this.level = b.getLevel();
@@ -88,11 +85,12 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     
     public void setEntetiesOfLevel(Ball ballActivated){
         for (Effect effect : effects) {
-            effect.setLastBallActivated(ballActivated);
-            effect.setLevel(level);
+            effect.setBallActivatedEffect(ballActivated);
+            effect.setLevelOfEffect(level);
             effect.setDuration(duration);
-            if(ballActivated.getLastUserThatTouchedMe() > 0){
-                effect.setUserActivatedEffect(level.getPlayers().get(ballActivated.getLastUserThatTouchedMe() - 1));
+            effect.setUserPallet(level.getUserPallet(ballActivated.getLastUserThatTouchedMe()));
+            if(ballActivated.getLastUserThatTouchedMe().getUserId() > 0){
+                effect.setUserActivatedEffect(ballActivated.getLastUserThatTouchedMe());
             }
         }
     }

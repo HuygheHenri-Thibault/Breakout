@@ -14,7 +14,7 @@ import be.howest.ti.breakout.collissionDetectors.CollissionDetectorUtilities;
  */
 public class Circle extends Shape implements Collidable{
     private final Level level;
-    private final CollissionDetectorUtilities cdu = new CollissionDetectorUtilities();
+    private static final CollissionDetectorUtilities cdu = new CollissionDetectorUtilities();
     private int radius;
 
     public Circle(Level level, int x, int y, int radius) {

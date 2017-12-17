@@ -20,12 +20,11 @@ import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
-import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
-import be.howest.ti.breakout.swing.ScheduleLevelTasker;
+import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 
 /**
  *
@@ -34,27 +33,31 @@ import be.howest.ti.breakout.swing.ScheduleLevelTasker;
 public class Level{
     private Game game;
     private Timer timer;
-    private ScheduleLevelTasker taskForLevel;
+    private LevelTasker taskForLevel;
+    //swing
+    private ScheduleLevelTaskerSwing taskForLevelSwing;
+    //
+   
+    private final FactoryBricks factoryBrick;
+    private final FactoryPallet factoryPallet;
+    private final FactoryBall factoryBall;
     
-    private FactoryBricks factoryBrick;
-    private FactoryPallet factoryPallet;
-    private FactoryBall factoryBall;
+    private final List<Brick> bricks;
+    private final List<Pallet> pallets;
+    private final List<Ball> balls = new ArrayList<>();
     
-    private List<Brick> bricks;
-    private List<Pallet> pallets = new ArrayList<>();
-    private List<Ball> balls = new ArrayList<>();
+    private final List<PowerUpOrDown> powerUpsOnScreen = new ArrayList<>();
+    private final List<PowerUpOrDown> powerupsActive = new ArrayList<>();
     
-    private List<PowerUpOrDown> powerUps = new ArrayList<>();
-    private List<PowerUpOrDown> powerupsActive = new ArrayList<>();
-    
-    private List<Spell> spells = new ArrayList<>();
-    private Map<User, Spell> spellsInGame = new HashMap<User, Spell>();
+    private final List<Spell> spells = new ArrayList<>();
+    private final Map<User, Spell> spellsInGame = new HashMap<>();
     
     private final int number;
-    private int score = 0;
-    private final int startScoreForBricks;
+    //private int CollectiveScore = 0;
+    private final Map<User, Integer> scorePerUser = new HashMap<>();
+    //private final int startScoreForBricks;
 
-    private final static int MAX_ROWS_BRICKS = 5;
+    //private final static int MAX_ROWS_BRICKS = 5;
     
     private boolean completed;
     
@@ -63,23 +66,133 @@ public class Level{
     private final Rectangle RIGHT_BOUNDARY;
     private final Rectangle BOTTOM_BOUNDARY;
     
-    public Level(Game game, int startScoreForBricks, int number) {
+    public Level(Game game, int number) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
-        this.startScoreForBricks = startScoreForBricks;
         this.completed = false;
+        initializeUserScores();
         
         this.factoryBrick = new FactoryBricks(this);
         this.bricks = factoryBrick.createBricks();
         this.factoryPallet = new FactoryPallet(this);
-        this.factoryPallet.createPallets();
+        this.pallets = this.factoryPallet.createPallets();
         this.factoryBall = new FactoryBall(this);
         this.factoryBall.createBalls();
+        
         this.TOP_BOUNDARY = new Rectangle(this, 0, -10, getGameWidth(), 10);
         this.LEFT_BOUNDARY = new Rectangle(this, -10, 0, 10, getGameHeight());
         this.RIGHT_BOUNDARY = new Rectangle(this, getGameWidth(), 0, 10, getGameHeight());
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
+        
         createNewRandomSpells();
+    }
+    
+    public int getNumber() {
+        return number;
+    }
+    
+    //voor swing
+    public void startLevel(ScheduleLevelTaskerSwing s){
+        timer = new Timer();
+        taskForLevelSwing = s;
+        timer.scheduleAtFixedRate(s, 1000, 15);
+    }
+    
+    public void pauseLevelSwing(){
+        this.taskForLevelSwing.setPaused(true);
+    }
+    
+    public void unpauseLevelSwing(){
+        this.taskForLevelSwing.setPaused(false);
+    }
+    //
+
+    public void startLevel(){
+        timer = new Timer();
+        taskForLevel = new LevelTasker(this);
+        timer.scheduleAtFixedRate(taskForLevel, 1000, 20);
+    }
+    
+     public void pauseLevel(){
+        this.taskForLevel.setPaused(true);
+    }
+    
+    public void unpauseLevel(){
+        this.taskForLevel.setPaused(false);
+    }
+    
+    public void endLevel(){
+        this.timer.cancel();
+    }
+    
+     public List<Pallet> getPallets() {
+        return pallets;
+    }
+    
+     public Pallet getUserPallet(int userID){
+        for (Pallet pallet : pallets) {
+            if(pallet.getUser().getUserId() == userID){
+                return pallet;
+            }
+        }
+        return null;
+    }
+     
+    public Pallet getUserPallet(User user){
+        for (Pallet pallet : pallets) {
+            if(pallet.getUser().getUserId() == user.getUserId()){
+                return pallet;
+            }
+        }
+        return null;
+    }
+
+    public List<Ball> getBalls() {
+        return balls;
+    }
+    
+    public void createExtraBall(EffectExtraBall effect){
+        //addBallOnScreen();
+        factoryBall.createExtraBallDoubleTrouble(effect);
+    }
+    
+    public List<Brick> getBricks() {
+        return bricks;
+    }
+    
+    public void lowerHitsOfBrick(Ball ball, Brick b, User playerThatDestroyedBrick){
+        b.decrementHits(ball);
+        if(b.getHits() <= 0){
+            deleteBrick(b, playerThatDestroyedBrick);
+        }
+    }
+    
+    public void deleteBrick(Brick b, User playerThatDestroyedBrick){
+        b.getPowerUP().show();
+        bricks.remove(b);
+
+        //User player = game.getPlayers().get(playerThatDestroyedBrick);
+        addScoreToUser(playerThatDestroyedBrick, b.getAchievedScore());
+        
+        //XP nog aan toevoegen
+        //als gameover -> XP behouden
+        //als gameover -> total score wordt toegevegd aan score users
+        //als succes -> XP awarden 
+        //als succes -> level CollectiveScore aan totale CollectiveScore toevoegen.
+
+        checkForCompletion();
+    }
+    
+    public List<PowerUpOrDown> getPowerUpsShownOnScreen(){
+        return powerUpsOnScreen;
+    }
+    
+    public void addPowerUpActive(PowerUpOrDown powerUp){
+        powerupsActive.add(powerUp);
+    }
+    
+    public List<PowerUpOrDown> getAllActivePowerUps(){
+        return powerupsActive;
     }
     
     //spells
@@ -96,7 +209,7 @@ public class Level{
     
     public boolean LevelAlreadyContainsSpell(Spell s){
         for (Spell spell : spells) {
-            if(spell.getName() == null ? s.getName() == null : spell.getName().equals(s.getName())){
+            if(spell.getName().equals(s.getName())){
                 return true;
             }
         }
@@ -108,18 +221,6 @@ public class Level{
         spellsInGame.put(u, s);
     }
     
-    public List<Spell> getAllSpells(){
-        return spells;
-    }
-    
-//    public void addActiavtedSpelltoLevel(Spell spell){
-//        activatedSpells.add(spell);
-//    }
-//    
-//    public void removeActivatedSpellFromLevel(Spell spell){
-//        activatedSpells.remove(spell);
-//    }
-    
     public Spell getSpellByUser(User u){
         return spellsInGame.get(u);
     }
@@ -128,138 +229,97 @@ public class Level{
         spellsInGame.replace(u, spell);
     }
     
+    public List<Spell> getAllSpells(){
+        return spells;
+    }
+    
     public Map<User, Spell> getAllSpellsInGame(){
         return spellsInGame;
     }
     //
     
-    //voor swing
-    public void startLevel(ScheduleLevelTasker s){
-        timer = new Timer();
-        taskForLevel = s;
-        timer.scheduleAtFixedRate(s, 1000, 15);
+    public final void initializeUserScores(){
+        for (User player : game.getPlayers()) {
+            scorePerUser.put(player, 0);
+        }
     }
-    //
+    
+    private void addScoreToUser(User u, int score){
+        scorePerUser.merge(u, score, Integer::sum);
+    }
+    
+    public int getUserScore(int userID){
+        return scorePerUser.get(game.getPlayers().get(userID - 1));
+    }
+    
+    public int getCollectiveScore() {
+        int sum = 0;
+        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+            sum += entry.getValue();
+        }
+        return sum;
+    }
+    
+    public Game getGame(){
+        return this.game;
+    }
+    
+    public final int getGameWidth() {
+        return this.game.getWidth();
+    }
 
-    public void startLevel(){
-        timer = new Timer();
-        LevelTasker taskForLevelNow = new LevelTasker(this);
-        timer.scheduleAtFixedRate(taskForLevelNow, 1000, 20);
-    }
-    
-    public void pause(){
-        this.taskForLevel.setPaused(true);
-    }
-    
-    public void unpause(){
-        this.taskForLevel.setPaused(false);
-    }
-    
-    public void endLevel(){
-        this.timer.cancel();
+    public final int getGameHeight() {
+        return this.game.getHeight();
     }
     
     public List<User> getPlayers(){
         return game.getPlayers();
     }
     
-    public List<Brick> getBricks() {
-        return bricks;
+    public int getAantalSpelers(){
+        return game.getNumberOfPlayers();
     }
     
-    public List<Pallet> getPallets() {
-        return pallets;
-    }
-
-//    public Spell getSpell() {
-//        return spell;
-//    }
-    
-    public void addPowerUpActive(PowerUpOrDown powerUp){
-        powerupsActive.add(powerUp);
-    }
-    
-    public List<PowerUpOrDown> getAllActivePowerUps(){
-        return powerupsActive;
-    }
-    
-    public Pallet getUserPallet(int userID){
-        for (Pallet pallet : pallets) {
-            if(pallet.getUserID() == userID){
-                return pallet;
-            }
-        }
-        return null;
-    }
-
-    public List<Ball> getBalls() {
-        return balls;
-    }
-    
-//    public void addBallOnScreen(){
-//        //ballsonScreen++;
-//    }
-//    
-//    public void decrementBallsOnScreen(Ball ball){
-//        ballsonScreen--;
-//        System.out.println("ball " + ball.getId() + "activated balls " +ballsonScreen);
-//        if(ballsonScreen == 0){
-//            resetStates();
-//            ballsonScreen = balls.size() + 1;
-//        }
-//    }
-    
-    public void createExtraBall(EffectExtraBall effect){
-        //addBallOnScreen();
-        factoryBall.createExtraBallDoubleTrouble(effect);
-    }
-    
-     
-    public List<PowerUpOrDown> getPowerUpsShownOnScreen(){
-        return powerUps;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-    
-    public int getStartScoreForBricks() {
-        return startScoreForBricks;
-    }
-    
-    public int getNumber() {
-        return number;
-    }
-
-    public int getScore() {
-        return score;
-    }
-       
     public List<Ratio> getRatios(){
         return game.getRatios();
     }
     
-    public Game getGame(){
-        return this.game;
-    }
-
-    public int getGameWidth() {
-        return this.game.getWidth();
-    }
-
-    public int getGameHeight() {
-        return this.game.getHeight();
-    }
-    
-    public int getAantalSpelers(){
-        return game.getAantalSpelers();
-    }
-    
     public void decrementLife(){
         game.decrementLife();
-        if(game.isGameOver()){
-            endLevel();
+    }
+    
+    public boolean getGameOver(){
+        return game.isGameOver();
+    }
+    
+    public List<Shape> getAllEntities(){
+        List<Shape> allEntities = new ArrayList<>(pallets);
+        allEntities.addAll(balls);
+        for (PowerUpOrDown powerUp : powerUpsOnScreen) {
+            allEntities.add(powerUp);
         }
+        allEntities.addAll(bricks);
+        allEntities.add(TOP_BOUNDARY);
+        allEntities.add(LEFT_BOUNDARY);
+        allEntities.add(RIGHT_BOUNDARY);
+        allEntities.add(BOTTOM_BOUNDARY);
+        return allEntities;
+    }
+    
+     public Rectangle getTOP_BOUNDARY() {
+        return TOP_BOUNDARY;
+    }
+
+    public Rectangle getLEFT_BOUNDARY() {
+        return LEFT_BOUNDARY;
+    }
+
+    public Rectangle getRIGHT_BOUNDARY() {
+        return RIGHT_BOUNDARY;
+    }
+
+    public Rectangle getBOTTOM_BOUNDARY() {
+        return BOTTOM_BOUNDARY;
     }
     
     public void resetStates(){
@@ -294,10 +354,15 @@ public class Level{
          }
     }
     
-    public boolean getGameOver(){
-        return game.isGameOver();
+    private void checkForCompletion(){
+        if(this.getBricks().isEmpty()){
+            setCompleted(true);
+            endLevel();
+            addUserScoresToTotalGame();
+            game.createNewLevel();
+        }
     }
-
+    
     public boolean isCompleted() {
         return completed;
     }
@@ -306,83 +371,31 @@ public class Level{
         this.completed = completed;
     }
    
-    public int getMAX_ROWS_BRICKS() {
-        return MAX_ROWS_BRICKS;
-    }
-    
-    public Rectangle getTOP_BOUNDARY() {
-        return TOP_BOUNDARY;
-    }
-
-    public Rectangle getLEFT_BOUNDARY() {
-        return LEFT_BOUNDARY;
-    }
-
-    public Rectangle getRIGHT_BOUNDARY() {
-        return RIGHT_BOUNDARY;
-    }
-
-    public Rectangle getBOTTOM_BOUNDARY() {
-        return BOTTOM_BOUNDARY;
-    }
-    
-    public List<Shape> getAllEntities(){
-        List<Shape> allEntities = new ArrayList<>(pallets);
-        allEntities.addAll(balls);
-        for (PowerUpOrDown powerUp : powerUps) {
-            allEntities.add(powerUp);
-        }
-        allEntities.addAll(bricks);
-        allEntities.add(TOP_BOUNDARY);
-        allEntities.add(LEFT_BOUNDARY);
-        allEntities.add(RIGHT_BOUNDARY);
-        allEntities.add(BOTTOM_BOUNDARY);
-        return allEntities;
-    }
-    public void lowerHitsOfBrick(Ball ball, Brick b, int playerIDThatDestroyedBrick){
-        b.decrementHits(ball);
-        if(b.getHits() <= 0){
-            deleteBrick(b, playerIDThatDestroyedBrick);
+    private void addUserScoresToTotalGame(){
+        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+            game.addToTotalScoreDuringGame(entry.getKey(), entry.getValue());
         }
     }
+ 
+// mss voor refactoring
+// bricks    
     
-    public void deleteBrick(Brick b, int playerIDThatDestroyedBrick){
-        //BrickRow brickLine = searchBrickThroughRows(b);
-        b.getPowerUP().show();
-        //brickLine.deleteBrick(b);
-        bricks.remove(b);
-        
-        score += b.getAchievedScore();
-        User player = game.getPlayers().get(playerIDThatDestroyedBrick);
-        player.setScore(player.getScore() + b.getAchievedScore());
-        game.setScore(game.getScore() + b.getAchievedScore());
-        //XP nog aan toevoegen
-        //als gameover -> XP behouden
-        //als gameover -> score valt weg
-        //als succes -> XP awarden 
-        //als succes -> level score aan totale score toevoegen.
-        
-        
-//        if(brickLine.getBricksOnRow().isEmpty()){
-//            getBricks().remove(brickLine);
-//        }
-        checkForCompletion();
-    }
+//    public int getMAX_ROWS_BRICKS() {
+//        return MAX_ROWS_BRICKS;
+//    }    
     
-//    private BrickRow searchBrickThroughRows(Brick b){
-//        for (BrickRow rowsOfBrick : rowsOfBricks) {
-//            if(rowsOfBrick.getBricksOnRow().contains(b)){
-//                return rowsOfBrick;
-//            }
-//        }
-//        return null;
+// balletje aantal    
+        
+//    public void addBallOnScreen(){
+//        //ballsonScreen++;
 //    }
-    
-    private void checkForCompletion(){
-        if(this.getBricks().isEmpty()){
-            setCompleted(true);
-            endLevel();
-            game.createNewLevel();
-        }
-    }
+//    
+//    public void decrementBallsOnScreen(Ball ball){
+//        ballsonScreen--;
+//        System.out.println("ball " + ball.getId() + "activated balls " +ballsonScreen);
+//        if(ballsonScreen == 0){
+//            resetStates();
+//            ballsonScreen = balls.size() + 1;
+//        }
+//    }
 }

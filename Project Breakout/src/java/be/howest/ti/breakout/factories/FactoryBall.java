@@ -54,7 +54,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         int x =  level.getGameWidth() / 2;
         int y = (level.getGameHeight()/ 10) * 6;
         
-        int speed = Math.round(3 * level.getRatios().get(1).getRatio());
+        int speed = 3 * Math.round(level.getRatios().get(1).getRatio());
         
         Ball b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
         level.getBalls().add(b);

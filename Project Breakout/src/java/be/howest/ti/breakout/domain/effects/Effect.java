@@ -9,7 +9,6 @@ import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.game.User;
-import java.util.List;
 import java.util.Timer;
 
 /**
@@ -17,15 +16,16 @@ import java.util.Timer;
  * @author micha
  */
 public abstract class Effect{
-    private String name;
+    private final String name;
     private Pallet userPallet;
     private User userActivatedEffect;
-    private Ball lastBallActivated;
+    private Ball BallActivatedEffect;
     private int duration;
-    private Level thisLevel;
-    private Timer t;
+    private Level LevelOfEffect;
+    private Timer TimerEffect;
 
     public Effect(String name, int duration) {
+        this.name = name;
         this.duration = duration;
     }
     
@@ -62,20 +62,20 @@ public abstract class Effect{
         return userPallet;
     }
 
-    public void setLastBallActivated(Ball lastBallActivated) {
-        this.lastBallActivated = lastBallActivated;
+    public void setBallActivatedEffect(Ball BallActivatedEffect) {
+        this.BallActivatedEffect = BallActivatedEffect;
     }
 
-    public Ball getLastBallActivated() {
-        return lastBallActivated;
+    public Ball getBallActivatedEffect() {
+        return BallActivatedEffect;
     }
 
-    public void setLevel(Level level){
-        this.thisLevel = level;
+    public void setLevelOfEffect(Level level){
+        this.LevelOfEffect = level;
     }
     
-    public Level getThisLevel() {
-        return thisLevel;
+    public Level getLevelOfEffect() {
+        return LevelOfEffect;
     }
     
     //mag later vervangen worden
@@ -87,12 +87,12 @@ public abstract class Effect{
         return duration;
     }
     
-    public void setT(Timer t){
-        this.t = t;
+    public void setTimerEffect(Timer t){
+        this.TimerEffect = t;
     }
 
-    public Timer getT() {
-        return t;
+    public Timer getTimerEffect() {
+        return TimerEffect;
     }
 
     @Override

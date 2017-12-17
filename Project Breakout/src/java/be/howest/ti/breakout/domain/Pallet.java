@@ -6,6 +6,7 @@
 package be.howest.ti.breakout.domain;
 
 import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.User;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
@@ -13,22 +14,25 @@ import java.awt.event.KeyEvent;
  *
  * @author micha
  */
-public class Pallet extends Rectangle {
-    
+public final class Pallet extends Rectangle {
+   
     private Sprite s;
-    private final int userID;
-    private final Level level;
-    private int originalLenght;
-    private float speed;
-    private float dx;
+    private final User user;
+    //private final Level level;
+    
+    private final int originalLenght; //check this later
+   
     private final int INIT_PALLET_X;
     private final int INIT_PALLET_Y;
+    private float speed;
+    private float dx;
+
     private Ball lastBallTouched;
 
-    public Pallet(int userID, String color, Level level, int x, int y, int length, float speed) {
+    public Pallet(User user, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
-        this.userID = userID;
-        this.level = level;
+        this.user = user;
+        //this.level = level;
         this.s = new Sprite(color);
         this.speed = speed;
         this.originalLenght = length;
@@ -36,13 +40,18 @@ public class Pallet extends Rectangle {
         this.INIT_PALLET_Y = y;
     }
 
-    public int getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
+    }
+    
+    public int getOriginalLenght() {
+        return originalLenght;
     }
 
-    public Level getLevel() {
-        return level;
-    }
+//    @Override
+//    public Level getLevel() {
+//        return level;
+//    }
 
     public float getSpeed() {
         return speed;
@@ -52,10 +61,6 @@ public class Pallet extends Rectangle {
         this.speed = speed;
     }
 
-    public int getOriginalLenght() {
-        return originalLenght;
-    }
-
     public Ball getLastBallTouched() {
         return lastBallTouched;
     }
@@ -63,19 +68,7 @@ public class Pallet extends Rectangle {
     public void setLastBallTouched(Ball lastBallTouched) {
         this.lastBallTouched = lastBallTouched;
     }
-
-    public void moveLeft() {
-        setDx(-speed);
-    }
-
-    public void moveRight() {
-        setDx(speed);
-    }
-
-    public void stopMoving() {
-        setDx(0);
-    }
-
+    
     public void resetState() {
         setX(INIT_PALLET_X);
         setY(INIT_PALLET_Y);
@@ -109,14 +102,14 @@ public class Pallet extends Rectangle {
     }
     //
 
-    public void toggleDx() {
-        if (dx > 0) {
-            dx = -speed;
-        } else {
-            dx = speed;
-        }
-    }
-
+//    public void toggleDx() {
+//        if (dx > 0) {
+//            dx = -speed;
+//        } else {
+//            dx = speed;
+//        }
+//    }
+    
     public void move() {
         this.setX((int) (this.getX() + dx));
         Shape shape = collidesWithOtherRectangleOrBoundaries();
@@ -124,21 +117,37 @@ public class Pallet extends Rectangle {
             shape.updateSpritePallet(this);
         }
     }
+    
+    public void moveLeft() {
+        setDx(-speed);
+    }
+
+    public void moveRight() {
+        setDx(speed);
+    }
+
+    public void stopMoving() {
+        setDx(0);
+    }
+    
+    public void setDx(float dx) {
+        this.dx = dx;
+    }
 
     //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
-    public Shape collidesWithOtherRectangleOrBoundaries() {
-        for (Rectangle r : level.getPallets()) {
+    private Shape collidesWithOtherRectangleOrBoundaries() {
+        for (Rectangle r : getLevel().getPallets()) {
             if (this.getX() != r.getX()) {
                 if (this.checkCollission(r)) {
                     return r;
                 }
             }
         }
-        if (this.checkCollission(level.getLEFT_BOUNDARY())) {
-            return level.getLEFT_BOUNDARY();
+        if (this.checkCollission(getLevel().getLEFT_BOUNDARY())) {
+            return getLevel().getLEFT_BOUNDARY();
         }
-        if (this.checkCollission(level.getRIGHT_BOUNDARY())) {
-            return level.getRIGHT_BOUNDARY();
+        if (this.checkCollission(getLevel().getRIGHT_BOUNDARY())) {
+            return getLevel().getRIGHT_BOUNDARY();
         }
         return null;
     }
@@ -165,19 +174,19 @@ public class Pallet extends Rectangle {
         }
     }
 
-    public boolean collidesWithRightSide(Rectangle p) {
+    private boolean collidesWithRightSide(Rectangle p) {
         return this.getX() + this.getLength() > p.getX() && this.getX() + this.getLength() < p.getX() + p.getLength();
     }
 
-    public boolean collidesWithLeftSide(Rectangle p) {
+    private boolean collidesWithLeftSide(Rectangle p) {
         return this.getX() > p.getX() && this.getX() < p.getX() + p.getLength();
     }
 
     public void updateSpriteAfterCollidingWithLeftBoundary() {
         moveRight();
         while (collidesWithOtherRectangleOrBoundaries() != null) {
-            int xToBoundary = (int) (getX() + dx);
-            this.setX(xToBoundary);
+            int newXAwayFromBoundary = (int) (getX() + dx);
+            this.setX(newXAwayFromBoundary);
         }
         moveLeft();
     }
@@ -185,15 +194,13 @@ public class Pallet extends Rectangle {
     public void updateSpriteAfterCollidingWithRightBoundary() {
         moveLeft();
         while (collidesWithOtherRectangleOrBoundaries() != null) {
-            int xToBoundary = (int) (getX() + dx);
-            this.setX(xToBoundary);
+            int newXAwayFromBoundary = (int) (getX() + dx);
+            this.setX(newXAwayFromBoundary);
         }
         moveRight();
     }
 
-    public void setDx(float dx) {
-        this.dx = dx;
-    }
+    
 
     @Override
     public void updateSpriteBall(Ball aBall) {

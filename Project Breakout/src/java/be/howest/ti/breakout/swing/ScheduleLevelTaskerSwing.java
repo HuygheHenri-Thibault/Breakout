@@ -27,13 +27,13 @@ import be.howest.ti.breakout.domain.spells.Spell;
  *
  * @author micha
  */
-public class ScheduleLevelTasker extends TimerTask {
+public class ScheduleLevelTaskerSwing extends TimerTask {
 
     private Level level;
     private JPanel toRepaint;
     private boolean paused = false;
 
-    public ScheduleLevelTasker(Level level, JPanel jpanel) {
+    public ScheduleLevelTaskerSwing(Level level, JPanel jpanel) {
         this.level = level;
         this.toRepaint = jpanel;
     }

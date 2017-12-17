@@ -18,7 +18,7 @@ import java.util.List;
 public class FactoryLevel {
     private final Game game;
     private int numberLevels;
-    private int startScoreForBricksFirstLine = 50;
+    //private int startScoreForBricksFirstLine = 50;
     private int ratioChoiceChange = 0;
 
     public FactoryLevel(Game game) {
@@ -28,10 +28,10 @@ public class FactoryLevel {
      
     public Level createLevel(){
         numberLevels++;
-        Level l = new Level(game, startScoreForBricksFirstLine, numberLevels);
+        Level l = new Level(game, numberLevels);
         game.getLevels().add(l);
         changeRatio();
-        startScoreForBricksFirstLine += 10;
+        //startScoreForBricksFirstLine += 10;
         return l;
     } 
     

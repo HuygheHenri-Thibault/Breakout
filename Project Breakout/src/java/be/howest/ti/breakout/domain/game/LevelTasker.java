@@ -6,15 +6,11 @@
 package be.howest.ti.breakout.domain.game;
 
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.game.User;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.TimerTask;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
@@ -24,8 +20,8 @@ import be.howest.ti.breakout.domain.spells.Spell;
  *
  * @author micha
  */
-public class LevelTasker extends TimerTask {
-    private Level level;
+public final class LevelTasker extends TimerTask {
+    private final Level level;
     private boolean paused = false;
 
     public LevelTasker(Level level) {

@@ -11,7 +11,7 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class TimerTaskEffect extends TimerTask {
+public final class TimerTaskEffect extends TimerTask {
 
     private final Effect effect;
 

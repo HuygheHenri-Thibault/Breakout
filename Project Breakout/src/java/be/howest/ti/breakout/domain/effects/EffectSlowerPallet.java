@@ -5,17 +5,13 @@
  */
 package be.howest.ti.breakout.domain.effects;
 
-import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.Pallet;
 import java.util.Timer;
 
 /**
  *
  * @author micha
  */
-public class EffectSlowerPallet extends Effect {
+public final class EffectSlowerPallet extends Effect {
 
     public EffectSlowerPallet(String name, int duration) {
         super(name, duration);
@@ -23,22 +19,22 @@ public class EffectSlowerPallet extends Effect {
 
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
-        setUserPallet(palletOfUser);
+        //Pallet palletOfUser = getUserPallet();
+        //setUserPallet(palletOfUser);
         setRunning();
 
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
 
         System.out.println("activated slowed");
 
-        setT(new Timer());
-        getT().schedule(new TimerTaskEffect(this), 0, 1000);
+        setTimerEffect(new Timer());
+        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated slowed");
-        getT().cancel();
+        getTimerEffect().cancel();
         getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
         setDone();
     }

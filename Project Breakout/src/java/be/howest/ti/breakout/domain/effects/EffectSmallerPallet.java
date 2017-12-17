@@ -5,17 +5,13 @@
  */
 package be.howest.ti.breakout.domain.effects;
 
-import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.Pallet;
 import java.util.Timer;
 
 /**
  *
  * @author micha
  */
-public class EffectSmallerPallet extends Effect{
+public final class EffectSmallerPallet extends Effect{
 
     public EffectSmallerPallet(String name, int duration) {
         super(name, duration);
@@ -23,22 +19,22 @@ public class EffectSmallerPallet extends Effect{
 
     @Override
     public void activate() {
-        Pallet palletOfUser = getThisLevel().getUserPallet(getUserActivatedEffect().getUserId());
-        setUserPallet(palletOfUser);
+        //Pallet palletOfUser = getLevelOfEffect().getUserPallet(getUserActivatedEffect());
+        //setUserPallet(palletOfUser);
  
         setRunning();
         
         getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getOriginalLenght()* 0.2)));
         System.out.println("activated shrunk");
         
-        setT(new Timer());
-        getT().schedule(new TimerTaskEffect(this), 0, 1000);
+        setTimerEffect(new Timer());
+        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated shrunk");
-        getT().cancel();
+        getTimerEffect().cancel();
         getUserPallet().setLength((int) (getUserPallet().getLength() + (getUserPallet().getOriginalLenght()* 0.2)));
         setDone();
     }

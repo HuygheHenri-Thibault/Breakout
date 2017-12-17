@@ -49,7 +49,7 @@ public class Board extends JPanel{
     List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
-    private ScheduleLevelTasker s;
+    private ScheduleLevelTaskerSwing s;
 
     public Board() {
         this.difficulties = new ArrayList<>(Arrays.asList(new GameDifficulty("Easy", 0.2f, 1), new GameDifficulty("Medium", -0.2f, 3), new GameDifficulty("Hard", -0.4f, 5)));
@@ -76,7 +76,7 @@ public class Board extends JPanel{
         List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
         game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
         level = game.getLevelPlayedRightNow();
-         s = new ScheduleLevelTasker(level, this);
+         s = new ScheduleLevelTaskerSwing(level, this);
          showSpellChoices();
     }
     
@@ -110,7 +110,7 @@ public class Board extends JPanel{
             drawTexts(g2d);
             if(level.isCompleted()){
                 level = game.getLevelPlayedRightNow();
-                s = new ScheduleLevelTasker(level, this);
+                s = new ScheduleLevelTaskerSwing(level, this);
                 showSpellChoices();
             }
         } else {
@@ -149,8 +149,8 @@ public class Board extends JPanel{
         Font font = new Font("Verdana", Font.BOLD, 18);
         String levelNumber = "Level " + game.getLevels().size();
         String lives = "Lives x " + game.getLives();
-        String score = "Score " + game.getPlayers().get(0).getScore();
-        String scoreTotal = "Total Score " + game.getScore();
+        String score = "Score " + game.getLevelPlayedRightNow().getUserScore(me.getUserId());
+        String scoreTotal = "Total Score " + game.getTotalGameScore();
         String powerup = "PowerUp Active: ";
         for (PowerUpOrDown powerUp : level.getAllActivePowerUps()) {
             powerup += powerUp.toString();
@@ -180,8 +180,8 @@ public class Board extends JPanel{
     private void gameFinished(Graphics2D g2d) {
         Font font = new Font("Verdana", Font.BOLD, 18);
         String gameover = "Game over";
-        String scoreThisLevel = "Your Score this Level " + game.getLevels().get(game.getLevels().size() - 1).getScore();
-        String totalScore = "Your Total Score " + game.getScore();
+        String scoreThisLevel = "Your Score this Level " + game.getLevels().get(game.getLevels().size() - 1).getCollectiveScore();
+        String totalScore = "Your Total Score " + game.getTotalGameScore();
         String thankyou = "Thank you for playing!";
 
         g2d.setColor(Color.BLACK);

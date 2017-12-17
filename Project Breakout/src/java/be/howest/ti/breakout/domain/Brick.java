@@ -18,34 +18,22 @@ public class Brick extends Rectangle{
     private Sprite s;
     //private BrickRow br;
     private int hits;
-    private int achievedScore;
-    private PowerUpOrDown powerUp = new NoPower();
+    private int achievedScoreForUser;
+    private PowerUpOrDown powerUp;
 
-    public Brick(Level level, int lenght, int height, int hits, int achievedScore, String color, int x, int y) {
-        super(level, x, y, lenght, height);
-        this.s = new Sprite(color);
-        //this.br = br;
-        this.hits = hits;
-        this.achievedScore = achievedScore;
+    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForUser, String color, int x, int y) {
+        this(level, lenght, height, hits, achievedScoreForUser, new NoPower(), color, x, y);
     }
     
-    public Brick(Level level, int lenght, int height, int hits, int achievedScore, PowerUpOrDown power, String color, int x, int y) {
+    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForUser, PowerUpOrDown power, String color, int x, int y) {
         super(level, x, y, lenght, height);
         this.s = new Sprite(color);
         //this.br = br;
         this.hits = hits;
-        this.achievedScore = achievedScore;
+        this.achievedScoreForUser = achievedScoreForUser;
         this.powerUp = power;
     }
-    
-    public void setPowerUp(PowerUpOrDown powerUp){
-        this.powerUp = powerUp;
-    }
-    
-    public PowerUpOrDown getPowerUP(){
-        return powerUp;
-    }
-
+   
 //    public BrickRow getBr() {
 //        return br;
 //    }
@@ -64,11 +52,19 @@ public class Brick extends Rectangle{
     }
     
     public void setAcheievedScore(int acheievedScore) {
-        this.achievedScore = acheievedScore;
+        this.achievedScoreForUser = acheievedScore;
     }
 
     public int getAchievedScore() {
-        return achievedScore;
+        return achievedScoreForUser;
+    }
+    
+    public void setPowerUp(PowerUpOrDown powerUp){
+        this.powerUp = powerUp;
+    }
+    
+    public PowerUpOrDown getPowerUP(){
+        return powerUp;
     }
     
     @Override

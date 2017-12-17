@@ -6,18 +6,13 @@
 package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.User;
-import java.util.Map;
-import java.util.Timer;
-import be.howest.ti.breakout.domain.spells.Spell;
 
 /**
  *
  * @author micha
  */
-public class EffectExtraBall extends Effect {
+public final class EffectExtraBall extends Effect {
  
     public EffectExtraBall(String name, int duration) {
         super(name, duration);
@@ -25,11 +20,11 @@ public class EffectExtraBall extends Effect {
 
     @Override
     public void activate() {
-        //int amountOfBallsInLevel = (int) Math.ceil((double) getThisLevel().getAantalSpelers() / 2);
-        //if (!(getThisLevel().getBalls().size() >= amountOfBallsInLevel + 1)) {
+        //int amountOfBallsInLevel = (int) Math.ceil((double) getLevelOfEffect().getAantalSpelers() / 2);
+        //if (!(getLevelOfEffect().getBalls().size() >= amountOfBallsInLevel + 1)) {
         if(!hasUserAlreadyActivatedThisEffect()){
             setRunning();
-            getThisLevel().createExtraBall(this);
+            getLevelOfEffect().createExtraBall(this);
             System.out.println("activated");
         } else {
             setDone();
@@ -39,7 +34,7 @@ public class EffectExtraBall extends Effect {
     @Override
     public void deActivate() {
         System.out.println("deactivated double trouble");
-        getThisLevel().getBalls().remove(getThisLevel().getBalls().size() - 1);
+        getLevelOfEffect().getBalls().remove(getLevelOfEffect().getBalls().size() - 1);
         //getThisLevel().decrementLife();
         setDone();
     }
@@ -50,7 +45,7 @@ public class EffectExtraBall extends Effect {
     }
     
     public boolean hasUserAlreadyActivatedThisEffect(){
-        for (Ball ball : getThisLevel().getBalls()) {
+        for (Ball ball : getLevelOfEffect().getBalls()) {
             User u = ball.giveUserActivatedSpecialBall();
             if(u != null){
                 if(u.getUserId() == getUserActivatedEffect().getUserId()){

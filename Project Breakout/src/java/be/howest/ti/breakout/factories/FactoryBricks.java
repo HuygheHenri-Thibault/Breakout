@@ -122,9 +122,9 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
             lengte = spaceLeft;
         }
         
-        int achievedScoreIfDestroyed = brickData.getBaseScore() + (10 * (level.getNumber() - 1));
+        int achievedScoreIfDestroyed = (brickData.getBaseScore() * level.getGame().getDifficulty().getChangeForBricks()) + (10 * (level.getNumber() - 1));
         
-        int hits = brickData.getBaseHits() * level.getGame().getDifficulty().getHitChangeBricks();
+        int hits = brickData.getBaseHits() * level.getGame().getDifficulty().getChangeForBricks();
         
         if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
             hits += (2 * (level.getNumber() - 1));

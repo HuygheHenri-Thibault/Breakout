@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,28 +22,31 @@ public class Game{
     User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe");
     User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe");
     User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe");
+    //
     
     private List<User> players;
+    private final int numberOfPlayers; // just take size of players
+        
     private List<Level> levels = new ArrayList<>();
     private Level levelPlayedRightNow;
-    
-    private FactoryLevel factoryLevels;
+    private final FactoryLevel factoryLevels;
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     
-    private GameDifficulty difficulty;
-    private int score = 0;
-    private int aantalSpelers;
-    private int livesLeftOriginally;
-    private int lives; 
+    private final GameDifficulty difficulty;
     private List<Ratio> ratios = new ArrayList<>();
     
+    private int TotalGameScore = 0; // can just get this by taking total score of scoreperUser;
+    private Map<User, Integer> scorePerUser = new HashMap<User, Integer>();
+    
+    private int livesLeftOriginally; // for sudden death powerdown
+    private int lives; 
     private boolean gameOver = false;
     
     //hardcoded constructor
-    public Game(int height, int width, int lives, int aantalSpelers, GameDifficulty difficulty){
-        switch(aantalSpelers){
+    public Game(int height, int width, int lives, int numberOfPlayers, GameDifficulty difficulty){
+        switch(numberOfPlayers){
             case 1:
                 this.players = new ArrayList<>(Arrays.asList(me));
                 break;
@@ -56,12 +60,12 @@ public class Game{
                 this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
                 break;
         }
-        
+        initializeUserScores();
         this.width = width;
         this.height = height;
         this.livesLeftOriginally = lives;
         this.lives = lives;
-        this.aantalSpelers = aantalSpelers;
+        this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
@@ -70,25 +74,38 @@ public class Game{
     //
     
 
-    public Game(List<User> players, int height, int width, int lives, int aantalSpelers, GameDifficulty difficulty) {
+    public Game(List<User> players, int height, int width, int lives, GameDifficulty difficulty) {
         this.players = players;
+        initializeUserScores();
         this.width = width;
         this.height = height;
         this.livesLeftOriginally = lives;
         this.lives = lives;
-        this.aantalSpelers = aantalSpelers;
+        this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
         createNewLevel();
     }
-
+    
     public List<User> getPlayers() {
         return players;
     }
     
-    public void stopGame() {
-        setGameOver(true);
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+    
+    public List<Level> getLevels() {
+        return levels;
+    }
+    
+    public final void createNewLevel(){
+        levelPlayedRightNow = factoryLevels.createLevel();
+    }
+
+    public Level getLevelPlayedRightNow() {
+        return levelPlayedRightNow;
     }
 
     public int getWidth() {
@@ -98,30 +115,24 @@ public class Game{
     public int getHeight() {
         return height;
     }
-
-    public List<Level> getLevels() {
-        return levels;
-    }
     
-    public void createNewLevel(){
-        levelPlayedRightNow = factoryLevels.createLevel();
+    public GameDifficulty getDifficulty() {
+        return difficulty;
     }
 
-    public Level getLevelPlayedRightNow() {
-        return levelPlayedRightNow;
-    }
+    
 
-    public void setLevelPlayedRightNow(Level levelPlayedRightNow) {
-        this.levelPlayedRightNow = levelPlayedRightNow;
-    }
+//    public void setLevelPlayedRightNow(Level levelPlayedRightNow) {
+//        this.levelPlayedRightNow = levelPlayedRightNow;
+//    }
 
-    public FactoryLevel getFactoryLevels() {
-        return factoryLevels;
-    }
+//    public FactoryLevel getFactoryLevels() {
+//        return factoryLevels;
+//    }
 
-    public void setFactoryLevels(FactoryLevel factoryLevels) {
-        this.factoryLevels = factoryLevels;
-    }
+//    public void setFactoryLevels(FactoryLevel factoryLevels) {
+//        this.factoryLevels = factoryLevels;
+//    }
     
     public List<Ratio> getRatios() {
         return ratios;
@@ -133,13 +144,31 @@ public class Game{
        ratios.add(new Ratio("Power up And Down", -0.1f, difficulty));
        //ratios.add(new Ratio("Power down", +0.01f));
     }
-
-    public int getScore() {
-        return score;
+    
+    public final void initializeUserScores(){
+        for (User player : players) {
+            scorePerUser.put(player, 0);
+        }
+    }
+    
+    public Map<User, Integer> getUserScores(){
+        return scorePerUser;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public int getTotalGameScore() {
+        int sum = 0;
+        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+            sum += entry.getValue();
+        }
+        return sum;
+    }
+    
+    public int getTotalScoreOfUser(User user){
+        return scorePerUser.get(user);
+    }
+
+    public void addToTotalScoreDuringGame(User user, int TotalGameScore) {
+        scorePerUser.merge(user, TotalGameScore, Integer::sum);
     }
     
     public void setLives(int lives) {
@@ -149,19 +178,11 @@ public class Game{
     public int getLives() {
         return lives;
     }
-
-    public GameDifficulty getDifficulty() {
-        return difficulty;
-    }
      
     public int getLivesLeftOriginally() {
         return livesLeftOriginally;
     }
 
-    public int getAantalSpelers() {
-        return aantalSpelers;
-    }
-    
     public void decrementLife(){
         lives--;
         livesLeftOriginally--;
@@ -176,5 +197,15 @@ public class Game{
 
     public boolean isGameOver() {
         return gameOver;
+    }
+    
+    public void stopGame() {
+        levelPlayedRightNow.endLevel();
+        setGameOver(true);
+        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+            entry.getKey().addToTotalScore(entry.getValue());
+        }
+        //add Highscores here
+        //check players to see which type of highscore
     }
 }

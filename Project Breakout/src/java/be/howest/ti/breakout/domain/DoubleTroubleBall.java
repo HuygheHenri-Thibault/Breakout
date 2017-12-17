@@ -13,15 +13,15 @@ import be.howest.ti.breakout.domain.effects.EffectExtraBall;
  *
  * @author micha
  */
-public class DoubleTroubleBall extends Ball{
-    private EffectExtraBall effect;
-    private User user;
+public final class DoubleTroubleBall extends Ball{
+    private final EffectExtraBall effect;
+    private final User user;
     
     public DoubleTroubleBall(Level level, int radius, int speed, String color, int x, int y, EffectExtraBall effect) {
         super(level, radius, speed, color, x, y);
         this.effect = effect;
         this.user = effect.getUserActivatedEffect();
-        setLastUserThatTouchedMe(user.getUserId());
+        setLastUserThatTouchedMe(user);
     }
     
     @Override

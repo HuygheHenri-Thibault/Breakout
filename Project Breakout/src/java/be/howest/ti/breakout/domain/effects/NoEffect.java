@@ -9,7 +9,7 @@ package be.howest.ti.breakout.domain.effects;
  *
  * @author micha
  */
-public class NoEffect extends Effect{
+public final class NoEffect extends Effect{
 
     public NoEffect() {
         super(null, 0);

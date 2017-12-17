@@ -19,7 +19,7 @@ public class User {
     private int XP;
     private int level;
     private String bio;
-    private int score;
+    //private int score;
     private int totalScore;
     private Spell spell;
     
@@ -30,7 +30,7 @@ public class User {
         this.hashPassword = password; //HASH THIS!!!
         this.level = lvl;
         this.bio = bio;
-        this.score = 0;
+        this.totalScore = 0;
     }
     
     public User(String username, String password, String email, int lvl, String bio) {
@@ -44,6 +44,10 @@ public class User {
     }
     public User(String username, String password) {
         this(username, password, null);
+    }
+    
+    public User(){
+        this(null, null);
     }
 
     public int getUserId() {
@@ -70,33 +74,33 @@ public class User {
         return bio;
     }
     
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
+//    public int getScore() {
+//        return score;
+//    }
+//
+//    public void addToScore(int score) {
+//        this.score += score;
+//    }
 
     public int getXP() {
         return XP;
     }
 
-    public void setXP(int XP) {
-        this.XP = XP;
+    public void addXP(int XP) {
+        this.XP += XP;
     }
 
     public int getTotalScore() {
         return totalScore;
     }
 
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
+    public void addToTotalScore(int score) {
+        this.totalScore += totalScore;
     }
 
     public void setSpell(Spell spell) {
         this.spell = spell;
-        spell.setUserID(this);
+        spell.setUser(this);
     }
 
     public Spell getSpell() {

@@ -15,7 +15,6 @@ import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.game.User;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -95,7 +94,7 @@ public class MoveAndCollissionTesten {
     @Test
     public void CollissionDetectionMeerderePallet(){
         List<User> players = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
-        Game g = new MultiPlayerGame(players, 1000, 1000, 2, easy);
+        Game g = new MultiPlayerGame(players, 1000, 1000, easy);
         Pallet p1 = g.getLevels().get(0).getPallets().get(0);
         Pallet p2 = g.getLevels().get(0).getPallets().get(1);
         
@@ -208,7 +207,7 @@ public class MoveAndCollissionTesten {
         assertEquals(516, b.getY());
         assertEquals(253, b.getX());
         assertFalse(g.getLevelPlayedRightNow().getBricks().contains(brick));
-        assertEquals(10, l.getScore());
+        assertEquals(10, l.getCollectiveScore());
     }
     
     @Test

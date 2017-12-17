@@ -10,7 +10,6 @@ import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.User;
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -22,12 +21,18 @@ import be.howest.ti.breakout.domain.effects.Effect;
  */
 public class Spell{
     private User user;
-    private Level level;
-    private int originalCooldown;
+    private final Level level;
+    
+    private String name;
+    private ZelfstandigNaamwoord zelfstandigNaamwoord;
+    
+    private final int originalCooldown;
     private int cooldown;
     private Timer CooldownTimer = new Timer();
-    private ZelfstandigNaamwoord zelfstandigNaamwoord;
-    private String name;
+    
+    private static final int CHANCEFORONEWORD = 60;
+    private static final int CHANCEFORTWOWORDS = CHANCEFORONEWORD + 30;
+    private static final int CHANCEFORTHREEWORDS = CHANCEFORONEWORD + CHANCEFORTWOWORDS + 10;
     
     //status
     private SpellStatus status = SpellStatus.READY;
@@ -39,8 +44,16 @@ public class Spell{
         this.cooldown = originalCooldown;
     }
     
-    public void setUserID(User user){
+    public void setUser(User user){
         this.user = user;
+    }
+    
+    private int generateCooldown(){
+        int spellCooldown = 10;
+        for (int i = 0; i < getSpellEffects().size(); i++) {
+            spellCooldown += 2;
+        }
+        return spellCooldown;
     }
     
     public void setCoolDown(int cooldown){
@@ -55,30 +68,30 @@ public class Spell{
         return originalCooldown;
     }
     
-    private int generateCooldown(){
-        int spellCooldown = 10;
-        for (int i = 0; i < getSpellEffects().size(); i++) {
-            spellCooldown += 2;
-        }
-        return spellCooldown;
-    }
-    
     private void randomizeWords(){
         Random generator = new Random(); 
-        int numberBetween1And3 = generator.nextInt((3 - 1) + 1) + 1;
+        int numberBetween1And3 = generateNumberOfWords(generator);
         for (int i = 1; i <= numberBetween1And3; i++) {
             if(i == 1){
                 this.zelfstandigNaamwoord = fetchNewZelfstandigNaamwoord(generator);
             } else {
                 BijvoegelijkNaamwoord bn = fetchNewBijvoegelijkNaamwoord(generator);
-                while(zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().contains(bn)){
-                    bn = fetchNewBijvoegelijkNaamwoord(generator);
-                }
                 this.zelfstandigNaamwoord.addBijvoegelijkNaamwoord(bn);
             }
         }
-        //System.out.println(Arrays.toString(this.zelfstandigNaamwoord.getAllBijvoegelijkNaamwoorden().toArray()));
         this.name = this.zelfstandigNaamwoord.combineNames();
+    }
+    
+    private int generateNumberOfWords(Random generator){
+        int randomNumber = generator.nextInt((100 - 1) + 1) + 1;
+        if(randomNumber > 0 && randomNumber <= CHANCEFORONEWORD){
+            return 1;
+        } else if(randomNumber > CHANCEFORONEWORD && randomNumber <= CHANCEFORTWOWORDS){
+            return 2;
+        } else if(randomNumber > CHANCEFORTWOWORDS && randomNumber <= CHANCEFORTHREEWORDS){
+            return 3;
+        }
+        return 0;
     }
     
     private ZelfstandigNaamwoord fetchNewZelfstandigNaamwoord(Random generator){
@@ -107,19 +120,16 @@ public class Spell{
     }
     
 
-    
     public void setReady(){status = SpellStatus.READY; level.updateSpellOfUser(user, this); }
     public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfUser(user, this);}
     public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfUser(user, this);}
     public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfUser(user, this);}
     public SpellStatus isActivated(){return status;}
     
-    public void setEntetiesOfEffect(){
-        this.zelfstandigNaamwoord.setEntetiesOfEffect(level, user.getUserId());
-    }
-    
     public void setReadyToCast(){
-        setActive();
+        if(status == SpellStatus.READY){
+            setActive();
+        }
     }
     
     public void cast(){
@@ -131,6 +141,14 @@ public class Spell{
         setDeActive();
     } 
     
+    public void setEntetiesOfEffect(){
+        this.zelfstandigNaamwoord.setEntetiesOfEffect(level, user);
+    }
+    
+    public List<Effect> getSpellEffects(){
+        return this.zelfstandigNaamwoord.getEffects();
+    }
+    
     public void startCooldown(){
         setCoolDown();
         CooldownTimer = new Timer();
@@ -141,23 +159,13 @@ public class Spell{
         CooldownTimer.cancel();
     }
     
-//    public void resetSpell(){
-//        zelfstandigNaamwoord.resetEffect();
-//    }
-    
-    public List<Effect> getSpellEffects(){
-        return this.zelfstandigNaamwoord.getEffects();
-    } 
-    
     //voor swing
     public void keyPressed(KeyEvent e) {
 
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_SPACE) {
-            if(status == SpellStatus.READY){
-                setReadyToCast();
-            }
+            setReadyToCast();
         }
     }
     //

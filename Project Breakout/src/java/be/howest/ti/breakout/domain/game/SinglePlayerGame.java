@@ -12,15 +12,15 @@ import java.util.Arrays;
  *
  * @author micha
  */
-public class SinglePlayerGame extends Game{
+public final class SinglePlayerGame extends Game{ // mss overbodige klasse
     
     //hardcoded constructor
-    public SinglePlayerGame(int height, int width, int aantalspelers, GameDifficulty difficulty){
-        super(height, width, 3, 1, difficulty);
+    public SinglePlayerGame(int height, int width, int numberOfPlayers, GameDifficulty difficulty){
+        super(height, width, 3, numberOfPlayers, difficulty);
     }
     
     public SinglePlayerGame(User player, int height, int width, GameDifficulty difficulty) {
-        super(new ArrayList<User>(Arrays.asList(player)), height, width, 3, 1, difficulty);
+        super(new ArrayList<User>(Arrays.asList(player)), height, width, 3, difficulty);
     }
     
     

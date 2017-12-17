@@ -9,15 +9,15 @@ package be.howest.ti.breakout.domain.game;
  *
  * @author micha
  */
-public class GameDifficulty {
+public final class GameDifficulty {
     private String Name;
     private float ratioChange;
-    private int hitChangeBricks;
+    private final int changeForBricks;
 
-    public GameDifficulty(String Name, float ratioChange, int hitChangeBricks) {
+    public GameDifficulty(String Name, float ratioChange, int changeForBricks) {
         this.Name = Name;
         this.ratioChange = ratioChange;
-        this.hitChangeBricks = hitChangeBricks;
+        this.changeForBricks = changeForBricks;
     }
 
     public String getName() {
@@ -36,8 +36,8 @@ public class GameDifficulty {
         this.ratioChange = ratioChange;
     }
 
-    public int getHitChangeBricks() {
-        return hitChangeBricks;
+    public int getChangeForBricks() {
+        return changeForBricks;
     }
 
     @Override

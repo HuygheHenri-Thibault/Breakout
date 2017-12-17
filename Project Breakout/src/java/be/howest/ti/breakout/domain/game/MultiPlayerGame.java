@@ -11,15 +11,15 @@ import java.util.List;
  *
  * @author micha
  */
-public class MultiPlayerGame extends Game {
+public final class MultiPlayerGame extends Game { // mss overbodige klasse
 
     //hardcoded constructor
-    public MultiPlayerGame(int height, int width, int aantalspelers, GameDifficulty difficulty){
-        super(height, width, 2 * aantalspelers, aantalspelers, difficulty);
+    public MultiPlayerGame(int height, int width, int numberOfPlayers, GameDifficulty difficulty){
+        super(height, width, 6, numberOfPlayers, difficulty);
     }
     
-    public MultiPlayerGame(List<User> players, int height, int width, int aantalSpelers, GameDifficulty difficulty) {
-        super(players, height, width, 2 * aantalSpelers, aantalSpelers, difficulty);
+    public MultiPlayerGame(List<User> players, int height, int width, GameDifficulty difficulty) {
+        super(players, height, width, 2 * players.size(), difficulty);
     }
     
 }

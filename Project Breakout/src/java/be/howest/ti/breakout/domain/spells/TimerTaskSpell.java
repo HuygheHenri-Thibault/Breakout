@@ -11,13 +11,12 @@ import java.util.TimerTask;
  *
  * @author micha
  */
-public class TimerTaskSpell extends TimerTask {
+public final class TimerTaskSpell extends TimerTask {
 
     private final Spell spell;
 
     public TimerTaskSpell(Spell spell) {
         this.spell = spell;
-        // 5 veranderen naar spell.getCoolDown
     }
 
     @Override

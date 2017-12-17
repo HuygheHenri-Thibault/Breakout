@@ -9,13 +9,14 @@ import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.game.User;
 
 /**
  *
  * @author micha
  */
-public class ZelfstandigNaamwoord extends Woord{
-    private Effect effect;
+public final class ZelfstandigNaamwoord extends Woord{
+    private final Effect effect;
     private final List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = new ArrayList<>();
     
     public ZelfstandigNaamwoord(String naam, int amountOfDamage, String typeOfDamage, Effect effect) {
@@ -32,16 +33,21 @@ public class ZelfstandigNaamwoord extends Woord{
     }
     
     public boolean hasBijvoegelijkNaamwoord(BijvoegelijkNaamwoord bn){
-        return bijvoegelijkeNaamwoorden.contains(bn);
+        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
+            if(bijvoegelijkNaamwoord.getNaam().equals(bn.getNaam())){
+                return true;
+            }
+        }
+        return false;
     }
     
-    public void setEntetiesOfEffect(Level level, int userId){
-        effect.setUserPallet(level.getUserPallet(userId));
-        effect.setLastBallActivated(effect.getUserPallet().getLastBallTouched());
-        effect.setLevel(level);
-        effect.setUserActivatedEffect(level.getPlayers().get(userId - 1));
+    public void setEntetiesOfEffect(Level level, User user){
+        effect.setUserPallet(level.getUserPallet(user));
+        effect.setBallActivatedEffect(effect.getUserPallet().getLastBallTouched());
+        effect.setLevelOfEffect(level);
+        effect.setUserActivatedEffect(user);
         for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
-            bijvoegelijkNaamwoord.setEntetiesOfEffect(level, userId);
+            bijvoegelijkNaamwoord.setEntetiesOfEffect(level, user);
         }
     }
     
@@ -61,13 +67,6 @@ public class ZelfstandigNaamwoord extends Woord{
         }
         return spellEffects;
     }
-    
-//    public void resetEffect(){
-//        effect.setReady();
-//        for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
-//            bijvoegelijkNaamwoord.resetEffect();
-//        }
-//    }
     
     public int cast(){
         effect.setActive();

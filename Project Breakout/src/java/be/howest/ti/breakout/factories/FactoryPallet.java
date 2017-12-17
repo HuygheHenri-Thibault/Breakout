@@ -7,6 +7,9 @@ package be.howest.ti.breakout.factories;
 
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.game.User;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,20 +23,24 @@ public class FactoryPallet extends FactoryBreakoutUtilities{
         this.level = level;
     }
 
-    public void createPallets() {
+    public List<Pallet> createPallets() {
+        List<Pallet> pallets = new ArrayList<>();
         for (int i = 0; i < level.getAantalSpelers(); i++) {
             String colorPallet = findUnusedColor();
             int lenght = Math.round((level.getGameWidth() / 8) * level.getRatios().get(0).getRatio());
                                                                                 
             int startX = level.getGameWidth() / level.getAantalSpelers() / 2; 
             int nextXDistance = level.getGameWidth() / level.getAantalSpelers(); 
-            int multiplierDistance = level.getPallets().size(); 
+            int multiplierDistance = pallets.size(); 
             
             int x =  startX + (nextXDistance * multiplierDistance) - (lenght / 2);
             int y = (level.getGameHeight()/ 10) * 9;
+            
+            User player = level.getPlayers().get(i);
          
-            Pallet p = new Pallet(i + 1, colorPallet, level, x, y, lenght, 5);
-            level.getPallets().add(p);
+            Pallet p = new Pallet(player, colorPallet, level, x, y, lenght, 5);
+            pallets.add(p);
         }
+        return pallets;
     }
 }

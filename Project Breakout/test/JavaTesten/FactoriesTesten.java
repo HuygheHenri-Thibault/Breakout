@@ -5,10 +5,8 @@
  */
 package JavaTesten;
 
-import be.howest.ti.breakout.data.MySQLBrickRepository;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.BrickData;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
@@ -18,7 +16,6 @@ import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -40,9 +37,9 @@ public class FactoriesTesten {
     List<User> players2 = new ArrayList<>(Arrays.asList(me, otherMe));
     List<User> players3 = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
     GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
-    Game singlePlayerGame = new SinglePlayerGame(me, 1000, 1000, easy);;
-    Game multiPlayerGame2P = new MultiPlayerGame(players2, 1000, 1000, 2, easy);
-    Game multiPlayerGame3P = new MultiPlayerGame(players3, 1000, 1000, 3, easy);
+    Game singlePlayerGame = new SinglePlayerGame(me, 1000, 1000, easy);
+    Game multiPlayerGame2P = new MultiPlayerGame(players2, 1000, 1000, easy);
+    Game multiPlayerGame3P = new MultiPlayerGame(players3, 1000, 1000, easy);
 
 
     public FactoriesTesten() {
@@ -67,7 +64,7 @@ public class FactoriesTesten {
     @Test
     public void testNieuwLevelWithNoGame() {
         try {
-            Level level = new Level(null, 1, 0);
+            Level level = new Level(null, 0);
         } catch (NullPointerException ex) {
 
         }
@@ -195,7 +192,7 @@ public class FactoriesTesten {
     
     @Test
     public void testSpell(){
-        Level level = new Level(singlePlayerGame, 10, 1);
+        Level level = new Level(singlePlayerGame, 1);
         Spell spell = me.getSpell();
         //System.out.println(spell.getName());
     }

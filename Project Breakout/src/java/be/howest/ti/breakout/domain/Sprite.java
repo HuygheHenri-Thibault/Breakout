@@ -11,7 +11,7 @@ import java.awt.Image;
  *
  * @author micha
  */
-public class Sprite {
+public final class Sprite {
    private String color;
   
     public Sprite(String color) {
