@@ -8,12 +8,20 @@ package sockets;
 import domain.Ball;
 import domain.Brick;
 import domain.Game;
+import domain.MultiPlayerGame;
 import domain.Pallet;
+import domain.Rectangle;
+import domain.Shape;
+import domain.SinglePlayerGame;
 import domain.Sprite;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.websocket.OnMessage;
 import javax.websocket.server.ServerEndpoint;
 import org.json.simple.parser.JSONParser;
@@ -22,8 +30,9 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
+import powerUps.PowerUpOrDown;
+import spells.Spell;
 import util.BreakoutException;
-import java.util.concurrent.TimeUnit;
 /**
  *
  * @author Henri
@@ -37,20 +46,33 @@ public class GameSocket {
     int levens = 3;
     int players = 1;
 
+    //added for smartphone controller
+    private static final Set<Session> activeSessions = Collections.synchronizedSet(new HashSet<Session>());
+    
     @OnMessage
     public String onMessage(String message, Session in) {
         JSONParser jparse = new JSONParser();
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
-            
-            switch ((String)obj.get("type")) {
+     
+            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
+                //new
+                //    case "showSpells":
+                //    makeGame(in, obj);
+                //    return makeJSONSpells(sessionGame.get(in).getLevelPlayedRightNow().getAllSpells()).toJSONString();
+                //                
                 case "startGame":
+                    //System.out.println("started");
                     startGame(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
+                    //System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
+                    //System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
+                case "move":
+                    movePalletToDirection(in, obj);
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
@@ -64,8 +86,28 @@ public class GameSocket {
     
     private void startGame(Session in, JSONObject obj) {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        sessionGame.replace(in, new Game(height, width, levens, aantalPlayers));
+        if(aantalPlayers > 1){
+            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers));
+        } else {
+            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers));
+        }
+        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
+    //new
+//    public void startGame(Session in){
+//       sessionGame.get(in).getLevelPlayedRightNow().startLevel();
+//    }
+//    
+//    private JSONObject makeJSONSpells(List<Spell> spells){
+//        JSONObject resultObj = new JSONObject();
+//        int itr = 1;
+//        for (Spell spell : spells) {
+//           resultObj.put("spell " + itr, spell.getName());
+//           itr++;
+//        }
+//        return resultObj;
+//    }
+    //
     
     private JSONObject makeJSONGameInfo(Session in) {
         JSONObject resultObj = new JSONObject();
@@ -75,11 +117,11 @@ public class GameSocket {
         return resultObj;
     }
     
-    private JSONObject makeJSONPosistionObj(List<Sprite> listOfSprites) {
+    private JSONObject makeJSONPosistionObj(List<Shape> listOfSprites) {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "posistion");
         int itr = 0;
-        for(Sprite aSpirte : listOfSprites) {
+        for(Shape aSpirte : listOfSprites) {
             JSONObject spriteJSON = makeSpriteJSONObj(aSpirte, resultObj);
             resultObj.put(itr+"", spriteJSON);
             itr++;
@@ -87,21 +129,30 @@ public class GameSocket {
         return resultObj;
     }
 
-    private JSONObject makeSpriteJSONObj(Sprite aSpirte, JSONObject resultObj) {
+    private JSONObject makeSpriteJSONObj(Shape aShape, JSONObject resultObj) {
         JSONObject spriteObj = new JSONObject();
         
-        String typeOfSprite = aSpirte.toString();
+        String spriteString[] = aShape.toString().split(" ");
+        String typeOfSprite = spriteString[0];
+        if(typeOfSprite.equals("Brick")) {
+            String color = spriteString[1];
+            spriteObj.put("color", color);
+        }
+        if(typeOfSprite.equals("Powerup")) {
+            String icon = spriteString[1];
+            spriteObj.put("icon", icon);
+        }
         spriteObj.put("type", typeOfSprite);
         
-        int xPos = aSpirte.getX();
-        int yPos = aSpirte.getY();
+        int xPos = aShape.getX();
+        int yPos = aShape.getY();
         spriteObj.put("x", xPos);
         spriteObj.put("y", yPos);
         
-        setDimension(typeOfSprite, aSpirte, spriteObj);
+        setDimension(typeOfSprite, aShape, spriteObj);
         return spriteObj;
     }
-    private void setDimension(String typeOfSprite, Sprite aSpirte, JSONObject spriteObj) {
+    private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet)aSpirte;
@@ -117,9 +168,38 @@ public class GameSocket {
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
                 break;
+            //boundaries
+            case "Rectangle":
+                Rectangle rect = (Rectangle) aSpirte;
+                spriteObj.put("width", Math.round(rect.getLength())); // x
+                spriteObj.put("height", Math.round(rect.getHeight())); // y
+                break;
+            case "Powerup":
+                spriteObj.put("width", 20); // x // FIXME!!!!!!
+                spriteObj.put("height", 20); // y // FIXME!!!!!!
+                break;
             default:
                 spriteObj.put("width", -1); // x
                 spriteObj.put("height", -1); // y
+        }
+    }
+    
+    private void movePalletToDirection(Session in, JSONObject obj){
+        int playerID = Integer.parseInt((String) obj.get("player"));
+        //System.out.println(playerID);
+        String direction = (String) obj.get("direction");
+        //System.out.println(direction);
+        Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
+        switch(direction){
+            case "left":
+                playerPallet.moveLeft();
+                break;
+            case "right":
+                playerPallet.moveRight();
+                break;
+            case "stop":
+                playerPallet.stopMoving();
+                break;
         }
     }
     

@@ -38,12 +38,13 @@ CREATE TABLE `effects` (
 
 CREATE TABLE `bricks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `skin` varchar(60) NOT NULL,
+  `skin` varchar(45) NOT NULL,
   `baseLength` int(11) NOT NULL,
-  `hits` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `color_UNIQUE` (`skin`)
+  `hits` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
 
 
 CREATE TABLE `spells` (
@@ -54,6 +55,26 @@ CREATE TABLE `spells` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `campaign` (
+  `campaignID` int(11) NOT NULL AUTO_INCREMENT,
+  `campaignName` varchar(40) DEFAULT NULL,
+  `picture` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`campaignID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `story` (
+  `IDstory` int(11) NOT NULL AUTO_INCREMENT,
+  `storyText` varchar(500) DEFAULT NULL,
+  `storyName` varchar(40) DEFAULT NULL,
+  `imagePath` varchar(120) DEFAULT NULL,
+  `campaignId` int(11) NOT NULL,
+  PRIMARY KEY (`IDstory`),
+  KEY `FKcampaign_idx` (`campaignId`),
+  CONSTRAINT `FKcampaign` FOREIGN KEY (`campaignId`) REFERENCES `campaign` (`campaignID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Bullet time', 5, 'Bullet time BABY!');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Scaffolds', 5, 'Time to get high');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('U', 'Double Trouble', 5, 'Prepare for trouble and make it double');
@@ -62,11 +83,18 @@ INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Slowed', 5, 
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Shrunk', 5, 'There are pils for that you know.');
 INSERT INTO effects(TYPE, NAME, duration, description) VALUES('D', 'Sudden death', 5, 'FIGHT FOR YOUR LIFE');
 
-INSERT INTO blocks(color, baseLength) VALUES('yellow_block.png', 1);
-INSERT INTO blocks(color, baseLength) VALUES('red_block.png', 1);
-INSERT INTO blocks(color, baseLength) VALUES('black_block.png', 1);
-INSERT INTO blocks(color, baseLength) VALUES('green_block.png', 1);
-INSERT INTO blocks(color, baseLength) VALUES('purple_block.png', 1);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('yellow_block', 1, 1, 10);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('red_block', 1, 1, 20);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('black_block', 1, 1, 30);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('green_block', 1, 1, 40);
+INSERT INTO bricks(skin, baseLength, hits, score) VALUES('purple_block', 1, 1, 50);
+
+CREATE USER 'usrbreakout'@'localhost' IDENTIFIED BY 'TIbreakout2017';
+
+GRANT DELETE ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT INSERT ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT SELECT ON breakout.* TO 'usrbreakout'@'localhost';
+GRANT UPDATE ON breakout.* TO 'usrbreakout'@'localhost';
 
 /* Should work, I think :^)
 Als​ ​db​ ​user​ ​gebruikt​ ​iedereen:​ ​​usrbreakout​​ ​en​ ​als​ ​password​ ​​TIbreakout2017

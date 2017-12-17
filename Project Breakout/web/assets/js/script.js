@@ -1,4 +1,4 @@
-function loggedIn() {
+function loggedIn() { // TODO: do this with JSP pages instead???
   $.ajax({url: "CheckLoggedIn", success: function(result){
     $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
     $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content light-grey'>"+
@@ -10,7 +10,7 @@ function loggedIn() {
       $(".login").hide();
     } else {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a href='userPage' class='white-text'>Account</a></li>"+
+      .append("<li><a href='userPage.jsp' class='white-text'>Account</a></li>"+
       "<li class='divider'></li>"+
       "<li><a href='LogOutUser' class='white-text red'>Log out</a></li>")
       $(".no-login").hide();
@@ -50,19 +50,19 @@ function checkVarsIfEmpty(username, passwd) {
     return err;
 }
 
+function loginQuote() {
+  var lines = ["This is where the fun begins", "Hasta la vista baby",
+  "Member breakout? I member breakout", "Yo dawg I heard you like breakout"];
+}
+
 $(document).ready(function() {
-  console.log("DOM is ready");
+  console.log("script.js is loaded");
   // Init Page
   loggedIn();
   $('.modal').modal();
-   //Dropdowns have to be init'ed if they're dynamic.
 
   $("#login-area button").on("click", checkBeforeSignIn);
   $("#login-area form").on("submit", checkBeforeSignIn);
   $("#register-area button").on("click", checkBeforeSignIn);
   $("#register-area form").on("submit", checkBeforeSignIn);
-
-  // document.documentElement.style.setProperty(`--accent-color`, 'red');
-  // TODO: Nice idea for accent color change but needs to be done another way
-  // Maybe with add & remove class?
 });

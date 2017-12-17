@@ -9,7 +9,7 @@ function submitForm() {
 }
 
 $(document).ready(function() {
-  console.log("DOM is ready, User loaded");
+  console.log("user.js loaded");
   $("#edit-user-modal").modal('close');
   $("#cancel-edit").on("click", clearForm);
   $("#confirm-edit").on("click", submitForm);

@@ -5,11 +5,17 @@
  */
 package factories;
 
+import data.MySQLPowerUpOrDownRepository;
 import data.Repositories;
 import domain.Brick;
 import domain.BrickRow;
 import java.util.List;
 import java.util.Random;
+import powerUps.AllPowerUps;
+import powerUps.EffectBulletTime;
+import powerUps.EffectDoubleTrouble;
+import powerUps.PowerUpOrDown;
+import powerUps.EffectScaffolds;
 
 /**
  *
@@ -17,7 +23,7 @@ import java.util.Random;
  */
 public class FactoryBricks extends FactoryBreakoutUtilities{
     
-    public FactoryBricks() {
+   public FactoryBricks() {
     }
     
     public void createBricks(List<BrickRow> rowsMade, BrickRow rowBricks){
@@ -25,27 +31,46 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
             Brick b = createSingleBrick(rowsMade, rowBricks);
             rowBricks.addBrickToRow(b);
         }
+        //weg doen als alle testen gedaan zijn
+        
+        //test for powerup
+        //Brick testBrick = rowBricks.getBricksOnRow().get(rowBricks.getBricksOnRow().size() - 1);
+        //make a random powerup
+        //get all the powerups from database
+        //select a random powerup out of the list
     }   
     
     private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
-        String color = findUnusedColor();
+        String color = rowBricks.getBrickData().getColor();
         
-        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 10;
+        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 6;
         
-        int x = rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomLengteGemaakteBricks();
+        int bricksLenghtMadeSoFar = rowBricks.getSomLengteGemaakteBricks();
+        int x = rowBricks.getMIN_BRICK_BORDER_X() + bricksLenghtMadeSoFar;
         int y = rowBricks.getMIN_BRICK_BORDER_Y() + (rowsMade.size() * height);
         
-        Random rand = new Random();
-        int maxLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 10;
-        int minLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 25;
-        int lengte = rand.nextInt((maxLengte-minLengte) + 1) + minLengte;
-        if(x + lengte > rowBricks.getMAX_BRICK_BORDER_X()){
-            lengte = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
+        Random generator = new Random();
+        double ratioLengte = Math.round((generator.nextDouble() * (1.0 - 0.5) + 0.5) * 10.0) / 10.0;
+//      int maxLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 10;
+        int minLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 10;
+//      int lengte = rand.nextInt((maxLengte-minLengte) + 1) + minLengte;
+        int lengte = (int) ((rowBricks.getBrickData().getBaseLen() * ratioLengte) * minLengte);
+        if(x + lengte > (rowBricks.getMAX_BRICK_BORDER_X() - minLengte / 2)){
+            int spaceLeft = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
+            lengte = spaceLeft;
         }
         
-        int achievedScoreIfDestroyed = rowBricks.getAchievedScoreIfDestroyedForBrickOnRow();
+        int achievedScoreIfDestroyed = rowBricks.getBrickData().getBaseScore() + (10 * (rowBricks.getLevel().getNumber() - 1));
+        int hits = 1; //rowBricks.getBrickData().getBaseHits();
        
-        Brick b = new Brick(rowBricks, lengte, height, 1, achievedScoreIfDestroyed, color, x, y);
+        Brick b = new Brick(rowBricks, lengte, height, hits, achievedScoreIfDestroyed, color, x, y);
+        
+        if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
+            PowerUpOrDown power = Repositories.getPowerUpDownRepository().getAllPowerUpsAndDowns().getRandomPowerUpOrDown(rowBricks.getLevel());
+            power.setBrickHiddenIn(b);
+            //System.out.println("added " + power.getName() + " in brick x:" + b.getX() + " y:" + b.getY());
+        }
+
         return b;
     }
     

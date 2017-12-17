@@ -26,12 +26,13 @@ public class FactoryLevel {
         this.numberLevels = 0;
     }
      
-    public void createLevel(){
+    public Level createLevel(){
         numberLevels++;
         Level l = new Level(game, startScoreForBricksFirstLine, numberLevels);
         game.getLevels().add(l);
         changeRatio();
         startScoreForBricksFirstLine += 10;
+        return l;
     } 
     
     public void changeRatio(){
