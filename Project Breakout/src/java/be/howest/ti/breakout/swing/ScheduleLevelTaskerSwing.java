@@ -22,6 +22,7 @@ import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
+import java.util.ArrayList;
 
 /**
  *
@@ -41,10 +42,14 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
     @Override
     public void run() {
         if (!paused) {
-            for (Ball ball : level.getBalls()) {
+            for (ListIterator<Ball> iter = level.getBalls().listIterator(); iter.hasNext();) {
+                Ball ball = iter.next();
                 ball.move();
-                //System.out.println("dx: " +ball.getDx());
-                //System.out.println("dy: " +ball.getDy());
+                if(!ball.isGoneFromScreen()){
+                    iter.remove();
+                }
+                //System.out.println(": x: " +ball.getX());
+                //System.out.println(": y: " +ball.getY());
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
@@ -91,6 +96,8 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
             for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 changeStateEffect(entry.getValue().getSpellEffects());
             }
+            
+            changeStateEffect(new ArrayList<>(Arrays.asList(level.getFieldEffect().getEffect())));
 
             SwingUtilities.invokeLater(() -> toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui
@@ -104,6 +111,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
                     effect.activate();
                     break;
                 case INACTIVE:
+                    System.out.println("here");
                     effect.deActivate();
                     break;
                 default:

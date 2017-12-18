@@ -7,11 +7,13 @@ package be.howest.ti.breakout.factories;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
+import be.howest.ti.breakout.domain.Fireball;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectFireBall;
 
 /**
  *
@@ -58,5 +60,17 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         Ball b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
         level.getBalls().add(b);
+    }
+    
+    public void createExtraFireball(EffectFireBall effect){
+        String colorPallet = findUnusedColor();
+        
+        int x = level.getGameWidth() / 2;
+        int y = 15;
+        
+        int speed = 5 * Math.round(level.getRatios().get(1).getRatio());
+        
+        Ball b = new Fireball(level, 10, speed, colorPallet, x, y, effect);
+        level.getBalls().add(b);    
     }
 }

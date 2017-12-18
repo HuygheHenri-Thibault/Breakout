@@ -7,11 +7,13 @@ package be.howest.ti.breakout.swing;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.Circle;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.game.User;
 import java.awt.Color;
@@ -129,13 +131,13 @@ public class Board extends JPanel{
     private void drawObjects(Graphics2D g2d) {
         Level level = game.getLevelPlayedRightNow();
         g2d.setColor(Color.BLUE);
+        
         for (Pallet pallet : level.getPallets()) {
-            g2d.fillRect(pallet.getX(), pallet.getY(), pallet.getLength(), pallet.getHeight());
+            if(pallet.IsVisible()){
+                g2d.fillRect(pallet.getX(), pallet.getY(), pallet.getLength(), pallet.getHeight());
+            }
         }
-        g2d.setColor(Color.BLACK);
-        for (Ball ball : level.getBalls()) {
-            g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
-        }
+        
         
         //for (BrickRow rowsOfBrick : level.getBricks()) {
             for (Brick brick : level.getBricks()) {
@@ -146,6 +148,15 @@ public class Board extends JPanel{
                 g2d.drawString(""+brick.getHits(), (brick.getX() + (brick.getLength() / 2)), (brick.getY() + (brick.getHeight() / 2)));
             }
         //}
+        
+        g2d.setColor(Color.BLACK);
+        for (Ball ball : level.getBalls()) {
+            g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+        }
+        
+        for (Circle circle : level.getAllShapesCreatedByFieldEffect()) {
+            g2d.drawOval(circle.getX(), circle.getY(), circle.getRadius(), circle.getRadius());
+        }
         for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {
             g2d.drawRect(powerUp.getBoundaries().getX(), powerUp.getBoundaries().getY(), powerUp.getBoundaries().getLength(), powerUp.getBoundaries().getHeight());
         }

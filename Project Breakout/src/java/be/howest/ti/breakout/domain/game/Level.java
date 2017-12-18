@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain.game;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.Circle;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
@@ -19,7 +20,11 @@ import java.util.Map;
 import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectFireBall;
+import be.howest.ti.breakout.domain.effects.EffectShadow;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
+import be.howest.ti.breakout.domain.effects.EffectWebs;
+import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
@@ -51,6 +56,9 @@ public class Level{
     
     private final Map<User, List<Spell>> spellsChoices = new HashMap<>();
     private final Map<User, Spell> spellsInGame = new HashMap<>();
+    
+    private final FieldEffect fieldEffect;
+    private final List<Circle> circlesMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
     //private int CollectiveScore = 0;
@@ -85,6 +93,8 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
+        fieldEffect = new FieldEffect("shadow", new EffectShadow("shadow", 1), 10);
+        
     }
     
     public int getNumber() {
@@ -96,6 +106,7 @@ public class Level{
         timer = new Timer();
         taskForLevelSwing = s;
         timer.scheduleAtFixedRate(s, 1000, 15);
+        fieldEffect.doEffect(this);
     }
     
     public void pauseLevelSwing(){
@@ -122,6 +133,7 @@ public class Level{
     }
     
     public void endLevel(){
+        this.fieldEffect.cancel();
         this.timer.cancel();
     }
     
@@ -156,12 +168,16 @@ public class Level{
         factoryBall.createExtraBallDoubleTrouble(effect);
     }
     
+    public void createExtraFireBall(EffectFireBall effect){
+        factoryBall.createExtraFireball(effect);
+    }
+    
     public List<Brick> getBricks() {
         return bricks;
     }
     
     public void lowerHitsOfBrick(Ball ball, Brick b, User playerThatDestroyedBrick){
-        b.decrementHits(ball);
+        b.decrementHits(ball.getDamage());
         if(b.getHits() <= 0){
             deleteBrick(b, playerThatDestroyedBrick);
         }
@@ -247,6 +263,22 @@ public class Level{
     }
     //
     
+    public FieldEffect getFieldEffect(){
+        return fieldEffect;
+    }
+    
+    public List<Circle> getAllShapesCreatedByFieldEffect(){
+        return circlesMadeByFieldEffect;
+    }
+    
+    public void addShapeToFieldEffectShapes(Circle circle){
+        circlesMadeByFieldEffect.add(circle);
+    }
+    
+    public void removeShapeFromFieldEffectShapes(Circle circle){
+        circlesMadeByFieldEffect.remove(circle);
+    }
+    
     public final void initializeUserScores(){
         for (User player : game.getPlayers()) {
             scorePerUser.put(player, 0);
@@ -308,6 +340,7 @@ public class Level{
             allEntities.add(powerUp);
         }
         allEntities.addAll(bricks);
+        allEntities.addAll(circlesMadeByFieldEffect);
         allEntities.add(TOP_BOUNDARY);
         allEntities.add(LEFT_BOUNDARY);
         allEntities.add(RIGHT_BOUNDARY);
