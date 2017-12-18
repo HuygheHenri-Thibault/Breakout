@@ -1,60 +1,33 @@
-/*!! Own Colors !!*/
-
-:root {
-  --accent-color: #7289DA;
-  /* TODO: Need to find a way to take this from class and then apply it where needed
-  Cause just adding materialze classes doesn't change everything.*/
+@font-face {
+ font-family: "Northwood High";
+ src: url("./fonts/Northwood_High.ttf") format("truetype");
+ font-weight: normal;
+ font-style: normal;
 }
-
-.dark-grey {
-  background-color: #1E2124;
+@font-face {
+ font-family: "Laser";
+ src: url("./fonts/Laser.ttf") format("truetype");
+ font-weight: normal;
+ font-style: normal:
 }
-
-.med-grey {
-  background-color: #2F3136;
+.laser {
+ font-family: "Laser";
+ font-weight: lighter;
+ letter-spacing: 2.5px;
 }
-
-.light-grey {
-  background-color: #36393E;
-}
-
-/*!! Accent Colors !!*/
-
-form.accented input {
-  color: #ffffff;
-}
-
-form.accented button, form.accented button:hover {
-  background-color: var(--accent-color);
-}
-
-form.accented input:focus:not([readonly]) {
-  border-bottom-color: var(--accent-color);
-  box-shadow: 0 1px 0 0 var(--accent-color);
-}
-
-form.accented input:focus:not([readonly])+label {
-  color: var(--accent-color);
-}
-
-form.accented textarea:focus:not([readonly]) {
-  border-bottom-color: var(--accent-color);
-  box-shadow: 0 1px 0 0 var(--accent-color);
-}
-
-form.accented textarea:focus:not([readonly])+label {
-  color: var(--accent-color);
+.northwood {
+ font-family: "Northwood High";
 }
 
 /*!! Page !!*/
-
 body {
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
 }
 
 header {
-  z-index: 50;
+  background-image: url('../media/header-background-condensed.png');
 }
 
 header .brand-logo {
@@ -63,12 +36,54 @@ header .brand-logo {
 
 nav i.material-icons {
   font-size: 2.5rem;
-  margin-right: 15px;
 }
 
 main {
+  background-image: url('../media/landing-background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  flex: 1 0 auto;
   padding-top: 2rem;
   padding-bottom: 4rem;
+}
+
+.row.separator {
+  margin-bottom: 0;
+  height: 6px;
+  background: url('../media/separator.png');
+  background-repeat: repeat-x;
+  background-position-y: top;
+  background-position-x: left;
+}
+
+.crystal-btn-container {
+  position: relative;
+}
+
+.crystal-btn-link {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.btn-text {
+  position: absolute;
+  text-align: center;
+  width: 89%;
+  line-height: 4rem;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.crystal-btn {
+  width: 100%;
+  height: 4rem;
+}
+
+footer {
+  background-image: url('../media/footer-background.png');
 }
 
 .modal {
@@ -79,19 +94,16 @@ main {
   background-color: #1E2124;
 }
 
-footer {
-  text-align: center;
-  font-style: italic;
-  position: fixed;
-  bottom: 0px;
-  width: 100%
-}
-
 #user-options {
   margin-top: 4rem;
 }
 
 /* Index 4 !!*/
+/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
+/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
+/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
+/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
+/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
 g{
     fill:none;
     stroke:black;

@@ -9,15 +9,14 @@
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
   <link rel="stylesheet" href="assets/css/screen.css">
-  <link rel="stylesheet" href="assets/css/index.css">
   <title>Breakout</title>
 </head>
 
-<body class="med-grey">
-  <header class="dark-grey z-depth-4">
+<body>
+  <header>
     <nav class="transparent">
       <div class="nav-wrapper">
-        <a href="index.html" class="brand-logo">Logo</a>
+        <a href="index.html" class="brand-logo northwood">Breakout</a>
         <ul class="right">
           <li id="user">
             <a href="#" class="dropdown-button" data-activates="user-options"></a>
@@ -27,32 +26,46 @@
       </div>
     </nav>
   </header>
+  <div><div class="row separator"></div></div>
+
 
   <main>
-    <div class="row no-login">
-      <div class="col s2 offset-s5">
-        <a href="login.html" class="btn btn-large waves-effect indigo lighten-1 hoverable">Sign in</a>
-      </div>
-    </div>
-    <div class="row no-login">
-      <div class="col s2 offset-s5">
-        <a href="register.html" class="btn btn-large waves-effect indigo lighten-1 hoverable">Register</a>
+    <div class="row">
+      <div class="col s2 offset-s5 crystal-btn-container">
+        <a href="login.html" class="laser white-text crystal-btn-link">
+          <p class="btn-text">Sign in</p>
+          <img src="assets/media/btn-blue-1.png" alt="Sign in" class="crystal-btn">
+        </a>
       </div>
     </div>
     <div class="row">
-      <div class="col s2 offset-s5">
-        <a href="game.html" class="btn btn-large waves-effect indigo lighten-1 hoverable">Play</a>
+      <div class="col s2 offset-s5 offset-s5 crystal-btn-container">
+        <a href="register.html" class="laser white-text crystal-btn-link">
+          <p class="btn-text">Register</p>
+          <img src="assets/media/btn-blue-1.png" alt="Register" class="crystal-btn">
+        </a>
       </div>
     </div>
-    <div class="row login">
-      <div class="col s2 offset-s5">
-        <a href="leaderboard.html" class="btn btn-large waves-effect indigo lighten-1 hoverable">Leaderboards</a>
+    <div class="row">
+      <div class="col s2 offset-s5 crystal-btn-container">
+        <a href="game.html" class="laser white-text crystal-btn-link">
+          <p class="btn-text">Play</p>
+          <img src="assets/media/btn-blue-1.png" alt="Play" class="crystal-btn">
+        </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s2 offset-s5 crystal-btn-container">
+        <a href="leaderboard.html" class="laser white-text crystal-btn-link">
+          <p class="btn-text">Leaderboards</p>
+          <img src="assets/media/btn-blue-1.png" alt="Leaderboards" class="crystal-btn">
+        </a>
       </div>
     </div>
   </main>
-
-  <footer class="page-footer dark-grey">
-    <p class="grey-text text-darken-2">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+  <div><div class="row separator"></div></div>
+  <footer class="page-footer transparent">
+    <p class="grey-text text-darken-2 center-align">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
   </footer>
 
   <!--Import jQuery before materialize.js-->
