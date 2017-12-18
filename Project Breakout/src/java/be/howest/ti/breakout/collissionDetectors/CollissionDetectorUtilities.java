@@ -21,11 +21,11 @@ public class CollissionDetectorUtilities {
         
         //If the distance is greater than halfCircle + halfRect, then they are too far apart to be colliding
         if (distX > (r.getLength()/2 + c.getRadius())) { return false; }
-        if (distY > (r.getHeight()/2 + c.getRadius())) { return false; } 
+        if (distY > (r.getHeight()/2 + c.getRadius())) { return false; }
 
         //If the distance is less than halfRect then they are definitely colliding
-        if (distX <= (r.getLength()/2)) { return true; } 
-        if (distY <= (r.getHeight()/2)) { return true; }
+        if (distX <= ((r.getLength()/2)  + c.getRadius()) ) { return true; } 
+        if (distY <= ((r.getHeight()/2)) + c.getRadius()) { return true; }
 
         //Test for collision at rect corner.
         //Think of a line from the rect center to any rect corner

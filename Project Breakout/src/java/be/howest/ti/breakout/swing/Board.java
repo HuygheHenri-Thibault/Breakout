@@ -36,6 +36,7 @@ import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
+import java.util.Map;
 
 /**
  *
@@ -75,21 +76,26 @@ public class Board extends JPanel{
         
         List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
         game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
+        game.createNewLevel();
+        game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
-         s = new ScheduleLevelTaskerSwing(level, this);
-         showSpellChoices();
+        s = new ScheduleLevelTaskerSwing(level, this);
+        showSpellChoices();
     }
     
     public void showSpellChoices(){
-        List<Spell> spells = level.getAllSpells();
-        String[] options = new String[spells.size()];
-        for (int i = 0; i < spells.size(); i++) {
-            options[i] = spells.get(i).getName();
+        Map<User, List<Spell>> spellsChoices = level.getAllSpellsChoices();
+        for (Map.Entry<User, List<Spell>> entry : spellsChoices.entrySet()) {
+            List<Spell> spells = entry.getValue();
+            String[] options = new String[spells.size()];
+            for (int i = 0; i < spells.size(); i++) {
+                options[i] = spells.get(i).getName();
+            }
+            int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+            null, options, options[0]);
+            level.setUserSpell(me, spells.get(response));
         }
-        int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
-        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-        null, options, options[0]);
-        level.setUserSpell(me, level.getAllSpells().get(response));
         level.startLevel(s);
     }
 

@@ -69,7 +69,7 @@ public class Game{
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
-        createNewLevel();
+        //createNewLevel();
     }
     //
     
@@ -85,7 +85,7 @@ public class Game{
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
-        createNewLevel();
+        //createNewLevel();
     }
     
     public List<User> getPlayers() {
