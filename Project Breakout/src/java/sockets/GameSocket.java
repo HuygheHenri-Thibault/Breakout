@@ -56,21 +56,10 @@ public class GameSocket {
             JSONObject obj = (JSONObject) jparse.parse(message);
      
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
-                case "playerAmount" :
-                    // meegeven met spel hoeveel dit er zijn
-                    return "";
-                case "makeGame":
-                    //het eigenlijke spel maken
-                    return "";
-                case "makeLevel":
-                    // het level maken
-                    return "";
-                case "showSpells":
-                    // Dit is iets dat de server doet dus er moet normaal geen case voor zijn, server zal nooit een
-                    // "showSpells" message krijgen || verkeerd verstaan mss?
-                    
-                    //makeGame(in, obj);
-                    //return makeJSONSpells(sessionGame.get(in).getLevelPlayedRightNow().getAllSpells()).toJSONString();
+                case "playerAmount":
+                    // spel wordt gemaakt met dit aantal spelers
+                    // level wordt ook gemaakt
+                    // spells worden gemaakt en doorgestuurd naar de front-end met msg type "showSpells"
                     return "";
                 case "selectedSpells":
                     //hier megeven welke spells gekozen zijn door de spelers
