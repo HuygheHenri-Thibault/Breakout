@@ -56,12 +56,15 @@ public class GameSocket {
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
      
-            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern
-                //new
-                //    case "showSpells":
-                //    makeGame(in, obj);
-                //    return makeJSONSpells(sessionGame.get(in).getLevelPlayedRightNow().getAllSpells()).toJSONString();
-                //                
+            switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
+                case "playerAmount":
+                    // spel wordt gemaakt met dit aantal spelers
+                    // level wordt ook gemaakt
+                    // spells worden gemaakt en doorgestuurd naar de front-end met msg type "showSpells"
+                    return "";
+                case "selectedSpells":
+                    //hier megeven welke spells gekozen zijn door de spelers
+                    return "";
                 case "startGame":
                     //System.out.println("started");
                     startGame(in, obj);
