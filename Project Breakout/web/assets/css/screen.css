@@ -93,7 +93,7 @@ footer {
 }
 
 .modal {
-  background-color: transparent;
+  background-color: #35393d;
 }
 
 .modal-footer.dark-grey {
@@ -105,11 +105,6 @@ footer {
 }
 
 /* Index 4 !!*/
-/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
-/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
-/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
-/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
-/* TODO: NOOOOOOOOOOOOOOOOOOOOOOOOOO!!!!!!!!!!!!!!!!! this has no place here!! */
 g{
     fill:none;
     stroke:black;
@@ -196,12 +191,12 @@ p.chapter{
     text-align:center;
 }
 .fullscreen-video-wrap{
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 .fullscreen-video-wrap video{
     min-height: 100%;
