@@ -167,49 +167,33 @@ var comms = function() {
   // Public
 
   //new from michael
-<<<<<<< HEAD
 
-//  var showSpells = function(){
-
-//    var playerAmount = prompt("How many players");
-
-//    for (var i = 0; i < parseInt(playerAmount); i++) {
-
-//      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32); // TODO: move to a seperate fucntion perhaps?
-
-//      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32); // #readability
-
-//      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
-
-//      input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1)));
-
-//    }
-
-//    var messageObj = {type: "showSpells", playerAmount};
-
-//    socket.sendMessage(messageObj);
-
-//  }
-
-  //
-
-  
-
-=======
   //  var showSpells = function(){
+
   //    var playerAmount = prompt("How many players");
+
   //    for (var i = 0; i < parseInt(playerAmount); i++) {
+
   //      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32); // TODO: move to a seperate fucntion perhaps?
+
   //      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32); // #readability
+
   //      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
+
   //      input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1))); // TODO: <- new phone who dis?
+
   //    }
+
   //    var messageObj = {type: "showSpells", playerAmount};
+
   //    socket.sendMessage(messageObj);
+
   //  }
+
   //
 
->>>>>>> master
+
+
   var startGame = function() {
 
     //$("#selectController").hide();
@@ -351,22 +335,15 @@ var socket = function() {
     switch (message.type) {
 
       //new from michael
-<<<<<<< HEAD
 
-//      case "spells":
-
-//        comm.askSpells();
-
-//        break;
-
-     //
-
-=======
       //      case "spells":
+
       //        comm.askSpells(); //TODO: this is not the right code, you don't ask the comms module to ask the players for spells
+
       //        break;
+
       //
->>>>>>> master
+
       case "posistion":
 
         gui.drawFromPosistion(message);
@@ -408,16 +385,11 @@ var bricks = [];
 var effects = [];
 
 var images = {};
-<<<<<<< HEAD
 
-var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png'];
-
-function setImages(listOfImagesToLoad) {
-
-=======
 var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png']; // TODO: move to GUI module?
+
 function setImages(listOfImagesToLoad) { // TODO: move to GUI module & make this a array foreach funtion??
->>>>>>> master
+
   for (var i = 0; i<listOfImagesToLoad.length;i++) {
 
     var imgPath = listOfImagesToLoad[i].split("/");
@@ -447,13 +419,9 @@ function getImage(color) {
   }
 
   return graphic;
-<<<<<<< HEAD
 
-}
-
-=======
 } // TODO: move to GUI module?
->>>>>>> master
+
 function setup() {
 
   var canvas = createCanvas(750, 400);
