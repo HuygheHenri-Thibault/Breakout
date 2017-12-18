@@ -5,12 +5,12 @@ function loggedIn() { // TODO: do this with JSP pages instead???
     "<li><a class='green-text' href='game.html'>Play</a></li></ul>")
     if(result === "Guest") {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a href='login.html'>Login</a></li>"+
-      "<li><a href='register.html'>Register</a></li>")
+      .append("<li><a href='login.html' class='black-text'>Login</a></li>"+
+      "<li><a href='register.html' class='black-text'>Register</a></li>")
       $(".login").hide();
     } else {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a href='userPage.jsp'>Account</a></li>"+
+      .append("<li><a href='userPage.jsp' class='black-text'>Account</a></li>"+
       "<li class='divider'></li>"+
       "<li><a href='LogOutUser' class='red-text'>Log out</a></li>")
       $(".no-login").hide();
