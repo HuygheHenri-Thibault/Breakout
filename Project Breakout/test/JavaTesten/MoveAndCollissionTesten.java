@@ -5,17 +5,16 @@
  */
 package JavaTesten;
 
-import domain.Ball;
-import domain.Brick;
-import domain.BrickRow;
-import domain.Game;
-import domain.Level;
-import domain.MultiPlayerGame;
-import domain.Pallet;
-import domain.Shape;
-import domain.SinglePlayerGame;
-import domain.User;
-import java.awt.event.KeyEvent;
+import be.howest.ti.breakout.domain.Ball;
+import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.game.Game;
+import be.howest.ti.breakout.domain.game.GameDifficulty;
+import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.MultiPlayerGame;
+import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.game.SinglePlayerGame;
+import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import powerUps.PowerUpOrDown;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
 /**
  *
@@ -36,6 +35,7 @@ public class MoveAndCollissionTesten {
     User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio");
     User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio");
     User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
+    GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
     
     public MoveAndCollissionTesten() {
     }
@@ -58,7 +58,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void movePallet(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setDx(1);
         p.moveRight();
@@ -67,7 +67,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void moveBall(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.move();
         assertEquals(1000 / 2 + 5, g.getLevels().get(0).getBalls().get(0).getX());
@@ -76,7 +76,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void CollissionDetectionPallet(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Pallet p = g.getLevels().get(0).getPallets().get(0);
         p.setSpeed(1);
         p.setDx(1); // normaal via key event
@@ -94,7 +94,7 @@ public class MoveAndCollissionTesten {
     @Test
     public void CollissionDetectionMeerderePallet(){
         List<User> players = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
-        Game g = new MultiPlayerGame(players, 1000, 1000, 2);
+        Game g = new MultiPlayerGame(players, 1000, 1000, easy);
         Pallet p1 = g.getLevels().get(0).getPallets().get(0);
         Pallet p2 = g.getLevels().get(0).getPallets().get(1);
         
@@ -116,7 +116,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInMiddle(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setY(885);
         b.setSpeed(1);
@@ -130,7 +130,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInOnLeftSide(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(464);
         b.setY(885);
@@ -145,7 +145,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletInOnLeftBorder(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(438);
         b.setY(885);
@@ -160,7 +160,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithPalletOnSide(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Ball b = g.getLevels().get(0).getBalls().get(0);
         b.setX(564);
         b.setY(925);
@@ -175,7 +175,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollissionWithBall(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         Ball b2 = new Ball(l, 15, 2, "red", 600, 500);
@@ -193,11 +193,10 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBrick(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
-        BrickRow br = g.getLevels().get(0).getRowsOfBricks().get(4);
-        Brick brick = br.getBricksOnRow().get(0);
+        Brick brick = g.getLevelPlayedRightNow().getBricks().get(0);
         b.setX(250);
         b.setY(515);
         b.setSpeed(2);
@@ -207,13 +206,13 @@ public class MoveAndCollissionTesten {
         b.move(); // x 253 y 516
         assertEquals(516, b.getY());
         assertEquals(253, b.getX());
-        assertFalse(br.getBricksOnRow().contains(brick));
-        assertEquals(10, l.getScore());
+        assertFalse(g.getLevelPlayedRightNow().getBricks().contains(brick));
+        assertEquals(10, l.getCollectiveScore());
     }
     
     @Test
     public void testBallCollidingWithTopBoundary(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(50);
@@ -229,7 +228,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithLeftBoundary(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);
@@ -245,7 +244,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithRightBoundary(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(985);
@@ -261,7 +260,7 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallCollidingWithBottomBoundary(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
         b.setX(15);
@@ -278,11 +277,10 @@ public class MoveAndCollissionTesten {
     
     @Test
     public void testBallTouchedPowerUp(){
-        Game g = new SinglePlayerGame(me, 1000, 1000);
+        Game g = new SinglePlayerGame(me, 1000, 1000, easy);
         Level l = g.getLevels().get(0);
         Ball b = l.getBalls().get(0);
-        BrickRow lastRow = l.getRowsOfBricks().get(l.getRowsOfBricks().size() - 1);
-        Brick brick = lastRow.getBricksOnRow().get(lastRow.getBricksOnRow().size() - 1);
+        Brick brick = l.getBricks().get(l.getBricks().size() - 1);
         l.deleteBrick(brick, b.getLastUserThatTouchedMe());
         PowerUpOrDown powerup = brick.getPowerUP();
         List<Shape> allEntities = l.getAllEntities();
