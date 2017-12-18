@@ -6,7 +6,7 @@ $(document).ready(function () {
   console.log("script2.js is loaded");
   
     $("#PathToVillage").on("click", function (){
-        $("ul#slide-out").show();
+        $("ul#slide-out").toggle();
         //Materialize.fadeInImage('#img1');
         //fadeinImage <a href="#!" class="btn" onclick="Materialize.fadeInImage('#image-test')">Click Me</a>
     });
@@ -68,7 +68,7 @@ $(document).ready(function () {
     });
     
 $('.toastButton').on('click',toast);
-$('.toastButton').click(Materialize.toast("I am toastie", 4000));
+$('.toastButton').click(Materialize.toast("You've earned the Achievement: -PLACEHOLDER- !", 4000));
 
 });
 
