@@ -49,7 +49,7 @@ public final class LevelTasker extends TimerTask {
                         break;
                     case RUNNING:
                         changeStateEffect(power.getEffects());
-                        if (checkAllPowerUpEffects(power)) {
+                        if (checkAllPowerUpEffectsDone(power)) {
                             power.setDone();
                         }
                         break;
@@ -96,7 +96,7 @@ public final class LevelTasker extends TimerTask {
         }
     }
 
-    private boolean checkAllPowerUpEffects(PowerUpOrDown power) {
+    private boolean checkAllPowerUpEffectsDone(PowerUpOrDown power) {
         for (Effect effect : power.getEffects()) {
             if (effect.isActivated() != EffectStatus.DONE) {
                 return false;
