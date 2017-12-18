@@ -74,19 +74,18 @@ $('.toastButton').click(Materialize.toast("You've earned the Achievement: -PLACE
 
 var toast = function(){
   console.log("Toast clicked");
-  var $toastContent = $('<span>toasted</span>');
-  //var imgUrl = "<img src='../../assets/media/campaign/Openbook.png'/>";
-  //var $toastContent = $(imgUrl);
+  var $toastContent = $('<span>Achievement get!</span>');
   Materialize.toast($toastContent, 5000);
+  hidePathsIslandMap();
 };
 
 var hidePathsIslandMap = function(){
-    $("#PathToLonelyRock").hide();
-    $("#PathToExplodingMountain").hide();
-    $("#PathToSignPost").hide();
-    $("#PathToDragonsDen").hide();
-    $("#PathToSpire").hide();
-    $("#PathToTheBlueKeep").hide();
+    $("#PathToLonelyRock").toggle();
+    $("#PathToExplodingMountain").toggle();
+    $("#PathToSignPost").toggle();
+    $("#PathToDragonsDen").toggle();
+    $("#PathToSpire").toggle();
+    $("#PathToTheBlueKeep").toggle();
     
     //hide sidebar with story
     $('ul#slide-out').hide();
