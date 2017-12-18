@@ -13,11 +13,11 @@
   <title>Breakout - register</title>
 </head>
 
-<body class="med-grey">
-  <header class="dark-grey z-depth-4">
+<body>
+  <header>
     <nav class="transparent">
       <div class="nav-wrapper">
-        <a href="index.html" class="brand-logo">Logo</a>
+        <a href="index.html" class="brand-logo northwood">Breakout</a>
         <ul class="right">
           <li id="user">
             <a href="#" class="dropdown-button" data-activates="user-options"></a>
@@ -27,17 +27,17 @@
       </div>
     </nav>
   </header>
-
+  <div><div class="row separator"></div></div>
   <main>
     <section id="register-area">
       <div class="row">
-        <div class="col s8 offset-s2">
+        <div class="col s10 offset-s1">
           <p class="white-text center-align">Please fill this form in and our gremlins will get to work on making you an account.</p>
         </div>
       </div>
       <div class="row">
-        <div class="col s4 offset-s4">
-          <form id="register-form" class="accented" action="registerUser" method="post">
+        <div class="col s6 offset-s3">
+          <form id="register-form" action="registerUser" method="post">
             <div class="input-field">
               <input type="email" id="email" name="email" />
               <label for="email" class="active">Email</label>
@@ -61,15 +61,18 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s2 offset-s5">
-          <button class="btn btn-large waves-effect indigo lighten-1 hoverable" disabled="disabled">Register</button>
+        <div class="col s4 offset-s4 crystal-btn-container">
+          <button class="transparent laser white-text crystal-btn-link" disabled="disabled">
+            <p class="btn-text">Register</p>
+            <img src="assets/media/btn-blue-1.png" alt="Register" class="crystal-btn">
+          </button>
         </div>
       </div>
     </section>
   </main>
-
-  <footer class="page-footer dark-grey">
-    <p class="grey-text text-darken-2">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+  <div><div class="row separator"></div></div>
+  <footer class="page-footer">
+    <p class="grey-text text-darken-2 center-align">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
   </footer>
 
   <!--Import jQuery before materialize.js-->
