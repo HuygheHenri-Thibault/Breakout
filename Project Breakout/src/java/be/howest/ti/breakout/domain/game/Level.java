@@ -21,6 +21,7 @@ import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectFireBall;
+import be.howest.ti.breakout.domain.effects.EffectShadow;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.effects.EffectWebs;
 import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
@@ -92,7 +93,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect("webs", new EffectWebs("webs", 0), 5);
+        fieldEffect = new FieldEffect("shadow", new EffectShadow("shadow", 1), 10);
         
     }
     
@@ -176,7 +177,7 @@ public class Level{
     }
     
     public void lowerHitsOfBrick(Ball ball, Brick b, User playerThatDestroyedBrick){
-        b.decrementHits(ball);
+        b.decrementHits(ball.getDamage());
         if(b.getHits() <= 0){
             deleteBrick(b, playerThatDestroyedBrick);
         }

@@ -172,6 +172,7 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void move(){
+        //setSpeed(originalSpeed);
         this.setX(Math.round(this.getX() + dx));
         this.setY(Math.round(this.getY() + dy));
         Shape s = findCollidingSprite();
@@ -325,17 +326,16 @@ public class Ball extends Circle implements Serializable{
     public void updateSpriteAfterCollidingWithWeb(Web web){
         speed = originalSpeed / 2;
         cutDirectionYBy(2);
-        this.setX(Math.round(this.getX() + dx));
-        this.setY(Math.round(this.getY() + dy));
-        if(checkCollissionWithCircle(web)){
-            this.setX(Math.round(this.getX() - dx));
-            this.setY(Math.round(this.getY() - dy));
-        } else {
-            this.setX(Math.round(this.getX() - dx));
-            this.setY(Math.round(this.getY() - dy));
-            speed = originalSpeed;
-            cutDirectionYBy(2);
-        }
+//        this.setX(Math.round(this.getX() + dx));
+//        this.setY(Math.round(this.getY() + dy));
+//        if(checkCollissionWithCircle(web)){
+//            this.setX(Math.round(this.getX() - dx));
+//            this.setY(Math.round(this.getY() - dy));
+//        } else {
+//            this.setX(Math.round(this.getX() - dx));
+//            this.setY(Math.round(this.getY() - dy));
+//            
+//        }
     }
     
     public void updateSpriteAfterCollidingWithLeftBoundary(){
