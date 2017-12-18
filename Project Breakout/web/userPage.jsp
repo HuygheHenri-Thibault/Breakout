@@ -1,5 +1,5 @@
-<%@page import="domain.User"%>
-<%@page import="data.Repositories"%>
+<%@page import="be.howest.ti.breakout.domain.game.User"%>
+<%@page import="be.howest.ti.breakout.data.Repositories"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="WEB-INF/jspf/head.jspf" %>
 <link rel="stylesheet" href="assets/css/user.css">
@@ -9,6 +9,7 @@
     String username = (String)session.getAttribute("username");
     User u = Repositories.getUserRepository().getUserWithUsername(username);   
 %>
+<div><div class="row separator"></div></div>
 <main>
     <div class="row">
       <div class="col s4 offset-s4">
@@ -121,6 +122,7 @@
       </div>
     </div>
   </main>
+<div><div class="row separator"></div></div>
 <%@include file="WEB-INF/jspf/footer.jspf" %>
   <script type="text/javascript" src="assets/js/user.js"></script>
 </body>
