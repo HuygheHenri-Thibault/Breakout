@@ -50,7 +50,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         level.getBalls().add(b);
     }
     
-    public void createExtraBallDoubleTrouble(EffectExtraBall effect){
+    public DoubleTroubleBall createExtraBallDoubleTrouble(EffectExtraBall effect){
         String colorPallet = findUnusedColor();
         
         int x =  level.getGameWidth() / 2;
@@ -58,11 +58,12 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         int speed = 3 * Math.round(level.getRatios().get(1).getRatio());
         
-        Ball b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
-        level.getBalls().add(b);
+        DoubleTroubleBall b = new DoubleTroubleBall(level, 10, speed, colorPallet, x, y, effect);
+        level.getExtraBallCreatedByEffects().add(b);
+        return b;
     }
     
-    public void createExtraFireball(EffectFireBall effect){
+    public Fireball createExtraFireball(EffectFireBall effect){
         String colorPallet = findUnusedColor();
         
         int x = level.getGameWidth() / 2;
@@ -70,7 +71,8 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         
         int speed = 5 * Math.round(level.getRatios().get(1).getRatio());
         
-        Ball b = new Fireball(level, 10, speed, colorPallet, x, y, effect);
-        level.getBalls().add(b);    
+        Fireball b = new Fireball(level, 10, speed, colorPallet, x, y, effect);
+        level.getExtraBallCreatedByEffects().add(b);
+        return b;  
     }
 }

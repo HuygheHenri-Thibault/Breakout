@@ -45,11 +45,21 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
             for (ListIterator<Ball> iter = level.getBalls().listIterator(); iter.hasNext();) {
                 Ball ball = iter.next();
                 ball.move();
-                if(!ball.isGoneFromScreen()){
+                if(!ball.isOnScreen()){
                     iter.remove();
                 }
-                //System.out.println(": x: " +ball.getX());
-                //System.out.println(": y: " +ball.getY());
+                System.out.println(ball.getDx());
+                System.out.println(ball.getDy());
+            }
+            if(level.getBalls().isEmpty()){
+                level.resetStates();
+            }
+            for (ListIterator<Ball> iter = level.getExtraBallCreatedByEffects().listIterator(); iter.hasNext();) {
+                Ball ball = iter.next();
+                ball.move();
+                if(!ball.isOnScreen()){
+                    iter.remove();
+                }
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
@@ -98,6 +108,10 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
             }
             
             changeStateEffect(new ArrayList<>(Arrays.asList(level.getFieldEffect().getEffect())));
+            
+            if(level.getFieldEffect().IsPaused()){
+                level.getFieldEffect().resume();
+            }
 
             SwingUtilities.invokeLater(() -> toRepaint.repaint());
             //zorgen dat je update gebeurt in de thread van gui

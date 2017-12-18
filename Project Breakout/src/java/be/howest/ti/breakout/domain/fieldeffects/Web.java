@@ -22,6 +22,11 @@ public class Web extends Circle{
         timeToLive.schedule(new TimerTaskWeb(this), 10000);
     }
     
+    public void removeYourselfNow(){
+       timeToLive.cancel();
+       getLevel().removeShapeFromFieldEffectShapes(this);
+    }
+    
     @Override
     public void updateSpriteBall(Ball aBall){
        aBall.updateSpriteAfterCollidingWithWeb(this);
