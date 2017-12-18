@@ -110,7 +110,7 @@ var comms = function() {
     getUpdate();
   };
   var getUpdate = function() {
-    gameInterval = setInterval(getPosistion, 15);
+    gameInterval = setInterval(getPosistion, 20);
     infoInterval = setInterval(getGameInfo, 50);
   };
   var stopUpdates = function() {
