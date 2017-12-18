@@ -19,6 +19,9 @@ public class Fireball extends Ball {
         super(level, radius, speed, color, x, y);
         this.effect = effect;
     }
+
+    @Override
+    public void updateSpriteAfterCollidingWithBall(Ball ball) {}
     
     @Override
     public void updateSpriteBallAfterCollidingWithPallet(Pallet p){

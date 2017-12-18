@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain.game;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
+import be.howest.ti.breakout.domain.Circle;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
@@ -21,6 +22,7 @@ import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectFireBall;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
+import be.howest.ti.breakout.domain.effects.EffectWebs;
 import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
@@ -54,7 +56,8 @@ public class Level{
     private final List<Spell> spells = new ArrayList<>();
     private final Map<User, Spell> spellsInGame = new HashMap<>();
     
-    private final FieldEffect fieldEffect; 
+    private final FieldEffect fieldEffect;
+    private final List<Circle> circlesMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
     //private int CollectiveScore = 0;
@@ -89,7 +92,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect("dragon", new EffectFireBall("fireball", 0), 5);
+        fieldEffect = new FieldEffect("webs", new EffectWebs("webs", 0), 5);
         
     }
     
@@ -254,6 +257,18 @@ public class Level{
         return fieldEffect;
     }
     
+    public List<Circle> getAllShapesCreatedByFieldEffect(){
+        return circlesMadeByFieldEffect;
+    }
+    
+    public void addShapeToFieldEffectShapes(Circle circle){
+        circlesMadeByFieldEffect.add(circle);
+    }
+    
+    public void removeShapeFromFieldEffectShapes(Circle circle){
+        circlesMadeByFieldEffect.remove(circle);
+    }
+    
     public final void initializeUserScores(){
         for (User player : game.getPlayers()) {
             scorePerUser.put(player, 0);
@@ -315,6 +330,7 @@ public class Level{
             allEntities.add(powerUp);
         }
         allEntities.addAll(bricks);
+        allEntities.addAll(circlesMadeByFieldEffect);
         allEntities.add(TOP_BOUNDARY);
         allEntities.add(LEFT_BOUNDARY);
         allEntities.add(RIGHT_BOUNDARY);

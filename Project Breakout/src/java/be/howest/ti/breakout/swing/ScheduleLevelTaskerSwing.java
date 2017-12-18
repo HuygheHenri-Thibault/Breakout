@@ -44,7 +44,6 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
         if (!paused) {
             for (ListIterator<Ball> iter = level.getBalls().listIterator(); iter.hasNext();) {
                 Ball ball = iter.next();
-                System.out.println(ball.toString());
                 ball.move();
                 if(!ball.isGoneFromScreen()){
                     iter.remove();
