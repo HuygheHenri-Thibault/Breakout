@@ -43,6 +43,8 @@ public class registerUser extends HttpServlet {
             if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
                 Repositories.getUserRepository().addUser(new User(username, password, email));
                 response.sendRedirect("index.html");
+            } else {
+                response.sendRedirect("index.html");
             }
         }
     }

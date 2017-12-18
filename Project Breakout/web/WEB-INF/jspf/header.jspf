@@ -1,10 +1,10 @@
 </head>
 
-<body class="med-grey">
-  <header class="dark-grey z-depth-4">
+<body>
+  <header>
     <nav class="transparent">
       <div class="nav-wrapper">
-        <a href="index.html" class="brand-logo">Logo</a>
+        <a href="index.html" class="brand-logo northwood">Breakout</a>
         <ul class="right">
           <li id="user">
             <a href="#" class="dropdown-button" data-activates="user-options"></a>

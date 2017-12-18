@@ -1,21 +1,20 @@
 function loggedIn() { // TODO: do this with JSP pages instead???
   $.ajax({url: "CheckLoggedIn", success: function(result){
     $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
-    $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content light-grey'>"+
-    "<li><a class='white-text green' href='game.html'>Play</a></li></ul>")
+    $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content'>"+
+    "<li><a class='green-text' href='game.html'>Play</a></li></ul>")
     if(result === "Guest") {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a class='white-text' href='login.html'>Login</a></li>"+
-      "<li><a href='register.html' class='white-text'>Register</a></li>")
+      .append("<li><a href='login.html'>Login</a></li>"+
+      "<li><a href='register.html'>Register</a></li>")
       $(".login").hide();
     } else {
       $(".nav-wrapper ul#user-options")
-      .append("<li><a href='userPage.jsp' class='white-text'>Account</a></li>"+
+      .append("<li><a href='userPage.jsp'>Account</a></li>"+
       "<li class='divider'></li>"+
-      "<li><a href='LogOutUser' class='white-text red'>Log out</a></li>")
+      "<li><a href='LogOutUser' class='red-text'>Log out</a></li>")
       $(".no-login").hide();
     }
-
     $('.dropdown-button').dropdown();
   }});
 }
@@ -32,7 +31,11 @@ function checkBeforeSignIn(e) {
   if (checkVarsIfEmpty(username, password).length > 0) {
       alert(checkVarsIfEmpty(username, password));
   }else{
+    if(document.getElementById("register-form") !== null) {
       document.getElementById("register-form").submit();
+    } else {
+      document.getElementById("login-form").submit();
+    }
   }
 }
 
