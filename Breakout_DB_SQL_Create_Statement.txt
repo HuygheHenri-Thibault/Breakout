@@ -1,3 +1,8 @@
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: localhost    Database: breakout
+-- ------------------------------------------------------
+-- Server version	5.7.11
 CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE breakout;
@@ -138,6 +143,7 @@ CREATE TABLE `powereffect` (
   CONSTRAINT `fk_power` FOREIGN KEY (`powerid`) REFERENCES `powerupsdowns` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+<<<<<<< HEAD
 
 --
 -- Dumping data for table `powereffect`
@@ -149,6 +155,19 @@ INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
 /*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
 UNLOCK TABLES;
 
+=======
+
+--
+-- Dumping data for table `powereffect`
+--
+
+LOCK TABLES `powereffect` WRITE;
+/*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
+INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
+/*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+>>>>>>> master
 --
 -- Table structure for table `powerupsdowns`
 --
@@ -229,6 +248,7 @@ CREATE TABLE `story` (
 --
 -- Dumping data for table `story`
 --
+<<<<<<< HEAD
 
 LOCK TABLES `story` WRITE;
 /*!40000 ALTER TABLE `story` DISABLE KEYS */;
@@ -268,6 +288,47 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
+=======
+
+LOCK TABLES `story` WRITE;
+/*!40000 ALTER TABLE `story` DISABLE KEYS */;
+/*!40000 ALTER TABLE `story` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) DEFAULT '0',
+  `totalHighscore` int(11) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `bio` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+>>>>>>> master
 -- Table structure for table `userhighscore`
 --
 
@@ -299,5 +360,14 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE `storychoice` (
+  `storyId` int(11) NOT NULL,
+  `storyOption` varchar(60) NOT NULL,
+  `refersToOtherStoryID` int(11) NOT NULL,
+  PRIMARY KEY (`storyId`,`storyOption`,`refersToOtherStoryID`),
+  KEY `fk_story_choice_idx` (`refersToOtherStoryID`),
+  CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dump completed on 2017-12-15 10:55:12
