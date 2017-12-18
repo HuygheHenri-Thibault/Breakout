@@ -19,7 +19,9 @@ import java.util.Map;
 import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.effects.EffectFireBall;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
+import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
@@ -51,6 +53,8 @@ public class Level{
     
     private final List<Spell> spells = new ArrayList<>();
     private final Map<User, Spell> spellsInGame = new HashMap<>();
+    
+    private final FieldEffect fieldEffect; 
     
     private final int number;
     //private int CollectiveScore = 0;
@@ -85,6 +89,8 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
+        fieldEffect = new FieldEffect("dragon", new EffectFireBall("fireball", 0), 5);
+        
     }
     
     public int getNumber() {
@@ -96,6 +102,7 @@ public class Level{
         timer = new Timer();
         taskForLevelSwing = s;
         timer.scheduleAtFixedRate(s, 1000, 15);
+        fieldEffect.doEffect(this);
     }
     
     public void pauseLevelSwing(){
@@ -122,6 +129,7 @@ public class Level{
     }
     
     public void endLevel(){
+        this.fieldEffect.cancel();
         this.timer.cancel();
     }
     
@@ -154,6 +162,10 @@ public class Level{
     public void createExtraBall(EffectExtraBall effect){
         //addBallOnScreen();
         factoryBall.createExtraBallDoubleTrouble(effect);
+    }
+    
+    public void createExtraFireBall(EffectFireBall effect){
+        factoryBall.createExtraFireball(effect);
     }
     
     public List<Brick> getBricks() {
@@ -237,6 +249,10 @@ public class Level{
         return spellsInGame;
     }
     //
+    
+    public FieldEffect getFieldEffect(){
+        return fieldEffect;
+    }
     
     public final void initializeUserScores(){
         for (User player : game.getPlayers()) {

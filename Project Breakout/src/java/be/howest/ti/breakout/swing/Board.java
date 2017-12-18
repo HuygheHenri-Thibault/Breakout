@@ -126,10 +126,7 @@ public class Board extends JPanel{
         for (Pallet pallet : level.getPallets()) {
             g2d.fillRect(pallet.getX(), pallet.getY(), pallet.getLength(), pallet.getHeight());
         }
-        g2d.setColor(Color.BLACK);
-        for (Ball ball : level.getBalls()) {
-            g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
-        }
+        
         
         //for (BrickRow rowsOfBrick : level.getBricks()) {
             for (Brick brick : level.getBricks()) {
@@ -140,6 +137,11 @@ public class Board extends JPanel{
                 g2d.drawString(""+brick.getHits(), (brick.getX() + (brick.getLength() / 2)), (brick.getY() + (brick.getHeight() / 2)));
             }
         //}
+        
+        g2d.setColor(Color.BLACK);
+        for (Ball ball : level.getBalls()) {
+            g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
+        }
         for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {
             g2d.drawRect(powerUp.getBoundaries().getX(), powerUp.getBoundaries().getY(), powerUp.getBoundaries().getLength(), powerUp.getBoundaries().getHeight());
         }

@@ -6,16 +6,23 @@
 package be.howest.ti.breakout.domain.fieldeffects;
 
 import be.howest.ti.breakout.domain.effects.Effect;
+import java.util.TimerTask;
 
 /**
  *
  * @author Fredr
  */
-public class DragonFieldEffect extends FieldEffect {
-    private String pathToSprite;
+public class TimerTaskFieldEffect extends TimerTask{
+
+    private final Effect effect;
     
-    public DragonFieldEffect(String name, Effect effect, int interval) {
-        super(name, effect, interval);
+    public TimerTaskFieldEffect(Effect effect) {
+        this.effect = effect;
+    }
+
+    @Override
+    public void run() {
+        effect.setActive();
     }
     
 }

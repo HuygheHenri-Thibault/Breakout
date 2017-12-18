@@ -30,6 +30,7 @@ public class Ball extends Circle implements Serializable{
 
     //private Pallet palletLastTouched;
     private User lastUserThatTouchedMe;
+    private boolean onScreen = true;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
         super(level, x, y, radius);
@@ -61,6 +62,14 @@ public class Ball extends Circle implements Serializable{
     
     public User getLastUserThatTouchedMe() {
         return lastUserThatTouchedMe;
+    }
+    
+    public boolean isGoneFromScreen(){
+        return onScreen;
+    }
+    
+    public void goneFromScreen(){
+        onScreen = false;
     }
     
     public int getSpeed() {
