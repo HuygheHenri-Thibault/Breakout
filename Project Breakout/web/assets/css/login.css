@@ -1,3 +1,21 @@
 div div button {
   width: 100%;
 }
+
+button.laser.crystal-btn-link {
+  border: 0 solid transparent;
+}
+
+#login-area {
+  background-image: url('../media/section-content-bordered.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+
+  border-radius: 4rem;
+  border: 2px solid
+}

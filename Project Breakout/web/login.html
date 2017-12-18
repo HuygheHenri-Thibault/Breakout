@@ -13,11 +13,11 @@
   <title>Breakout - login</title>
 </head>
 
-<body class="med-grey">
-  <header class="dark-grey z-depth-4">
+<body>
+  <header>
     <nav class="transparent">
       <div class="nav-wrapper">
-        <a href="index.html" class="brand-logo">Logo</a>
+        <a href="index.html" class="brand-logo northwood">Breakout</a>
         <ul class="right">
           <li id="user">
             <a href="#" class="dropdown-button" data-activates="user-options"></a>
@@ -27,44 +27,47 @@
       </div>
     </nav>
   </header>
-
+  <div><div class="row separator"></div></div>
   <main>
     <section id="login-area">
       <div class="row">
-        <div class="col s8 offset-s2">
-          <h1 class="white-text center-align">This is where the fun begins</h1>
+        <div class="col s10 offset-s1">
+          <h1 class="white-text center-align northwood">This is where the fun begins</h1>
           <!-- TODO: add cool line here randomly picked everytime? -->
         </div>
       </div>
       <div class="row">
-        <div class="col s4 offset-s4">
-          <form id="register-form" class="accented" action="LogInUser" method="post">
+        <div class="col s6 offset-s3">
+          <form id="login-form" action="LogInUser" method="post">
             <div class="input-field">
-              <input type="text" id="username" name="username" />
+              <input type="text" id="username" name="username" class="white-text"/>
               <label for="username" class="active">Username</label>
             </div>
             <div class="input-field">
-              <input type="password" id="password" name="password" />
+              <input type="password" id="password" name="password" class="white-text"/>
               <label for="password" class="active">Password</label>
             </div>
           </form>
         </div>
       </div>
       <div class="row">
-        <div class="col s2 offset-s5">
-          <button class="btn btn-large waves-effect indigo lighten-1 hoverable">Log in</button>
+        <div class="col s4 offset-s4 crystal-btn-container">
+          <button class="transparent laser white-text crystal-btn-link">
+            <p class="btn-text">Log in</p>
+            <img src="assets/media/btn-blue-1.png" alt="Register" class="crystal-btn">
+          </button>
         </div>
       </div>
       <div class="row">
-        <div class="col s4 offset-s4">
+        <div class="col s6 offset-s3">
           <p class="white-text center-align">Don't have an account? <a href="register.html">Register here.</a></p>
         </div>
       </div>
     </section>
   </main>
-
-  <footer class="page-footer dark-grey">
-    <p class="grey-text text-darken-2">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+  <div><div class="row separator"></div></div>
+  <footer class="page-footer">
+    <p class="grey-text text-darken-2 center-align">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
   </footer>
 
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

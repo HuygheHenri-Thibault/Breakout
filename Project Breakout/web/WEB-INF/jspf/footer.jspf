@@ -1,5 +1,5 @@
-  <footer class="page-footer dark-grey">
-    <p class="grey-text text-darken-2">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
+  <footer class="page-footer">
+    <p class="grey-text text-darken-2 center-align">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
   </footer>
 
   <!--Import jQuery before materialize.js-->
