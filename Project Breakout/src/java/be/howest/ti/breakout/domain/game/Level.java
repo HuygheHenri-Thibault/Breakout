@@ -49,7 +49,7 @@ public class Level{
     private final List<PowerUpOrDown> powerUpsOnScreen = new ArrayList<>();
     private final List<PowerUpOrDown> powerupsActive = new ArrayList<>();
     
-    private final List<Spell> spells = new ArrayList<>();
+    private final Map<User, List<Spell>> spellsChoices = new HashMap<>();
     private final Map<User, Spell> spellsInGame = new HashMap<>();
     
     private final int number;
@@ -196,19 +196,24 @@ public class Level{
     }
     
     //spells
-    private void createNewRandomSpells(){
-        for (int i = 0; i < 3; i++) {
-            Spell newSpell = new Spell(this);
-            if(!LevelAlreadyContainsSpell(newSpell)){
-                spells.add(newSpell);
-            } else {
-                i--;
+    public final void createNewRandomSpells(){
+        for (User player : game.getPlayers()) {
+            spellsChoices.put(player, new ArrayList<>());
+        }
+        for (Map.Entry<User, List<Spell>> entry : spellsChoices.entrySet()) {
+            for (int i = 0; i < 3; i++) {
+                Spell newSpell = new Spell(this);
+                if(!LevelAlreadyContainsSpell(entry.getValue(), newSpell)){
+                    entry.getValue().add(newSpell);
+                } else {
+                    i--;
+                }
             }
         }
     }
     
-    public boolean LevelAlreadyContainsSpell(Spell s){
-        for (Spell spell : spells) {
+    public boolean LevelAlreadyContainsSpell(List<Spell> spellChoicesOfUser, Spell s){
+        for (Spell spell : spellChoicesOfUser) {
             if(spell.getName().equals(s.getName())){
                 return true;
             }
@@ -229,8 +234,12 @@ public class Level{
         spellsInGame.replace(u, spell);
     }
     
-    public List<Spell> getAllSpells(){
-        return spells;
+    public List<Spell> getAllSpellChoicesOfUser(User user){
+        return spellsChoices.get(user);
+    }
+    
+    public Map<User, List<Spell>> getAllSpellsChoices(){
+        return spellsChoices;
     }
     
     public Map<User, Spell> getAllSpellsInGame(){

@@ -15,6 +15,7 @@ import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.Sprite;
+import be.howest.ti.breakout.domain.game.User;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,16 +59,20 @@ public class GameSocket {
      
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
                 case "playerAmount":
+                    makeGame(in, obj);
+                    makeLevel(in);
+                    return createSpellsOfLevel(in).toJSONString();
                     // spel wordt gemaakt met dit aantal spelers
                     // level wordt ook gemaakt
                     // spells worden gemaakt en doorgestuurd naar de front-end met msg type "showSpells"
-                    return "";
+                    //return "";
                 case "selectedSpells":
+                    selectSpellOfUser(in, obj);
                     //hier megeven welke spells gekozen zijn door de spelers
                     return "";
                 case "startGame":
                     //System.out.println("started");
-                    startGame(in, obj);
+                    startLevel(in);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
                     //System.out.println("updated");
@@ -88,13 +93,39 @@ public class GameSocket {
         }
     }
     
-    private void startGame(Session in, JSONObject obj) {
+    private void makeGame(Session in, JSONObject obj){
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         if(aantalPlayers > 1){
             sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
         } else {
             sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
         }
+    }
+    
+    private void makeLevel(Session in){
+        sessionGame.get(in).createNewLevel();
+    }
+    
+    private JSONObject createSpellsOfLevel(Session in){
+        JSONObject resultObj = new JSONObject();
+        Map<User, List<Spell>> spellsChoices = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsChoices();
+        for (Map.Entry<User, List<Spell>> spellsOfUser : spellsChoices.entrySet()) {
+            for (Spell spell : spellsOfUser.getValue()) {
+                resultObj.put("player " + spellsOfUser.getKey().getUserId(), spell.getName());
+            }
+        }
+        return resultObj;
+    }
+    
+    private void selectSpellOfUser(Session in, JSONObject jsonObject){
+        int playerID = Integer.parseInt((String) jsonObject.get("player"));
+        int spellID = Integer.parseInt((String) jsonObject.get("spellName"));
+        User u = sessionGame.get(in).getLevelPlayedRightNow().getPlayers().get(playerID - 1);
+        Spell s = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellChoicesOfUser(u).get(spellID);
+        sessionGame.get(in).getLevelPlayedRightNow().setUserSpell(u, s);
+    }
+    
+    private void startLevel(Session in) {
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
     //new
