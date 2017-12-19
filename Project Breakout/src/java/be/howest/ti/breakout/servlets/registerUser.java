@@ -7,6 +7,7 @@ package be.howest.ti.breakout.servlets;
 
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.util.BCrypt;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,10 +39,11 @@ public class registerUser extends HttpServlet {
         String passwordCheck = request.getParameter("passwordCheck");
         
         /* HASH PASSWORDS HERE */
+        String hashedPasswd = BCrypt.hashpw(password, BCrypt.gensalt(10));
         
         if(password.equals(passwordCheck)) {
             if(Repositories.getUserRepository().getUserWithUsername(username) == null) { // user doesn't exsist in this case
-                Repositories.getUserRepository().addUser(new User(username, password, email));
+                Repositories.getUserRepository().addUser(new User(username, hashedPasswd, email));
                 response.sendRedirect("index.html");
             } else {
                 response.sendRedirect("index.html");

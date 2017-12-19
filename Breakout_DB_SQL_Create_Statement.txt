@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-﻿-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: breakout
 -- ------------------------------------------------------
 -- Server version	5.7.11
-
-=======
 CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE breakout;
@@ -15,7 +12,6 @@ USE breakout;
 -- ------------------------------------------------------
 -- Server version	5.7.11
 
->>>>>>> master
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -364,5 +360,14 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE `storychoice` (
+  `storyId` int(11) NOT NULL,
+  `storyOption` varchar(60) NOT NULL,
+  `refersToOtherStoryID` int(11) NOT NULL,
+  PRIMARY KEY (`storyId`,`storyOption`,`refersToOtherStoryID`),
+  KEY `fk_story_choice_idx` (`refersToOtherStoryID`),
+  CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dump completed on 2017-12-15 10:55:12

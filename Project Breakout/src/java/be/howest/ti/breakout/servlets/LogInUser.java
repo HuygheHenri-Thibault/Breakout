@@ -7,6 +7,7 @@ package be.howest.ti.breakout.servlets;
 
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.util.BCrypt;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,10 +35,10 @@ public class LogInUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password"); // HASH this to check with hashed password
-        
+        String password = request.getParameter("password");
         User u = Repositories.getUserRepository().getUserWithUsername(username);
-        if (u != null && u.getHashPassword().equals(password)) {
+
+        if (u != null && BCrypt.checkpw(password, u.getHashPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             session.setAttribute("password", password);
