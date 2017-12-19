@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Brecht
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn", "/support"})
 public class ControllerServlet extends HttpServlet {
 
     /**
@@ -58,6 +58,8 @@ public class ControllerServlet extends HttpServlet {
                 break;
             case "/CheckLoggedIn":
                 this.checkLoggedIn(request, response);
+                break;
+            case "/support":
                 break;
         }
     }
