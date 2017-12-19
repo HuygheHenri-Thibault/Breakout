@@ -25,6 +25,9 @@ public final class DoubleTroubleBall extends Ball{
     }
     
     @Override
+    public void updateSpriteAfterColldingWithFireBall(Fireball fireBall){}
+    
+    @Override
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         effect.setDeActive();
     }

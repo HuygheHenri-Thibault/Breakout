@@ -8,6 +8,8 @@ package be.howest.ti.breakout.domain.game;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.Circle;
+import be.howest.ti.breakout.domain.DoubleTroubleBall;
+import be.howest.ti.breakout.domain.Fireball;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
@@ -50,6 +52,7 @@ public class Level{
     private final List<Brick> bricks;
     private final List<Pallet> pallets;
     private final List<Ball> balls = new ArrayList<>();
+    private final List<Ball> extraBallCreatedByEffects = new ArrayList<>();
     
     private final List<PowerUpOrDown> powerUpsOnScreen = new ArrayList<>();
     private final List<PowerUpOrDown> powerupsActive = new ArrayList<>();
@@ -93,7 +96,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect("shadow", new EffectShadow("shadow", 1), 10);
+        fieldEffect = new FieldEffect(this, "dragon", new EffectFireBall("fireBall", 10), 5);
         
     }
     
@@ -106,7 +109,7 @@ public class Level{
         timer = new Timer();
         taskForLevelSwing = s;
         timer.scheduleAtFixedRate(s, 1000, 15);
-        fieldEffect.doEffect(this);
+        fieldEffect.doEffect();
     }
     
     public void pauseLevelSwing(){
@@ -122,6 +125,7 @@ public class Level{
         timer = new Timer();
         taskForLevel = new LevelTasker(this);
         timer.scheduleAtFixedRate(taskForLevel, 1000, 20);
+        fieldEffect.doEffect();
     }
     
      public void pauseLevel(){
@@ -163,13 +167,24 @@ public class Level{
         return balls;
     }
     
-    public void createExtraBall(EffectExtraBall effect){
-        //addBallOnScreen();
-        factoryBall.createExtraBallDoubleTrouble(effect);
+    public List<Ball> getExtraBallCreatedByEffects(){
+        return extraBallCreatedByEffects;
     }
     
-    public void createExtraFireBall(EffectFireBall effect){
-        factoryBall.createExtraFireball(effect);
+    public List<Ball> getAllBallsInLevel(){
+        List<Ball> allBallsInLevel = new ArrayList<>();
+        allBallsInLevel.addAll(balls);
+        allBallsInLevel.addAll(extraBallCreatedByEffects);
+        return allBallsInLevel;
+    }
+    
+    public DoubleTroubleBall createExtraBall(EffectExtraBall effect){
+        //addBallOnScreen();
+        return factoryBall.createExtraBallDoubleTrouble(effect);
+    }
+    
+    public Fireball createExtraFireBall(EffectFireBall effect){
+        return factoryBall.createExtraFireball(effect);
     }
     
     public List<Brick> getBricks() {
@@ -336,6 +351,7 @@ public class Level{
     public List<Shape> getAllEntities(){
         List<Shape> allEntities = new ArrayList<>(pallets);
         allEntities.addAll(balls);
+        allEntities.addAll(extraBallCreatedByEffects);
         for (PowerUpOrDown powerUp : powerUpsOnScreen) {
             allEntities.add(powerUp);
         }
@@ -365,12 +381,14 @@ public class Level{
     }
     
     public void resetStates(){
+        fieldEffect.pause();
         for (Pallet pallet : pallets) {
             pallet.resetState();
         }
-        for (Ball ball : balls) {
-            ball.resetState();
-        }
+        this.factoryBall.createBalls();
+//        for (Ball ball : balls) {
+//            ball.resetState();
+//        }
         resetPowerUps();
         resetSpellEffects();
     }

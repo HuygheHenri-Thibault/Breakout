@@ -76,7 +76,7 @@ public class Board extends JPanel{
         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
         null, options, options[0]);
         
-        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
+        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3));
         game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
@@ -151,11 +151,16 @@ public class Board extends JPanel{
         
         g2d.setColor(Color.BLACK);
         for (Ball ball : level.getBalls()) {
+            g2d.fillOval(ball.getX() - (ball.getRadius() / 2), ball.getY() - (ball.getRadius() / 2), ball.getRadius(), ball.getRadius());
+        }
+        
+        g2d.setColor(Color.BLUE);
+        for (Ball ball : level.getExtraBallCreatedByEffects()) {
             g2d.fillOval(ball.getX(), ball.getY(), ball.getRadius(), ball.getRadius());
         }
         
         for (Circle circle : level.getAllShapesCreatedByFieldEffect()) {
-            g2d.drawOval(circle.getX(), circle.getY(), circle.getRadius(), circle.getRadius());
+            g2d.drawOval(circle.getX() - (circle.getRadius() / 2), circle.getY() - (circle.getRadius() / 2), circle.getRadius(), circle.getRadius());
         }
         for (PowerUpOrDown powerUp : level.getPowerUpsShownOnScreen()) {
             g2d.drawRect(powerUp.getBoundaries().getX(), powerUp.getBoundaries().getY(), powerUp.getBoundaries().getLength(), powerUp.getBoundaries().getHeight());

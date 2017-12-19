@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain;
 
+import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.User;
 import java.awt.Image;
@@ -24,6 +25,7 @@ public final class Pallet extends Rectangle {
    
     private final int INIT_PALLET_X;
     private final int INIT_PALLET_Y;
+    private final float originalSpeed;
     private float speed;
     private float dx;
 
@@ -36,6 +38,7 @@ public final class Pallet extends Rectangle {
         this.user = user;
         //this.level = level;
         this.s = new Sprite(color);
+        this.originalSpeed = speed;
         this.speed = speed;
         this.originalLenght = length;
         this.INIT_PALLET_X = x;
@@ -57,6 +60,10 @@ public final class Pallet extends Rectangle {
 
     public float getSpeed() {
         return speed;
+    }
+    
+    public float getOriginalSpeed(){
+        return originalSpeed;
     }
 
     public void setSpeed(float speed) {
@@ -150,11 +157,18 @@ public final class Pallet extends Rectangle {
 
     //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
     private Shape collidesWithOtherRectangleOrBoundaries() {
-        for (Rectangle r : getLevel().getPallets()) {
-            if (this.getX() != r.getX()) {
-                if (this.checkCollission(r)) {
-                    return r;
+        for (Pallet pallet : getLevel().getPallets()) {
+            //System.out.println(pallet);
+            if (this.getX() != pallet.getX()) {
+                if (this.checkCollission(pallet)) {
+                    return pallet;
                 }
+            }
+        }
+        for (Circle circle : getLevel().getAllShapesCreatedByFieldEffect()) {
+            //System.out.println(circle);
+            if (this.checkCollission(circle)) {
+                return circle;
             }
         }
         if (this.checkCollission(getLevel().getLEFT_BOUNDARY())) {
@@ -214,6 +228,16 @@ public final class Pallet extends Rectangle {
         moveRight();
     }
 
+    public void updateSpriteAfterCollidingWithWeb(Web web){
+        speed = Math.round(originalSpeed / 2);
+        this.setX((int) (this.getX() + dx));
+        if(checkCollissionWithCircle(web)){
+            this.setX((int) (this.getX() - dx));
+        } else {
+            this.setX((int) (this.getX() - dx));
+            speed = originalSpeed;
+        }
+    }
     
 
     @Override
