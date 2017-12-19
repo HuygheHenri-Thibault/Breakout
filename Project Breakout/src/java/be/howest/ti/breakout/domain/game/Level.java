@@ -144,8 +144,13 @@ public class Level{
      public List<Pallet> getPallets() {
         return pallets;
     }
-    
-     public Pallet getUserPallet(int userID){
+     
+//    public void removePalletFromLevelOfUser(User player){
+//        Pallet p = getUserPallet(player);
+//        pallets.remove(p);
+//    } 
+//    
+    public Pallet getUserPallet(int userID){
         for (Pallet pallet : pallets) {
             if(pallet.getUser().getUserId() == userID){
                 return pallet;
@@ -155,11 +160,23 @@ public class Level{
     }
      
     public Pallet getUserPallet(User user){
-        for (Pallet pallet : pallets) {
-            if(pallet.getUser().getUserId() == user.getUserId()){
-                return pallet;
+//        if(!isUserAlive(user)){
+//            Random generator = new Random();
+//            int randomIndex = 0;
+//            if(pallets.size() == 1){
+//                randomIndex = 0;
+//            } else {
+//                randomIndex = generator.nextInt(((pallets.size() - 1) - 0) + 0) + 0;
+//            }
+//            return pallets.get(randomIndex);
+//        }
+//        else {
+            for (Pallet pallet : pallets) {
+                if(pallet.getUser().getUserId() == user.getUserId()){
+                    return pallet;
+                }
             }
-        }
+//        }
         return null;
     }
 
@@ -331,6 +348,10 @@ public class Level{
     public List<User> getPlayers(){
         return game.getPlayers();
     }
+    
+//    public boolean isUserAlive(User u){
+//        return game.getLivesOfUser(u) > 0;
+//    }
     
     public int getAantalSpelers(){
         return game.getNumberOfPlayers();

@@ -117,6 +117,11 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     }
     
     @Override
+    public boolean checkCollissionWithRect(Rectangle rect){
+        return rect.checkCollissionWithRect(boundaries);
+    }
+    
+    @Override
     public void updateSpriteBall(Ball aBall) {
         aBall.updateSpriteBallAfterCollidingWithPowerUp(this);
     }
