@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: breakout
@@ -44,96 +43,75 @@ CREATE TABLE `bricks` (
 --
 -- Dumping data for table `bricks`
 --
-=======
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema breakout
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema breakout
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `breakout` DEFAULT CHARACTER SET latin1 ;
-USE `breakout` ;
-
--- -----------------------------------------------------
--- Table `breakout`.`bricks`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`bricks` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`bricks` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `skin` VARCHAR(45) NOT NULL,
-  `baseLength` INT(11) NOT NULL,
-  `hits` INT(11) NOT NULL,
-  `score` INT(11) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = latin1;
->>>>>>> master
 
 LOCK TABLES `bricks` WRITE;
 /*!40000 ALTER TABLE `bricks` DISABLE KEYS */;
-INSERT INTO `bricks` VALUES (1, 'yellow_block' ,1 ,1 , 10),(2, 'red_block', 1, 1, 20),(3, 'black_block',1 ,2 ,30),(4, 'green_block', 1, 2, 40),(5, 'purple_block' ,1 ,3 ,50);
+INSERT INTO `bricks` VALUES (6,'yellow_block',1,1,10),(7,'red_block',1,1,20),(8,'black_block',1,1,30),(9,'green_block',1,1,40),(10,'purple_block',1,1,50);
 /*!40000 ALTER TABLE `bricks` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `campaign`
+--
 
--- -----------------------------------------------------
--- Table `breakout`.`campaign`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`campaign` ;
+DROP TABLE IF EXISTS `campaign`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `campaign` (
+  `campaignID` int(11) NOT NULL AUTO_INCREMENT,
+  `campaignName` varchar(40) DEFAULT NULL,
+  `picture` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`campaignID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE IF NOT EXISTS `breakout`.`campaign` (
-  `campaignID` INT(11) NOT NULL AUTO_INCREMENT,
-  `campaignName` VARCHAR(40) NULL DEFAULT NULL,
-  `picture` VARCHAR(120) NULL DEFAULT NULL,
-  PRIMARY KEY (`campaignID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 5
-DEFAULT CHARACTER SET = latin1;
+--
+-- Dumping data for table `campaign`
+--
 
 LOCK TABLES `campaign` WRITE;
 /*!40000 ALTER TABLE `campaign` DISABLE KEYS */;
-INSERT INTO `campaign` VALUES (1, 'Shipwrecked', NULL),(2, 'At the village', NULL),(3, 'Lonely rock', NULL),(4, 'Crossroads', NULL);
+/*!40000 ALTER TABLE `campaign` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `effect`
+--
 
--- -----------------------------------------------------
--- Table `breakout`.`effect`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`effect` ;
+DROP TABLE IF EXISTS `effect`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `effect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `duration` int(11) DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE IF NOT EXISTS `breakout`.`effect` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `duration` INT(11) NULL DEFAULT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 8
-DEFAULT CHARACTER SET = latin1;
+--
+-- Dumping data for table `effect`
+--
 
 LOCK TABLES `effect` WRITE;
 /*!40000 ALTER TABLE `effect` DISABLE KEYS */;
-INSERT INTO `effect` VALUES (1, 5, 'biggerPallet'),(2, 5, 'quickerPallet'),(3, 0, 'extraBall'),(4, 0, 'straightDownBall'),(5, 5, 'oneLifeLeft'),(6, 5, 'littlePallet'),(7, 5, 'slowerPallet');
+INSERT INTO `effect` VALUES (1,5,'biggerPallet'),(2,5,'quickerPallet'),(3,0,'extraBall'),(4,0,'straightDownBall'),(5,5,'oneLifeLeft'),(6,5,'littlePallet'),(7,5,'slowerPallet');
+/*!40000 ALTER TABLE `effect` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `field effect`
+--
 
--- -----------------------------------------------------
--- Table `breakout`.`field effect`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`fieldeffect` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`fieldeffect` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NULL DEFAULT NULL,
-  `effectid` INT(11) NOT NULL,
+DROP TABLE IF EXISTS `field effect`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `field effect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  `effectid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-<<<<<<< HEAD
   KEY `fk_fieldeffects_idx` (`effectid`),
   KEY `fk_fieldeffect_idx` (`effectid`),
   CONSTRAINT `fk_fieldeffect` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -165,7 +143,6 @@ CREATE TABLE `powereffect` (
   CONSTRAINT `fk_power` FOREIGN KEY (`powerid`) REFERENCES `powerupsdowns` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-<<<<<<< HEAD
 
 --
 -- Dumping data for table `powereffect`
@@ -177,19 +154,6 @@ INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
 /*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
 UNLOCK TABLES;
 
-=======
-
---
--- Dumping data for table `powereffect`
---
-
-LOCK TABLES `powereffect` WRITE;
-/*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
-INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
-/*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
-UNLOCK TABLES;
-
->>>>>>> master
 --
 -- Table structure for table `powerupsdowns`
 --
@@ -208,106 +172,60 @@ CREATE TABLE `powerupsdowns` (
   UNIQUE KEY `naam_UNIQUE` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-=======
-  INDEX `fk_fieldeffects_idx` (`effectid` ASC),
-  INDEX `fk_fieldeffect_idx` (`effectid` ASC),
-  CONSTRAINT `fk_fieldeffect`
-    FOREIGN KEY (`effectid`)
-    REFERENCES `breakout`.`effect` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
 
-
--- -----------------------------------------------------
--- Table `breakout`.`powerupsdowns`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`powerupsdowns` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`powerupsdowns` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `type` VARCHAR(1) NOT NULL,
-  `name` VARCHAR(120) NOT NULL,
-  `duration` INT(11) NOT NULL,
-  `icon` VARCHAR(120) NULL DEFAULT NULL,
-  `description` VARCHAR(150) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `naam_UNIQUE` (`name` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 8
-DEFAULT CHARACTER SET = latin1;
+--
+-- Dumping data for table `powerupsdowns`
+--
 
 LOCK TABLES `powerupsdowns` WRITE;
 /*!40000 ALTER TABLE `powerupsdowns` DISABLE KEYS */;
-INSERT INTO `powerupsdowns` VALUES (1, 'U', 'Bullet time', 5, 'bullet-time', 'Bullet time BABY!'),(2, 'U', 'Scaffolds', 5, 'scaffolds', 'Time to get high'),(3, 'U', 'Double Trouble', 5, 'double-trouble', 'Prepare for trouble and make it double'),(4, 'D', 'Gravity', 5, 'gravity', 'No, not the movie.'),(5, 'D', 'Slowed', 5, 'slowed', 'Allez'),(6, 'D', 'Shrunk', 5, 'shrunk', 'There are pills for that you know.'),(7, 'D', 'Sudden death', 5, 'sudden-death', 'FIGHT FOR YOUR LIFE');
+INSERT INTO `powerupsdowns` VALUES (1,'U','Bullet time',5,'bullet-time','Bullet time BABY!'),(2,'U','Scaffolds',5,'scaffolds','Time to get high'),(3,'U','Double Trouble',5,'double-trouble','Prepare for trouble and make it double'),(4,'D','Gravity',5,'gravity','No, not the movie.'),(5,'D','Slowed',5,'slowed','Allez'),(6,'D','Shrunk',5,'shrunk','There are pils for that you know.'),(7,'D','Sudden death',5,'sudden-death','FIGHT FOR YOUR LIFE');
+/*!40000 ALTER TABLE `powerupsdowns` ENABLE KEYS */;
+UNLOCK TABLES;
 
+--
+-- Table structure for table `spells`
+--
 
--- -----------------------------------------------------
--- Table `breakout`.`powereffect`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`powereffect` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`powereffect` (
-  `effectid` INT(11) NOT NULL,
-  `powerid` INT(11) NOT NULL,
-  PRIMARY KEY (`effectid`, `powerid`),
-  INDEX `fk_power_idx` (`powerid` ASC),
-  CONSTRAINT `fk_effect`
-    FOREIGN KEY (`effectid`)
-    REFERENCES `breakout`.`effect` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_power`
-    FOREIGN KEY (`powerid`)
-    REFERENCES `breakout`.`powerupsdowns` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-LOCK TABLES `powereffect` WRITE;
-/*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
-INSERT INTO `powereffect` VALUES (2, 1),(1, 2),(3, 3),(4, 4),(7, 5),(6, 6),(5, 7);
->>>>>>> master
-
-
--- -----------------------------------------------------
--- Table `breakout`.`spells`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`spells` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`spells` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `damage` INT(2) NOT NULL,
-  `typeOfDamage` VARCHAR(50) NULL DEFAULT NULL,
-  `type` VARCHAR(1) NOT NULL,
-  `effectid` INT(11) NULL DEFAULT NULL,
+DROP TABLE IF EXISTS `spells`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spells` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `damage` int(2) NOT NULL,
+  `typeOfDamage` varchar(50) DEFAULT NULL,
+  `type` varchar(1) NOT NULL,
+  `effectid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_spells_effect_idx` (`effectid` ASC),
-  INDEX `fk_spells_idx` (`effectid` ASC),
-  CONSTRAINT `fk_spells`
-    FOREIGN KEY (`effectid`)
-    REFERENCES `breakout`.`effect` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
+  KEY `fk_spells_effect_idx` (`effectid`),
+  KEY `fk_spells_idx` (`effectid`),
+  CONSTRAINT `fk_spells` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `spells`
+--
 
--- -----------------------------------------------------
--- Table `breakout`.`story`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`story` ;
+LOCK TABLES `spells` WRITE;
+/*!40000 ALTER TABLE `spells` DISABLE KEYS */;
+/*!40000 ALTER TABLE `spells` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE IF NOT EXISTS `breakout`.`story` (
-  `IDstory` INT(11) NOT NULL AUTO_INCREMENT,
-  `storyText` VARCHAR(750) NULL DEFAULT NULL,
-  `storyName` VARCHAR(40) NULL DEFAULT NULL,
-  `imagePath` VARCHAR(120) NULL DEFAULT NULL,
-  `campaignId` INT(11) NOT NULL,
+--
+-- Table structure for table `story`
+--
+
+DROP TABLE IF EXISTS `story`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `story` (
+  `IDstory` int(11) NOT NULL AUTO_INCREMENT,
+  `storyText` varchar(500) DEFAULT NULL,
+  `storyName` varchar(40) DEFAULT NULL,
+  `imagePath` varchar(120) DEFAULT NULL,
+  `campaignId` int(11) NOT NULL,
   PRIMARY KEY (`IDstory`),
-<<<<<<< HEAD
   KEY `FKcampaign_idx` (`campaignId`),
   CONSTRAINT `FKcampaign` FOREIGN KEY (`campaignId`) REFERENCES `campaign` (`campaignID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -316,79 +234,7 @@ CREATE TABLE IF NOT EXISTS `breakout`.`story` (
 --
 -- Dumping data for table `story`
 --
-<<<<<<< HEAD
-=======
-  INDEX `FKcampaign_idx` (`campaignId` ASC),
-  CONSTRAINT `FKcampaign`
-    FOREIGN KEY (`campaignId`)
-    REFERENCES `breakout`.`campaign` (`campaignID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 14
-DEFAULT CHARACTER SET = latin1;
->>>>>>> master
 
-LOCK TABLES `story` WRITE;
-/*!40000 ALTER TABLE `story` DISABLE KEYS */;
-INSERT INTO `story` VALUES (1, '“You wake up on a beach among flotsam wreckage. As you check yourself for injuries you seems to be mostly okay only having some small bruises and scratches, you can’t say the same for the rotting body lying next to you however.. You choose to:” LOOK AROUND | INSPECT THE BODY', 'Breakers Bay', NULL, 1),(2, '“As you take hold of your surroundings you see what seems to be the remains of a sunken ship with barrels and crates littering the seaside. You hear a voice call out to you”', 'LOOK AROUND', NULL, 1),(3, '“As you inspect the remains of the fellow who obviously was less lucky than you. Checking him he doesn’t have much on him other than his clothes and some saltwater filled boots. You hear a voice call out to you.”', 'INSPECT THE BODY', NULL, 1),(4, '“Hey you stay right there! Don’t move and give anything you have on you or you’ll regret it! As the person comes closer you can make out it’s a man”', 'HEY YOU', NULL, 1),(5, 'After a full day of trekking, dusk begins to set in. In the distance you can only see a few shapes which appear to be houses. Upon entering the village you breathe in the smell of charred wood and see smoke rising from the chimneys, the man is signaling you to stay close and move along through town. Taking a sharp corner you see a grand building which appears to be a church rising above all the terraced houses. “Well, go on in you, the master wishes to speak with you” the stranger muffles.', 'At the village', NULL, 1),(6, 'You push open the royal doors to the church, you find them to be quite heavy. The halls are made of limestone and wood, carved in many different patterns. As you walk towards the altar you hear a voice whispering: “They crack and they squeak, when you slack, you’ll get weak.”', 'The master', NULL, 1),(7, 'Now take out your phone or be done and alone. You only get one glance so a battle perchance? \nBaffled by what you’re hearing you mutter “you’re good in rhymes I see, now show yourself” “Oh, but why would I?” the voice whispers, you’re one of those castaways, we don’t know where your loyalty lies? “Battle me and prove your worth, otherwise you’re the only one who’s gonna get hurt” You immediately take the device out of your pocket that was handed to you and power it on. “I hope your score is as good as your skills with rhyming, whisperer.”', 'The conversation', NULL, 1),(8, 'After the battle, you don’t hear the voice anymore, instead you see a lady in white appear right before you, above the slab of stone which is the altar. ‘You have managed well, now go forth to lonely rock, a difficult choice awaits you.’ “Wha.. What?” You ask, dumbfounded by all the cryptic messages you’re receiving but to no avail, the lady already disappeared.', 'After the battle', NULL, 1),(9, 'At the foot of the stairs below you, you see the stranger still waiting for you. “So, a choice has to be made, eh?” “Yeah, but what choice? Who was she? What’s with the whispers?” “Alright alright, youngster, you have a lot to learn, you see, times are not like they used to be...”', 'Leave the church', NULL, 1),(11, 'Coming out of the grasslands all of your energy is drained. Sitting down on the sharp edges you hear a **click**. You feel the ground shaking under your feet, the boulders start falling down and before you know you are tumbling down with them. Protecting your head from the sharp edges hitting your head you see a distant light in a cave. With a big thump you hit the ground, your fall broken by a big pile of bones and leaves mixed together. With an aching back and a throbbing pain in your knee you get up.\n','The mountain', NULL, 1),(12, 'You see a shadow on the wall before you, gleaming from within the cave before you. You call out, \'Hello\' ? I fell down, it wasn\'t my intention to enter your home. So if you\'d just let me out then I\'ll be on my way. The shadow grows on the wall, NO! It screeches. Yo..You..You Cannot leave... Yet. Me so lonely, me need contact, me needs to go out more, me needs someone to speak to.','Inside the mountain', NULL, 1),(13, 'Okay, You wanna talk let\'s talk. Does \'me\' have a name? Yes, me is named Tuck, me is always out of luck. My home is here, under the Lonely Rock. You can stock up on food, and rest while you\'re here after that you\'ll be back on the road. Beware of other weary travelers though for some are vile and corrupted. Guide them to the light and we all will break out!', 'Inside the mountain', NULL, 1);
-
--- -----------------------------------------------------
--- Table `breakout`.`storychoice`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`storychoice` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`storychoice` (
-  `storyId` INT(11) NOT NULL,
-  `storyOption` VARCHAR(60) NOT NULL,
-  `refersToOtherStoryID` INT(11) NOT NULL,
-  PRIMARY KEY (`storyId`, `storyOption`, `refersToOtherStoryID`),
-  INDEX `fk_story_choice_idx` (`refersToOtherStoryID` ASC),
-  CONSTRAINT `fk_story_choice`
-    FOREIGN KEY (`refersToOtherStoryID`)
-    REFERENCES `breakout`.`story` (`IDstory`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-LOCK TABLES `storychoice` WRITE;
-/*!40000 ALTER TABLE `storychoice` DISABLE KEYS */;
-INSERT INTO `storychoice` VALUES (1, 'LOOK AROUND', 2),(1, 'INSPECT THE BODY', 3);
-
--- -----------------------------------------------------
--- Table `breakout`.`user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`user` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`user` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(64) NOT NULL,
-  `password` VARCHAR(128) NOT NULL,
-  `email` VARCHAR(128) NOT NULL,
-  `profilePic` VARCHAR(120) NULL DEFAULT NULL,
-  `exp` INT(11) NULL DEFAULT '0',
-  `totalHighscore` INT(11) NULL DEFAULT '0',
-  `level` INT(11) NOT NULL DEFAULT '1',
-  `bio` VARCHAR(150) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-<<<<<<< HEAD
-  UNIQUE KEY `username_UNIQUE` (`username`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
-=======
 
 LOCK TABLES `story` WRITE;
 /*!40000 ALTER TABLE `story` DISABLE KEYS */;
@@ -428,7 +274,6 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
->>>>>>> master
 -- Table structure for table `userhighscore`
 --
 
@@ -471,32 +316,3 @@ CREATE TABLE `storychoice` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dump completed on 2017-12-15 10:55:12
-=======
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `breakout`.`userhighscore`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breakout`.`userhighscore` ;
-
-CREATE TABLE IF NOT EXISTS `breakout`.`userhighscore` (
-  `user_id` INT(11) NOT NULL,
-  `highscore` INT(11) NOT NULL,
-  PRIMARY KEY (`user_id`, `highscore`),
-  CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `breakout`.`user` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
->>>>>>> master

@@ -69,4 +69,10 @@ public class FieldEffect {
     public void cancel(){
         this.timerFieldEffect.cancel();
     }
+
+    @Override
+    public String toString() {
+        return "FieldEffect";
+    }
+    
 }
