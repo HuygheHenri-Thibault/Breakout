@@ -175,23 +175,27 @@ public class GameSocket {
         JSONObject spriteObj = new JSONObject();
         
         String spriteString[] = aShape.toString().split(" ");
-        String typeOfSprite = spriteString[0];
-        if(typeOfSprite.equals("Brick")) {
-            String color = spriteString[1];
-            spriteObj.put("color", color);
-        }
-        if(typeOfSprite.equals("Powerup")) {
+        spriteObj.put("type", spriteString[0]);
+        if(spriteString.length > 1) {
             String icon = spriteString[1];
             spriteObj.put("icon", icon);
         }
-        spriteObj.put("type", typeOfSprite);
+//        if(typeOfSprite.equals("Brick")) {
+//            String color = spriteString[1];
+//            spriteObj.put("color", color);
+//        }
+//        if(typeOfSprite.equals("Powerup")) {
+//            String icon = spriteString[1];
+//            spriteObj.put("icon", icon);
+//        }
+        
         
         int xPos = aShape.getX();
         int yPos = aShape.getY();
         spriteObj.put("x", xPos);
         spriteObj.put("y", yPos);
         
-        setDimension(typeOfSprite, aShape, spriteObj);
+        setDimension(spriteString[0], aShape, spriteObj);
         return spriteObj;
     }
     private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
@@ -219,6 +223,9 @@ public class GameSocket {
             case "Powerup":
                 spriteObj.put("width", 20); // x // FIXME!!!!!!
                 spriteObj.put("height", 20); // y // FIXME!!!!!!
+                break;
+            case "FieldEffect":
+                
                 break;
             default:
                 spriteObj.put("width", -1); // x
