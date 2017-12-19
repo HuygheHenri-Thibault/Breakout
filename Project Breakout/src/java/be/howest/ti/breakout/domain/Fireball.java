@@ -27,7 +27,7 @@ public class Fireball extends Ball {
     @Override
     public void updateSpriteBallAfterCollidingWithPallet(Pallet p){
         effect.getLevelOfEffect().decrementLife();
-        goneFromScreen();
+        removeFromScreen();
     }
   
     @Override
@@ -38,12 +38,12 @@ public class Fireball extends Ball {
     
     @Override
     public void updateSpriteAfterCollidingWithBottomBoundary(){
-        goneFromScreen();
+        removeFromScreen();
     }
 
     @Override
     public String toString() {
-        return "Ball";
+        return super.toString() + " fireball";
     }
     
     @Override

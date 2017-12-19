@@ -26,6 +26,7 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_PASSWORD = "password";
     public static final String FIELD_LEVEL = "level";
     public static final String FIELD_BIO = "bio";
+    public static final String FIELD_SINGLEPLAYERHIGHSCORE = "bio";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
@@ -56,7 +57,8 @@ public class MySQLUserRepository implements UserRepository {
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
                     String bio = rs.getString(FIELD_BIO);
-                    users.add(new User(id, username, password, email, lvl, bio));
+                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
+                    users.add(new User(id, username, password, email, lvl, bio, spHighscore));
                 }
                 return users;
             }
@@ -80,7 +82,8 @@ public class MySQLUserRepository implements UserRepository {
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
                     String bio = rs.getString(FIELD_BIO);
-                    userWithId = new User(id, username, password, email, lvl, bio);
+                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
+                    userWithId = new User(id, username, password, email, lvl, bio, spHighscore);
                 }
                 return userWithId;
             }
@@ -104,7 +107,8 @@ public class MySQLUserRepository implements UserRepository {
                     String password = rs.getString(FIELD_PASSWORD);
                     int lvl = rs.getInt(FIELD_LEVEL);
                     String bio = rs.getString(FIELD_BIO);
-                    userWithUsername = new User(id, username, password, email, lvl, bio);
+                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
+                    userWithUsername = new User(id, username, password, email, lvl, bio, spHighscore);
                 }
                 return userWithUsername;
             }

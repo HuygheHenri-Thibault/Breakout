@@ -6,7 +6,7 @@
 <%@include file="WEB-INF/jspf/header.jspf" %>
 <%
     String username = (String)session.getAttribute("username");
-    User u = Repositories.getUserRepository().getUserWithUsername(username);   
+    User u = Repositories.getUserRepository().getUserWithUsername(username);
 %>
 <div><div class="row separator"></div></div>
   <main>
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
       <div class="col s2 offset-s5 crystal-btn-container">
-        <a href="campaignSelect.html" class="laser white-text crystal-btn-link">
+        <a href="campaignTypeSelect.html" class="laser white-text crystal-btn-link">
           <p class="btn-text">Campaign</p>
           <img src="assets/media/btn-blue-1.png" alt="campaign" class="crystal-btn">
         </a>

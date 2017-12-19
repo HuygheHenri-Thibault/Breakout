@@ -18,10 +18,10 @@ import java.util.Map;
  */
 public class Game{
     //hardcoded Users
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe");
-    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe");
-    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe");
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe", 0);
+    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe", 0);
+    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe", 0);
     //
     
     private List<User> players;
@@ -63,8 +63,8 @@ public class Game{
         initializeUserScores();
         this.width = width;
         this.height = height;
+        this.lives = 3 * players.size();
         this.livesLeftOriginally = lives;
-        this.lives = lives;
         this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
@@ -79,8 +79,8 @@ public class Game{
         initializeUserScores();
         this.width = width;
         this.height = height;
-        this.livesLeftOriginally = lives;
-        this.lives = lives;
+        this.lives = 3 * players.size();
+        this.livesLeftOriginally = this.lives;
         this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
@@ -171,6 +171,22 @@ public class Game{
         scorePerUser.merge(user, TotalGameScore, Integer::sum);
     }
     
+//    public final HashMap generateLives(){
+//        HashMap livesForUsers = new HashMap();
+//        for (User player : players) {
+//            livesForUsers.put(player, 3);
+//        }
+//        return livesForUsers;
+//    }
+    
+//    public final HashMap copyLives(){
+//        HashMap copiedLives = new HashMap();
+//        for (Map.Entry<User, Integer> entry : lives.entrySet()) {
+//            copiedLives.put(entry.getKey(), entry.getValue());
+//        }
+//        return copiedLives;
+//    }
+    
     public void setLives(int lives) {
         this.lives = lives;
     }
@@ -186,10 +202,37 @@ public class Game{
     public void decrementLife(){
         lives--;
         livesLeftOriginally--;
-        if(lives == 0){
+        if(lives <= 0){
             stopGame();
         }
     }
+//    public void decrementLifeOfPlayers(List<User> players){
+//        for (User player : players) {
+//            int currentLivesOfPlayer = lives.get(player);
+//            lives.put(player, currentLivesOfPlayer - 1);
+//            int currentOriginalLivesOfPlayer = livesLeftOriginally.get(player);
+//            livesLeftOriginally.put(player, currentOriginalLivesOfPlayer-1);
+//            if(userLostAllLives(player)){
+//                getLevelPlayedRightNow().removePalletFromLevelOfUser(player);
+//            }
+//        }
+//        if(allLivesOfPlayersLost()){
+//            stopGame();
+//        }
+//    }
+    
+//    public boolean userLostAllLives(User player){
+//        return lives.get(player) <= 0;
+//    }
+//    
+//    public boolean allLivesOfPlayersLost(){
+//        for (User player : players) {
+//            if(lives.get(player) > 0){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
@@ -205,7 +248,16 @@ public class Game{
         for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
             entry.getKey().addToTotalScore(entry.getValue());
         }
-        //add Highscores here
         //check players to see which type of highscore
+    }
+    
+    public void insertHighscore(){
+        if (this.getNumberOfPlayers() == 1){
+            User thePlayer = players.get(0);
+            int scoreOfTheUser = scorePerUser.get(thePlayer);
+            SinglePlayerHighscore sph = new SinglePlayerHighscore(thePlayer, scoreOfTheUser);
+        }else{
+            MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerUser);
+        }
     }
 }

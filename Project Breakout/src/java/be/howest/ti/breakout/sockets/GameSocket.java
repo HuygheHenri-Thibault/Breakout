@@ -175,23 +175,18 @@ public class GameSocket {
         JSONObject spriteObj = new JSONObject();
         
         String spriteString[] = aShape.toString().split(" ");
-        String typeOfSprite = spriteString[0];
-        if(typeOfSprite.equals("Brick")) {
-            String color = spriteString[1];
-            spriteObj.put("color", color);
-        }
-        if(typeOfSprite.equals("Powerup")) {
+        spriteObj.put("type", spriteString[0]);
+        if(spriteString.length > 1) {
             String icon = spriteString[1];
             spriteObj.put("icon", icon);
         }
-        spriteObj.put("type", typeOfSprite);
-        
+
         int xPos = aShape.getX();
         int yPos = aShape.getY();
         spriteObj.put("x", xPos);
         spriteObj.put("y", yPos);
         
-        setDimension(typeOfSprite, aShape, spriteObj);
+        setDimension(spriteString[0], aShape, spriteObj);
         return spriteObj;
     }
     private void setDimension(String typeOfSprite, Shape aSpirte, JSONObject spriteObj) {
@@ -210,7 +205,6 @@ public class GameSocket {
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
                 break;
-            //boundaries
             case "Rectangle":
                 Rectangle rect = (Rectangle) aSpirte;
                 spriteObj.put("width", Math.round(rect.getLength())); // x
@@ -220,6 +214,9 @@ public class GameSocket {
                 spriteObj.put("width", 20); // x // FIXME!!!!!!
                 spriteObj.put("height", 20); // y // FIXME!!!!!!
                 break;
+            case "FieldEffect":
+                
+                break;
             default:
                 spriteObj.put("width", -1); // x
                 spriteObj.put("height", -1); // y
@@ -228,9 +225,7 @@ public class GameSocket {
     
     private void movePalletToDirection(Session in, JSONObject obj){
         int playerID = Integer.parseInt((String) obj.get("player"));
-        //System.out.println(playerID);
         String direction = (String) obj.get("direction");
-        //System.out.println(direction);
         Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
         switch(direction){
             case "left":
