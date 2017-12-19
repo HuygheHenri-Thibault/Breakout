@@ -15,6 +15,8 @@ import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -31,8 +33,24 @@ public final class LevelTasker extends TimerTask {
     @Override
     public void run() {
         if (!paused) {
-            for (Ball ball : level.getBalls()) {
+            for (ListIterator<Ball> iter = level.getBalls().listIterator(); iter.hasNext();) {
+                Ball ball = iter.next();
                 ball.move();
+                if(!ball.isOnScreen()){
+                    iter.remove();
+                }
+                //System.out.println(ball.getDx());
+                //System.out.println(ball.getDy());
+            }
+            if(level.getBalls().isEmpty()){
+                level.resetStates();
+            }
+            for (ListIterator<Ball> iter = level.getExtraBallCreatedByEffects().listIterator(); iter.hasNext();) {
+                Ball ball = iter.next();
+                ball.move();
+                if(!ball.isOnScreen()){
+                    iter.remove();
+                }
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
@@ -76,6 +94,12 @@ public final class LevelTasker extends TimerTask {
             }
             for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 changeStateEffect(entry.getValue().getSpellEffects());
+            }
+            
+            changeStateEffect(new ArrayList<>(Arrays.asList(level.getFieldEffect().getEffect())));
+            
+            if(level.getFieldEffect().IsPaused()){
+                level.getFieldEffect().resume();
             }
         }
     }

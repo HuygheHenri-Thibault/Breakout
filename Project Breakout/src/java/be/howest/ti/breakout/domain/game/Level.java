@@ -96,7 +96,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect(this, "dragon", new EffectFireBall("fireBall", 0), 5);
+        fieldEffect = new FieldEffect(this, "dragon", new EffectFireBall("fireBall", 10), 5);
         
     }
     

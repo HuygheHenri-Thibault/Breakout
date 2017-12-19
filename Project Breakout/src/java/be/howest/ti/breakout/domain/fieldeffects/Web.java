@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain.fieldeffects;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Circle;
+import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.game.Level;
 import java.util.Timer;
 
@@ -30,6 +31,11 @@ public class Web extends Circle{
     @Override
     public void updateSpriteBall(Ball aBall){
        aBall.updateSpriteAfterCollidingWithWeb(this);
+    }
+    
+    @Override
+    public void updateSpritePallet(Pallet pallet){
+        pallet.updateSpriteAfterCollidingWithWeb(this);
     }
     
 }
