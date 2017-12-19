@@ -1,3 +1,50 @@
+<<<<<<< HEAD
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: localhost    Database: breakout
+-- ------------------------------------------------------
+-- Server version	5.7.11
+CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE breakout;
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: localhost    Database: breakout
+-- ------------------------------------------------------
+-- Server version	5.7.11
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `bricks`
+--
+
+DROP TABLE IF EXISTS `bricks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bricks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `skin` varchar(45) NOT NULL,
+  `baseLength` int(11) NOT NULL,
+  `hits` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bricks`
+--
+=======
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
@@ -29,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `breakout`.`bricks` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = latin1;
+>>>>>>> master
 
 LOCK TABLES `bricks` WRITE;
 /*!40000 ALTER TABLE `bricks` DISABLE KEYS */;
@@ -85,6 +133,82 @@ CREATE TABLE IF NOT EXISTS `breakout`.`fieldeffect` (
   `description` VARCHAR(45) NULL DEFAULT NULL,
   `effectid` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
+<<<<<<< HEAD
+  KEY `fk_fieldeffects_idx` (`effectid`),
+  KEY `fk_fieldeffect_idx` (`effectid`),
+  CONSTRAINT `fk_fieldeffect` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `field effect`
+--
+
+LOCK TABLES `field effect` WRITE;
+/*!40000 ALTER TABLE `field effect` DISABLE KEYS */;
+/*!40000 ALTER TABLE `field effect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `powereffect`
+--
+
+DROP TABLE IF EXISTS `powereffect`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `powereffect` (
+  `effectid` int(11) NOT NULL,
+  `powerid` int(11) NOT NULL,
+  PRIMARY KEY (`effectid`,`powerid`),
+  KEY `fk_power_idx` (`powerid`),
+  CONSTRAINT `fk_effect` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_power` FOREIGN KEY (`powerid`) REFERENCES `powerupsdowns` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+<<<<<<< HEAD
+
+--
+-- Dumping data for table `powereffect`
+--
+
+LOCK TABLES `powereffect` WRITE;
+/*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
+INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
+/*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+=======
+
+--
+-- Dumping data for table `powereffect`
+--
+
+LOCK TABLES `powereffect` WRITE;
+/*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
+INSERT INTO `powereffect` VALUES (2,1),(1,2),(3,3),(4,4),(7,5),(6,6),(5,7);
+/*!40000 ALTER TABLE `powereffect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+>>>>>>> master
+--
+-- Table structure for table `powerupsdowns`
+--
+
+DROP TABLE IF EXISTS `powerupsdowns`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `powerupsdowns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(1) NOT NULL,
+  `name` varchar(120) NOT NULL,
+  `duration` int(11) NOT NULL,
+  `icon` varchar(120) DEFAULT NULL,
+  `description` varchar(150) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `naam_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+=======
   INDEX `fk_fieldeffects_idx` (`effectid` ASC),
   INDEX `fk_fieldeffect_idx` (`effectid` ASC),
   CONSTRAINT `fk_fieldeffect`
@@ -145,6 +269,7 @@ DEFAULT CHARACTER SET = latin1;
 LOCK TABLES `powereffect` WRITE;
 /*!40000 ALTER TABLE `powereffect` DISABLE KEYS */;
 INSERT INTO `powereffect` VALUES (2, 1),(1, 2),(3, 3),(4, 4),(7, 5),(6, 6),(5, 7);
+>>>>>>> master
 
 
 -- -----------------------------------------------------
@@ -182,6 +307,17 @@ CREATE TABLE IF NOT EXISTS `breakout`.`story` (
   `imagePath` VARCHAR(120) NULL DEFAULT NULL,
   `campaignId` INT(11) NOT NULL,
   PRIMARY KEY (`IDstory`),
+<<<<<<< HEAD
+  KEY `FKcampaign_idx` (`campaignId`),
+  CONSTRAINT `FKcampaign` FOREIGN KEY (`campaignId`) REFERENCES `campaign` (`campaignID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `story`
+--
+<<<<<<< HEAD
+=======
   INDEX `FKcampaign_idx` (`campaignId` ASC),
   CONSTRAINT `FKcampaign`
     FOREIGN KEY (`campaignId`)
@@ -191,6 +327,7 @@ CREATE TABLE IF NOT EXISTS `breakout`.`story` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = latin1;
+>>>>>>> master
 
 LOCK TABLES `story` WRITE;
 /*!40000 ALTER TABLE `story` DISABLE KEYS */;
@@ -235,6 +372,106 @@ CREATE TABLE IF NOT EXISTS `breakout`.`user` (
   `level` INT(11) NOT NULL DEFAULT '1',
   `bio` VARCHAR(150) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+<<<<<<< HEAD
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+=======
+
+LOCK TABLES `story` WRITE;
+/*!40000 ALTER TABLE `story` DISABLE KEYS */;
+/*!40000 ALTER TABLE `story` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `profilePic` varchar(120) DEFAULT NULL,
+  `exp` int(11) DEFAULT '0',
+  `totalHighscore` int(11) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `bio` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+>>>>>>> master
+-- Table structure for table `userhighscore`
+--
+
+DROP TABLE IF EXISTS `userhighscore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userhighscore` (
+  `user_id` int(11) NOT NULL,
+  `highscore` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`highscore`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userhighscore`
+--
+
+LOCK TABLES `userhighscore` WRITE;
+/*!40000 ALTER TABLE `userhighscore` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userhighscore` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+CREATE TABLE `storychoice` (
+  `storyId` int(11) NOT NULL,
+  `storyOption` varchar(60) NOT NULL,
+  `refersToOtherStoryID` int(11) NOT NULL,
+  PRIMARY KEY (`storyId`,`storyOption`,`refersToOtherStoryID`),
+  KEY `fk_story_choice_idx` (`refersToOtherStoryID`),
+  CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Dump completed on 2017-12-15 10:55:12
+=======
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB
@@ -262,3 +499,4 @@ DEFAULT CHARACTER SET = latin1;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+>>>>>>> master
