@@ -80,12 +80,30 @@ var toast = function(){
 };
 
 var hidePathsIslandMap = function(){
+<<<<<<< HEAD
+//    $("#PathToLonelyRock").hide;
+//    $("#PathToExplodingMountain").hide();
+//    $("#PathToSignPost").hide();
+//    $("#PathToDragonsDen").hide();
+//    $("#PathToSpire").hide();
+//    $("#PathToTheBlueKeep").hide();
+//    
+//    //hide sidebar with story
+//    $('ul#slide-out').hide();
+    $("#PathToLonelyRock").show();
+    $("#PathToExplodingMountain").show();
+    $("#PathToSignPost").show();
+    $("#PathToDragonsDen").show();
+    $("#PathToSpire").show();
+    $("#PathToTheBlueKeep").show();
+=======
     $("#PathToLonelyRock").toggle();
     $("#PathToExplodingMountain").toggle();
     $("#PathToSignPost").toggle();
     $("#PathToDragonsDen").toggle();
     $("#PathToSpire").toggle();
     $("#PathToTheBlueKeep").toggle();
+>>>>>>> master
     
     //hide sidebar with story
     $('ul#slide-out').hide();
