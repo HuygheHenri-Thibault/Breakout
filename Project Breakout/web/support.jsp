@@ -19,7 +19,7 @@
         </div>
         <div class="input-field col s6 m6 l6">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate" name="phonenumber">
+          <input id="icon_telephone" type="tel" class="validate" name="phonenumber" placeholder="32474514896">
           <label for="icon_telephone">Telephone</label>
         </div>
       </div>
