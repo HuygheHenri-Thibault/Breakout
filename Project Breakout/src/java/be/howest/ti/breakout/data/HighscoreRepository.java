@@ -6,6 +6,7 @@
 package be.howest.ti.breakout.data;
 
 import be.howest.ti.breakout.domain.game.Highscore;
+import be.howest.ti.breakout.domain.game.SinglePlayerHighscore;
 import be.howest.ti.breakout.domain.game.User;
 import java.util.List;
 
@@ -14,8 +15,8 @@ import java.util.List;
  * @author Henri
  */
 public interface HighscoreRepository {
-    public List<Highscore> getAllHighscores();
-    public Highscore getUserHighscore(User u);
-    public void addHighscore(Highscore h);
+    public List<SinglePlayerHighscore> getAllSingleplayerHighscores();
+    public SinglePlayerHighscore getUserHighscore(User u);
+    public void updateSinglePlayerHighscore(SinglePlayerHighscore sph);
     public void removeHighscore(Highscore h);
 }
