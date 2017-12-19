@@ -95,6 +95,10 @@ public abstract class Effect{
         return TimerEffect;
     }
 
+//    public boolean isUserActivatedEffectAlive(){
+//        return getLevelOfEffect().isUserAlive(userActivatedEffect);
+//    }
+//    
     @Override
     public String toString() {
         return "Effect ";

@@ -76,8 +76,8 @@ public class Board extends JPanel{
         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
         null, options, options[0]);
         
-        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3));
-        game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
+        List<User> users = new ArrayList<>(Arrays.asList(me, me2));
+        game = new MultiPlayerGame(users, 1000, 1000, difficulties.get(response));
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();

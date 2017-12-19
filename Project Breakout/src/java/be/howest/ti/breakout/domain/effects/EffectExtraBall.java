@@ -36,7 +36,7 @@ public final class EffectExtraBall extends Effect {
     @Override
     public void deActivate() {
         System.out.println("deactivated double trouble");
-        extraBallCreated.goneFromScreen();
+        extraBallCreated.removeFromScreen();
         setDone();
     }
 

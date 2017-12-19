@@ -57,7 +57,7 @@ public class Ball extends Circle implements Serializable{
         return onScreen;
     }
     
-    public void goneFromScreen(){
+    public void removeFromScreen(){
         onScreen = false;
     }
     
@@ -356,7 +356,7 @@ public class Ball extends Circle implements Serializable{
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         level.decrementLife();
         //level.resetState();
-        goneFromScreen();
+        removeFromScreen();
     }
     
     public User giveUserActivatedSpecialBall(){
