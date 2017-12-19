@@ -18,10 +18,10 @@ import java.util.Map;
  */
 public class Game{
     //hardcoded Users
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe");
-    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe");
-    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe");
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe", 0);
+    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe", 0);
+    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe", 0);
     //
     
     private List<User> players;
@@ -248,7 +248,16 @@ public class Game{
         for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
             entry.getKey().addToTotalScore(entry.getValue());
         }
-        //add Highscores here
         //check players to see which type of highscore
+    }
+    
+    public void insertHighscore(){
+        if (this.getNumberOfPlayers() == 1){
+            User thePlayer = players.get(0);
+            int scoreOfTheUser = scorePerUser.get(thePlayer);
+            SinglePlayerHighscore sph = new SinglePlayerHighscore(thePlayer, scoreOfTheUser);
+        }else{
+            MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerUser);
+        }
     }
 }
