@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain.fieldeffects;
 
+import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
 import java.util.TimerTask;
 
@@ -24,6 +25,12 @@ public class TimerTaskWeb extends TimerTask{
 
     @Override
     public void run() {
+        for (Ball ball : web.getLevel().getBalls()) {
+            if(ball.checkCollissionWithCircle(web)){
+                ball.setSpeed(ball.getOriginalSpeed());
+                ball.cutDirectionBy(ball.getNumberOfDirectionBeingCutBy());
+            }
+        }
         level.removeShapeFromFieldEffectShapes(web);
         cancel();
     }

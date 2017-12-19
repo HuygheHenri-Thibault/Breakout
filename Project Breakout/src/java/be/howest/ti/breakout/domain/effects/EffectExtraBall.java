@@ -6,6 +6,7 @@
 package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
+import be.howest.ti.breakout.domain.DoubleTroubleBall;
 import be.howest.ti.breakout.domain.game.User;
 
 /**
@@ -13,6 +14,7 @@ import be.howest.ti.breakout.domain.game.User;
  * @author micha
  */
 public final class EffectExtraBall extends Effect {
+    DoubleTroubleBall extraBallCreated;
  
     public EffectExtraBall(String name, int duration) {
         super(name, duration);
@@ -24,7 +26,7 @@ public final class EffectExtraBall extends Effect {
         //if (!(getLevelOfEffect().getBalls().size() >= amountOfBallsInLevel + 1)) {
         if(!hasUserAlreadyActivatedThisEffect()){
             setRunning();
-            getLevelOfEffect().createExtraBall(this);
+            extraBallCreated = getLevelOfEffect().createExtraBall(this);
             System.out.println("activated");
         } else {
             setDone();
@@ -34,8 +36,7 @@ public final class EffectExtraBall extends Effect {
     @Override
     public void deActivate() {
         System.out.println("deactivated double trouble");
-        getLevelOfEffect().getBalls().remove(getLevelOfEffect().getBalls().size() - 1);
-        //getThisLevel().decrementLife();
+        extraBallCreated.goneFromScreen();
         setDone();
     }
 

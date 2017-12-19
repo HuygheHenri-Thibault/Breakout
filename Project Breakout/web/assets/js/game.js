@@ -1,4 +1,5 @@
 class Player {
+
   constructor(left, right, ability, name) {
     this.leftKey = left;
     this.rightKey = right;
@@ -6,6 +7,7 @@ class Player {
     this.name = name;
   }
 }
+
 Player.prototype.move = function(keyMap) {
   var messageObj = {type: "move", player: this.name};
   if (keyMap[this.leftKey]) {
@@ -14,19 +16,21 @@ Player.prototype.move = function(keyMap) {
       socket.sendMessage(messageObj);
     }
   }
+
   if (keyMap[this.rightKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
       messageObj.direction = "right";
       socket.sendMessage(messageObj);
     }
   }
-
+  
   if (!keyMap[this.leftKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
       messageObj.direction = "stop";
       socket.sendMessage(messageObj);
     }
   }
+
   if (!keyMap[this.rightKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
       messageObj.direction = "stop";
@@ -35,9 +39,12 @@ Player.prototype.move = function(keyMap) {
   }
 };
 
+
+
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
+
 
 var init = function() {
   var fireModal = function() {
@@ -54,13 +61,14 @@ var init = function() {
   };
   return {fireModal};
 }();
+
 var input = function() {
   // Private
   var keyMap = {};
   onkeydown = onkeyup = function(e) {
     e = e || event; // damn you IE..
     keyMap[e.keyCode] = e.type === 'keydown';
-
+    
     for (var player in players) {
       players[player].move(keyMap);
     }
@@ -69,6 +77,7 @@ var input = function() {
   var players = [];
   return {players};
 }();
+
 var comms = function() {
   // Private
   var gameInterval = null;
@@ -77,11 +86,13 @@ var comms = function() {
     var messageObj = {type: "gameInfo"};
     socket.sendMessage(messageObj);
   };
+
   var getPosistion = function() {
     var messageObj = {type: "updateMe"};
     socket.sendMessage(messageObj);
   };
   // Public
+
   //new from michael
   //  var showSpells = function(){
   //    var playerAmount = prompt("How many players");
@@ -96,6 +107,7 @@ var comms = function() {
   //  }
   //
 
+
   var startGame = function() {
     //$("#selectController").hide();
     var playerAmount = prompt("How many players");
@@ -105,20 +117,24 @@ var comms = function() {
       var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
       input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1)));
     }
+
     var messageObj = {type: "startGame", playerAmount};
     socket.sendMessage(messageObj);
     getUpdate();
   };
+
   var getUpdate = function() {
     gameInterval = setInterval(getPosistion, 20);
     infoInterval = setInterval(getGameInfo, 50);
   };
+
   var stopUpdates = function() {
     clearInterval(gameInterval);
     clearInterval(infoInterval);
   };
   return {startGame, getUpdate, stopUpdates};
 }();
+
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -146,12 +162,14 @@ var gui = function() {
       }
     }
   };
+  
   var gameInfo = function(player) {
     var lives = player.lives;
     var score = player.score;
   };
   return {drawFromPosistion, gameInfo};
 }();
+
 var socket = function() {
   // Private
   var url = "ws://localhost:8080/Project_Breakout/gamepoint";
@@ -159,6 +177,7 @@ var socket = function() {
   socket.onopen = function() {
     //socket.sendMessage(JSON.stringify({"flppn": 3}));
   };
+  
   socket.onmessage = function(messageRecieved) {
     var message = JSON.parse(messageRecieved.data);
     switch (message.type) {
@@ -182,6 +201,8 @@ var socket = function() {
   return {sendMessage};
 }();
 
+
+
 // DRAW FUNCTIONS (P5.JS) //
 var ball = []; // TODO: SOOO MANYY GLOBALS ;-;
 var pallet = [];
@@ -189,16 +210,18 @@ var bricks = [];
 var effects = [];
 var images = {};
 var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png']; // TODO: move to GUI module?
-function setImages(listOfImagesToLoad) { // TODO: move to GUI module & make this a array foreach funtion??
+function setImages(listOfImagesToLoad) { // TODO: move to GUI module & make this a array foreach funtion?
   for (var i = 0; i<listOfImagesToLoad.length;i++) {
     var imgPath = listOfImagesToLoad[i].split("/");
     var imgKey = imgPath[imgPath.length-1].split(".")[0];
     images[imgKey] = loadImage(listOfImagesToLoad[i]);
   }
 }
+
 var preload = function() {
   setImages(imagesToLoad);
 };
+
 function getImage(color) {
   var graphic = images[color];
   if(graphic == undefined) {
@@ -206,10 +229,13 @@ function getImage(color) {
   }
   return graphic;
 } // TODO: move to GUI module?
+
 function setup() {
   var canvas = createCanvas(750, 400);
   canvas.parent('game-area');
+
 }
+
 function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check); // TODO: remove this in final version, also move the boolean check to the if then
@@ -229,6 +255,7 @@ function draw() {
     }
   }
 }
+
 
 $(document).ready(function() {
   console.log("game.js is loaded");

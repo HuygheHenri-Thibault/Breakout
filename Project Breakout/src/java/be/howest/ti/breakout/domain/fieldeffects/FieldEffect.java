@@ -15,12 +15,15 @@ import java.util.Timer;
  * @author Fredr
  */
 public class FieldEffect {
+    private final Level level;
     private final String name;
     private final Effect effect;
     private final int interval;
-    private final Timer timerFieldEffect;
+    private Timer timerFieldEffect;
+    private boolean paused = false;
 
-    public FieldEffect(String name, Effect effect, int interval) {
+    public FieldEffect(Level level, String name, Effect effect, int interval) {
+        this.level = level;
         this.name = name;
         this.effect = effect;
         this.interval = interval;
@@ -38,11 +41,29 @@ public class FieldEffect {
     public int getInterval() {
         return interval;
     }
+    
+   
       
-    public void doEffect(Level level)
+    public void doEffect()
     {
         effect.setLevelOfEffect(level);
-        timerFieldEffect.scheduleAtFixedRate(new TimerTaskFieldEffect(effect), 0, interval * 1000);
+        timerFieldEffect.scheduleAtFixedRate(new TimerTaskFieldEffect(effect), 2000, interval * 1000);
+    }
+    
+    public void pause(){
+        paused = true;
+        effect.setDeActive();
+        timerFieldEffect.cancel();
+    }
+    
+    public boolean IsPaused(){
+        return paused;
+    }
+    
+    public void resume(){
+        paused = false;
+        timerFieldEffect = new Timer();
+        doEffect();
     }
     
     public void cancel(){

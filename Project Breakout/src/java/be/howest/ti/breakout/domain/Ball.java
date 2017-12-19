@@ -26,11 +26,11 @@ public class Ball extends Circle implements Serializable{
     private final int INIT_BALL_Y;
     private final int originalSpeed;
     private int speed;
+    private float directionIsBeingCutBy = 1;
     private float dx;
     private float dy;
     private int damage = 1;
 
-    //private Pallet palletLastTouched;
     private User lastUserThatTouchedMe;
     private boolean onScreen = true;
 
@@ -42,23 +42,9 @@ public class Ball extends Circle implements Serializable{
         this.INIT_BALL_Y = y;
         this.originalSpeed = speed * 2;
         this.speed = speed * 2;
-        //this.dx = -speed;
-        //this.dy = speed;
         setAngleDirectionToNearestPallet();
     }
 
-//    public Level getLevel(){
-//        return level;
-//    }
-    
-//    public Pallet getPalletLastTouched() {
-//        return palletLastTouched;
-//    }
-
-//    public void setPalletLastTouched(Pallet palletLastTouched) {
-//        this.palletLastTouched = palletLastTouched;
-//    }
-    
     public void setLastUserThatTouchedMe(User lastUserThatTouchedMe) {
         this.lastUserThatTouchedMe = lastUserThatTouchedMe;
     }
@@ -67,7 +53,7 @@ public class Ball extends Circle implements Serializable{
         return lastUserThatTouchedMe;
     }
     
-    public boolean isGoneFromScreen(){
+    public boolean isOnScreen(){
         return onScreen;
     }
     
@@ -81,8 +67,10 @@ public class Ball extends Circle implements Serializable{
 
     public void setSpeed(int speed) {
         this.speed = speed * 2;
-        resetDx();
-        resetDy();
+    }
+    
+    public int getOriginalSpeed(){
+        return originalSpeed;
     }
 
     public void setDx(float dx){
@@ -92,7 +80,7 @@ public class Ball extends Circle implements Serializable{
     public void setDy(float dy){
         this.dy = dy;
     }
-
+    
     public float getDx() {
         return dx;
     }
@@ -107,6 +95,10 @@ public class Ball extends Circle implements Serializable{
     
     public int getDamage() {
         return damage;
+    }
+    
+    public float getNumberOfDirectionBeingCutBy(){
+        return directionIsBeingCutBy;
     }
     
     private void setAngleDirectionToNearestPallet(){
@@ -150,8 +142,6 @@ public class Ball extends Circle implements Serializable{
     public void resetState(){
         this.setX(INIT_BALL_X);
         this.setY(INIT_BALL_Y);
-        //dx = -speed / 2;
-        //dy = speed / 2;
         setAngleDirectionToNearestPallet();
     }
     
@@ -172,7 +162,6 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void move(){
-        //setSpeed(originalSpeed);
         this.setX(Math.round(this.getX() + dx));
         this.setY(Math.round(this.getY() + dy));
         Shape s = findCollidingSprite();
@@ -181,7 +170,7 @@ public class Ball extends Circle implements Serializable{
     
     private Shape findCollidingSprite() {
         for (Shape s : level.getAllEntities()) {
-            if(this.getX() != s.getX()){
+            if(this.getX() != s.getX() || this.getY() != s.getY()){
                 if(this.checkCollission(s)){
                     return s;
                 }
@@ -219,7 +208,6 @@ public class Ball extends Circle implements Serializable{
         }
         
         p.setLastBallTouched(this);
-        //setPalletLastTouched(p);
         setLastUserThatTouchedMe(p.getUser());
     }
 
@@ -230,29 +218,30 @@ public class Ball extends Circle implements Serializable{
         float fourth = rectPosX + ((p.getLength() / 5) * 4);
         
         if (ballLPos >= leftSide && ballLPos < first) {
-            cutDirectionYBy(4);
+            cutDirectionBy(4);
             setDx(Math.abs(getDx()) * -Math.abs(direction));
         }
 
         if (ballLPos >= first && ballLPos < second) {
-            cutDirectionYBy(2);
+            cutDirectionBy(2);
             setDx(Math.abs(getDx()) * -Math.abs(direction));
         }
         
         if (ballLPos >= third && ballLPos < fourth) {
-            cutDirectionYBy(2);
+            cutDirectionBy(2);
             setDx(Math.abs(getDx()));
         }
 
         if (ballLPos >= fourth && ballLPos < rightSide ) {
-            cutDirectionYBy(4);
+            cutDirectionBy(4);
             setDx(Math.abs(getDx()));
         }
         
         setDy(Math.abs(getDy()) * direction);
     }
     
-    private void cutDirectionYBy(float getal){
+    public void cutDirectionBy(float getal){
+        directionIsBeingCutBy = getal;
         resetDy();
         resetDx();
         if(dx > 0){
@@ -302,7 +291,7 @@ public class Ball extends Circle implements Serializable{
     public void updateSpriteBallAfterCollidingWithPowerUp(PowerUpOrDown powerUpTouched){
         setDx(-getDx());
         setDy(-getDy());
-
+        
         level.getPowerUpsShownOnScreen().remove(powerUpTouched);
         powerUpTouched.setEntetiesOfLevel(this);
         powerUpTouched.setActive();
@@ -310,6 +299,7 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void updateSpriteAfterCollidingWithBall(Ball ball){
+        System.out.println("touched");
         if(getX() < ball.getX()){
             while(checkCollissionWithCircle(ball)){
                 setX(getX() - 1);
@@ -319,23 +309,36 @@ public class Ball extends Circle implements Serializable{
                 setX(getX() + 1);
             }
         }
+        if(getY() < ball.getY()){
+            while(checkCollissionWithCircle(ball)){
+                setY(getY() - 1);
+            }
+        } else {
+            while(checkCollissionWithCircle(ball)){
+                setY(getY() + 1);
+            }
+        }
         setDx(-getDx());
         setDy(-getDy());
     }
     
+    public void updateSpriteAfterColldingWithFireBall(Fireball fireBall){}
+    
     public void updateSpriteAfterCollidingWithWeb(Web web){
         speed = originalSpeed / 2;
-        cutDirectionYBy(2);
-//        this.setX(Math.round(this.getX() + dx));
-//        this.setY(Math.round(this.getY() + dy));
-//        if(checkCollissionWithCircle(web)){
-//            this.setX(Math.round(this.getX() - dx));
-//            this.setY(Math.round(this.getY() - dy));
-//        } else {
-//            this.setX(Math.round(this.getX() - dx));
-//            this.setY(Math.round(this.getY() - dy));
-//            
-//        }
+        cutDirectionBy(directionIsBeingCutBy);
+        this.setX(Math.round(this.getX() + dx));
+        this.setY(Math.round(this.getY() + dy));
+        if(checkCollissionWithCircle(web)){
+            this.setX(Math.round(this.getX() - dx));
+            this.setY(Math.round(this.getY() - dy));
+        } else {
+            this.setX(Math.round(this.getX() - dx));
+            this.setY(Math.round(this.getY() - dy));
+            speed = originalSpeed;
+            cutDirectionBy(directionIsBeingCutBy);
+        }
+        
     }
     
     public void updateSpriteAfterCollidingWithLeftBoundary(){
@@ -352,7 +355,8 @@ public class Ball extends Circle implements Serializable{
     
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         level.decrementLife();
-        level.resetStates();
+        //level.resetState();
+        goneFromScreen();
     }
     
     public User giveUserActivatedSpecialBall(){
