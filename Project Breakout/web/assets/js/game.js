@@ -147,25 +147,38 @@ var gui = function() {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+          pushPallet(oneSprite);
           break;
         case "Ball":
-          if(oneSprite.icon !== undefined) {
-            ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, getImage(oneSprite.icon)));
-          } else {
-            ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
-          }
+          pushBall(oneSprite);
           break;
         case "Brick":
-          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+          pushBrick(oneSprite);
           break;
         case "Powerup":
-          effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-          $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+          pushPowerup(oneSprite);
           break;
       }
     }
   };
+
+  function pushPallet(oneSprite) {
+    pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+  }
+  function pushBall(oneSprite) {
+    if(oneSprite.icon !== undefined) {
+      ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, getImage(oneSprite.icon)));
+    } else {
+      ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
+    }
+  }
+  function pushBrick(oneSprite) {
+    bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+  }
+  function pushPowerup(oneSprite) {
+    effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+    $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+  }
 
   var gameInfo = function(player) {
     var lives = player.lives;
