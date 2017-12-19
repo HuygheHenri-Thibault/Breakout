@@ -214,7 +214,7 @@ var pallet = null;
 var bricks = [];
 var effects = [];
 var images = {};
-var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png']; // TODO: move to GUI module?
+var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png', 'assets/media/gamebackground.png']; // TODO: move to GUI module?
 function setImages(listOfImagesToLoad) { // TODO: move to GUI module & make this a array foreach funtion?
   for (var i = 0; i<listOfImagesToLoad.length;i++) {
     var imgPath = listOfImagesToLoad[i].split("/");
@@ -245,7 +245,7 @@ function draw() {
   var check = ball !== null && pallet !== null;
   console.log(check); // TODO: remove this in final version, also move the boolean check to the if then
   if (check) {
-    background(47, 49, 54);
+    background(images["gamebackground"]);
     for(var b in ball) {
         ball[b].show();
     }
