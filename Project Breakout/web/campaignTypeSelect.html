@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -9,25 +9,11 @@
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
   <link rel="stylesheet" href="assets/css/screen.css">
-  <link rel="stylesheet" href="assets/css/game.css">
-  <title>Breakout - game</title>
+  <link rel="stylesheet" href="assets/css/campaignSelect.css">
+  <title>Breakout</title>
 </head>
 
 <body>
-        <!-- Modal Structure -->
-  <div id="selectController" class="modal">
-    <div class="modal-content row">
-      <h4 class="center">Pick your controller</h4>
-    </div>
-      <div class="center-align">
-          <input id="text" type="text" value="http://localhost:8080/Project_Breakout/gameControllerPage.html?gameID=1" class="center-align"/>
-          <div id="qrcode" class="center-align"></div>
-      </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat startGame">Start</a>
-    </div>
-  </div>
-
   <header>
     <nav class="transparent">
       <div class="nav-wrapper">
@@ -43,30 +29,23 @@
   </header>
   <div><div class="row separator"></div></div>
   <main>
-    <div class="row">
-      <div class="col s10 offset-s1">
-        <section id="score"></section>
-        <section id="game-area" class="center-align"></section>
-      </div>
-    </div>
-    <div class="row"><div id="iconArea" class="col s6 offset-s3"></div></div>
+    <div class="gradient"></div>
+    <div class="single poster col s6"><h1 class="white-text">Singleplayer</h1></div>
+    <div class="party poster col s6"><h1 class="white-text">Co-op</h1></div>
+
   </main>
   <div><div class="row separator"></div></div>
-  <footer class="page-footer">
+  <footer class="page-footer transparent">
     <p class="grey-text text-darken-2 center-align">Copyright (c) 2017 Copyright Holder All Rights Reserved.</p>
   </footer>
 
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.js"></script>
-  <script type="text/javascript" src="assets/js/drawComponents.js"></script>
-  <!---<script type="text/javascript" src="assets/js/sketch.js"></script>--->
   <script type="text/javascript" src="assets/js/script.js"></script>
-  <script type="text/javascript" src="assets/js/game.js"></script>
-  <script type="text/javascript" src="assets/js/qrcode.js"></script>
-  <script type="text/javascript" src="assets/js/createqrcode.js"></script>
+  <script type="text/javascript" src="assets/js/campaignSelect.js">
 
+  </script>
 </body>
 
 </html>
