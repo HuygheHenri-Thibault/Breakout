@@ -72,7 +72,7 @@ public class GameSocket {
                     return "";
                 case "startGame":
                     //System.out.println("started");
-                    startLevel(in);
+                    startLevel(in, obj);
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
                     //System.out.println("updated");
@@ -125,13 +125,20 @@ public class GameSocket {
         sessionGame.get(in).getLevelPlayedRightNow().setUserSpell(u, s);
     }
     
-    private void startLevel(Session in) {
+    private void startLevel(Session in, JSONObject obj) {
+        int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
+        if(aantalPlayers > 1){
+            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+        } else {
+            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+        }
+        makeLevel(in);
         sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     }
     //new
-//    public void startGame(Session in){
-//       sessionGame.get(in).getLevelPlayedRightNow().startLevel();
-//    }
+    public void startGame(Session in){
+      sessionGame.get(in).getLevelPlayedRightNow().startLevel();
+    } 
 //    
 //    private JSONObject makeJSONSpells(List<Spell> spells){
 //        JSONObject resultObj = new JSONObject();

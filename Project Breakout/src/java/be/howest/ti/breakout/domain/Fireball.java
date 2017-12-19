@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain;
 
 import be.howest.ti.breakout.domain.effects.EffectFireBall;
 import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
 /**
  *
@@ -30,9 +31,11 @@ public class Fireball extends Ball {
     }
   
     @Override
-    public void updateSpriteBallAfterCollidingWithBrick(Brick b){
-        
-    }
+    public void updateSpriteBallAfterCollidingWithBrick(Brick b){}
+    
+    @Override
+    public void updateSpriteBallAfterCollidingWithPowerUp(PowerUpOrDown p){}
+    
     @Override
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         goneFromScreen();
@@ -40,8 +43,11 @@ public class Fireball extends Ball {
 
     @Override
     public String toString() {
-        return "Fireball";
+        return "Ball";
     }
     
-    
+    @Override
+    public void updateSpriteBall(Ball aBall) {
+        aBall.updateSpriteAfterColldingWithFireBall(this);
+    }
 }

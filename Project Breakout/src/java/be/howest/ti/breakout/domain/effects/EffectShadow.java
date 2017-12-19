@@ -27,8 +27,12 @@ public class EffectShadow extends Effect{
         System.out.println("activated shadow");
         Random generator = new Random();
         int chance = generator.nextInt((20 - 1) + 0) + 1;
-        List<Integer> bricksNumbers = generateBrickNumbers(10, 20);
         if(chance == 20){
+            int max = 10;
+            if(getLevelOfEffect().getBricks().size() < 10){
+                max = getLevelOfEffect().getBricks().size();
+            }
+            List<Integer> bricksNumbers = generateBrickNumbers(1, max);
             for (Integer brickIndex : bricksNumbers) {
                 int randomDamage = generator.nextInt((5 - 1) + 1) + 1;
                 getLevelOfEffect().getBricks().get(brickIndex).decrementHits(randomDamage);
@@ -48,6 +52,7 @@ public class EffectShadow extends Effect{
     @Override
     public void deActivate() {
         System.out.println("deactivated shadow");
+        getTimerEffect().cancel();
         getLevelOfEffect().getPallets().get(palletIdSetInvisible).setVisible();
         setDone();
     }
