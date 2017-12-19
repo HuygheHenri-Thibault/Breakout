@@ -7,10 +7,10 @@
 <%@include file="WEB-INF/jspf/head.jspf" %>
 <%@include file="WEB-INF/jspf/header.jspf" %>
 
-
-<h1 class="northwood center">CONTACTEER HET SUPPORTTEAM</h1>
+<main>
+<h1 class="northwood center ">CONTACTEER HET SUPPORTTEAM</h1>
      <div class="row">
-    <form class="col s12 m12 l12">
+    <form class="col s10 m10 l10 supportform offset-l1">
       <div class="row">
         <div class="input-field col s6 m6 l6">
           <i class="material-icons prefix">account_circle</i>
@@ -38,8 +38,9 @@
          </div>
 </div>
     </form>
-
+         </main>
 
 <%@include file="WEB-INF/jspf/footer.jspf" %>
      </body>
+     </html>
 
