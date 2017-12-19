@@ -23,6 +23,10 @@ public class Circle extends Shape implements Collidable{
         this.radius = radius;
     }
     
+    public Level getLevel(){
+        return level;
+    }
+    
     public int getRadius() {
         return radius;
     }
@@ -39,20 +43,18 @@ public class Circle extends Shape implements Collidable{
     @Override
     public boolean checkCollissionWithCircle(Circle c){
         double xDif = this.getX() - c.getX();
-        double yDif = this.getY()- c.getY();
-        double distanceSquared = xDif * xDif + yDif * yDif;
-        return distanceSquared < (this.getRadius() + c.getRadius()) * (this.getRadius() + c.getRadius());
+        double yDif = this.getY() - c.getY();
+        double distanceSquared = (xDif * xDif) + (yDif * yDif);
+        return distanceSquared < ((this.getRadius() + c.getRadius()) * (this.getRadius() + c.getRadius()));
     }
     
     @Override
     public boolean checkCollission(Shape s){
         return s.checkCollissionWithCircle(this);
     }
-
+    
     @Override
-    public void updateSpriteBall(Ball aBall) {
-        aBall.updateSpriteAfterCollidingWithCircle(this);
-    }
+    public void updateSpriteBall(Ball aBall) {}
     
     @Override
     public void updateSpritePallet(Pallet p){}
@@ -60,5 +62,5 @@ public class Circle extends Shape implements Collidable{
     @Override
     public String toString() {
         return "Circle";
-    }
+    }   
 }

@@ -6,7 +6,7 @@ $(document).ready(function () {
   console.log("script2.js is loaded");
   
     $("#PathToVillage").on("click", function (){
-        $("ul#slide-out").show();
+        $("ul#slide-out").toggle();
         //Materialize.fadeInImage('#img1');
         //fadeinImage <a href="#!" class="btn" onclick="Materialize.fadeInImage('#image-test')">Click Me</a>
     });
@@ -22,14 +22,14 @@ $(document).ready(function () {
     switch($(".succesor").text()) {
     case "leftupperIsland":
         console.log("LEFT UPPER CLICKED");
-        window.location.assign("http://localhost:8080/Project_Breakout/mapTextured.html");
+        window.location.assign("http://localhost:8080/Project_Breakout/raiderCamp.html");
         break;
     case "rightUpperIsland":
         console.log("RIGHT UPPER CLICKED");
         break;
     case "oceania":
         console.log("OCEANIA CLICKED");
-        window.location.assign("http://localhost:8080/Project_Breakout/index4.html");
+        window.location.assign("http://localhost:8080/Project_Breakout/BreakersBayCampaign.html");
         break;
     case "rightDown":
        console.log("RIGHT DOWN CLICKED");
@@ -68,19 +68,19 @@ $(document).ready(function () {
     });
     
 $('.toastButton').on('click',toast);
-$('.toastButton').click(Materialize.toast("I am toastie", 4000));
+$('.toastButton').click(Materialize.toast("You've earned the Achievement: -PLACEHOLDER- !", 4000));
 
 });
 
 var toast = function(){
   console.log("Toast clicked");
-  var $toastContent = $('<span>toasted</span>');
-  //var imgUrl = "<img src='../../assets/media/campaign/Openbook.png'/>";
-  //var $toastContent = $(imgUrl);
+  var $toastContent = $('<span>Achievement get!</span>');
   Materialize.toast($toastContent, 5000);
+  hidePathsIslandMap();
 };
 
 var hidePathsIslandMap = function(){
+<<<<<<< HEAD
 //    $("#PathToLonelyRock").hide;
 //    $("#PathToExplodingMountain").hide();
 //    $("#PathToSignPost").hide();
@@ -96,6 +96,14 @@ var hidePathsIslandMap = function(){
     $("#PathToDragonsDen").show();
     $("#PathToSpire").show();
     $("#PathToTheBlueKeep").show();
+=======
+    $("#PathToLonelyRock").toggle();
+    $("#PathToExplodingMountain").toggle();
+    $("#PathToSignPost").toggle();
+    $("#PathToDragonsDen").toggle();
+    $("#PathToSpire").toggle();
+    $("#PathToTheBlueKeep").toggle();
+>>>>>>> master
     
     //hide sidebar with story
     $('ul#slide-out').hide();

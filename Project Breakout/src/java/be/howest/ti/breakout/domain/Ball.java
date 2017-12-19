@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain;
 
+import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.User;
 import be.howest.ti.breakout.domain.game.Level;
 import java.awt.Image;
@@ -23,6 +24,7 @@ public class Ball extends Circle implements Serializable{
     
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;
+    private final int originalSpeed;
     private int speed;
     private float dx;
     private float dy;
@@ -30,6 +32,7 @@ public class Ball extends Circle implements Serializable{
 
     //private Pallet palletLastTouched;
     private User lastUserThatTouchedMe;
+    private boolean onScreen = true;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
         super(level, x, y, radius);
@@ -37,6 +40,7 @@ public class Ball extends Circle implements Serializable{
         this.s = new Sprite(color);
         this.INIT_BALL_X = x;
         this.INIT_BALL_Y = y;
+        this.originalSpeed = speed * 2;
         this.speed = speed * 2;
         //this.dx = -speed;
         //this.dy = speed;
@@ -61,6 +65,14 @@ public class Ball extends Circle implements Serializable{
     
     public User getLastUserThatTouchedMe() {
         return lastUserThatTouchedMe;
+    }
+    
+    public boolean isGoneFromScreen(){
+        return onScreen;
+    }
+    
+    public void goneFromScreen(){
+        onScreen = false;
     }
     
     public int getSpeed() {
@@ -160,6 +172,7 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void move(){
+        //setSpeed(originalSpeed);
         this.setX(Math.round(this.getX() + dx));
         this.setY(Math.round(this.getY() + dy));
         Shape s = findCollidingSprite();
@@ -296,18 +309,33 @@ public class Ball extends Circle implements Serializable{
         level.addPowerUpActive(powerUpTouched);
     }
     
-    public void updateSpriteAfterCollidingWithCircle(Circle circle){
-        if(getX() < circle.getX()){
-            while(checkCollissionWithCircle(circle)){
+    public void updateSpriteAfterCollidingWithBall(Ball ball){
+        if(getX() < ball.getX()){
+            while(checkCollissionWithCircle(ball)){
                 setX(getX() - 1);
             }
         } else {
-            while(checkCollissionWithCircle(circle)){
+            while(checkCollissionWithCircle(ball)){
                 setX(getX() + 1);
             }
         }
         setDx(-getDx());
         setDy(-getDy());
+    }
+    
+    public void updateSpriteAfterCollidingWithWeb(Web web){
+        speed = originalSpeed / 2;
+        cutDirectionYBy(2);
+//        this.setX(Math.round(this.getX() + dx));
+//        this.setY(Math.round(this.getY() + dy));
+//        if(checkCollissionWithCircle(web)){
+//            this.setX(Math.round(this.getX() - dx));
+//            this.setY(Math.round(this.getY() - dy));
+//        } else {
+//            this.setX(Math.round(this.getX() - dx));
+//            this.setY(Math.round(this.getY() - dy));
+//            
+//        }
     }
     
     public void updateSpriteAfterCollidingWithLeftBoundary(){
@@ -330,6 +358,12 @@ public class Ball extends Circle implements Serializable{
     public User giveUserActivatedSpecialBall(){
         return null;
     }
+    
+    @Override
+    public void updateSpriteBall(Ball aBall) {
+        aBall.updateSpriteAfterCollidingWithBall(this);
+    }
+    
     
     @Override
     public String toString() {

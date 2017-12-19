@@ -28,6 +28,8 @@ public final class Pallet extends Rectangle {
     private float dx;
 
     private Ball lastBallTouched;
+    
+    private boolean visible = true;
 
     public Pallet(User user, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
@@ -67,6 +69,18 @@ public final class Pallet extends Rectangle {
 
     public void setLastBallTouched(Ball lastBallTouched) {
         this.lastBallTouched = lastBallTouched;
+    }
+    
+    public void setInvisible(){
+        this.visible = false;
+    }
+    
+    public void setVisible(){
+        this.visible = true;
+    }
+    
+    public boolean IsVisible(){
+        return visible;
     }
     
     public void resetState() {
