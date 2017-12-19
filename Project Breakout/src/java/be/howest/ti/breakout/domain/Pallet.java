@@ -157,27 +157,32 @@ public final class Pallet extends Rectangle {
 
     //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
     private Shape collidesWithOtherRectangleOrBoundaries() {
-        for (Pallet pallet : getLevel().getPallets()) {
-            //System.out.println(pallet);
-            if (this.getX() != pallet.getX()) {
-                if (this.checkCollission(pallet)) {
-                    return pallet;
+        for (Shape s : getLevel().getAllEntities()) {
+            if (this.getX() != s.getX()) {
+                if (this.checkCollission(s)) {
+                    return s;
                 }
             }
         }
-        for (Circle circle : getLevel().getAllShapesCreatedByFieldEffect()) {
-            //System.out.println(circle);
-            if (this.checkCollission(circle)) {
-                return circle;
-            }
-        }
-        if (this.checkCollission(getLevel().getLEFT_BOUNDARY())) {
-            return getLevel().getLEFT_BOUNDARY();
-        }
-        if (this.checkCollission(getLevel().getRIGHT_BOUNDARY())) {
-            return getLevel().getRIGHT_BOUNDARY();
-        }
         return null;
+//        for (Pallet pallet : getLevel().getPallets()) {
+//            if (this.getX() != pallet.getX()) {
+//                if (this.checkCollission(pallet)) {
+//                    return pallet;
+//                }
+//            }
+//        }
+//        for (Circle circle : getLevel().getAllShapesCreatedByFieldEffect()) {
+//            if (this.checkCollission(circle)) {
+//                return circle;
+//            }
+//        }
+//        if (this.checkCollission(getLevel().getLEFT_BOUNDARY())) {
+//            return getLevel().getLEFT_BOUNDARY();
+//        }
+//        if (this.checkCollission(getLevel().getRIGHT_BOUNDARY())) {
+//            return getLevel().getRIGHT_BOUNDARY();
+//        }
     }
 
     @Override

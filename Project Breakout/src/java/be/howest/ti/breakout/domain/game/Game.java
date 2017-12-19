@@ -63,8 +63,8 @@ public class Game{
         initializeUserScores();
         this.width = width;
         this.height = height;
+        this.lives = 3 * players.size();
         this.livesLeftOriginally = lives;
-        this.lives = lives;
         this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
@@ -79,8 +79,8 @@ public class Game{
         initializeUserScores();
         this.width = width;
         this.height = height;
-        this.livesLeftOriginally = lives;
-        this.lives = lives;
+        this.lives = 3 * players.size();
+        this.livesLeftOriginally = this.lives;
         this.numberOfPlayers = players.size();
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
@@ -171,6 +171,22 @@ public class Game{
         scorePerUser.merge(user, TotalGameScore, Integer::sum);
     }
     
+//    public final HashMap generateLives(){
+//        HashMap livesForUsers = new HashMap();
+//        for (User player : players) {
+//            livesForUsers.put(player, 3);
+//        }
+//        return livesForUsers;
+//    }
+    
+//    public final HashMap copyLives(){
+//        HashMap copiedLives = new HashMap();
+//        for (Map.Entry<User, Integer> entry : lives.entrySet()) {
+//            copiedLives.put(entry.getKey(), entry.getValue());
+//        }
+//        return copiedLives;
+//    }
+    
     public void setLives(int lives) {
         this.lives = lives;
     }
@@ -186,10 +202,37 @@ public class Game{
     public void decrementLife(){
         lives--;
         livesLeftOriginally--;
-        if(lives == 0){
+        if(lives <= 0){
             stopGame();
         }
     }
+//    public void decrementLifeOfPlayers(List<User> players){
+//        for (User player : players) {
+//            int currentLivesOfPlayer = lives.get(player);
+//            lives.put(player, currentLivesOfPlayer - 1);
+//            int currentOriginalLivesOfPlayer = livesLeftOriginally.get(player);
+//            livesLeftOriginally.put(player, currentOriginalLivesOfPlayer-1);
+//            if(userLostAllLives(player)){
+//                getLevelPlayedRightNow().removePalletFromLevelOfUser(player);
+//            }
+//        }
+//        if(allLivesOfPlayersLost()){
+//            stopGame();
+//        }
+//    }
+    
+//    public boolean userLostAllLives(User player){
+//        return lives.get(player) <= 0;
+//    }
+//    
+//    public boolean allLivesOfPlayersLost(){
+//        for (User player : players) {
+//            if(lives.get(player) > 0){
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;

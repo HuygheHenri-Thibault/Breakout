@@ -30,7 +30,7 @@ public class EffectFireBall extends Effect{
     @Override
     public void deActivate() {
         for (Fireball fireBall : fireBallsCreated) {
-            fireBall.goneFromScreen();
+            fireBall.removeFromScreen();
         }
         System.out.println("deactivated fireball");
         setDone();
