@@ -10,32 +10,34 @@
 <main>
 <h1 class="northwood center ">CONTACTEER HET SUPPORTTEAM</h1>
      <div class="row">
-    <form class="col s10 m10 l10 supportform offset-l1">
+    <form action="support" method="GET" class="col s10 m10 l10 supportform offset-l1">
       <div class="row">
         <div class="input-field col s6 m6 l6">
           <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" type="text" class="validate">
+          <input id="icon_prefix" type="text" name="username" class="validate">
           <label for="icon_prefix">_ACCOUNT Name_</label>
         </div>
         <div class="input-field col s6 m6 l6">
           <i class="material-icons prefix">phone</i>
-          <input id="icon_telephone" type="tel" class="validate">
+          <input id="icon_telephone" type="tel" class="validate" name="phonenumber">
           <label for="icon_telephone">Telephone</label>
         </div>
       </div>
  
 <div class="row">
     <div class="input-field col s12 m12 l12">
-    <label for="onderwerp">Onderwerp:</label>
-    <input type="text" id="onderwerp" placeholder="Een korte beschrijving van je supportaanvraag" required/>
+    <label for="onderwerp" name="onderwerp">Onderwerp:</label>
+    <input type="text" id="onderwerp" name="subject" placeholder="Een korte beschrijving van je supportaanvraag" required/>
     </div>
 </div>
     <div class="row">
     <div class="input-field col s12 m12 l12">
     <label for="bericht"><strong>Bericht:</strong></label>
-    <textarea id="bericht"></textarea>
+    <textarea id="bericht" name="bericht"></textarea>
     </div>
          </div>
+        <div class="center">
+            <input type="submit" class="btn" value="Send"/></div>
 </div>
     </form>
          </main>
