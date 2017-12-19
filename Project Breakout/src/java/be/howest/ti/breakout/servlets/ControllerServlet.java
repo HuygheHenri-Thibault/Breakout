@@ -9,8 +9,16 @@ import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.data.UserRepository;
 import be.howest.ti.breakout.domain.game.User;
 import be.howest.ti.breakout.util.BCrypt;
+import com.nexmo.client.NexmoClient;
+import com.nexmo.client.NexmoClientException;
+import com.nexmo.client.auth.AuthMethod;
+import com.nexmo.client.auth.TokenAuthMethod;
+import com.nexmo.client.sms.SmsSubmissionResult;
+import com.nexmo.client.sms.messages.TextMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +30,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Brecht
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn", "/support"})
 public class ControllerServlet extends HttpServlet {
 
     /**
@@ -59,7 +67,32 @@ public class ControllerServlet extends HttpServlet {
             case "/CheckLoggedIn":
                 this.checkLoggedIn(request, response);
                 break;
+            case "/support":
+                System.out.println("REGISTERED THE FORM INPUT");
+                this.support(request, response);
+                break;
         }
+    }
+    
+    private void support(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+    String username = request.getParameter("username");
+    String onderwerp = request.getParameter("subject");
+    String telnr = request.getParameter("phonenumber");
+    String bericht = request.getParameter("bericht");
+    
+        AuthMethod auth = new TokenAuthMethod("48e4e3e2", "17c43e555e15b92e");
+        NexmoClient client = new NexmoClient(auth);
+    
+    SmsSubmissionResult[] responses = null;
+        try {
+            responses = client.getSmsClient().submitMessage(new TextMessage(
+                    "Breakout 2017",
+                    telnr,
+                    "Support request succesfull, a ticket has now been opened. Subject: "+onderwerp+" We thank you for your trust."));
+        } catch (NexmoClientException ex) {
+            Logger.getLogger(ControllerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
     
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
