@@ -122,31 +122,27 @@ var comms = function() {
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
-    pallet = null;
-    ball = null;
+    pallet = [];
+    ball = [];
     bricks = [];
     effects = [];
+    $('#iconArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          if(pallet == null) {
-              pallet = [];
-          }
           pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
           break;
         case "Ball":
-          if(ball == null) {
-              ball = [];
-          }
           ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
           break;
         case "Brick":
           bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
           break;
         case "Powerup":
-        effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-        break; // TODO: Doesn't work yet ;-;
+          effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+          $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+          break;
       }
     }
   };
@@ -187,8 +183,8 @@ var socket = function() {
 }();
 
 // DRAW FUNCTIONS (P5.JS) //
-var ball = null; // TODO: SOOO MANYY GLOBALS ;-;
-var pallet = null;
+var ball = []; // TODO: SOOO MANYY GLOBALS ;-;
+var pallet = [];
 var bricks = [];
 var effects = [];
 var images = {};
