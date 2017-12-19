@@ -43,7 +43,7 @@ public class Fireball extends Ball {
 
     @Override
     public String toString() {
-        return "Ball";
+        return super.toString() + " fireball";
     }
     
     @Override

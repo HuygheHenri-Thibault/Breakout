@@ -23,7 +23,7 @@ Player.prototype.move = function(keyMap) {
       socket.sendMessage(messageObj);
     }
   }
-  
+
   if (!keyMap[this.leftKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
       messageObj.direction = "stop";
@@ -68,7 +68,7 @@ var input = function() {
   onkeydown = onkeyup = function(e) {
     e = e || event; // damn you IE..
     keyMap[e.keyCode] = e.type === 'keydown';
-    
+
     for (var player in players) {
       players[player].move(keyMap);
     }
@@ -138,35 +138,35 @@ var comms = function() {
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
-    pallet = null;
-    ball = null;
+    pallet = [];
+    ball = [];
     bricks = [];
     effects = [];
+    $('#iconArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
         case "Pallet":
-          if(pallet == null) {
-              pallet = [];
-          }
           pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
           break;
         case "Ball":
-          if(ball == null) {
-              ball = [];
+          if(oneSprite.icon !== undefined) {
+            ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, getImage(oneSprite.icon)));
+          } else {
+            ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
           }
-          ball.push(new Ball(oneSprite.radius, oneSprite.x, oneSprite.y, images.ball)); // TODO: Move this to seperate functions?
           break;
         case "Brick":
-          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.color)));
+          bricks.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
           break;
         case "Powerup":
-        effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-        break; // TODO: Doesn't work yet ;-;
+          effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
+          $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+          break;
       }
     }
   };
-  
+
   var gameInfo = function(player) {
     var lives = player.lives;
     var score = player.score;
@@ -181,7 +181,7 @@ var socket = function() {
   socket.onopen = function() {
     //socket.sendMessage(JSON.stringify({"flppn": 3}));
   };
-  
+
   socket.onmessage = function(messageRecieved) {
     var message = JSON.parse(messageRecieved.data);
     switch (message.type) {
@@ -208,13 +208,12 @@ var socket = function() {
 
 
 // DRAW FUNCTIONS (P5.JS) //
-
-var ball = null; // TODO: SOOO MANYY GLOBALS ;-;
-var pallet = null;
+var ball = []; // TODO: SOOO MANYY GLOBALS ;-;
+var pallet = [];
 var bricks = [];
 var effects = [];
 var images = {};
-var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png']; // TODO: move to GUI module?
+var imagesToLoad = ['assets/media/pallet.png', 'assets/media/ball.png', 'assets/media/black_block.png', 'assets/media/green_block.png', 'assets/media/purple_block.png', 'assets/media/red_block.png', 'assets/media/yellow_block.png', 'assets/media/gravity.png', 'assets/media/bullet-time.png', 'assets/media/slowed.png', 'assets/media/shrunk.png', 'assets/media/double-trouble.png', 'assets/media/scaffolds.png', 'assets/media/sudden-death.png', 'assets/media/fireball.png']; // TODO: move to GUI module?
 function setImages(listOfImagesToLoad) { // TODO: move to GUI module & make this a array foreach funtion?
   for (var i = 0; i<listOfImagesToLoad.length;i++) {
     var imgPath = listOfImagesToLoad[i].split("/");
