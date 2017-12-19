@@ -180,16 +180,7 @@ public class GameSocket {
             String icon = spriteString[1];
             spriteObj.put("icon", icon);
         }
-//        if(typeOfSprite.equals("Brick")) {
-//            String color = spriteString[1];
-//            spriteObj.put("color", color);
-//        }
-//        if(typeOfSprite.equals("Powerup")) {
-//            String icon = spriteString[1];
-//            spriteObj.put("icon", icon);
-//        }
-        
-        
+
         int xPos = aShape.getX();
         int yPos = aShape.getY();
         spriteObj.put("x", xPos);
@@ -214,7 +205,6 @@ public class GameSocket {
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
                 break;
-            //boundaries
             case "Rectangle":
                 Rectangle rect = (Rectangle) aSpirte;
                 spriteObj.put("width", Math.round(rect.getLength())); // x
@@ -235,9 +225,7 @@ public class GameSocket {
     
     private void movePalletToDirection(Session in, JSONObject obj){
         int playerID = Integer.parseInt((String) obj.get("player"));
-        //System.out.println(playerID);
         String direction = (String) obj.get("direction");
-        //System.out.println(direction);
         Pallet playerPallet = sessionGame.get(in).getLevelPlayedRightNow().getUserPallet(playerID);
         switch(direction){
             case "left":
