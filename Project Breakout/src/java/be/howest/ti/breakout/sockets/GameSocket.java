@@ -14,10 +14,8 @@ import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.SinglePlayerGame;
-import be.howest.ti.breakout.domain.Sprite;
 import be.howest.ti.breakout.domain.game.User;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,7 +30,6 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
-import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.util.BreakoutException;
 /**
@@ -49,7 +46,7 @@ public class GameSocket {
     int players = 1;
 
     //added for smartphone controller
-    private static final Set<Session> activeSessions = Collections.synchronizedSet(new HashSet<Session>());
+    private static final Set<Session> ACTIVE_SESSIONS = Collections.synchronizedSet(new HashSet<Session>());
     
     @OnMessage
     public String onMessage(String message, Session in) {
@@ -249,7 +246,6 @@ public class GameSocket {
             } catch(IOException ex) {
                 throw new BreakoutException("Couldn't update posistion in game", ex);
             }
-            
         }
     }
     
