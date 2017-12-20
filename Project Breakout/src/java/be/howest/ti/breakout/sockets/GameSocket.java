@@ -251,8 +251,7 @@ public class GameSocket {
     
     @OnOpen
     public void onOpen(Session s) {
-        Game newGame = null;
-        sessionGame.put(s, newGame);
+        sessionGame.put(s, null);
     }
     
     @OnClose

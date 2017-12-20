@@ -7,7 +7,6 @@ class Player {
     this.name = name;
   }
 }
-
 Player.prototype.move = function(keyMap) {
   var messageObj = {type: "move", player: this.name};
   if (keyMap[this.leftKey]) {
@@ -38,8 +37,6 @@ Player.prototype.move = function(keyMap) {
     }
   }
 };
-
-
 
 var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
