@@ -111,7 +111,7 @@ public class Level{
     
      public void pauseLevel(){
         this.taskForLevel.setPaused(true);
-         pauseEffects();
+        pauseEffects();
     }
     
     public void unpauseLevel(){
@@ -283,6 +283,7 @@ public class Level{
     
     public void setUserSpell(User u, Spell s){
         //u.setSpell(s);
+        s.setUser(u);
         spellsInGame.put(u, s);
     }
     

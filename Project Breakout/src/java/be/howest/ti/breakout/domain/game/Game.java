@@ -39,42 +39,42 @@ public class Game{
     private List<Ratio> ratios = new ArrayList<>();
     
     //private int TotalGameScore = 0; // can just get this by taking total score of scoreperUser;
-    private Map<User, Integer> scorePerUser = new HashMap<User, Integer>();
+    private Map<User, Integer> scorePerUser;
     
     private int livesLeftOriginally; // for sudden death powerdown
     private int lives; 
     private boolean gameOver = false;
     
-    //hardcoded constructor
-    public Game(int height, int width, int lives, int numberOfPlayers, GameDifficulty difficulty){
-        switch(numberOfPlayers){
-            case 1:
-                this.players = new ArrayList<>(Arrays.asList(me));
-                break;
-            case 2:
-                this.players = new ArrayList<>(Arrays.asList(me, me1));
-                break;
-            case 3:
-                this.players = new ArrayList<>(Arrays.asList(me, me1, me2));
-                break;
-            case 4:
-                this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
-                break;
-        }
-        initializeUserScores();
-        this.width = width;
-        this.height = height;
-        this.lives = 3 * players.size();
-        this.livesLeftOriginally = lives;
-        this.numberOfPlayers = players.size();
-        this.difficulty = difficulty;
-        addRatiosToGame(difficulty);
-        this.factoryLevels = new FactoryLevel(this);
-    }
+//    //hardcoded constructor
+//    public Game(int height, int width, int lives, int numberOfPlayers, GameDifficulty difficulty){
+//        switch(numberOfPlayers){
+//            case 1:
+//                this.players = new ArrayList<>(Arrays.asList(me));
+//                break;
+//            case 2:
+//                this.players = new ArrayList<>(Arrays.asList(me, me1));
+//                break;
+//            case 3:
+//                this.players = new ArrayList<>(Arrays.asList(me, me1, me2));
+//                break;
+//            case 4:
+//                this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
+//                break;
+//        }
+//        initializeUserScores();
+//        this.width = width;
+//        this.height = height;
+//        this.lives = 3 * players.size();
+//        this.livesLeftOriginally = lives;
+//        this.numberOfPlayers = players.size();
+//        this.difficulty = difficulty;
+//        addRatiosToGame(difficulty);
+//        this.factoryLevels = new FactoryLevel(this);
+//    }
     
 
-    public Game(List<User> players, int height, int width, int lives, GameDifficulty difficulty) {
-        this.players = players;
+    public Game(int height, int width, int aantalSpelers, GameDifficulty difficulty) {
+        this.players = initializeUsers(aantalSpelers);
         initializeUserScores();
         this.width = width;
         this.height = height;
@@ -86,17 +86,21 @@ public class Game{
         this.factoryLevels = new FactoryLevel(this);
     }
     
-    public List<User> getPlayers() {
-        return players;
+    public final List<User> initializeUsers(int aantalSpelers){
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < aantalSpelers; i++) {
+            users.add(new Guest());
+        }
+        return users;
     }
     
-    public User getPlayerByUsername(String username){
-        for (User player : players) {
-            if(player.getUsername().equals(username)){
-                return player;
-            }
-        }
-        return null;
+    public void replaceGuestByUser(int spelerID, User u){
+        players.set(spelerID, u);
+        initializeUserScores();
+    }
+    
+    public List<User> getPlayers() {
+        return players;
     }
     
     public int getNumberOfPlayers() {
@@ -139,6 +143,7 @@ public class Game{
     }
     
     public final void initializeUserScores(){
+        scorePerUser = new HashMap<>();
         for (User player : players) {
             scorePerUser.put(player, 0);
         }
