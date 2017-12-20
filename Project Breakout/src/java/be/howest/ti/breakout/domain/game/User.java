@@ -20,11 +20,11 @@ public class User {
     private int level;
     private final int XPtoNextLevel = 500 * level;
     private String bio;
-    //private int score;
+    private int spScore;
     private int totalScore;
     private Spell spell;
     
-    public User(int id, String username, String password, String email, int lvl, String bio) {
+    public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
         this.userId = id;
         this.email = email;
         this.username = username;
@@ -32,10 +32,11 @@ public class User {
         this.level = lvl;
         this.bio = bio;
         this.totalScore = 0;
+        this.spScore = spScore;
     }
     
     public User(String username, String password, String email, int lvl, String bio) {
-        this(-1, username, password, email, lvl, bio);
+        this(-1, username, password, email, lvl, bio, 0);
     }
     public User(String username, String password, String email, int lvl) {
         this(username, password, email, lvl, null);
@@ -75,9 +76,9 @@ public class User {
         return bio;
     }
     
-//    public int getScore() {
-//        return score;
-//    }
+    public int getSinglePlayerScore() {
+        return spScore;
+    }
 //
 //    public void addToScore(int score) {
 //        this.score += score;
