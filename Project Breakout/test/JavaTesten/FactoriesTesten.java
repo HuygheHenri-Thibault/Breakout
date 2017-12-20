@@ -193,7 +193,7 @@ public class FactoriesTesten {
     @Test
     public void testSpell(){
         Level level = new Level(singlePlayerGame, 1);
-        Spell spell = me.getSpell();
+        //Spell spell = me.getSpell();
         //System.out.println(spell.getName());
     }
     // TODO add test methods here.
