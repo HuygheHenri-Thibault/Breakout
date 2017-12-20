@@ -26,7 +26,7 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_PASSWORD = "password";
     public static final String FIELD_LEVEL = "level";
     public static final String FIELD_BIO = "bio";
-    public static final String FIELD_SINGLEPLAYERHIGHSCORE = "bio";
+    public static final String FIELD_SINGLEPLAYERHIGHSCORE = "spHighscore";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";

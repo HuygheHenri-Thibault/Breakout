@@ -24,8 +24,8 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     private static final String FIELD_USERID = "user_id";
     private static final String FIELD_HIGHSCORE = "highscore";
     
-    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FORM breakout.user";
-    private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.userhighscore WHERE user_id = ?";
+    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user";
+    private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user WHERE user_id = ?";
     private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE breakout.user SET spHighscore = ? WHERE username = ?";
     private static final String DELETE_HIGHSCORE = "DELETE * FROM breakout.userhighscore WHERE user_id = ? AND highscore = ?";
     private static final String GET_ALL_MULTIPLAYER_SCORES = "select * from multiplayerhighscore";
@@ -37,13 +37,13 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     public List<SinglePlayerHighscore> getAllSingleplayerHighscores() {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_ALL_SINGLEPLAYERHIGHSCORES)) {
-            
             try(ResultSet rs = stmt.executeQuery()) {
                 List<SinglePlayerHighscore> spHighscores = new ArrayList<>();
                 while(rs.next()) {
                     User player = Repositories.getUserRepository().getUserWithUsername(rs.getString("username"));
                     int spHighscore = rs.getInt("spHighscore");
                     SinglePlayerHighscore sph = new SinglePlayerHighscore(player, spHighscore);
+                    spHighscores.add(sph);
                 }
                 return spHighscores;
             }
@@ -98,9 +98,7 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
                 List<MultiPlayerHighscore> mpScores = new ArrayList<>();
                 while(rs.next()) {
                     int id = rs.getInt("id");
-                    SinglePlayerHighscore sph = this.getIndividualScore(id);
-                    Map<User, Integer> playerList = new HashMap<>();
-                    playerList.put(sph.getUser(), sph.getScore());
+                    Map<User, Integer> playerList = this.getIndividualScore(id);
                     MultiPlayerHighscore mph = new MultiPlayerHighscore(id, playerList);
                     mpScores.add(mph);
                 }
@@ -111,18 +109,18 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
         }
     }
     
-    private SinglePlayerHighscore getIndividualScore(int id){
+    private Map<User, Integer> getIndividualScore(int id){
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement stmt = con.prepareStatement(GET_ALL_PLAYERS_FROM_MULTIPLAYER)) {
             stmt.setInt(1, id);
             try(ResultSet rs = stmt.executeQuery()) {
-                SinglePlayerHighscore sph = null;
+                Map<User, Integer> playerList = new HashMap<>();
                 while(rs.next()) {
                     User player = Repositories.getUserRepository().getUserWithId(rs.getInt("userID"));
                     int individualScore = rs.getInt("score");
-                    sph = new SinglePlayerHighscore(player, individualScore);
+                    playerList.put(player, individualScore);
                 }
-                return sph;
+                return playerList;
             }  
         } catch(SQLException ex) {
             throw new BreakoutException("Couldn't get all the individual scores from multiplayer", ex);

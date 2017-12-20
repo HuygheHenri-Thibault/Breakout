@@ -58,8 +58,22 @@ function loginQuote() {
   "Member breakout? I member breakout", "Yo dawg I heard you like breakout"];
 }
 
+function enableSecondDropdown(){
+    if ($('select[name="modus"]').val() === "sp"){
+        alert('yup');
+        $('select[name="score"]').prop("disabled", false);
+        $('select[name="score"]').material_select();
+    }else{
+        $('select[name="score"]').prop("disabled", true);
+        $('select[name="score"]').material_select();
+    }
+}
+
 $(document).ready(function() {
   console.log("script.js is loaded");
+  $('select[name="modus"]').material_select();
+  $('select[name="score"]').material_select();
+  $('select[name="modus"]').on("change", enableSecondDropdown);
   // Init Page
   loggedIn();
   $('.modal').modal();
