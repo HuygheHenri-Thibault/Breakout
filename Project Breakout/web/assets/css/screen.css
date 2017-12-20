@@ -244,3 +244,19 @@ p.chapter{
     background-color: transparent;
     cursor:pointer;
 }
+
+.cardarea{
+    background-image: url("../media/header-background-condensed.png");
+    background-repeat: no-repeat;
+    background-position: -770px -36px;
+    
+}
+
+.titleInfo{
+    text-shadow: 5px 5px black;
+    margin-top: -20rem;
+}
+
+.cardarea:nth-of-type(even){
+    margin-right: 50px;
+}
