@@ -38,7 +38,7 @@ public final class EffectBiggerPallet extends Effect{
         getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getOriginalLenght()* 0.2)));
         setDone();
     }
-    
+      
     @Override
     public String toString() {
         return super.toString() + " scaffolds"; 

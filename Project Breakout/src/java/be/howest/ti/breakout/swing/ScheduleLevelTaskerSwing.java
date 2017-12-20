@@ -63,7 +63,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
-                System.out.println(pallet.getSpeed());
+                //System.out.println(pallet.getSpeed());
             }
 
             //voor elke powerup, zijn effecten checken
@@ -125,7 +125,6 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
                     effect.activate();
                     break;
                 case INACTIVE:
-                    System.out.println("here");
                     effect.deActivate();
                     break;
                 default:

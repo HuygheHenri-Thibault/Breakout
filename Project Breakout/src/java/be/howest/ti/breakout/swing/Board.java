@@ -62,6 +62,7 @@ public class Board extends JPanel{
     private void initBoard() {
         addKeyListener(new TAdapter());
         addKeyListener(new TEdaper());
+        addKeyListener(new TTdaper());
         setFocusable(true);
         setDoubleBuffered(true);
         showDifficulties();
@@ -77,7 +78,7 @@ public class Board extends JPanel{
         null, options, options[0]);
         
         List<User> users = new ArrayList<>(Arrays.asList(me, me2));
-        game = new MultiPlayerGame(users, 1000, 1000, difficulties.get(response));
+        game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
@@ -233,6 +234,19 @@ public class Board extends JPanel{
         public void keyPressed(KeyEvent e) {
             Spell spell = level.getSpellByUser(me); 
             spell.keyPressed(e); 
+        }
+    }
+    
+    private class TTdaper extends KeyAdapter {
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            level.keyPressed(e);
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) {
+            level.keyReleased(e);
         }
     }
 

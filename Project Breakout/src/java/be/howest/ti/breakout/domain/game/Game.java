@@ -37,7 +37,7 @@ public class Game{
     private final GameDifficulty difficulty;
     private List<Ratio> ratios = new ArrayList<>();
     
-    private int TotalGameScore = 0; // can just get this by taking total score of scoreperUser;
+    //private int TotalGameScore = 0; // can just get this by taking total score of scoreperUser;
     private Map<User, Integer> scorePerUser = new HashMap<User, Integer>();
     
     private int livesLeftOriginally; // for sudden death powerdown
@@ -247,6 +247,9 @@ public class Game{
         setGameOver(true);
         for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
             entry.getKey().addToTotalScore(entry.getValue());
+        }
+        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+            entry.getKey().addXP(entry.getValue() / 2);
         }
         //add Highscores here
         //check players to see which type of highscore
