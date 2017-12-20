@@ -94,6 +94,12 @@ footer {
   background-size: cover;
 }
 
+footer img {
+  height: 3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .modal {
   background-color: #35393d;
 }
@@ -104,6 +110,11 @@ footer {
 
 #user-options {
   margin-top: 4rem;
+}
+
+#username {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Index 4 !!*/
@@ -204,7 +215,7 @@ p.chapter{
     min-height: 100%;
     min-width: 100%;
 }
-.header-overlay{
+/*.header-overlay{
     height: 100vh;
     width: 100vw;
     position: absolute;
@@ -213,7 +224,7 @@ p.chapter{
     background: #225470;
     z-index: 10;
     opacity: 0.50;
-}
+}*/
 .header-content{
     z-index: 11;
 }
