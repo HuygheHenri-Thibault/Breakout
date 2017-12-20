@@ -90,6 +90,15 @@ public class Game{
         return players;
     }
     
+    public User getPlayerByUsername(String username){
+        for (User player : players) {
+            if(player.getUsername().equals(username)){
+                return player;
+            }
+        }
+        return null;
+    }
+    
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }

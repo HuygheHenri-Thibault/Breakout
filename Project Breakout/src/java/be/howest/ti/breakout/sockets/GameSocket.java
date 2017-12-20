@@ -82,9 +82,18 @@ public class GameSocket {
                 case "move":
                     movePalletToDirection(in, obj);
                     return "";
-                case "spell":
+                case "spellActivate":
+                    String username = (String) obj.get("player");
+                    User player = sessionGame.get(in).getPlayerByUsername(username);
+                    Spell spell = sessionGame.get(in).getLevelPlayedRightNow().getSpellByUser(player);
+                    spell.setReadyToCast();
                     return "";
                 case "pause":
+                    if(sessionGame.get(in).getLevelPlayedRightNow().isPaused()){
+                        sessionGame.get(in).getLevelPlayedRightNow().unpauseLevel();
+                    } else {
+                        sessionGame.get(in).getLevelPlayedRightNow().pauseLevel();
+                    }
                     return "";
                 default:
                     JSONObject resultObj = new JSONObject();

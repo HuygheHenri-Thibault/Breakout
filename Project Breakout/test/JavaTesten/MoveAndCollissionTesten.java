@@ -277,15 +277,15 @@ public class MoveAndCollissionTesten {
         g.createNewLevel();
         Level l = g.getLevelPlayedRightNow();
         Ball b = l.getBalls().get(0);
-        b.setX(15);
-        b.setY(990);
+        b.setX(10);
+        b.setY(988);
         b.setSpeed(2);
         b.setDx(-2);
         b.setDy(2);
-        b.move(); // x 13 y 798 -> x 500 y 800
-        b.move(); // x 502 y 798
-        assertEquals(992, b.getY());
-        assertEquals(5, b.getX());
+        b.move();
+        b.move(); 
+        assertEquals(994, b.getY());
+        assertEquals(10, b.getX());
         assertEquals(2, g.getLives());
     }
     

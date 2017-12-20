@@ -119,6 +119,10 @@ public class Level{
         resumeEffects();
     }
     
+    public boolean isPaused(){
+        return taskForLevel.isPaused();
+    }
+    
     public void endLevel(){
         cancelTimersOfEffects();
         this.timer.cancel();
@@ -278,7 +282,7 @@ public class Level{
     }
     
     public void setUserSpell(User u, Spell s){
-        u.setSpell(s);
+        //u.setSpell(s);
         spellsInGame.put(u, s);
     }
     
