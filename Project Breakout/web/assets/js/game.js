@@ -57,7 +57,7 @@ var init = function() {
     var grootteCols = (cols / players);
     var currentslot = 1;
     while (currentslot <= players) {
-      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "' data-player='"+currentslot+"'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul><form class='inputForm'><div class='input-field col s4'><input id='left-key-"+currentslot+"' class='left-key' type='text'><label for='left-key-"+currentslot+"'>left key:</label></div><div class='input-field  col s4'><input id='right-key-"+currentslot+"' class='right-key' type='text'><label for='right-key-"+currentslot+"'>right key:</label></div><div class='input-field  col s4'><input id='ability-key-"+currentslot+"' class='ability-key' type='text'><label for='ability-key-"+currentslot+"'>ability key:</label></div><input type='submit'></form></div>");
+      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "' data-player='"+currentslot+"'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul><form class='inputForm'><div class='input-field col s4'><input id='left-key-"+currentslot+"' class='left-key' type='text'><label for='left-key-"+currentslot+"'>left key</label></div><div class='input-field  col s4'><input id='right-key-"+currentslot+"' class='right-key' type='text'><label for='right-key-"+currentslot+"'>right key</label></div><div class='input-field  col s4'><input id='ability-key-"+currentslot+"' class='ability-key' type='text'><label for='ability-key-"+currentslot+"'>ability key</label></div><input type='submit'></form><div class='spells-"+currentslot+"'></div></div>");
       currentslot += 1;
     }
   };
@@ -98,8 +98,10 @@ var input = function() {
   function selectSpell() {
     var spell = $(this).html();
     var player = "" + $(this).data().player;
+    console.log("clicked --> " + spell + ", " + player);
     var messageObj = {type:"selectedSpells", spell, player};
     socket.sendMessage(messageObj);
+    $(".spells-"+player).html("");
   }
   var players = [];
   return {players, setKeys, submitStartGameData, selectSpell};
@@ -205,9 +207,11 @@ var gui = function() {
   var showSpells = function(spellObj) {
     var itr = 0;
     console.log(spellObj);
-    for(var thing in spellObj) {
-      if (thing !== 'type') {
-        $("div.controllercol[data-player="+(itr+1)+"]").append("<div class='row'><a class='btn spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[thing]+"</a></div>");
+    for(var player in spellObj) {
+      if (player !== 'type') {
+        for(var spell in spellObj[player]) {
+          $("div.controllercol[data-player="+(itr+1)+"] .spells-"+(itr+1)).append("<a class='btn spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[player][spell]+"</a>");
+        }
         itr++;
       }
     }
@@ -219,20 +223,23 @@ var socket = function() {
   var url = "ws://localhost:8080/Project_Breakout/gamepoint";
   var socket = new WebSocket(url);
   socket.onmessage = function(messageRecieved) {
-    var message = JSON.parse(messageRecieved.data);
-    switch (message.type) {
-      case "gameStarted":
-        comms.getUpdate();
-        break;
-      case "spells":
-       gui.showSpells(message);
-       break;
-      case "posistion":
-        gui.drawFromPosistion(message);
-        break;
-      case "gameInfo":
-        gui.gameInfo(message);
-        break;
+    if(messageRecieved !== "") {
+      var message = JSON.parse(messageRecieved.data);
+      switch (message.type) {
+        case "gameStarted":
+          $("#selectController").modal("close");
+          comms.getUpdate();
+          break;
+        case "spells":
+         gui.showSpells(message);
+         break;
+        case "posistion":
+          gui.drawFromPosistion(message);
+          break;
+        case "gameInfo":
+          gui.gameInfo(message);
+          break;
+      }
     }
   };
   // Public
