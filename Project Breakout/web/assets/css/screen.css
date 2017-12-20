@@ -244,3 +244,32 @@ p.chapter{
     background-color: transparent;
     cursor:pointer;
 }
+
+.cardarea{
+    background-image: url("../media/footer-background.png");
+    opacity: 0.6;
+    background-repeat: no-repeat;
+    background-position: -770px -36px;
+    max-width: 50rem;
+    height:10rem;
+    border-style: solid;
+    border-width:1px;
+    border-color: #BA8017;
+}
+
+.succesor{
+    margin-left:50rem;
+}
+
+.cardarea:nth-of-type(even){
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.titleInfo{
+    text-shadow: 5px 5px black;
+}
+
+.premier{
+    opacity: 1.0;
+}
