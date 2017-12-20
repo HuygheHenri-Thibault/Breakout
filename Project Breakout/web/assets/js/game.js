@@ -50,14 +50,56 @@ var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
 var init = function() {
+  var keyForm = function(currentslot) {
+    return  "<form class='inputForm'>"+
+              "<div class='input-field col s4'>"+
+                "<input id='left-key-"+currentslot+"' class='left-key' type='text'>"+
+                "<label for='left-key-"+currentslot+"'>left</label>"+
+              "</div>"+
+              "<div class='input-field  col s4'>"+
+                "<input id='right-key-"+currentslot+"' class='right-key' type='text'>"+
+                "<label for='right-key-"+currentslot+"'>right</label>"+
+              "</div>"+
+              "<div class='input-field  col s4'>"+
+                "<input id='ability-key-"+currentslot+"' class='ability-key' type='text'>"+
+                "<label for='ability-key-"+currentslot+"'>ability</label>"+
+              "</div>"+
+              "<input type='submit' class='black-text' value='Set Keys'>"+
+            "</form>"
+  }
+  var loginForm = function(currentslot) {
+    return  "<form class='quickLogin player-"+currentslot+"' data-player='"+currentslot+"'>"+
+            "<div class='row'>"+
+              "<div class='input-field col s12'>"+
+                "<input id='username-"+currentslot+"' class='username' type='text'>"+
+                "<label for='username-"+currentslot+"'>Username</label>"+
+              "</div>"+
+            "</div>"+
+            "<div class='row'>"+
+              "<div class='input-field col s12'>"+
+                "<input id='password-"+currentslot+"' class='password' type='text'>"+
+                "<label for='password-"+currentslot+"'>Password</label>"+
+              "</div>"+
+              "<input type='submit' class='black-text' value='Login or play as guest' data-player='"+currentslot+"'>"+
+            "</div>"+
+            "</form>"
+  }
   var fireModal = function(playerAmount) {
     $("#selectController").modal().modal('open');;
     var cols = 12;
     var players = playerAmount;
     var grootteCols = (cols / players);
     var currentslot = 1;
+    var colors = ["red", "green", "blue", "deep-purple"];
     while (currentslot <= players) {
-      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "' data-player='"+currentslot+"'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul><form class='inputForm'><div class='input-field col s4'><input id='left-key-"+currentslot+"' class='left-key' type='text'><label for='left-key-"+currentslot+"'>left key</label></div><div class='input-field  col s4'><input id='right-key-"+currentslot+"' class='right-key' type='text'><label for='right-key-"+currentslot+"'>right key</label></div><div class='input-field  col s4'><input id='ability-key-"+currentslot+"' class='ability-key' type='text'><label for='ability-key-"+currentslot+"'>ability key</label></div><input type='submit'></form><div class='spells-"+currentslot+"'></div></div>");
+      var htmlString = "<div class='controllercol white-text center col s"+grootteCols+" "+colors[currentslot-1]+"' data-player='"+currentslot+"'>Player "+currentslot;
+      if(currentslot != 1) {
+        htmlString += loginForm(currentslot);
+      } else {
+        htmlString += keyForm(currentslot); //TODO: spells nog maar opvragen waneer deze functie geroepen wordt??
+      }
+      htmlString += "<div class='spells-"+currentslot+"'></div></div>"
+      $(".modal-content").append(htmlString);
       currentslot += 1;
     }
   };
@@ -78,7 +120,7 @@ var input = function() {
   var setKeys = function(e) {
     e.preventDefault();
     var form = $(this).parent(".inputForm");
-    var playerId = $(this).parent(".controllercol").data()["player"];
+    var playerId = $(this).parent(".controllercol").data().player;
     var leftKeyCode = $("#left-key-"+playerId).val().charCodeAt(0)-32;
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
@@ -103,8 +145,18 @@ var input = function() {
     socket.sendMessage(messageObj);
     $(".spells-"+player).html("");
   }
+  function quickLogin(e) {
+    e.preventDefault();
+    var playerNum = $(this).data().player;
+    console.log(playerNum);
+    var username = $("#username-"+playerNum).val();
+    var password = $("#password-"+playerNum).val();
+    var messageObj = {type:"login", username, password, player:""+playerNum};
+    console.log(messageObj);
+    socket.sendMessage(messageObj);
+  }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin};
 }();
 var comms = function() {
   // Private
@@ -210,7 +262,7 @@ var gui = function() {
     for(var player in spellObj) {
       if (player !== 'type') {
         for(var spell in spellObj[player]) {
-          $("div.controllercol[data-player="+(itr+1)+"] .spells-"+(itr+1)).append("<a class='btn spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[player][spell]+"</a>");
+          $("div.controllercol[data-player="+(itr+1)+"] .spells-"+(itr+1)).append("<a class='btn white black-text spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[player][spell]+"</a>");
         }
         itr++;
       }
@@ -289,4 +341,5 @@ $(document).ready(function() {
   $("#modalForm").on("submit", input.submitStartGameData);
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
+  $(document).on("submit", ".quickLogin", input.quickLogin)
 });
