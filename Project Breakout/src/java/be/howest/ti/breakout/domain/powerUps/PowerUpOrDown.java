@@ -111,6 +111,26 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
         setRunning();
     }
     
+    public void pause(){
+        for (Effect effect : effects) {
+           effect.pause();
+        }
+    }
+    
+    public void resume(){
+        for (Effect effect : effects) {
+           effect.unpause();
+        }
+    }
+    
+    public void cancel(){
+        for (Effect effect : effects) {
+            if(effect.hasTimer()){
+                effect.getTimerEffect().cancel();
+            }
+        }
+    }
+    
     @Override
     public boolean checkCollissionWithCircle(Circle c){
         return c.checkCollissionWithRect(boundaries);

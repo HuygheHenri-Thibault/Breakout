@@ -39,11 +39,6 @@ public final class EffectExtraBall extends Effect {
         extraBallCreated.removeFromScreen();
         setDone();
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + " double-trouble";
-    }
     
     public boolean hasUserAlreadyActivatedThisEffect(){
         for (Ball ball : getLevelOfEffect().getBalls()) {
@@ -56,5 +51,9 @@ public final class EffectExtraBall extends Effect {
         }
         return false;
     }
-
+    
+    @Override
+    public String toString() {
+        return super.toString() + " double-trouble";
+    }
 }

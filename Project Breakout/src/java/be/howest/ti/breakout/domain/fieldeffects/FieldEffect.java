@@ -41,19 +41,23 @@ public class FieldEffect {
     public int getInterval() {
         return interval;
     }
-    
-   
       
     public void doEffect()
     {
         effect.setLevelOfEffect(level);
-        timerFieldEffect.scheduleAtFixedRate(new TimerTaskFieldEffect(effect), 2000, interval * 1000);
+        timerFieldEffect.scheduleAtFixedRate(new TimerTaskFieldEffect(this, effect), 2000, interval * 1000);
+    }
+    
+    public void stopFieldEffect(){
+        if(effect.hasTimer()){
+            effect.getTimerEffect().cancel();
+        }
+        timerFieldEffect.cancel();
     }
     
     public void pause(){
         paused = true;
-        effect.setDeActive();
-        timerFieldEffect.cancel();
+        effect.pause();
     }
     
     public boolean IsPaused(){
@@ -62,13 +66,9 @@ public class FieldEffect {
     
     public void resume(){
         paused = false;
-        timerFieldEffect = new Timer();
-        doEffect();
+        effect.unpause();
     }
     
-    public void cancel(){
-        this.timerFieldEffect.cancel();
-    }
 
     @Override
     public String toString() {

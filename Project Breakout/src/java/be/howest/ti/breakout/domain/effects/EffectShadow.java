@@ -44,6 +44,7 @@ public class EffectShadow extends Effect{
                 palletIdSetInvisible = generator.nextInt(((getLevelOfEffect().getPallets().size() - 1) - 0) + 0) + 0;
             }
             getLevelOfEffect().getPallets().get(palletIdSetInvisible).setInvisible();
+            setRunning();
             setTimerEffect(new Timer());
             getTimerEffect().scheduleAtFixedRate(new TimerTaskEffect(this), 0, 1000);
         }
@@ -52,11 +53,12 @@ public class EffectShadow extends Effect{
     @Override
     public void deActivate() {
         System.out.println("deactivated shadow");
-        getTimerEffect().cancel();
+        if(hasTimer()){
+            getTimerEffect().cancel();
+        }
         getLevelOfEffect().getPallets().get(palletIdSetInvisible).setVisible();
         setDone();
     }
-    
     
     private List<Integer> generateBrickNumbers(int min, int max){
         List<Integer> randomIndexOfBricks = new ArrayList<>();
@@ -69,5 +71,10 @@ public class EffectShadow extends Effect{
             }
         }
         return randomIndexOfBricks;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " shadow"; 
     }
 }

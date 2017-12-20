@@ -18,6 +18,7 @@ public class User {
     private String hashPassword;
     private int XP;
     private int level;
+    private final int XPtoNextLevel = 500 * level;
     private String bio;
     private int spScore;
     private int totalScore;
@@ -89,6 +90,9 @@ public class User {
 
     public void addXP(int XP) {
         this.XP += XP;
+        if(XP >= XPtoNextLevel){
+            level += 1;
+        }
     }
 
     public int getTotalScore() {
