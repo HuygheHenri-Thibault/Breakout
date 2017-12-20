@@ -19,26 +19,24 @@ public final class EffectSlowerPallet extends Effect {
 
     @Override
     public void activate() {
-        //Pallet palletOfUser = getUserPallet();
-        //setUserPallet(palletOfUser);
         setRunning();
 
-        getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
+        userPallet.setSpeed(userPallet.getSpeed() - 1);
 
         System.out.println("activated slowed");
 
-        setTimerEffect(new Timer());
-        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
+        TimerEffect = new Timer();
+        TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated slowed");
-        getTimerEffect().cancel();
-        getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
+        TimerEffect.cancel();
+        userPallet.setSpeed(getUserPallet().getSpeed() + 1);
         setDone();
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + " slowed";

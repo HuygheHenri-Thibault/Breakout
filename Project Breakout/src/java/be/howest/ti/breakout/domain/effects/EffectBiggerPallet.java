@@ -19,26 +19,24 @@ public final class EffectBiggerPallet extends Effect{
 
     @Override
     public void activate() {
-        //Pallet palletOfUser = getUserPallet();
-        //setUserPallet(palletOfUser);
         setRunning();
         
-        getUserPallet().setLength((int) (getUserPallet().getLength() + (getUserPallet().getOriginalLenght()* 0.2)));
+        userPallet.setLength((int) (userPallet.getLength() + (userPallet.getOriginalLenght()* 0.2)));
         
         System.out.println("activated scaffolds");
       
-        setTimerEffect(new Timer());
-        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
+        TimerEffect = new Timer();
+        TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated scaffolds");
-        getTimerEffect().cancel();
-        getUserPallet().setLength((int) (getUserPallet().getLength() - (getUserPallet().getOriginalLenght()* 0.2)));
+        TimerEffect.cancel();
+        userPallet.setLength((int) (userPallet.getLength() - (userPallet.getOriginalLenght()* 0.2)));
         setDone();
     }
-    
+      
     @Override
     public String toString() {
         return super.toString() + " scaffolds"; 

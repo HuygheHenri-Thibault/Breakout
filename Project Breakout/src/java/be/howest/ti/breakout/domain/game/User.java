@@ -18,10 +18,11 @@ public class User {
     private String hashPassword;
     private int XP;
     private int level;
+    private final int XPtoNextLevel = 500 * level;
     private String bio;
     private int spScore;
     private int totalScore;
-    private Spell spell;
+    //private Spell spell;
     
     public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
         this.userId = id;
@@ -89,6 +90,9 @@ public class User {
 
     public void addXP(int XP) {
         this.XP += XP;
+        if(XP >= XPtoNextLevel){
+            level += 1;
+        }
     }
 
     public int getTotalScore() {
@@ -99,12 +103,12 @@ public class User {
         this.totalScore += totalScore;
     }
 
-    public void setSpell(Spell spell) {
-        this.spell = spell;
-        spell.setUser(this);
-    }
-
-    public Spell getSpell() {
-        return spell;
-    }
+//    public void setSpell(Spell spell) {
+//        this.spell = spell;
+//        spell.setUser(this);
+//    }
+//
+//    public Spell getSpell() {
+//        return spell;
+//    }
 }

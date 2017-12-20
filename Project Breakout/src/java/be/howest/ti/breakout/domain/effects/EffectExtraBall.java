@@ -22,11 +22,9 @@ public final class EffectExtraBall extends Effect {
 
     @Override
     public void activate() {
-        //int amountOfBallsInLevel = (int) Math.ceil((double) getLevelOfEffect().getAantalSpelers() / 2);
-        //if (!(getLevelOfEffect().getBalls().size() >= amountOfBallsInLevel + 1)) {
         if(!hasUserAlreadyActivatedThisEffect()){
             setRunning();
-            extraBallCreated = getLevelOfEffect().createExtraBall(this);
+            extraBallCreated = LevelOfEffect.createExtraBall(this);
             System.out.println("activated");
         } else {
             setDone();
@@ -39,14 +37,9 @@ public final class EffectExtraBall extends Effect {
         extraBallCreated.removeFromScreen();
         setDone();
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + " double-trouble";
-    }
     
     public boolean hasUserAlreadyActivatedThisEffect(){
-        for (Ball ball : getLevelOfEffect().getBalls()) {
+        for (Ball ball : getLevelOfEffect().getExtraBallCreatedByEffects()) {
             User u = ball.giveUserActivatedSpecialBall();
             if(u != null){
                 if(u.getUserId() == getUserActivatedEffect().getUserId()){
@@ -56,5 +49,9 @@ public final class EffectExtraBall extends Effect {
         }
         return false;
     }
-
+    
+    @Override
+    public String toString() {
+        return super.toString() + " double-trouble";
+    }
 }

@@ -6,3 +6,42 @@
   height: 100%;
   margin-right: 0.5rem;
 }
+
+.spellSelect {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-content .controllercol.col {
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+/* label color */
+ .modal-content .input-field label {
+   color: white;
+ }
+ /* label focus color */
+ .modal-content .input-field input[type=text]:focus + label {
+   color: white;
+ }
+ /* label underline focus color */
+ .modal-content .input-field input[type=text]:focus {
+   border-bottom: 1px solid white;
+   box-shadow: 0 1px 0 0 white;
+ }
+ /* valid color */
+ .modal-content .input-field input[type=text].valid {
+   border-bottom: 1px solid white;
+   box-shadow: 0 1px 0 0 white;
+ }
+ /* invalid color */
+ .modal-content .input-field input[type=text].invalid {
+   border-bottom: 1px solid white;
+   box-shadow: 0 1px 0 0 white;
+ }
+ /* icon prefix focus color */
+ .modal-content .input-field .prefix.active {
+   color: white;
+ }

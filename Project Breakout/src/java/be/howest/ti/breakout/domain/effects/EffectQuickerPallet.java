@@ -19,32 +19,27 @@ public final class EffectQuickerPallet extends Effect{
 
     @Override
     public void activate() {
-        //Pallet palletOfUser = getUserPallet();
-        //setUserPallet(palletOfUser);
-        
         setRunning();
         
-        getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
+        userPallet.setSpeed(getUserPallet().getSpeed() + 1);
         
         System.out.println("activated bullet time");
       
-        setTimerEffect(new Timer());
-        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
+        TimerEffect = new Timer();
+        TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
     
     @Override
     public void deActivate() {
         System.out.println("deactivated bullet time");
-        getTimerEffect().cancel();
-        getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
+        TimerEffect.cancel();
+        userPallet.setSpeed(getUserPallet().getSpeed() - 1);
         setDone();
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + " bullet-time"; 
     }
-
     
-
 }

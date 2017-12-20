@@ -13,7 +13,7 @@ import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
-import be.howest.ti.breakout.domain.effects.EffectFireBall;
+import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
 
 /**
  *
@@ -63,7 +63,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         return b;
     }
     
-    public Fireball createExtraFireball(EffectFireBall effect){
+    public Fireball createExtraFireball(EffectDragonFireBall effect){
         String colorPallet = findUnusedColor();
         
         int x = level.getGameWidth() / 2;

@@ -49,6 +49,7 @@ public class Board extends JPanel{
     User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
     User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
     User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
     List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
@@ -62,6 +63,7 @@ public class Board extends JPanel{
     private void initBoard() {
         addKeyListener(new TAdapter());
         addKeyListener(new TEdaper());
+        addKeyListener(new TTdaper());
         setFocusable(true);
         setDoubleBuffered(true);
         showDifficulties();
@@ -76,7 +78,7 @@ public class Board extends JPanel{
         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
         null, options, options[0]);
         
-        List<User> users = new ArrayList<>(Arrays.asList(me, me2));
+        
         game = new MultiPlayerGame(users, 1000, 1000, difficulties.get(response));
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
@@ -87,7 +89,9 @@ public class Board extends JPanel{
     
     public void showSpellChoices(){
         Map<User, List<Spell>> spellsChoices = level.getAllSpellsChoices();
+        int j = 0;
         for (Map.Entry<User, List<Spell>> entry : spellsChoices.entrySet()) {
+            j++;
             List<Spell> spells = entry.getValue();
             String[] options = new String[spells.size()];
             for (int i = 0; i < spells.size(); i++) {
@@ -96,7 +100,7 @@ public class Board extends JPanel{
             int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
             null, options, options[0]);
-            level.setUserSpell(me, spells.get(response));
+            level.setUserSpell(users.get(j - 1), spells.get(response));
         }
         level.startLevel(s);
     }
@@ -233,6 +237,19 @@ public class Board extends JPanel{
         public void keyPressed(KeyEvent e) {
             Spell spell = level.getSpellByUser(me); 
             spell.keyPressed(e); 
+        }
+    }
+    
+    private class TTdaper extends KeyAdapter {
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            level.keyPressed(e);
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) {
+            level.keyReleased(e);
         }
     }
 

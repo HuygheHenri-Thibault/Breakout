@@ -13,26 +13,22 @@ import java.util.TimerTask;
  *
  * @author Fredr
  */
-public class TimerTaskWeb extends TimerTask{
-    
-    private final Level level;
+public class TimerTaskWeb extends TimerTask {
+
     private final Web web;
 
     public TimerTaskWeb(Web web) {
         this.web = web;
-        this.level = web.getLevel();
     }
 
     @Override
     public void run() {
-        for (Ball ball : web.getLevel().getBalls()) {
-            if(ball.checkCollissionWithCircle(web)){
-                ball.setSpeed(ball.getOriginalSpeed());
-                ball.cutDirectionBy(ball.getNumberOfDirectionBeingCutBy());
+        if (!web.isPaused()) {
+            web.decrementTimeToLive();
+            if (web.getTimeToLive() <= 0) {
+                web.removeYourselfNow();
             }
         }
-        level.removeShapeFromFieldEffectShapes(web);
-        cancel();
     }
-    
+
 }

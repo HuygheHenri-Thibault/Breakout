@@ -14,15 +14,19 @@ import java.util.TimerTask;
  */
 public class TimerTaskFieldEffect extends TimerTask{
 
+    private final FieldEffect fieldEffect;
     private final Effect effect;
     
-    public TimerTaskFieldEffect(Effect effect) {
+    public TimerTaskFieldEffect(FieldEffect fieldEffect, Effect effect) {
+        this.fieldEffect = fieldEffect;
         this.effect = effect;
     }
 
     @Override
     public void run() {
-        effect.setActive();
+        if(!fieldEffect.IsPaused()){
+            effect.setActive();
+        }
     }
     
 }

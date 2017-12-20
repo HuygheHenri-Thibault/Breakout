@@ -23,17 +23,16 @@ public class EffectWebs extends Effect{
 
     @Override
     public void activate() {
-        //System.out.println("activated webs");
         setRunning();
         Random generator = new Random();
-        //((max-min) + 1) + min
+
         int randomX = generator.nextInt(((getLevelOfEffect().getGameWidth() - 100) - 100) + 1) + 100;
         int randomY = generator.nextInt(((getLevelOfEffect().getGameHeight() - 100) - 100) + 1) + 100;
         int randomRadius = generator.nextInt((100 - 50) + 1) + 50;
-        //System.out.println(randomRadius);
-        Web newWeb = new Web(getLevelOfEffect(), randomX, randomY, randomRadius);
+        
+        Web newWeb = new Web(LevelOfEffect, randomX, randomY, randomRadius);
         websCreated.add(newWeb);
-        getLevelOfEffect().addShapeToFieldEffectShapes(newWeb);
+        LevelOfEffect.addShapeToFieldEffectShapes(newWeb);
     }
 
     @Override

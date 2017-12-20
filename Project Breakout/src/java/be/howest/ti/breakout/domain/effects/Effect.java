@@ -16,21 +16,24 @@ import java.util.Timer;
  * @author micha
  */
 public abstract class Effect{
-    private final String name;
-    private Pallet userPallet;
-    private User userActivatedEffect;
-    private Ball BallActivatedEffect;
-    private int duration;
-    private Level LevelOfEffect;
-    private Timer TimerEffect;
+    protected final String name;
+    protected Pallet userPallet;
+    protected User userActivatedEffect;
+    protected Ball BallActivatedEffect;
+    protected final int originalDuration;
+    protected int duration;
+    protected Level LevelOfEffect;
+    protected Timer TimerEffect;
+    protected boolean paused = false;
 
     public Effect(String name, int duration) {
         this.name = name;
+        this.originalDuration = duration;
         this.duration = duration;
     }
     
     //status
-    private EffectStatus status = EffectStatus.READY;
+    protected EffectStatus status = EffectStatus.READY;
     
     public void setReady(){status = EffectStatus.READY;}
     public void setActive(){status = EffectStatus.ACTIVE;}
@@ -87,12 +90,36 @@ public abstract class Effect{
         return duration;
     }
     
+    public void decrementDuration(){
+        duration--;
+    }
+    
+    public int getOriginalDuration(){
+        return originalDuration;
+    }
+    
     public void setTimerEffect(Timer t){
         this.TimerEffect = t;
+    }
+    
+    public boolean hasTimer(){
+        return TimerEffect != null;
     }
 
     public Timer getTimerEffect() {
         return TimerEffect;
+    }
+    
+    public void pause(){
+        paused = true;
+    }
+    
+    public void unpause(){
+        paused = false;
+    }
+    
+    public boolean isPaused(){
+        return paused;
     }
 
 //    public boolean isUserActivatedEffectAlive(){

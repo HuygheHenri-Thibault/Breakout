@@ -85,14 +85,50 @@ var hidePathsIslandMap = function(){
     $("#PathToSignPost").toggle();
     $("#PathToDragonsDen").toggle();
     $("#PathToSpire").toggle();
-    $("#PathToTheBlueKeep").toggle();
-    
+    $("#PathToTheBlueKeep").toggle();  
     //hide sidebar with story
-    $('ul#slide-out').hide();
+    $('ul#slide-out').toggle();
 };
 
 var hidePathsCrossroadsMap = function(){
-    $("#pathLighthouse").hide();
-    $("#pathOasis").hide();
-    $("#pathMines").hide();
+    $("#pathLighthouse").toggle();
+    $("#pathOasis").toggle();
+    $("#pathMines").toggle();
 };
+
+//socket
+var socket = function() {
+  // Private
+  var url = "ws://localhost:8080/Project_Breakout/campaignpoint";
+  var socket = new WebSocket(url);
+  socket.onopen = function() {
+    console.log("socket works");
+      //socket.sendMessage((JSON.stringify({"campaignTest": 500})));
+  };
+  socket.onmessage = function(messageRecieved) {
+    var message = JSON.parse(messageRecieved.data);
+    switch (message.type) {
+      case "posistionOnMap":
+        break;
+      case "campaignInfo":
+        break;
+    }
+  };
+  // Public
+  function sendMessage(message) {
+    socket.send(JSON.stringify(message));
+  }
+  return {sendMessage};
+}();
+
+var comms = function() {
+  // Private
+  var getCampaignInfo = function() {
+    var messageObj = {type: "campaignInfo"};
+    socket.sendMessage(messageObj);
+  };
+  // Public
+  var getUpdate = function() {
+  };
+  return {/*TODO*/};
+}();

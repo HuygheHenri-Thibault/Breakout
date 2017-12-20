@@ -10,7 +10,7 @@
 <main>
 <h1 class="northwood center ">CONTACTEER HET SUPPORTTEAM</h1>
      <div class="row">
-    <form action="support" method="GET" class="col s10 m10 l10 supportform offset-l1">
+    <form action="support" method="POST" class="col s10 m10 l10 supportform offset-l1">
       <div class="row">
         <div class="input-field col s6 m6 l6">
           <i class="material-icons prefix">account_circle</i>

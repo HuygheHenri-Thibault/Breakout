@@ -15,20 +15,19 @@ public final class TimerTaskEffect extends TimerTask {
 
     private final Effect effect;
 
-    private final long start;
-    private final long end;
-
     public TimerTaskEffect(Effect effect) {
         this.effect = effect;
-        this.start = System.currentTimeMillis();
-        this.end = start + (effect.getDuration() * 1000);
     }
 
     @Override
     public void run() {
-        if (System.currentTimeMillis() > end) {
-            effect.setDeActive();
-            cancel();
+        if (!effect.isPaused()) {
+            effect.decrementDuration();
+            if (effect.getDuration() <= 0) {
+                effect.setDuration(effect.getOriginalDuration());
+                effect.setDeActive();
+                cancel();
+            }
         }
     }
 

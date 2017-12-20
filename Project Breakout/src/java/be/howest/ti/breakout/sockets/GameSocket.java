@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.sockets;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.game.Game;
@@ -13,11 +14,10 @@ import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.SinglePlayerGame;
-import be.howest.ti.breakout.domain.Sprite;
 import be.howest.ti.breakout.domain.game.User;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,9 +32,10 @@ import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
-import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
+import be.howest.ti.breakout.util.BCrypt;
 import be.howest.ti.breakout.util.BreakoutException;
+import java.util.ArrayList;
 /**
  *
  * @author Henri
@@ -49,7 +50,7 @@ public class GameSocket {
     int players = 1;
 
     //added for smartphone controller
-    private static final Set<Session> activeSessions = Collections.synchronizedSet(new HashSet<Session>());
+    private static final Set<Session> ACTIVE_SESSIONS = Collections.synchronizedSet(new HashSet<Session>());
     
     @OnMessage
     public String onMessage(String message, Session in) {
@@ -60,28 +61,44 @@ public class GameSocket {
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
                 case "playerAmount":
                     makeGame(in, obj);
-                    makeLevel(in);
-                    return createSpellsOfLevel(in).toJSONString();
-                    // spel wordt gemaakt met dit aantal spelers
-                    // level wordt ook gemaakt
-                    // spells worden gemaakt en doorgestuurd naar de front-end met msg type "showSpells"
-                    //return "";
+                case "loginUser":
+                    loginUser(in, obj);
+                    //makeLevel(in);
+                    //return createSpellsOfLevel(in).toJSONString();
+                    return "";
                 case "selectedSpells":
                     selectSpellOfUser(in, obj);
-                    //hier megeven welke spells gekozen zijn door de spelers
+                    if(sessionGame.get(in).getLevelPlayedRightNow().areAllSpellsSelected()){
+                        startLevel(in);
+                        JSONObject startGameObj = new JSONObject();
+                        startGameObj.put("type", "gameStarted");
+                        return startGameObj.toJSONString();
+                    }
                     return "";
-                case "startGame":
-                    //System.out.println("started");
-                    startLevel(in, obj);
-                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
+//                case "startGame":
+//                    startLevel(in);
+//                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
                     //System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
-                    //System.out.println("gameInfo");
                     return makeJSONGameInfo(in).toJSONString();
                 case "move":
                     movePalletToDirection(in, obj);
+                    return "";
+                case "spellActivate":
+                    int playerID = Integer.parseInt((String) obj.get("player"));
+                    User player = sessionGame.get(in).getPlayers().get(playerID - 1);
+                    Spell spell = sessionGame.get(in).getLevelPlayedRightNow().getSpellByUser(player);
+                    spell.setReadyToCast();
+                    return "";
+                case "pause":
+                    if(sessionGame.get(in).getLevelPlayedRightNow().isPaused()){
+                        sessionGame.get(in).getLevelPlayedRightNow().unpauseLevel();
+                    } else {
+                        sessionGame.get(in).getLevelPlayedRightNow().pauseLevel();
+                    }
+                    return "";
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
@@ -95,10 +112,27 @@ public class GameSocket {
     
     private void makeGame(Session in, JSONObject obj){
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        if(aantalPlayers > 1){
-            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+        String dificulty = (String)obj.get("playerAmount");
+        List<User> players = new ArrayList<>();
+//        if(!username.equals("Guest")) {
+//            User player = Repositories.getUserRepository().getUserWithUsername(username);
+//            players.add(player)
+//        }
+//        
+            // get dificulty from db
+            sessionGame.replace(in, new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+    }
+    
+    private void loginUser(Session in, JSONObject obj){
+        String username = (String) obj.get("username");
+        String password = (String) obj.get("password");
+        int playerID = Integer.parseInt( (String) obj.get("playerID"));
+        User user  = Repositories.getUserRepository().getUserWithUsername(username);
+        if (user != null && BCrypt.checkpw(password, user.getHashPassword())) {
+            sessionGame.get(in).replaceGuestByUser(playerID, user);
         } else {
-            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+            Guest guest = new Guest();
+            sessionGame.get(in).replaceGuestByUser(playerID, guest);
         }
     }
     
@@ -108,37 +142,42 @@ public class GameSocket {
     
     private JSONObject createSpellsOfLevel(Session in){
         JSONObject resultObj = new JSONObject();
+        resultObj.put("type", "spells");
         Map<User, List<Spell>> spellsChoices = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsChoices();
         for (Map.Entry<User, List<Spell>> spellsOfUser : spellsChoices.entrySet()) {
-            for (Spell spell : spellsOfUser.getValue()) {
-                resultObj.put("player " + spellsOfUser.getKey().getUserId(), spell.getName());
+            JSONObject spellNames = new JSONObject();
+            for (int i = 0; i < spellsOfUser.getValue().size(); i++) {
+                spellNames.put(i, spellsOfUser.getValue().get(i).getName());
             }
+            resultObj.put("player " + spellsOfUser.getKey().getUserId(), spellNames);
         }
         return resultObj;
     }
     
     private void selectSpellOfUser(Session in, JSONObject jsonObject){
         int playerID = Integer.parseInt((String) jsonObject.get("player"));
-        int spellID = Integer.parseInt((String) jsonObject.get("spellName"));
+        String spellName = (String) jsonObject.get("spell");
         User u = sessionGame.get(in).getLevelPlayedRightNow().getPlayers().get(playerID - 1);
-        Spell s = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellChoicesOfUser(u).get(spellID);
+        Spell s = sessionGame.get(in).getLevelPlayedRightNow().getSpellofUserChoices(u, spellName);
+        System.out.println(s.getName());
         sessionGame.get(in).getLevelPlayedRightNow().setUserSpell(u, s);
     }
-    
-    private void startLevel(Session in, JSONObject obj) {
-        int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        if(aantalPlayers > 1){
-            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
-        } else {
-            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
-        }
-        makeLevel(in);
-        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
-    }
-    //new
-    public void startGame(Session in){
+
+    public void startLevel(Session in){
       sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     } 
+    
+        
+//    private void startGame(Session in, JSONObject obj) {
+//        int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
+//        if(aantalPlayers > 1){
+//            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+//        } else {
+//            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+//        }
+//        makeLevel(in);
+//        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
+//    }
 //    
 //    private JSONObject makeJSONSpells(List<Spell> spells){
 //        JSONObject resultObj = new JSONObject();
@@ -149,7 +188,7 @@ public class GameSocket {
 //        }
 //        return resultObj;
 //    }
-    //
+//
     
     private JSONObject makeJSONGameInfo(Session in) {
         JSONObject resultObj = new JSONObject();
@@ -195,6 +234,7 @@ public class GameSocket {
                 Pallet pallet = (Pallet)aSpirte;
                 spriteObj.put("width", Math.round(pallet.getLength())); // x
                 spriteObj.put("height", Math.round(pallet.getHeight())); // y
+                spriteObj.put("shown", pallet.IsVisible());
                 break;
             case "Ball":
                 Ball ball = (Ball)aSpirte;
@@ -249,18 +289,16 @@ public class GameSocket {
             } catch(IOException ex) {
                 throw new BreakoutException("Couldn't update posistion in game", ex);
             }
-            
         }
     }
     
     @OnOpen
     public void onOpen(Session s) {
-        Game newGame = null;
-        sessionGame.put(s, newGame);
+        sessionGame.put(s, null);
     }
     
     @OnClose
     public void onClose(Session s) {
-        //sessionGame.get(s).stopGame();
+        //sessionGame.get(s).getLevelPlayedRightNow().endLevel();
     }
 }

@@ -20,6 +20,7 @@ import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectStraightDownBall;
 import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.effects.EffectExtraLifePoint;
 import be.howest.ti.breakout.domain.effects.EffectSmallerPallet;
 import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
 import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
@@ -43,8 +44,8 @@ public class MySQLSpellRepository implements SpellRepository{
 
     public MySQLSpellRepository() {
         zelfstandigeNaamWoorden = Arrays.asList(
-                new ZelfstandigNaamwoord("chicken", 2, "fire", new EffectExtraBall("slowerPallet", 5)),
-                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectExtraBall("slowerPallet", 5))
+                new ZelfstandigNaamwoord("chicken", 2, "fire", new EffectBiggerPallet("extraLife", 5)),
+                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectBiggerPallet("extraLife", 5))
         );
         
         bijvoegelijkeNaamwoorden = Arrays.asList(new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectQuickerPallet("bullet time", 5)),
