@@ -8,9 +8,15 @@ import java.util.Map;
 public class MultiPlayerHighscore{
     
     private Map<User, Integer> playerList = new HashMap<>();
+    private int gameID;
+    
+    public MultiPlayerHighscore(int gameID, Map<User, Integer> userList) {
+        playerList = userList;
+        this.gameID = gameID;
+    }
     
     public MultiPlayerHighscore(Map<User, Integer> userList) {
-        playerList = userList;
+        this(0, userList);
     }
 
     public int getTotalScore() {
@@ -28,9 +34,8 @@ public class MultiPlayerHighscore{
     public void setPlayerList(Map<User, Integer> playerList) {
         this.playerList = playerList;
     }
-
-//    @Override
-//    public String toString() {
-//        return "MultiPlayerHighscore{" + "totalScore=" + totalScore + ", playerList=" + playerList + '}';
-//    }
+    
+    public int getGameID() {
+        return gameID;
+    }
 }

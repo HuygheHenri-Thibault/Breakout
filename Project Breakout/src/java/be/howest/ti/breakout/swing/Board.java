@@ -45,10 +45,10 @@ import java.util.Map;
  * @author micha
  */
 public class Board extends JPanel{
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
     List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
