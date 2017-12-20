@@ -38,7 +38,7 @@ public final class EffectSlowerPallet extends Effect {
         getUserPallet().setSpeed(getUserPallet().getSpeed() + 1);
         setDone();
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + " slowed";

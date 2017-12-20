@@ -36,13 +36,8 @@ public final class EffectExtraBall extends Effect {
     @Override
     public void deActivate() {
         System.out.println("deactivated double trouble");
-        extraBallCreated.goneFromScreen();
+        extraBallCreated.removeFromScreen();
         setDone();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + " double-trouble";
     }
     
     public boolean hasUserAlreadyActivatedThisEffect(){
@@ -56,5 +51,9 @@ public final class EffectExtraBall extends Effect {
         }
         return false;
     }
-
+    
+    @Override
+    public String toString() {
+        return super.toString() + " double-trouble";
+    }
 }

@@ -39,12 +39,10 @@ public final class EffectQuickerPallet extends Effect{
         getUserPallet().setSpeed(getUserPallet().getSpeed() - 1);
         setDone();
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + " bullet-time"; 
     }
-
     
-
 }

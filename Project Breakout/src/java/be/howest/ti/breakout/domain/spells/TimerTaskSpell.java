@@ -21,11 +21,13 @@ public final class TimerTaskSpell extends TimerTask {
 
     @Override
     public void run() {
-        spell.setCoolDown(spell.getCooldown() - 1);
-        if (spell.getCooldown() < 0) {
-            spell.setReady();
-            spell.setCoolDown(spell.getOriginalCoolDown());
-            cancel();
+        if (!spell.isPaused()) {
+            spell.setCoolDown(spell.getCooldown() - 1);
+            if (spell.getCooldown() < 0) {
+                spell.setReady();
+                spell.setCoolDown(spell.getOriginalCoolDown());
+                cancel();
+            }
         }
     }
 

@@ -22,16 +22,18 @@ import java.util.Map;
 import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
-import be.howest.ti.breakout.domain.effects.EffectFireBall;
+import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
 import be.howest.ti.breakout.domain.effects.EffectShadow;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
 import be.howest.ti.breakout.domain.effects.EffectWebs;
 import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
+import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -61,7 +63,7 @@ public class Level{
     private final Map<User, Spell> spellsInGame = new HashMap<>();
     
     private final FieldEffect fieldEffect;
-    private final List<Circle> circlesMadeByFieldEffect = new ArrayList<>();
+    private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
     //private int CollectiveScore = 0;
@@ -96,7 +98,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect(this, "dragon", new EffectFireBall("fireBall", 10), 5);
+        fieldEffect = new FieldEffect(this, "shadow", new EffectDragonFireBall("shadow", 5), 10);
         
     }
     
@@ -104,23 +106,6 @@ public class Level{
         return number;
     }
     
-    //voor swing
-    public void startLevel(ScheduleLevelTaskerSwing s){
-        timer = new Timer();
-        taskForLevelSwing = s;
-        timer.scheduleAtFixedRate(s, 1000, 15);
-        fieldEffect.doEffect();
-    }
-    
-    public void pauseLevelSwing(){
-        this.taskForLevelSwing.setPaused(true);
-    }
-    
-    public void unpauseLevelSwing(){
-        this.taskForLevelSwing.setPaused(false);
-    }
-    //
-
     public void startLevel(){
         timer = new Timer();
         taskForLevel = new LevelTasker(this);
@@ -130,22 +115,68 @@ public class Level{
     
      public void pauseLevel(){
         this.taskForLevel.setPaused(true);
+         pauseEffects();
     }
     
     public void unpauseLevel(){
         this.taskForLevel.setPaused(false);
+        resumeEffects();
     }
     
     public void endLevel(){
-        this.fieldEffect.cancel();
+        cancelTimersOfEffects();
         this.timer.cancel();
     }
-    
-     public List<Pallet> getPallets() {
-        return pallets;
+        
+    private void resumeEffects(){
+        for (PowerUpOrDown power : powerupsActive) {
+            power.resume();
+        }
+        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+            entry.getValue().resume();
+        }
+        for (Web web : websMadeByFieldEffect) {
+            web.resume();
+        }
+        this.fieldEffect.resume();
     }
     
-     public Pallet getUserPallet(int userID){
+    private void pauseEffects(){
+        for (PowerUpOrDown power : powerupsActive) {
+            power.pause();
+        }
+        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+            entry.getValue().pause();
+        }
+        for (Web web : websMadeByFieldEffect) {
+            web.pause();
+        }
+        this.fieldEffect.pause();
+    }
+    
+    private void cancelTimersOfEffects(){
+        for (PowerUpOrDown power : powerupsActive) {
+            power.cancel();
+        }
+        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+            entry.getValue().cancel();
+        }
+        for (Web web : websMadeByFieldEffect) {
+            web.removeYourselfNow();
+        }
+        this.fieldEffect.stopFieldEffect();
+    }
+    
+    public List<Pallet> getPallets() {
+        return pallets;
+    }
+     
+//    public void removePalletFromLevelOfUser(User player){
+//        Pallet p = getUserPallet(player);
+//        pallets.remove(p);
+//    } 
+//    
+    public Pallet getUserPallet(int userID){
         for (Pallet pallet : pallets) {
             if(pallet.getUser().getUserId() == userID){
                 return pallet;
@@ -155,11 +186,23 @@ public class Level{
     }
      
     public Pallet getUserPallet(User user){
-        for (Pallet pallet : pallets) {
-            if(pallet.getUser().getUserId() == user.getUserId()){
-                return pallet;
+//        if(!isUserAlive(user)){
+//            Random generator = new Random();
+//            int randomIndex = 0;
+//            if(pallets.size() == 1){
+//                randomIndex = 0;
+//            } else {
+//                randomIndex = generator.nextInt(((pallets.size() - 1) - 0) + 0) + 0;
+//            }
+//            return pallets.get(randomIndex);
+//        }
+//        else {
+            for (Pallet pallet : pallets) {
+                if(pallet.getUser().getUserId() == user.getUserId()){
+                    return pallet;
+                }
             }
-        }
+//        }
         return null;
     }
 
@@ -183,7 +226,7 @@ public class Level{
         return factoryBall.createExtraBallDoubleTrouble(effect);
     }
     
-    public Fireball createExtraFireBall(EffectFireBall effect){
+    public Fireball createExtraFireBall(EffectDragonFireBall effect){
         return factoryBall.createExtraFireball(effect);
     }
     
@@ -282,16 +325,16 @@ public class Level{
         return fieldEffect;
     }
     
-    public List<Circle> getAllShapesCreatedByFieldEffect(){
-        return circlesMadeByFieldEffect;
+    public List<Web> getAllShapesCreatedByFieldEffect(){
+        return websMadeByFieldEffect;
     }
     
-    public void addShapeToFieldEffectShapes(Circle circle){
-        circlesMadeByFieldEffect.add(circle);
+    public void addShapeToFieldEffectShapes(Web web){
+        websMadeByFieldEffect.add(web);
     }
     
-    public void removeShapeFromFieldEffectShapes(Circle circle){
-        circlesMadeByFieldEffect.remove(circle);
+    public void removeShapeFromFieldEffectShapes(Web web){
+        websMadeByFieldEffect.remove(web);
     }
     
     public final void initializeUserScores(){
@@ -332,6 +375,10 @@ public class Level{
         return game.getPlayers();
     }
     
+//    public boolean isUserAlive(User u){
+//        return game.getLivesOfUser(u) > 0;
+//    }
+    
     public int getAantalSpelers(){
         return game.getNumberOfPlayers();
     }
@@ -356,7 +403,7 @@ public class Level{
             allEntities.add(powerUp);
         }
         allEntities.addAll(bricks);
-        allEntities.addAll(circlesMadeByFieldEffect);
+        allEntities.addAll(websMadeByFieldEffect);
         allEntities.add(TOP_BOUNDARY);
         allEntities.add(LEFT_BOUNDARY);
         allEntities.add(RIGHT_BOUNDARY);
@@ -384,6 +431,7 @@ public class Level{
         fieldEffect.pause();
         for (Pallet pallet : pallets) {
             pallet.resetState();
+            pallet.setVisible();
         }
         this.factoryBall.createBalls();
 //        for (Ball ball : balls) {
@@ -391,6 +439,9 @@ public class Level{
 //        }
         resetPowerUps();
         resetSpellEffects();
+        for (Ball extraBallCreatedByEffect : extraBallCreatedByEffects) {
+            extraBallCreatedByEffect.removeFromScreen();
+        }
     }
     
     public void resetPowerUps(){
@@ -436,6 +487,48 @@ public class Level{
             game.addToTotalScoreDuringGame(entry.getKey(), entry.getValue());
         }
     }
+    
+    
+    
+     //voor swing
+    public void startLevel(ScheduleLevelTaskerSwing s){
+        timer = new Timer();
+        taskForLevelSwing = s;
+        timer.scheduleAtFixedRate(s, 1000, 15);
+        fieldEffect.doEffect();
+    }
+    
+    public void pauseLevelSwing(){
+        this.taskForLevelSwing.setPaused(true);
+        pauseEffects();
+    }
+    
+    public void unpauseLevelSwing(){
+        this.taskForLevelSwing.setPaused(false);
+        resumeEffects();
+    }
+    
+    //voor swing
+    public void keyPressed(KeyEvent e) {
+
+        int key = e.getKeyCode();
+
+        if (key == KeyEvent.VK_W) {
+            pauseLevelSwing();
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+        int key = e.getKeyCode();
+        
+        if (key == KeyEvent.VK_W) {
+            unpauseLevelSwing();
+        }
+    }
+    //
+    
+    //
  
 // mss voor refactoring
 // bricks    

@@ -45,10 +45,10 @@ import java.util.Map;
  * @author micha
  */
 public class Board extends JPanel{
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
-    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe");
+    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
+    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
     List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
@@ -62,6 +62,7 @@ public class Board extends JPanel{
     private void initBoard() {
         addKeyListener(new TAdapter());
         addKeyListener(new TEdaper());
+        addKeyListener(new TTdaper());
         setFocusable(true);
         setDoubleBuffered(true);
         showDifficulties();
@@ -76,7 +77,7 @@ public class Board extends JPanel{
         JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
         null, options, options[0]);
         
-        List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3));
+        List<User> users = new ArrayList<>(Arrays.asList(me, me2));
         game = new SinglePlayerGame(me, 1000, 1000, difficulties.get(response));
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
@@ -233,6 +234,19 @@ public class Board extends JPanel{
         public void keyPressed(KeyEvent e) {
             Spell spell = level.getSpellByUser(me); 
             spell.keyPressed(e); 
+        }
+    }
+    
+    private class TTdaper extends KeyAdapter {
+        
+        @Override
+        public void keyPressed(KeyEvent e) {
+            level.keyPressed(e);
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) {
+            level.keyReleased(e);
         }
     }
 

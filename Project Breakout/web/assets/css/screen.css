@@ -18,7 +18,9 @@
 .northwood {
  font-family: "Northwood High";
 }
-
+.supportform{
+    background-color: white;
+}
 /*!! Page !!*/
 body {
   display: flex;

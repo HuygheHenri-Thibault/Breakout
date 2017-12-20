@@ -13,10 +13,10 @@ import java.util.List;
  *
  * @author Fredr
  */
-public class EffectFireBall extends Effect{
-    private List<Fireball> fireBallsCreated = new ArrayList<>();
+public class EffectDragonFireBall extends Effect{
+    private final List<Fireball> fireBallsCreated = new ArrayList<>();
     
-    public EffectFireBall(String name, int duration) {
+    public EffectDragonFireBall(String name, int duration) {
         super(name, duration);
     }
 
@@ -30,7 +30,7 @@ public class EffectFireBall extends Effect{
     @Override
     public void deActivate() {
         for (Fireball fireBall : fireBallsCreated) {
-            fireBall.goneFromScreen();
+            fireBall.removeFromScreen();
         }
         System.out.println("deactivated fireball");
         setDone();

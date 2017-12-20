@@ -29,6 +29,7 @@ public class Spell{
     private final int originalCooldown;
     private int cooldown;
     private Timer CooldownTimer = new Timer();
+    private boolean paused = false;
     
     private static final int CHANCEFORONEWORD = 60;
     private static final int CHANCEFORTWOWORDS = CHANCEFORONEWORD + 30;
@@ -152,11 +153,37 @@ public class Spell{
     public void startCooldown(){
         setCoolDown();
         CooldownTimer = new Timer();
-        CooldownTimer.schedule(new TimerTaskSpell(this), 0, 1000);
+        CooldownTimer.scheduleAtFixedRate(new TimerTaskSpell(this), 0, 1000);
     }
     
     public void stopCooldown(){
         CooldownTimer.cancel();
+    }
+    
+    public boolean isPaused(){
+        return paused;
+    }
+    
+    public void pause(){
+        paused = true;
+        for (Effect spellEffect : getSpellEffects()) {
+            spellEffect.pause();
+        }
+    }
+    
+    public void resume(){
+        paused = false;
+        for (Effect spellEffect : getSpellEffects()) {
+            spellEffect.unpause();
+        }
+    }
+    
+    public void cancel(){
+        for (Effect spellEffect : getSpellEffects()) {
+            if(spellEffect.hasTimer()){
+                spellEffect.getTimerEffect().cancel();
+            }
+        }
     }
     
     //voor swing

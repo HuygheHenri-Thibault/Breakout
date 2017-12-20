@@ -20,12 +20,15 @@ public abstract class Effect{
     private Pallet userPallet;
     private User userActivatedEffect;
     private Ball BallActivatedEffect;
+    private final int originalDuration;
     private int duration;
     private Level LevelOfEffect;
     private Timer TimerEffect;
+    private boolean paused = false;
 
     public Effect(String name, int duration) {
         this.name = name;
+        this.originalDuration = duration;
         this.duration = duration;
     }
     
@@ -87,14 +90,42 @@ public abstract class Effect{
         return duration;
     }
     
+    public void decrementDuration(){
+        duration--;
+    }
+    
+    public int getOriginalDuration(){
+        return originalDuration;
+    }
+    
     public void setTimerEffect(Timer t){
         this.TimerEffect = t;
+    }
+    
+    public boolean hasTimer(){
+        return TimerEffect != null;
     }
 
     public Timer getTimerEffect() {
         return TimerEffect;
     }
+    
+    public void pause(){
+        paused = true;
+    }
+    
+    public void unpause(){
+        paused = false;
+    }
+    
+    public boolean isPaused(){
+        return paused;
+    }
 
+//    public boolean isUserActivatedEffectAlive(){
+//        return getLevelOfEffect().isUserAlive(userActivatedEffect);
+//    }
+//    
     @Override
     public String toString() {
         return "Effect ";

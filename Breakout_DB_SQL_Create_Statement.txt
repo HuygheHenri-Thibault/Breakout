@@ -315,4 +315,20 @@ CREATE TABLE `storychoice` (
   CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+CREATE TABLE `multiplayerhighscore` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `totalScore` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `multiplayerscores` (
+  `userID` int(11) NOT NULL,
+  `multiplayerID` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`userID`,`multiplayerID`),
+  KEY `fk_multiplayer_idx` (`multiplayerID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 -- Dump completed on 2017-12-15 10:55:12

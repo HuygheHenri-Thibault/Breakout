@@ -5,7 +5,7 @@
  */
 package be.howest.ti.breakout.domain;
 
-import be.howest.ti.breakout.domain.effects.EffectFireBall;
+import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
@@ -14,9 +14,9 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
  * @author Fredr
  */
 public class Fireball extends Ball {
-    private final EffectFireBall effect;
+    private final EffectDragonFireBall effect;
     
-    public Fireball(Level level, int radius, int speed, String color, int x, int y, EffectFireBall effect) {
+    public Fireball(Level level, int radius, int speed, String color, int x, int y, EffectDragonFireBall effect) {
         super(level, radius, speed, color, x, y);
         this.effect = effect;
     }
@@ -27,7 +27,7 @@ public class Fireball extends Ball {
     @Override
     public void updateSpriteBallAfterCollidingWithPallet(Pallet p){
         effect.getLevelOfEffect().decrementLife();
-        goneFromScreen();
+        removeFromScreen();
     }
   
     @Override
@@ -38,7 +38,7 @@ public class Fireball extends Ball {
     
     @Override
     public void updateSpriteAfterCollidingWithBottomBoundary(){
-        goneFromScreen();
+        removeFromScreen();
     }
 
     @Override
