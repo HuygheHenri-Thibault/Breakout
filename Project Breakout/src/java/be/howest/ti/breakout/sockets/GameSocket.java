@@ -124,9 +124,9 @@ public class GameSocket {
         resultObj.put("type", "spells");
         Map<User, List<Spell>> spellsChoices = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsChoices();
         for (Map.Entry<User, List<Spell>> spellsOfUser : spellsChoices.entrySet()) {
-            String[] spellNames = new String[spellsOfUser.getValue().size()];
+            JSONObject spellNames = new JSONObject();
             for (int i = 0; i < spellsOfUser.getValue().size(); i++) {
-                spellNames[i] = spellsOfUser.getValue().get(i).getName();
+                spellNames.put(i, spellsOfUser.getValue().get(i).getName());
             }
             resultObj.put("player " + spellsOfUser.getKey().getUserId(), spellNames);
         }
