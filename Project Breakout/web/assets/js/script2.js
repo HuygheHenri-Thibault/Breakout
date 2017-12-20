@@ -88,11 +88,11 @@ var hidePathsIslandMap = function(){
     $("#PathToTheBlueKeep").toggle();
     
     //hide sidebar with story
-    $('ul#slide-out').hide();
+    $('ul#slide-out').toggle();
 };
 
 var hidePathsCrossroadsMap = function(){
-    $("#pathLighthouse").hide();
-    $("#pathOasis").hide();
-    $("#pathMines").hide();
+    $("#pathLighthouse").toggle();
+    $("#pathOasis").toggle();
+    $("#pathMines").toggle();
 };
