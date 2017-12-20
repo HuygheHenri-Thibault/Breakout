@@ -6,3 +6,9 @@
   height: 100%;
   margin-right: 0.5rem;
 }
+
+.spellSelect {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

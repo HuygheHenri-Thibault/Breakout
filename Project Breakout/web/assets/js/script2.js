@@ -85,8 +85,7 @@ var hidePathsIslandMap = function(){
     $("#PathToSignPost").toggle();
     $("#PathToDragonsDen").toggle();
     $("#PathToSpire").toggle();
-    $("#PathToTheBlueKeep").toggle();
-    
+    $("#PathToTheBlueKeep").toggle();  
     //hide sidebar with story
     $('ul#slide-out').toggle();
 };
