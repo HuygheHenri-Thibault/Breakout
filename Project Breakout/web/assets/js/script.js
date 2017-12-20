@@ -1,6 +1,6 @@
 function loggedIn() { // TODO: do this with JSP pages instead???
   $.ajax({url: "CheckLoggedIn", success: function(result){
-    $("#user a.dropdown-button").html(result+"<i class='material-icons right'>arrow_drop_down</i>");
+    $("#user a.dropdown-button").html("<p id='username'>"+result+"<i class='material-icons right'>arrow_drop_down</i></p>");
     $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content'>"+
     "<li><a class='green-text' href='play.jsp'>Play</a></li></ul>")
     if(result === "Guest") {
