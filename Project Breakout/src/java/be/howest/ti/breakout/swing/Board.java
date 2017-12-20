@@ -101,7 +101,6 @@ public class Board extends JPanel{
             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
             null, options, options[0]);
             level.setUserSpell(users.get(j - 1), spells.get(response));
-            System.out.println(level.areAllSpellsSelected());
         }
         level.startLevel(s);
     }

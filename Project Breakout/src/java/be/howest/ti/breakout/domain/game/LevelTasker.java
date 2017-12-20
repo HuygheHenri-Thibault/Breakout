@@ -132,6 +132,10 @@ public final class LevelTasker extends TimerTask {
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
+    
+    public boolean isPaused(){
+        return paused;
+    }
 
     public Level getLevel() {
         return level;
