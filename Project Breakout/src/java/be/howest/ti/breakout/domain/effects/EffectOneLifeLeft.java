@@ -25,17 +25,17 @@ public final class EffectOneLifeLeft extends Effect{
     public void activate() {
         System.out.println("activated sudden death");
         setRunning();
-        originalLivesLeft = getLevelOfEffect().getGame().getLivesLeftOriginally();
-        getLevelOfEffect().getGame().setLives(1);
-        setTimerEffect(new Timer());
-        getTimerEffect().schedule(new TimerTaskEffect(this), 0, 1000);
+        originalLivesLeft = LevelOfEffect.getGame().getLivesLeftOriginally();
+        LevelOfEffect.getGame().setLives(1);
+        TimerEffect = new Timer();
+        TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
         System.out.println("deactivated sudden death");
-        getTimerEffect().cancel();
-        getLevelOfEffect().getGame().setLives(originalLivesLeft);
+        TimerEffect.cancel();
+        LevelOfEffect.getGame().setLives(originalLivesLeft);
         setDone();
     }
     

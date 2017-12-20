@@ -75,7 +75,7 @@ var input = function() {
     var leftKeyCode = $("#left-key-"+playerId).val().charCodeAt(0)-32;
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
-    input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, playerId));
+    input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
     $(this).html("");
   }
   function submitStartGameData(e) {
@@ -90,7 +90,7 @@ var input = function() {
   }
   function selectSpell() {
     var spell = $(this).html();
-    var player = $(this).data().player;
+    var player = "" + $(this).data().player;
     var messageObj = {type:"selectedSpells", spell, player};
     socket.sendMessage(messageObj);
   }

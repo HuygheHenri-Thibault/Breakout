@@ -31,9 +31,9 @@ import be.howest.ti.breakout.domain.spells.Spell;
  */
 public class FactoriesTesten {
 
-    User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio");
-    User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio");
-    User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio");
+    User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio", 0);
+    User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio", 0);
+    User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio", 0);
     List<User> players2 = new ArrayList<>(Arrays.asList(me, otherMe));
     List<User> players3 = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
     GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);

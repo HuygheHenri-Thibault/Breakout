@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain.game;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.factories.FactoryLevel;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,9 +70,7 @@ public class Game{
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
-        //createNewLevel();
     }
-    //
     
 
     public Game(List<User> players, int height, int width, int lives, GameDifficulty difficulty) {
@@ -85,7 +84,6 @@ public class Game{
         this.difficulty = difficulty;
         addRatiosToGame(difficulty);
         this.factoryLevels = new FactoryLevel(this);
-        //createNewLevel();
     }
     
     public List<User> getPlayers() {
@@ -121,19 +119,6 @@ public class Game{
     }
 
     
-
-//    public void setLevelPlayedRightNow(Level levelPlayedRightNow) {
-//        this.levelPlayedRightNow = levelPlayedRightNow;
-//    }
-
-//    public FactoryLevel getFactoryLevels() {
-//        return factoryLevels;
-//    }
-
-//    public void setFactoryLevels(FactoryLevel factoryLevels) {
-//        this.factoryLevels = factoryLevels;
-//    }
-    
     public List<Ratio> getRatios() {
         return ratios;
     }
@@ -142,7 +127,6 @@ public class Game{
        ratios.add(new Ratio("Pallet", -0.01f, difficulty));
        ratios.add(new Ratio("Ball", +0.1f, difficulty));
        ratios.add(new Ratio("Power up And Down", -0.1f, difficulty));
-       //ratios.add(new Ratio("Power down", +0.01f));
     }
     
     public final void initializeUserScores(){
@@ -171,22 +155,6 @@ public class Game{
         scorePerUser.merge(user, TotalGameScore, Integer::sum);
     }
     
-//    public final HashMap generateLives(){
-//        HashMap livesForUsers = new HashMap();
-//        for (User player : players) {
-//            livesForUsers.put(player, 3);
-//        }
-//        return livesForUsers;
-//    }
-    
-//    public final HashMap copyLives(){
-//        HashMap copiedLives = new HashMap();
-//        for (Map.Entry<User, Integer> entry : lives.entrySet()) {
-//            copiedLives.put(entry.getKey(), entry.getValue());
-//        }
-//        return copiedLives;
-//    }
-    
     public void setLives(int lives) {
         this.lives = lives;
     }
@@ -206,33 +174,6 @@ public class Game{
             stopGame();
         }
     }
-//    public void decrementLifeOfPlayers(List<User> players){
-//        for (User player : players) {
-//            int currentLivesOfPlayer = lives.get(player);
-//            lives.put(player, currentLivesOfPlayer - 1);
-//            int currentOriginalLivesOfPlayer = livesLeftOriginally.get(player);
-//            livesLeftOriginally.put(player, currentOriginalLivesOfPlayer-1);
-//            if(userLostAllLives(player)){
-//                getLevelPlayedRightNow().removePalletFromLevelOfUser(player);
-//            }
-//        }
-//        if(allLivesOfPlayersLost()){
-//            stopGame();
-//        }
-//    }
-    
-//    public boolean userLostAllLives(User player){
-//        return lives.get(player) <= 0;
-//    }
-//    
-//    public boolean allLivesOfPlayersLost(){
-//        for (User player : players) {
-//            if(lives.get(player) > 0){
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
@@ -252,8 +193,6 @@ public class Game{
             entry.getKey().addXP(entry.getValue() / 2);
         }
         insertHighscore();
-        //add Highscores here
-        //check players to see which type of highscore
     }
     
     public void insertHighscore(){

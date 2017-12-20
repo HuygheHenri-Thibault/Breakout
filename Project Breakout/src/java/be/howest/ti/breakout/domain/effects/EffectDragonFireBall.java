@@ -23,7 +23,7 @@ public class EffectDragonFireBall extends Effect{
     @Override
     public void activate() {
         setRunning();
-        fireBallsCreated.add(getLevelOfEffect().createExtraFireBall(this));
+        fireBallsCreated.add(LevelOfEffect.createExtraFireBall(this));
         System.out.println("activated fireBall");
     }
 

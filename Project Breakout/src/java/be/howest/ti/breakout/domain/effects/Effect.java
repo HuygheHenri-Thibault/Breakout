@@ -16,15 +16,15 @@ import java.util.Timer;
  * @author micha
  */
 public abstract class Effect{
-    private final String name;
-    private Pallet userPallet;
-    private User userActivatedEffect;
-    private Ball BallActivatedEffect;
-    private final int originalDuration;
-    private int duration;
-    private Level LevelOfEffect;
-    private Timer TimerEffect;
-    private boolean paused = false;
+    protected final String name;
+    protected Pallet userPallet;
+    protected User userActivatedEffect;
+    protected Ball BallActivatedEffect;
+    protected final int originalDuration;
+    protected int duration;
+    protected Level LevelOfEffect;
+    protected Timer TimerEffect;
+    protected boolean paused = false;
 
     public Effect(String name, int duration) {
         this.name = name;
@@ -33,7 +33,7 @@ public abstract class Effect{
     }
     
     //status
-    private EffectStatus status = EffectStatus.READY;
+    protected EffectStatus status = EffectStatus.READY;
     
     public void setReady(){status = EffectStatus.READY;}
     public void setActive(){status = EffectStatus.ACTIVE;}
