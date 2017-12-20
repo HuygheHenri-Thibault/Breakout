@@ -246,17 +246,30 @@ p.chapter{
 }
 
 .cardarea{
-    background-image: url("../media/header-background-condensed.png");
+    background-image: url("../media/footer-background.png");
+    opacity: 0.6;
     background-repeat: no-repeat;
     background-position: -770px -36px;
-    
+    max-width: 50rem;
+    height:10rem;
+    border-style: solid;
+    border-width:1px;
+    border-color: #BA8017;
+}
+
+.succesor{
+    margin-left:50rem;
+}
+
+.cardarea:nth-of-type(even){
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .titleInfo{
     text-shadow: 5px 5px black;
-    margin-top: -20rem;
 }
 
-.cardarea:nth-of-type(even){
-    margin-right: 50px;
+.premier{
+    opacity: 1.0;
 }
