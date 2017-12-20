@@ -25,7 +25,8 @@ Player.prototype.move = function(keyMap) {
 
   if (keyMap[this.abilityKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
-      socket.sendMessage({type: "spellActivate", player: this.name};);
+      var messageObj = {type: "spellActivate", player: this.name};
+      socket.sendMessage(messageObj);
     }
   }
 
