@@ -23,6 +23,12 @@ Player.prototype.move = function(keyMap) {
     }
   }
 
+  if (keyMap[this.abilityKey]) {
+    if (!messageObj.hasOwnProperty("direction")) {
+      socket.sendMessage({type: "spellActivate", player: this.name};);
+    }
+  }
+
   if (!keyMap[this.leftKey]) {
     if (!messageObj.hasOwnProperty("direction")) {
       messageObj.direction = "stop";
@@ -197,6 +203,7 @@ var gui = function() {
   };
   var showSpells = function(spellObj) {
     var itr = 0;
+    console.log(spellObj);
     for(var thing in spellObj) {
       if (thing !== 'type') {
         $("div.controllercol[data-player="+(itr+1)+"]").append("<div class='row'><a class='btn spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[thing]+"</a></div>");
@@ -270,7 +277,7 @@ $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
   init.fireModal();
-  $(".startGame").on("click", comms.startGame);
+  //$(".startGame").on("click", comms.startGame);
   $("#modalForm").on("submit", input.submitStartGameData);
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
