@@ -20,9 +20,13 @@ public final class EffectStraightDownBall extends Effect{
     @Override
     public void activate() {       
         setRunning();
-        for (Ball ball : getLevelOfEffect().getBalls()) {
+        for (Ball ball : LevelOfEffect.getBalls()) {
             ball.setDx(0);
             ball.setDy(ball.getSpeed() / 2);           
+        }
+        for (Ball extraBallCreatedByEffect : LevelOfEffect.getExtraBallCreatedByEffects()) {
+            extraBallCreatedByEffect.setDx(0);
+            extraBallCreatedByEffect.setDy(extraBallCreatedByEffect.getSpeed() / 2);    
         }
         System.out.println("activated gravity");
         setDeActive();
