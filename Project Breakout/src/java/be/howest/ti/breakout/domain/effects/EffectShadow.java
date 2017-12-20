@@ -29,24 +29,24 @@ public class EffectShadow extends Effect{
         int chance = generator.nextInt((20 - 1) + 0) + 1;
         if(chance == 20){
             int max = 10;
-            if(getLevelOfEffect().getBricks().size() < 10){
-                max = getLevelOfEffect().getBricks().size();
+            if(LevelOfEffect.getBricks().size() < 10){
+                max = LevelOfEffect.getBricks().size();
             }
             List<Integer> bricksNumbers = generateBrickNumbers(1, max);
             for (Integer brickIndex : bricksNumbers) {
                 int randomDamage = generator.nextInt((5 - 1) + 1) + 1;
-                getLevelOfEffect().getBricks().get(brickIndex).decrementHits(randomDamage);
+                LevelOfEffect.getBricks().get(brickIndex).decrementHits(randomDamage);
             }
         } else {
-            if(getLevelOfEffect().getPallets().size() == 1){
+            if(LevelOfEffect.getPallets().size() == 1){
                 palletIdSetInvisible = 0;
             } else {
                 palletIdSetInvisible = generator.nextInt(((getLevelOfEffect().getPallets().size() - 1) - 0) + 0) + 0;
             }
-            getLevelOfEffect().getPallets().get(palletIdSetInvisible).setInvisible();
+            LevelOfEffect.getPallets().get(palletIdSetInvisible).setInvisible();
             setRunning();
-            setTimerEffect(new Timer());
-            getTimerEffect().scheduleAtFixedRate(new TimerTaskEffect(this), 0, 1000);
+            TimerEffect = new Timer();
+            TimerEffect.scheduleAtFixedRate(new TimerTaskEffect(this), 0, 1000);
         }
     }
 
@@ -54,9 +54,9 @@ public class EffectShadow extends Effect{
     public void deActivate() {
         System.out.println("deactivated shadow");
         if(hasTimer()){
-            getTimerEffect().cancel();
+            TimerEffect.cancel();
         }
-        getLevelOfEffect().getPallets().get(palletIdSetInvisible).setVisible();
+        LevelOfEffect.getPallets().get(palletIdSetInvisible).setVisible();
         setDone();
     }
     

@@ -66,11 +66,7 @@ public class Level{
     private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
-    //private int CollectiveScore = 0;
     private final Map<User, Integer> scorePerUser = new HashMap<>();
-    //private final int startScoreForBricks;
-
-    //private final static int MAX_ROWS_BRICKS = 5;
     
     private boolean completed;
     
@@ -98,7 +94,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect(this, "shadow", new EffectDragonFireBall("shadow", 5), 10);
+        fieldEffect = new FieldEffect(this, "shadow", new EffectShadow("shadow", 3), 10);
         
     }
     
@@ -170,12 +166,7 @@ public class Level{
     public List<Pallet> getPallets() {
         return pallets;
     }
-     
-//    public void removePalletFromLevelOfUser(User player){
-//        Pallet p = getUserPallet(player);
-//        pallets.remove(p);
-//    } 
-//    
+ 
     public Pallet getUserPallet(int userID){
         for (Pallet pallet : pallets) {
             if(pallet.getUser().getUserId() == userID){
@@ -186,23 +177,11 @@ public class Level{
     }
      
     public Pallet getUserPallet(User user){
-//        if(!isUserAlive(user)){
-//            Random generator = new Random();
-//            int randomIndex = 0;
-//            if(pallets.size() == 1){
-//                randomIndex = 0;
-//            } else {
-//                randomIndex = generator.nextInt(((pallets.size() - 1) - 0) + 0) + 0;
-//            }
-//            return pallets.get(randomIndex);
-//        }
-//        else {
-            for (Pallet pallet : pallets) {
-                if(pallet.getUser().getUserId() == user.getUserId()){
-                    return pallet;
-                }
+        for (Pallet pallet : pallets) {
+            if(pallet.getUser().getUserId() == user.getUserId()){
+                return pallet;
             }
-//        }
+        }
         return null;
     }
 
@@ -222,7 +201,6 @@ public class Level{
     }
     
     public DoubleTroubleBall createExtraBall(EffectExtraBall effect){
-        //addBallOnScreen();
         return factoryBall.createExtraBallDoubleTrouble(effect);
     }
     
@@ -293,6 +271,10 @@ public class Level{
             }
         }
         return false;
+    }
+    
+    public boolean areAllSpellsSelected(){
+        return spellsInGame.size() == spellsChoices.size();
     }
     
     public void setUserSpell(User u, Spell s){
@@ -375,10 +357,6 @@ public class Level{
         return game.getPlayers();
     }
     
-//    public boolean isUserAlive(User u){
-//        return game.getLivesOfUser(u) > 0;
-//    }
-    
     public int getAantalSpelers(){
         return game.getNumberOfPlayers();
     }
@@ -434,9 +412,6 @@ public class Level{
             pallet.setVisible();
         }
         this.factoryBall.createBalls();
-//        for (Ball ball : balls) {
-//            ball.resetState();
-//        }
         resetPowerUps();
         resetSpellEffects();
         for (Ball extraBallCreatedByEffect : extraBallCreatedByEffects) {
@@ -528,27 +503,4 @@ public class Level{
     }
     //
     
-    //
- 
-// mss voor refactoring
-// bricks    
-    
-//    public int getMAX_ROWS_BRICKS() {
-//        return MAX_ROWS_BRICKS;
-//    }    
-    
-// balletje aantal    
-        
-//    public void addBallOnScreen(){
-//        //ballsonScreen++;
-//    }
-//    
-//    public void decrementBallsOnScreen(Ball ball){
-//        ballsonScreen--;
-//        System.out.println("ball " + ball.getId() + "activated balls " +ballsonScreen);
-//        if(ballsonScreen == 0){
-//            resetStates();
-//            ballsonScreen = balls.size() + 1;
-//        }
-//    }
 }

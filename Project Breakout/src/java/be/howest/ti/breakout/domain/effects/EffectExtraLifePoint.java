@@ -19,7 +19,7 @@ public class EffectExtraLifePoint extends Effect{
     public void activate() {
         setRunning();
         System.out.println("activated extraLife");
-        getLevelOfEffect().getGame().setLives(getLevelOfEffect().getGame().getLives() + 1);
+        LevelOfEffect.getGame().setLives(LevelOfEffect.getGame().getLives() + 1);
         setDeActive();
     }
 
