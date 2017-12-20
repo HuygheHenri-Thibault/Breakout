@@ -103,7 +103,8 @@ var socket = function() {
   var url = "ws://localhost:8080/Project_Breakout/campaignpoint";
   var socket = new WebSocket(url);
   socket.onopen = function() {
-    socket.sendMessage((JSON.stringify({"campaignTest": 500})));
+    console.log("socket works");
+      //socket.sendMessage((JSON.stringify({"campaignTest": 500})));
   };
   socket.onmessage = function(messageRecieved) {
     var message = JSON.parse(messageRecieved.data);
