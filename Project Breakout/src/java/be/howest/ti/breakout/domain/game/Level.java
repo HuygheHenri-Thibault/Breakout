@@ -294,6 +294,15 @@ public class Level{
         return spellsChoices.get(user);
     }
     
+    public Spell getSpellofUserChoices(User user, String spellName){
+        for (Spell spell : spellsChoices.get(user)) {
+            if(spell.getName().equals(spellName)){
+                return spell;
+            }
+        }
+        return null;
+    }
+    
     public Map<User, List<Spell>> getAllSpellsChoices(){
         return spellsChoices;
     }
