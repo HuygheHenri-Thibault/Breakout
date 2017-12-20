@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.sockets;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.game.Game;
@@ -32,6 +33,7 @@ import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.util.BreakoutException;
+import java.util.ArrayList;
 /**
  *
  * @author Henri
@@ -59,13 +61,8 @@ public class GameSocket {
                     makeGame(in, obj);
                     makeLevel(in);
                     return createSpellsOfLevel(in).toJSONString();
-                    // spel wordt gemaakt met dit aantal spelers
-                    // level wordt ook gemaakt
-                    // spells worden gemaakt en doorgestuurd naar de front-end met msg type "showSpells"
-                    //return "";
                 case "selectedSpells":
                     selectSpellOfUser(in, obj);
-                    //hier megeven welke spells gekozen zijn door de spelers
                     return "";
                 case "startGame":
                     //System.out.println("started");
@@ -92,7 +89,16 @@ public class GameSocket {
     
     private void makeGame(Session in, JSONObject obj){
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
+        String dificulty = (String)obj.get("playerAmount");
+        String username = (String)obj.get("username");
+//        List<User> players = new ArrayList<>();
+//        if(!username.equals("Guest")) {
+//            User player = Repositories.getUserRepository().getUserWithUsername(username);
+//            players.add(player)
+//        }
+        
         if(aantalPlayers > 1){
+            // get dificulty from db
             sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
         } else {
             sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
@@ -105,6 +111,7 @@ public class GameSocket {
     
     private JSONObject createSpellsOfLevel(Session in){
         JSONObject resultObj = new JSONObject();
+        resultObj.put("type", "spells");
         Map<User, List<Spell>> spellsChoices = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsChoices();
         for (Map.Entry<User, List<Spell>> spellsOfUser : spellsChoices.entrySet()) {
             for (Spell spell : spellsOfUser.getValue()) {
@@ -116,7 +123,7 @@ public class GameSocket {
     
     private void selectSpellOfUser(Session in, JSONObject jsonObject){
         int playerID = Integer.parseInt((String) jsonObject.get("player"));
-        int spellID = Integer.parseInt((String) jsonObject.get("spellName"));
+        int spellID = Integer.parseInt((String) jsonObject.get("spell"));
         User u = sessionGame.get(in).getLevelPlayedRightNow().getPlayers().get(playerID - 1);
         Spell s = sessionGame.get(in).getLevelPlayedRightNow().getAllSpellChoicesOfUser(u).get(spellID);
         sessionGame.get(in).getLevelPlayedRightNow().setUserSpell(u, s);

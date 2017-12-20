@@ -18,6 +18,20 @@
   <div id="selectController" class="modal">
     <div class="modal-content row">
       <h4 class="center">Pick your controller</h4>
+      <div id="varData">
+        <form id="modalForm" class="col s4 offset-s4">
+          <input type="number" id="amountOfPlayers" name="amountOfPlayers" value="1" min="1" max="4">
+          <div class="input-field">
+            <select id="dificulty">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <label>Select dificulty</label>
+          </div>
+          <input type="submit" name="submit" value="Send">
+        </form>
+      </div>
     </div>
       <div class="center-align">
           <input id="text" type="text" value="http://localhost:8080/Project_Breakout/gameControllerPage.html?gameID=1" class="center-align"/>

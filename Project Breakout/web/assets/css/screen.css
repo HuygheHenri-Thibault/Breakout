@@ -110,6 +110,11 @@ footer img {
   margin-top: 4rem;
 }
 
+#username {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* Index 4 !!*/
 g{
     fill:none;

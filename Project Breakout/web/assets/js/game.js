@@ -42,16 +42,15 @@ var ip = 'x.x.x.x'; //voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
-
 var init = function() {
-  var fireModal = function() {
+  var fireModal = function(playerAmount) {
     $("#selectController").modal().modal('open');;
     var cols = 12;
-    var players = prompt("How many playersssss?");
+    var players = playerAmount;
     var grootteCols = (cols / players);
     var currentslot = 1;
     while (currentslot <= players) {
-      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul></div>");
+      $(".modal-content").append("<div class='controllercol center col s" + grootteCols + "' data-player='"+currentslot+"'>" + currentslot + " player(s) <br/><a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a><ul id='dropdown1' class='dropdown-content'><li><a href='#!'><i class='material-icons'>keyboard</i>keys</a></li><li><a href='#!'><i class='material-icons'>phone_iphone</i>phone</a></li></ul><form class='inputForm'><div class='input-field col s4'><input id='left-key' type='text'><label for='left-key'>left key:</label></div><div class='input-field  col s4'><input id='right-key' type='text'><label for='right-key'>right key:</label></div><div class='input-field  col s4'><input id='ability-key' type='text'><label for='ability-key'>ability key:</label></div></form></div>");
       console.log("new slot");
       currentslot += 1;
     }
@@ -74,7 +73,6 @@ var input = function() {
   var players = [];
   return {players};
 }();
-
 var comms = function() {
   // Private
   var gameInterval = null;
@@ -89,22 +87,6 @@ var comms = function() {
     socket.sendMessage(messageObj);
   };
   // Public
-
-  //new from michael
-  //  var showSpells = function(){
-  //    var playerAmount = prompt("How many players");
-  //    for (var i = 0; i < parseInt(playerAmount); i++) {
-  //      var leftKeyCode = parseInt(prompt("left Key:").charCodeAt(0)-32); // TODO: move to a seperate fucntion perhaps?
-  //      var rightKeyCode = parseInt(prompt("right key:").charCodeAt(0)-32); // #readability
-  //      var abilityKeyCode = parseInt(prompt("ability").charCodeAt(0)-32);
-  //      input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+(i+1))); // TODO: <- new phone who dis?
-  //    }
-  //    var messageObj = {type: "showSpells", playerAmount};
-  //    socket.sendMessage(messageObj);
-  //  }
-  //
-
-
   var startGame = function() {
     //$("#selectController").hide();
     var playerAmount = prompt("How many players");
@@ -117,7 +99,6 @@ var comms = function() {
 
     var messageObj = {type: "startGame", playerAmount};
     socket.sendMessage(messageObj);
-    getUpdate();
   };
 
   var getUpdate = function() {
@@ -131,7 +112,6 @@ var comms = function() {
   };
   return {startGame, getUpdate, stopUpdates};
 }();
-
 var gui = function() {
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -181,9 +161,19 @@ var gui = function() {
     var lives = player.lives;
     var score = player.score;
   };
-  return {drawFromPosistion, gameInfo};
-}();
 
+  var showSpells = function(spellObj) {
+    var itr = 0;
+    for(var thing in spellObj) {
+      console.log(spellObj[thing]);
+      if (thing !== 'type') {
+        $("div.controllercol[data-player="+(itr+1)+"]").append("<div class='row'><a class='btn spellSelect col s12'>"+spellObj[thing]+"</a></div>");
+        itr++;
+      }
+    }
+  };
+  return {drawFromPosistion, gameInfo, showSpells};
+}();
 var socket = function() {
   // Private
   var url = "ws://localhost:8080/Project_Breakout/gamepoint";
@@ -195,11 +185,12 @@ var socket = function() {
   socket.onmessage = function(messageRecieved) {
     var message = JSON.parse(messageRecieved.data);
     switch (message.type) {
-      //new from michael
-      //      case "spells":
-      //        comm.askSpells(); //TODO: this is not the right code, you don't ask the comms module to ask the players for spells
-      //        break;
-      //
+      case "gameStarted":
+        comms.getUpdate();
+        break;
+      case "spells":
+       gui.showSpells(message);
+       break;
       case "posistion":
         gui.drawFromPosistion(message);
         break;
@@ -214,8 +205,6 @@ var socket = function() {
   }
   return {sendMessage};
 }();
-
-
 
 // DRAW FUNCTIONS (P5.JS) //
 var ball = []; // TODO: SOOO MANYY GLOBALS ;-;
@@ -252,7 +241,7 @@ function setup() {
 
 function draw() {
   var check = ball !== null && pallet !== null;
-  console.log(check); // TODO: remove this in final version, also move the boolean check to the if then
+  //console.log(check); // TODO: remove this in final version, also move the boolean check to the if then
   if (check) {
     background(47, 49, 54);
     for(var b in ball) {
@@ -270,9 +259,31 @@ function draw() {
   }
 }
 
+function submitStartGameData(e) {
+  e.preventDefault();
+  var amountOfPlayers = $("#amountOfPlayers").val();
+  var dificulty = $("#dificulty").val();
+  var username = $("#username").html().split("<")[0];
+  var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username}
+  $("#varData").html("");
+  init.fireModal(amountOfPlayers);
+  socket.sendMessage(messageObj);
+}
+
+function selectSpell() {
+  var spell = $(this).html();
+  var player = $(this).parent(".controllercol").data();
+  var messageObj = {type:"selectedSpells", spell, player};
+  socket.sendMessage(messageObj);
+}
+
+
 
 $(document).ready(function() {
   console.log("game.js is loaded");
+  $('select').material_select();
   init.fireModal();
   $(".startGame").on("click", comms.startGame);
+  $("#modalForm").on("submit", submitStartGameData);
+  $(document).on("click", ".spellSelect", selectSpell);
 });
