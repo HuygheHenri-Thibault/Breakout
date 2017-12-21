@@ -5,9 +5,9 @@
  */
 package be.howest.ti.breakout.domain;
 
-import be.howest.ti.breakout.domain.game.User;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
+import be.howest.ti.breakout.domain.game.Player;
 
 /**
  *
@@ -15,13 +15,13 @@ import be.howest.ti.breakout.domain.effects.EffectExtraBall;
  */
 public final class DoubleTroubleBall extends Ball{
     private final EffectExtraBall effect;
-    private final User user;
+    private final Player player;
     
     public DoubleTroubleBall(Level level, int radius, int speed, String color, int x, int y, EffectExtraBall effect) {
         super(level, radius, speed, color, x, y);
         this.effect = effect;
-        this.user = effect.getUserActivatedEffect();
-        setLastUserThatTouchedMe(user);
+        this.player = effect.getPlayerActivatedEffect();
+        setLastPlayerThatTouchedMe(player);
     }
     
     @Override
@@ -33,8 +33,8 @@ public final class DoubleTroubleBall extends Ball{
     }
     
     @Override
-    public User giveUserActivatedSpecialBall(){
-        return user;
+    public Player givePlayerActivatedSpecialBall(){
+        return player;
     }
     
     

@@ -5,6 +5,9 @@ public class SinglePlayerHighscore{
     private User user;
     private int score;
 
+    public SinglePlayerHighscore() {
+    }
+
     public SinglePlayerHighscore(User user, int score) {
         this.user = user;
         this.score = score;

@@ -11,8 +11,9 @@ import be.howest.ti.breakout.domain.spells.Spell;
  *
  * @author Henri
  */
-public class User {
+public class User implements Player{
     private int userId;
+    private int playerID;
     private String email;
     private String username;
     private String hashPassword;
@@ -22,7 +23,6 @@ public class User {
     private String bio;
     private int spScore;
     private int totalScore;
-    //private Spell spell;
     
     public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
         this.userId = id;
@@ -55,9 +55,24 @@ public class User {
     public int getUserId() {
         return userId;
     }
+    
+    @Override
+    public void setPlayerID(int playerid) {
+        this.playerID = playerid;
+    }
+
+    @Override
+    public int getPlayerID() {
+        return playerID;
+    }
 
     public String getUsername() {
         return username;
+    }
+    
+    @Override
+    public String getName() {
+        return getUsername();
     }
 
     public String getHashPassword() {
@@ -79,15 +94,13 @@ public class User {
     public int getSinglePlayerScore() {
         return spScore;
     }
-//
-//    public void addToScore(int score) {
-//        this.score += score;
-//    }
 
+    @Override
     public int getXP() {
         return XP;
     }
 
+    @Override
     public void addXP(int XP) {
         this.XP += XP;
         if(XP >= XPtoNextLevel){
@@ -95,20 +108,24 @@ public class User {
         }
     }
 
+    @Override
     public int getTotalScore() {
         return totalScore;
     }
 
+    @Override
     public void addToTotalScore(int score) {
         this.totalScore += totalScore;
     }
 
-//    public void setSpell(Spell spell) {
-//        this.spell = spell;
-//        spell.setUser(this);
-//    }
-//
-//    public Spell getSpell() {
-//        return spell;
-//    }
+    @Override
+    public void addToSinglePlayerHighScore(SinglePlayerHighscore sp) {
+        sp.setUser(this);
+    }
+
+    @Override
+    public boolean isGuest() {
+        return false;
+    }
+
 }

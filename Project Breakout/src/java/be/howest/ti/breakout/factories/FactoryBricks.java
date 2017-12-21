@@ -38,50 +38,6 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
         this.MAX_BRICK_BORDER_Y = level.getGameHeight() / 2;
     }
     
-//    public void createBricks(List<BrickRow> rowsMade, BrickRow rowBricks){
-//        while(rowBricks.getMIN_BRICK_BORDER_X() + rowBricks.getSomLengteGemaakteBricks()!= rowBricks.getMAX_BRICK_BORDER_X()){
-//            Brick b = createSingleBrick(rowsMade, rowBricks);
-//            rowBricks.addBrickToRow(b);
-//        }
-//    }   
-//    
-//    private Brick createSingleBrick(List<BrickRow> rowsMade, BrickRow rowBricks){
-//        String color = rowBricks.getBrickData().getColor();
-//        
-//        int height = (rowBricks.getMAX_BRICK_BORDER_Y() - rowBricks.getMIN_BRICK_BORDER_Y()) / 6;
-//        
-//        int bricksLenghtMadeSoFar = rowBricks.getSomLengteGemaakteBricks();
-//        int x = rowBricks.getMIN_BRICK_BORDER_X() + bricksLenghtMadeSoFar;
-//        int y = rowBricks.getMIN_BRICK_BORDER_Y() + (rowsMade.size() * height);
-//        
-//        Random generator = new Random();
-//        double ratioLengte = Math.round((generator.nextDouble() * (1.0 - 0.5) + 0.5) * 10.0) / 10.0;
-//        int minLengte = (rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X()) / 10;
-//        
-//        int lengte = (int) ((rowBricks.getBrickData().getBaseLen() * ratioLengte) * minLengte);
-//        if(x + lengte > (rowBricks.getMAX_BRICK_BORDER_X() - minLengte / 2)){
-//            int spaceLeft = rowBricks.getMAX_BRICK_BORDER_X() - rowBricks.getMIN_BRICK_BORDER_X() - rowBricks.getSomLengteGemaakteBricks();
-//            lengte = spaceLeft;
-//        }
-//        
-//        int achievedScoreIfDestroyed = rowBricks.getBrickData().getBaseScore() + (10 * (rowBricks.getLevel().getNumber() - 1));
-//        
-//        int hits = rowBricks.getBrickData().getBaseHits() * rowBricks.getLevel().getGame().getDifficulty().getHitChangeBricks();
-//        
-//        if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
-//            hits += (2 * (rowBricks.getLevel().getNumber() - 1));
-//        }
-//       
-//        Brick b = new Brick(rowBricks, lengte, height, hits, achievedScoreIfDestroyed, color, x, y);
-//        
-//        if((generator.nextInt((10 - 1) - 1 + 1) + 1) == 1){
-//            PowerUpOrDown power = Repositories.getPowerUpDownRepository().getAllPowerUpsAndDowns().getRandomPowerUpOrDown(rowBricks.getLevel());
-//            power.setBrickHiddenIn(b);
-//        }
-//
-//        return b;
-//    }
-    
     public List<Brick> createBricks(){
         brickDatas = Repositories.getBrickRepository().getAllBricks();
         List<Brick> bricks = new ArrayList<>();

@@ -21,7 +21,7 @@ public final class EffectBiggerPallet extends Effect{
     public void activate() {
         setRunning();
         
-        userPallet.setLength((int) (userPallet.getLength() + (userPallet.getOriginalLenght()* 0.2)));
+        playerPallet.setLength((int) (playerPallet.getLength() + (playerPallet.getOriginalLenght()* 0.2)));
         
         System.out.println("activated scaffolds");
       
@@ -33,7 +33,7 @@ public final class EffectBiggerPallet extends Effect{
     public void deActivate() {
         System.out.println("deactivated scaffolds");
         TimerEffect.cancel();
-        userPallet.setLength((int) (userPallet.getLength() - (userPallet.getOriginalLenght()* 0.2)));
+        playerPallet.setLength((int) (playerPallet.getLength() - (playerPallet.getOriginalLenght()* 0.2)));
         setDone();
     }
       

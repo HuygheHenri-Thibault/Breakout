@@ -7,6 +7,7 @@ package be.howest.ti.breakout.domain.effects;
 
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
+import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.game.User;
 
 /**
@@ -40,9 +41,9 @@ public final class EffectExtraBall extends Effect {
     
     public boolean hasUserAlreadyActivatedThisEffect(){
         for (Ball ball : getLevelOfEffect().getExtraBallCreatedByEffects()) {
-            User u = ball.giveUserActivatedSpecialBall();
+            Player u = ball.givePlayerActivatedSpecialBall();
             if(u != null){
-                if(u.getUserId() == getUserActivatedEffect().getUserId()){
+                if(u.getPlayerID()== getPlayerActivatedEffect().getPlayerID()){
                     return true;
                 }
             }

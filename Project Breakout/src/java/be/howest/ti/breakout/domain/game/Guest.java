@@ -9,42 +9,62 @@ package be.howest.ti.breakout.domain.game;
  *
  * @author micha
  */
-public final class Guest extends User{
-    //userID
+public final class Guest implements Player{
     
-    @Override
-    public String getUsername() {
-        return "guest " + getUserId();
-    }
+    private int playerID;
+    private String placeHolderName;
 
-    @Override
-    public String getHashPassword() {
-        return null;
-    }
-
-    @Override
-    public String getEmail() {
-        return null;
-    }
-
-    @Override
-    public int getLevel() {
-        return 0;
-    }
-
-    @Override
-    public String getBio() {
-        return "";
+    public Guest(String placeHolderName) {
+        this.placeHolderName = placeHolderName;
     }
     
+    public Guest(int playerID, String placeHolderName) {
+        this.playerID = playerID;
+        this.placeHolderName = placeHolderName;
+    }
+    
+    @Override
+    public String getName() {
+        return getPlaceHolderName();
+    }
+
+
+    public String getPlaceHolderName() {
+        return placeHolderName;
+    }
+
+    public void setPlaceHolderName(String placeHolderName) {
+        this.placeHolderName = placeHolderName;
+    }
+        
     @Override
     public void addToTotalScore(int score) {}
     
     @Override
-    public void addXP(int XP) {}
+    public int getTotalScore() {return 0;}
     
     @Override
-    public int getXP() {
-        return 0;
+    public void addXP(int XP) {}
+
+    @Override
+    public int getXP() {return 0;}
+
+    @Override
+    public void setPlayerID(int playerid) {
+        this.playerID = playerid;
     }
+
+    @Override
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    @Override
+    public void addToSinglePlayerHighScore(SinglePlayerHighscore sp) {}
+
+    @Override
+    public boolean isGuest() {
+        return true;
+    }
+
 }
