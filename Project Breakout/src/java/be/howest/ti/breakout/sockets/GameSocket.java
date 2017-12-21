@@ -67,8 +67,6 @@ public class GameSocket {
                     for (Player u : sessionGame.get(in).getPlayers()) {
                         System.out.println(u.getPlayerID());
                     }
-                    //makeLevel(in);
-                    //return createSpellsOfLevel(in).toJSONString();
                     return "";
                 case "selectedSpells":
                     selectSpellOfUser(in, obj);
@@ -79,11 +77,7 @@ public class GameSocket {
                         return startGameObj.toJSONString();
                     }
                     return "";
-//                case "startGame":
-//                    startLevel(in);
-//                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "updateMe":
-                    //System.out.println("updated");
                     return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
                 case "gameInfo":
                     return makeJSONGameInfo(in).toJSONString();
@@ -236,9 +230,13 @@ public class GameSocket {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet)aSpirte;
-                spriteObj.put("width", Math.round(pallet.getLength())); // x
-                spriteObj.put("height", Math.round(pallet.getHeight())); // y
-                spriteObj.put("shown", pallet.IsVisible());
+                if(pallet.IsVisible()){
+                    spriteObj.put("width", Math.round(pallet.getLength())); // x
+                    spriteObj.put("height", Math.round(pallet.getHeight())); // y
+                } else {
+                    spriteObj.put("width", 0); // x
+                    spriteObj.put("height", 0); // y
+                }
                 break;
             case "Ball":
                 Ball ball = (Ball)aSpirte;
