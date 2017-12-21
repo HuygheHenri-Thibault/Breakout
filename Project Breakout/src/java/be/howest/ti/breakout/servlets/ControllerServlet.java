@@ -7,6 +7,8 @@ package be.howest.ti.breakout.servlets;
 
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.data.UserRepository;
+import be.howest.ti.breakout.domain.game.MultiPlayerHighscore;
+import be.howest.ti.breakout.domain.game.SinglePlayerHighscore;
 import be.howest.ti.breakout.domain.game.User;
 import be.howest.ti.breakout.util.BCrypt;
 import com.nexmo.client.NexmoClient;
@@ -17,6 +19,7 @@ import com.nexmo.client.sms.SmsSubmissionResult;
 import com.nexmo.client.sms.messages.TextMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -30,7 +33,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Brecht
  */
-@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn", "/support"})
+@WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn", "/support", "/getScore"})
 public class ControllerServlet extends HttpServlet {
 
     /**
@@ -68,9 +71,17 @@ public class ControllerServlet extends HttpServlet {
                 this.checkLoggedIn(request, response);
                 break;
             case "/support":
-                System.out.println("REGISTERED THE FORM INPUT");
                 this.support(request, response);
                 break;
+            case "/getScore":
+                List<User> scores = Repositories.getUserRepository().getAllUsers();
+                request.setAttribute("totalscore", scores);
+                List<SinglePlayerHighscore> SPscores = Repositories.getHighscoreRepository().getAllSingleplayerHighscores();
+                request.setAttribute("SPscores", SPscores);
+                List<MultiPlayerHighscore> MPscores = Repositories.getHighscoreRepository().getAllMultiplayerScores();
+                request.setAttribute("MPscores", MPscores);
+                System.out.println(MPscores.get(0).getTotalScore());
+                request.getRequestDispatcher("leaderboard.jsp").forward(request, response);
         }
     }
     

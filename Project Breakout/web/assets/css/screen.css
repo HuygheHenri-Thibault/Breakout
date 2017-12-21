@@ -1,12 +1,12 @@
 @font-face {
  font-family: "Northwood High";
- src: url("./fonts/Northwood_High.ttf") format("truetype");
+ src: url("./fonts/Northwood_High.ttf")format("truetype");
  font-weight: normal;
  font-style: normal;
 }
 @font-face {
  font-family: "Laser";
- src: url("./fonts/Laser.ttf") format("truetype");
+ src: url("./fonts/Laser.ttf")format("truetype");
  font-weight: normal;
  font-style: normal;
 }
