@@ -159,7 +159,7 @@ var input = function() {
     var player = "" + $(this).data().player;
     var messageObj = {type:"selectedSpells", spell, player};
     socket.sendMessage(messageObj);
-    $(".spells-"+player).html("");
+    $(this).parent(".controllercol").html("");
   }
   function quickLogin(e) {
     e.preventDefault();
