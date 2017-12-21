@@ -128,7 +128,7 @@ public class GameSocket {
         if (user != null && BCrypt.checkpw(password, user.getHashPassword())) {
             sessionGame.get(in).replaceGuestByUser(playerID, user);
         } else {
-            Guest guest = new Guest(playerID, "guest");
+            Guest guest = Repositories.getUserRepository().getGuest(playerID);
             sessionGame.get(in).replaceGuestByUser(playerID, guest);
         }
     }
@@ -155,6 +155,8 @@ public class GameSocket {
         int playerID = Integer.parseInt((String) jsonObject.get("player"));
         String spellName = (String) jsonObject.get("spell");
         Player u = sessionGame.get(in).getLevelPlayedRightNow().getPlayers().get(playerID - 1);
+        System.out.println(playerID);
+        System.out.println(u.getName());
         Spell s = sessionGame.get(in).getLevelPlayedRightNow().getSpellofPlayerChoices(u, spellName);
         System.out.println(s.getName());
         sessionGame.get(in).getLevelPlayedRightNow().setPlayerSpell(u, s);
