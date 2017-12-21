@@ -66,9 +66,6 @@ public class GameSocket {
                     return createSpellsOfLevel(in).toJSONString();
                 case "login":
                     loginUser(in, obj);
-                    for (Player u : sessionGame.get(in).getPlayers()) {
-                        System.out.println(u.getPlayerID());
-                    }
                     return "";
                 case "selectedSpells":
                     selectSpellOfUser(in, obj);
