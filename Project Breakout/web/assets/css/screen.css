@@ -258,12 +258,16 @@ p.chapter{
 }
 
 .succesor{
-    margin-left:50rem;
+  margin-left:auto;
 }
 
 .cardarea:nth-of-type(even){
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+.tertiary{
+    color:white;
 }
 
 .titleInfo{
