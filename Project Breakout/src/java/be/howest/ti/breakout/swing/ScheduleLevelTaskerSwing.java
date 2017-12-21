@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectHandeler;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
+import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
@@ -90,7 +91,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
                 }
             }
 
-            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+            for (Map.Entry<Player, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 switch (entry.getValue().isActivated()) {
                     case ACTIVE:
                         entry.getValue().cast();
@@ -103,7 +104,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
                 }
 
             }
-            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+            for (Map.Entry<Player, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 changeStateEffect(entry.getValue().getSpellEffects());
             }
             

@@ -6,6 +6,7 @@
 package be.howest.ti.breakout.data;
 
 import be.howest.ti.breakout.data.util.MySQLConnection;
+import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -76,7 +77,7 @@ public class MySQLUserRepository implements UserRepository {
             stmt.setInt(1, id);
             try(ResultSet rs = stmt.executeQuery()) {
                 User userWithId = null;
-                if(rs.next()) {
+                while(rs.next()) {
                     String email = rs.getString(FIELD_EMAIL);
                     String username = rs.getString(FIELD_USERNAME);
                     String password = rs.getString(FIELD_PASSWORD);
@@ -114,6 +115,25 @@ public class MySQLUserRepository implements UserRepository {
             }
         } catch(SQLException ex) {
             throw new BreakoutException("Couldn't get user with username", ex);
+        }
+    }
+    
+    @Override
+    public Guest getGuest(int id) {
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_USER_WITH_ID)) {
+            
+            stmt.setInt(1, id);
+            try(ResultSet rs = stmt.executeQuery()) {
+                Guest guest = null;
+                if(rs.next()) {
+                    String username = rs.getString(FIELD_USERNAME);
+                    guest = new Guest(username);
+                }
+                return guest;
+            }
+        } catch(SQLException ex) {
+            throw new BreakoutException("Couldn't get guest", ex);
         }
     }
 

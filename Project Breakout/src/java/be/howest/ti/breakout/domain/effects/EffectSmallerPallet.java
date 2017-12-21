@@ -21,7 +21,7 @@ public final class EffectSmallerPallet extends Effect{
     public void activate() {
         setRunning();
         
-        userPallet.setLength((int) (userPallet.getLength() - (userPallet.getOriginalLenght()* 0.2)));
+        playerPallet.setLength((int) (playerPallet.getLength() - (playerPallet.getOriginalLenght()* 0.2)));
         System.out.println("activated shrunk");
         
         TimerEffect = new Timer();
@@ -32,7 +32,7 @@ public final class EffectSmallerPallet extends Effect{
     public void deActivate() {
         System.out.println("deactivated shrunk");
         TimerEffect.cancel();
-        userPallet.setLength((int) (userPallet.getLength() + (userPallet.getOriginalLenght()* 0.2)));
+        playerPallet.setLength((int) (playerPallet.getLength() + (playerPallet.getOriginalLenght()* 0.2)));
         setDone();
     }
     

@@ -8,7 +8,7 @@ package be.howest.ti.breakout.domain.effects;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.game.Player;
 import java.util.Timer;
 
 /**
@@ -17,8 +17,8 @@ import java.util.Timer;
  */
 public abstract class Effect{
     protected final String name;
-    protected Pallet userPallet;
-    protected User userActivatedEffect;
+    protected Pallet playerPallet;
+    protected Player playerActivatedEffect;
     protected Ball BallActivatedEffect;
     protected final int originalDuration;
     protected int duration;
@@ -49,20 +49,20 @@ public abstract class Effect{
         return name;
     }
     
-    public void setUserActivatedEffect(User u){
-        this.userActivatedEffect = u;
+    public void setPlayerActivatedEffect(Player player){
+        this.playerActivatedEffect = player;
     }
     
-    public User getUserActivatedEffect(){
-        return userActivatedEffect;
+    public Player getPlayerActivatedEffect(){
+        return playerActivatedEffect;
     }
     
-    public void setUserPallet(Pallet p){
-        this.userPallet = p;
+    public void setPlayerPallet(Pallet p){
+        this.playerPallet = p;
     }
     
-    public Pallet getUserPallet() {
-        return userPallet;
+    public Pallet getPlayerPallet() {
+        return playerPallet;
     }
 
     public void setBallActivatedEffect(Ball BallActivatedEffect) {
@@ -121,11 +121,7 @@ public abstract class Effect{
     public boolean isPaused(){
         return paused;
     }
-
-//    public boolean isUserActivatedEffectAlive(){
-//        return getLevelOfEffect().isUserAlive(userActivatedEffect);
-//    }
-//    
+    
     @Override
     public String toString() {
         return "Effect ";

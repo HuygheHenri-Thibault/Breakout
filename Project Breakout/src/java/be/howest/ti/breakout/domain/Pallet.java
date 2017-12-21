@@ -7,7 +7,7 @@ package be.howest.ti.breakout.domain;
 
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.game.Player;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 
@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 public final class Pallet extends Rectangle {
    
     private Sprite s;
-    private final User user;
+    private final Player player;
     //private final Level level;
     
     private final int originalLenght; //check this later
@@ -33,9 +33,9 @@ public final class Pallet extends Rectangle {
     
     private boolean visible = true;
 
-    public Pallet(User user, String color, Level level, int x, int y, int length, float speed) {
+    public Pallet(Player player, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
-        this.user = user;
+        this.player = player;
         //this.level = level;
         this.s = new Sprite(color);
         this.originalSpeed = speed;
@@ -45,8 +45,8 @@ public final class Pallet extends Rectangle {
         this.INIT_PALLET_Y = y;
     }
 
-    public User getUser() {
-        return user;
+    public Player getPlayer() {
+        return player;
     }
     
     public int getOriginalLenght() {
@@ -165,45 +165,14 @@ public final class Pallet extends Rectangle {
             }
         }
         return null;
-//        for (Pallet pallet : getLevel().getPallets()) {
-//            if (this.getX() != pallet.getX()) {
-//                if (this.checkCollission(pallet)) {
-//                    return pallet;
-//                }
-//            }
-//        }
-//        for (Circle circle : getLevel().getAllShapesCreatedByFieldEffect()) {
-//            if (this.checkCollission(circle)) {
-//                return circle;
-//            }
-//        }
-//        if (this.checkCollission(getLevel().getLEFT_BOUNDARY())) {
-//            return getLevel().getLEFT_BOUNDARY();
-//        }
-//        if (this.checkCollission(getLevel().getRIGHT_BOUNDARY())) {
-//            return getLevel().getRIGHT_BOUNDARY();
-//        }
     }
 
     @Override
     public void updateSpritePallet(Pallet OurPallet) {
         if (OurPallet.collidesWithRightSide(this)) {
             OurPallet.updateSpriteAfterCollidingWithRightBoundary();
-//           if(this.dx == 0){
-//              this.moveRight();
-//              
-//              if(OurPallet.dx != speed){
-//                  this.stopMoving();
-//              }
-//            }
         } else if (OurPallet.collidesWithLeftSide(this)) {
                 OurPallet.updateSpriteAfterCollidingWithLeftBoundary();
-//            if(this.dx == 0){
-//                this.moveLeft();
-//                if(OurPallet.dx != -speed){
-//                    this.stopMoving();
-//                }
-//            }
         }
     }
 
