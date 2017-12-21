@@ -16,6 +16,7 @@ import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import org.json.simple.parser.ParseException;
 import be.howest.ti.breakout.domain.spells.Spell;
+import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.util.BCrypt;
 import be.howest.ti.breakout.util.BreakoutException;
 import java.util.ArrayList;
@@ -165,34 +167,39 @@ public class GameSocket {
       sessionGame.get(in).getLevelPlayedRightNow().startLevel();
     } 
     
-        
-//    private void startGame(Session in, JSONObject obj) {
-//        int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-//        if(aantalPlayers > 1){
-//            sessionGame.replace(in, new MultiPlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
-//        } else {
-//            sessionGame.replace(in, new SinglePlayerGame(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
-//        }
-//        makeLevel(in);
-//        sessionGame.get(in).getLevelPlayedRightNow().startLevel();
-//    }
-//    
-//    private JSONObject makeJSONSpells(List<Spell> spells){
-//        JSONObject resultObj = new JSONObject();
-//        int itr = 1;
-//        for (Spell spell : spells) {
-//           resultObj.put("spell " + itr, spell.getName());
-//           itr++;
-//        }
-//        return resultObj;
-//    }
-//
     
     private JSONObject makeJSONGameInfo(Session in) {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "gameInfo");
+        int i = 0;
+        for (Map.Entry<Player, Integer> playerScore : sessionGame.get(in).getLevelPlayedRightNow().getScoresPerUser().entrySet()) {
+            i++;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("username", playerScore.getKey());
+            jsonObject.put("score", playerScore.getValue());
+            resultObj.put("player" + i, jsonObject.toJSONString());
+        }
         resultObj.put("lives", sessionGame.get(in).getLives());
-        resultObj.put("score", sessionGame.get(in).getTotalGameScore());
+        resultObj.put("levelTotalScore", sessionGame.get(in).getLevelPlayedRightNow().getCollectiveScore());
+        resultObj.put("gameTotalScore", sessionGame.get(in).getTotalGameScore());
+        String[] powerupNames = new String[sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps().size()];
+        int j = 0;
+        for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
+            powerupNames[j] = power.getName();
+            j++;
+        }
+        resultObj.put("powerupsActive", powerupNames);
+        String[] spellNames = new String[sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().size()];
+        int s = 0;
+        for (Map.Entry<Player, Spell> spell : sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().entrySet()) {
+            if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
+                spellNames[s] = spell.getValue().getName();
+                s++;
+            }
+        }
+        resultObj.put("spells", spellNames);
+        resultObj.put("completed", sessionGame.get(in).getLevelPlayedRightNow().isCompleted() + "");
+        resultObj.put("gameover", sessionGame.get(in).isGameOver() + "");
         return resultObj;
     }
     
@@ -230,13 +237,9 @@ public class GameSocket {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet)aSpirte;
-                if(pallet.IsVisible()){
-                    spriteObj.put("width", Math.round(pallet.getLength())); // x
-                    spriteObj.put("height", Math.round(pallet.getHeight())); // y
-                } else {
-                    spriteObj.put("width", 0); // x
-                    spriteObj.put("height", 0); // y
-                }
+                spriteObj.put("width", Math.round(pallet.getLength())); // x
+                spriteObj.put("height", Math.round(pallet.getHeight())); // y
+                spriteObj.put("shown", pallet.IsVisible()+""); 
                 break;
             case "Ball":
                 Ball ball = (Ball)aSpirte;
