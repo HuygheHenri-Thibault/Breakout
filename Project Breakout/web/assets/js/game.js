@@ -160,7 +160,7 @@ var input = function() {
     var messageObj = {type:"selectedSpells", spell, player};
     console.log(player);
     socket.sendMessage(messageObj);
-    $(".spells-"+player).html("");
+    $(this).parent(".controllercol").html("");
   }
   function quickLogin(e) {
     e.preventDefault();
