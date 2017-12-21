@@ -2,17 +2,17 @@ function loggedIn() { // TODO: do this with JSP pages instead???
   $.ajax({url: "CheckLoggedIn", success: function(result){
     $("#user a.dropdown-button").html("<p id='username'>"+result+"<i class='material-icons right'>arrow_drop_down</i></p>");
     $(".nav-wrapper").append("<ul id='user-options' class='dropdown-content'>"+
-    "<li><a class='green-text' href='play.jsp'>Play</a></li></ul>")
+    "<li><a class='green-text' href='play.jsp'>Play</a></li></ul>");
     if(result === "Guest") {
       $(".nav-wrapper ul#user-options")
       .append("<li><a href='login.html' class='black-text'>Login</a></li>"+
-      "<li><a href='register.html' class='black-text'>Register</a></li>")
+      "<li><a href='register.html' class='black-text'>Register</a></li>");
       $(".login").hide();
     } else {
       $(".nav-wrapper ul#user-options")
       .append("<li><a href='userPage.jsp' class='black-text'>Account</a></li>"+
       "<li class='divider'></li>"+
-      "<li><a href='LogOutUser' class='red-text'>Log out</a></li>")
+      "<li><a href='LogOutUser' class='red-text'>Log out</a></li>");
       $(".no-login").hide();
     }
     $('.dropdown-button').dropdown();
@@ -20,14 +20,15 @@ function loggedIn() { // TODO: do this with JSP pages instead???
 }
 
 function preventJSInjection(text) {
+    console.log(text);
     var safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     return safeText;
 };
 
 function checkBeforeSignIn(e) {
   e.preventDefault();
-  var username = preventJSInjection($("#username").val());
-  var password = preventJSInjection($("#password").val());
+  var username = preventJSInjection($("input#usernameInput").val());
+  var password = preventJSInjection($("input#password").val());
   if (checkVarsIfEmpty(username, password).length > 0) {
       alert(checkVarsIfEmpty(username, password));
   }else{
@@ -73,7 +74,7 @@ $(document).ready(function() {
   console.log("script.js is loaded");
   $('select[name="modus"]').material_select();
   $('select[name="score"]').material_select();
-  $('.collapsible-header').collapsible()
+  $('.collapsible-header').collapsible();
   $('select[name="modus"]').on("change", enableSecondDropdown);
   // Init Page
   loggedIn();
