@@ -120,7 +120,7 @@ public class User implements Player{
 
     @Override
     public void addToTotalScore(int score) {
-        this.totalScore += totalScore;
+        this.totalScore += score;
     }
 
     @Override
