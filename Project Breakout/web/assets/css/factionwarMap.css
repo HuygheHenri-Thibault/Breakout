@@ -10,13 +10,14 @@ and open the template in the editor.
 
 #factionMap{
     width:100%;
-    height: 100%;
+    height: 90%;
 }
 
 g#area:hover,g#layer3:hover,g#layer4:hover,g#layer5:hover,g#layer6:hover,g#layer7:hover,#layer8:hover,#layer9:hover,
 #layer10:hover,#layer11:hover,#layer12:hover,#layer13:hover,#layer14:hover,#layer15:hover,#layer16:hover,#layer17:hover,
 #layer18:hover,#layer19:hover{
     fill:red;
+    cursor: url(../media/Cursor_Fang.png),pointer,auto;
 }
 
 
