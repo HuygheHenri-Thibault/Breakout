@@ -228,7 +228,9 @@ var gui = function() {
     return graphic;
   }
   function pushPallet(oneSprite) {
-    pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+    if(oneSprite.shown === "true"){
+        pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+    }
   }
   function pushBall(oneSprite) {
     if(oneSprite.icon !== undefined) {

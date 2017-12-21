@@ -333,6 +333,10 @@ public class Level{
         scorePerPlayer.merge(player, score, Integer::sum);
     }
     
+    public Map<Player, Integer> getScoresPerUser(){
+        return scorePerPlayer;
+    }
+    
     public int getPlayerScore(int playerID){
         return scorePerPlayer.get(game.getPlayers().get(playerID - 1));
     }
