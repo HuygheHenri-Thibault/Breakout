@@ -334,6 +334,20 @@ function draw() {
   }
 }
 
+function togglePause() {
+  var paused = false;
+  if(paused) {
+    $("#score .btn").html("Start");
+    $("#score .btn").removeClass("red").addClass("green");
+  } else {
+    $("#score .btn").html("Pause");
+    $("#score .btn").removeClass("green").addClass("red");
+  }
+  var messageObj = {type:"pause"};
+  socket.sendMessage(messageObj);
+}
+
+
 $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
@@ -343,4 +357,5 @@ $(document).ready(function() {
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
+  $("#score .btn").on("click", togglePause);
 });
