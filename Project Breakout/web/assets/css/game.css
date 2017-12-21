@@ -23,23 +23,23 @@
    color: white;
  }
  /* label focus color */
- .modal-content .input-field input[type=text]:focus + label {
+ .modal-content .input-field input[type=text]:focus + label, .modal-content .input-field input[type=password]:focus + label {
    color: white;
  }
  /* label underline focus color */
- .modal-content .input-field input[type=text]:focus {
+ .modal-content .input-field input[type=text]:focus, .modal-content .input-field input[type=password]:focus {
    border-bottom: 1px solid white;
    box-shadow: 0 1px 0 0 white;
  }
  /* valid color */
- .modal-content .input-field input[type=text].valid {
+ .modal-content .input-field input[type=text].valid, .modal-content .input-field input[type=password].valid {
    border-bottom: 1px solid white;
    box-shadow: 0 1px 0 0 white;
  }
  /* invalid color */
- .modal-content .input-field input[type=text].invalid {
-   border-bottom: 1px solid white;
-   box-shadow: 0 1px 0 0 white;
+ .modal-content .input-field input[type=text].invalid, .modal-content .input-field input[type=password].invalid {
+   border-bottom: 1px solid #f44336;
+   box-shadow: 0 1px 0 0 #f44336;
  }
  /* icon prefix focus color */
  .modal-content .input-field .prefix.active {

@@ -50,42 +50,55 @@ var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
 var init = function() {
+  var spellObj = {};
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
-                "<input id='left-key-"+currentslot+"' class='left-key' type='text'>"+
+                "<input id='left-key-"+currentslot+"' class='left-key' type='text' required='required'>"+
                 "<label for='left-key-"+currentslot+"'>left</label>"+
               "</div>"+
               "<div class='input-field  col s4'>"+
-                "<input id='right-key-"+currentslot+"' class='right-key' type='text'>"+
+                "<input id='right-key-"+currentslot+"' class='right-key' type='text' required='required'>"+
                 "<label for='right-key-"+currentslot+"'>right</label>"+
               "</div>"+
               "<div class='input-field  col s4'>"+
-                "<input id='ability-key-"+currentslot+"' class='ability-key' type='text'>"+
+                "<input id='ability-key-"+currentslot+"' class='ability-key' type='text' required='required'>"+
                 "<label for='ability-key-"+currentslot+"'>ability</label>"+
               "</div>"+
               "<input type='submit' class='black-text' value='Set Keys'>"+
             "</form>"
   }
   var loginForm = function(currentslot) {
-    return  "<form class='quickLogin player-"+currentslot+"' data-player='"+currentslot+"'>"+
+    return  "<form class='quickLogin' data-player='"+currentslot+"'>"+
             "<div class='row'>"+
               "<div class='input-field col s12'>"+
-                "<input id='username-"+currentslot+"' class='username' type='text'>"+
+                "<input id='username-"+currentslot+"' class='username' type='text' required='required'>"+
                 "<label for='username-"+currentslot+"'>Username</label>"+
               "</div>"+
             "</div>"+
             "<div class='row'>"+
               "<div class='input-field col s12'>"+
-                "<input id='password-"+currentslot+"' class='password' type='text'>"+
+                "<input id='password-"+currentslot+"' class='password' type='password'>"+
                 "<label for='password-"+currentslot+"'>Password</label>"+
               "</div>"+
-              "<input type='submit' class='black-text' value='Login or play as guest' data-player='"+currentslot+"'>"+
+              "<input type='submit' class='black-text' value='Login or play as guest'>"+
             "</div>"+
             "</form>"
   }
+  var spellOptions = function(currentslot) {
+    var htmlString = "";
+    console.log(spellObj);
+    for(var player in spellObj) {
+      if (player === currentslot+"") {
+        for(var spell in spellObj[player]) {
+          htmlString += "<a class='btn white black-text spellSelect col s12' data-player='"+currentslot+"'>"+spellObj[player][spell]+"</a>"
+        }
+      }
+    }
+    return htmlString;
+  }
   var fireModal = function(playerAmount) {
-    $("#selectController").modal().modal('open');;
+    $("#selectController").modal({dismissible:false}).modal('open');;
     var cols = 12;
     var players = playerAmount;
     var grootteCols = (cols / players);
@@ -96,14 +109,14 @@ var init = function() {
       if(currentslot != 1) {
         htmlString += loginForm(currentslot);
       } else {
-        htmlString += keyForm(currentslot); //TODO: spells nog maar opvragen waneer deze functie geroepen wordt??
+        htmlString += keyForm(currentslot);
       }
       htmlString += "<div class='spells-"+currentslot+"'></div></div>"
       $(".modal-content").append(htmlString);
       currentslot += 1;
     }
   };
-  return {fireModal};
+  return {fireModal, keyForm, spellObj, spellOptions};
 }();
 var input = function() {
   // Private
@@ -119,21 +132,22 @@ var input = function() {
   // Public
   var setKeys = function(e) {
     e.preventDefault();
-    var form = $(this).parent(".inputForm");
+    var form = $(this).parent("form");
     var playerId = $(this).parent(".controllercol").data().player;
     var leftKeyCode = $("#left-key-"+playerId).val().charCodeAt(0)-32;
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
     input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
-    $(this).html("");
+    //$(this).html("");
+    console.log($(this).parent(".controllercol").html(init.spellOptions(playerId)));
   }
   function submitStartGameData(e) {
     e.preventDefault();
     var amountOfPlayers = $("#amountOfPlayers").val();
     var dificulty = $("#dificulty").val();
     var username = $("#username").html().split("<")[0];
-    var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username}
-    $("#varData").html("");
+    var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username} //TODO: does backend process the user?
+    $(".modal-content").html("");
     init.fireModal(amountOfPlayers);
     socket.sendMessage(messageObj);
   }
@@ -148,12 +162,12 @@ var input = function() {
   function quickLogin(e) {
     e.preventDefault();
     var playerNum = $(this).data().player;
-    console.log(playerNum);
-    var username = $("#username-"+playerNum).val();
-    var password = $("#password-"+playerNum).val();
+    var username = $(this).find(".username").val();
+    var password = $(this).find(".password").val();
     var messageObj = {type:"login", username, password, player:""+playerNum};
-    console.log(messageObj);
     socket.sendMessage(messageObj);
+    var playerRow = $(this).parent(".controllercol");
+    playerRow.html("Player "+playerNum+init.keyForm(playerNum));
   }
   var players = [];
   return {players, setKeys, submitStartGameData, selectSpell, quickLogin};
@@ -256,19 +270,7 @@ var gui = function() {
     var lives = player.lives;
     var score = player.score;
   };
-  var showSpells = function(spellObj) {
-    var itr = 0;
-    console.log(spellObj);
-    for(var player in spellObj) {
-      if (player !== 'type') {
-        for(var spell in spellObj[player]) {
-          $("div.controllercol[data-player="+(itr+1)+"] .spells-"+(itr+1)).append("<a class='btn white black-text spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[player][spell]+"</a>");
-        }
-        itr++;
-      }
-    }
-  };
-  return {drawFromPosistion, gameInfo, showSpells, setImages};
+  return {drawFromPosistion, gameInfo, setImages};
 }();
 var socket = function() {
   // Private
@@ -283,8 +285,9 @@ var socket = function() {
           comms.getUpdate();
           break;
         case "spells":
-         gui.showSpells(message);
-         break;
+          console.log("GOT DAT message");
+          init.spellObj = message;
+          break;
         case "posistion":
           gui.drawFromPosistion(message);
           break;
