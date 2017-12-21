@@ -108,7 +108,7 @@ public class ControllerServlet extends HttpServlet {
     
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String email = request.getParameter("email");
-        String username = request.getParameter("username");
+        String username = request.getParameter("usernameInput");
         String password = request.getParameter("password");
         String passwordCheck = request.getParameter("passwordCheck");
         String hashedPasswd = BCrypt.hashpw(password, BCrypt.gensalt(10));
@@ -123,7 +123,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String username = request.getParameter("username");
+        String username = request.getParameter("usernameInput");
         String password = request.getParameter("password");
         User u = Repositories.getUserRepository().getUserWithUsername(username);
         if (u != null && BCrypt.checkpw(password, u.getHashPassword())) {
