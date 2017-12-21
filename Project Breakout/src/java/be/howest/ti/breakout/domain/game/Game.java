@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 /**
@@ -18,15 +19,9 @@ import java.util.Map;
  * @author micha
  */
 public class Game{
-    //hardcoded Users
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
-    User me1 = new User(2, "coolboi2", "blabla2", "hipitiehoppitie", 99, "pepe", 0);
-    User me2 = new User(3, "coolboi3", "blabla3", "hipitiehoppitie", 99, "pepe", 0);
-    User me3 = new User(4, "coolboi4", "blabla4", "hipitiehoppitie", 99, "pepe", 0);
-    //
     
-    private List<User> players;
-    private final int numberOfPlayers; // just take size of players
+    private List<Player> players;
+    private final int numberOfPlayers; 
         
     private List<Level> levels = new ArrayList<>();
     private Level levelPlayedRightNow;
@@ -38,44 +33,16 @@ public class Game{
     private final GameDifficulty difficulty;
     private List<Ratio> ratios = new ArrayList<>();
     
-    //private int TotalGameScore = 0; // can just get this by taking total score of scoreperUser;
-    private Map<User, Integer> scorePerUser;
+    private Map<Player, Integer> scorePerPlayer;
     
-    private int livesLeftOriginally; // for sudden death powerdown
+    private int livesLeftOriginally;
     private int lives; 
     private boolean gameOver = false;
     
-//    //hardcoded constructor
-//    public Game(int height, int width, int lives, int numberOfPlayers, GameDifficulty difficulty){
-//        switch(numberOfPlayers){
-//            case 1:
-//                this.players = new ArrayList<>(Arrays.asList(me));
-//                break;
-//            case 2:
-//                this.players = new ArrayList<>(Arrays.asList(me, me1));
-//                break;
-//            case 3:
-//                this.players = new ArrayList<>(Arrays.asList(me, me1, me2));
-//                break;
-//            case 4:
-//                this.players = new ArrayList<>(Arrays.asList(me, me1, me2, me3));
-//                break;
-//        }
-//        initializeUserScores();
-//        this.width = width;
-//        this.height = height;
-//        this.lives = 3 * players.size();
-//        this.livesLeftOriginally = lives;
-//        this.numberOfPlayers = players.size();
-//        this.difficulty = difficulty;
-//        addRatiosToGame(difficulty);
-//        this.factoryLevels = new FactoryLevel(this);
-//    }
-    
 
     public Game(int height, int width, int aantalSpelers, GameDifficulty difficulty) {
-        this.players = initializeUsers(aantalSpelers);
-        initializeUserScores();
+        this.players = initializePlayers(aantalSpelers);
+        initializePlayerScores();
         this.width = width;
         this.height = height;
         this.lives = 3 * players.size();
@@ -86,20 +53,26 @@ public class Game{
         this.factoryLevels = new FactoryLevel(this);
     }
     
-    public final List<User> initializeUsers(int aantalSpelers){
-        List<User> users = new ArrayList<>();
+    public final List<Player> initializePlayers(int aantalSpelers){
+        List<Player> players = new ArrayList<>();
         for (int i = 0; i < aantalSpelers; i++) {
-            users.add(new Guest());
+            Player guest = Repositories.getUserRepository().getGuest((i + 1));
+            guest.setPlayerID((i + 1));
+            players.add(guest);
         }
-        return users;
+        return players;
     }
     
-    public void replaceGuestByUser(int spelerID, User u){
-        players.set(spelerID, u);
-        initializeUserScores();
+    public void replaceGuestByUser(int spelerID, Player player){
+        int newPlayerID = players.get(spelerID - 1).getPlayerID();
+        player.setPlayerID(newPlayerID);
+        players.set(spelerID - 1, player);
+        initializePlayerScores();
+        levelPlayedRightNow.replacePlayerSpell(spelerID, player);
+        levelPlayedRightNow.initializePlayerScores();
     }
     
-    public List<User> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
     
@@ -142,31 +115,31 @@ public class Game{
        ratios.add(new Ratio("Power up And Down", -0.1f, difficulty));
     }
     
-    public final void initializeUserScores(){
-        scorePerUser = new HashMap<>();
-        for (User player : players) {
-            scorePerUser.put(player, 0);
+    public final void initializePlayerScores(){
+        scorePerPlayer = new HashMap<>();
+        for (Player player : players) {
+            scorePerPlayer.put(player, 0);
         }
     }
     
-    public Map<User, Integer> getUserScores(){
-        return scorePerUser;
+    public Map<Player, Integer> getPlayerScores(){
+        return scorePerPlayer;
     }
 
     public int getTotalGameScore() {
         int sum = 0;
-        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
             sum += entry.getValue();
         }
         return sum;
     }
     
-    public int getTotalScoreOfUser(User user){
-        return scorePerUser.get(user);
+    public int getTotalScoreOfPlayer(Player player){
+        return scorePerPlayer.get(player);
     }
 
-    public void addToTotalScoreDuringGame(User user, int TotalGameScore) {
-        scorePerUser.merge(user, TotalGameScore, Integer::sum);
+    public void addToTotalScoreDuringGame(Player player, int TotalGameScore) {
+        scorePerPlayer.merge(player, TotalGameScore, Integer::sum);
     }
     
     public void setLives(int lives) {
@@ -185,7 +158,7 @@ public class Game{
         lives--;
         livesLeftOriginally--;
         if(lives <= 0){
-            stopGame();
+            setGameOver(true);
         }
     }
 
@@ -199,11 +172,10 @@ public class Game{
     
     public void stopGame() {
         levelPlayedRightNow.endLevel();
-        setGameOver(true);
-        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
             entry.getKey().addToTotalScore(entry.getValue());
         }
-        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
             entry.getKey().addXP(entry.getValue() / 2);
         }
         insertHighscore();
@@ -211,11 +183,19 @@ public class Game{
     
     public void insertHighscore(){
         if (this.getNumberOfPlayers() == 1){
-            User thePlayer = players.get(0);
-            int scoreOfTheUser = scorePerUser.get(thePlayer);
-            SinglePlayerHighscore sph = new SinglePlayerHighscore(thePlayer, scoreOfTheUser);
+            Player thePlayer = players.get(0);
+            int scoreOfThePlayer = scorePerPlayer.get(thePlayer);
+            SinglePlayerHighscore sph = new SinglePlayerHighscore();
+            thePlayer.addToSinglePlayerHighScore(sph);
+            sph.setScore(scoreOfThePlayer);
+            Repositories.getHighscoreRepository().updateSinglePlayerHighscore(sph);
+            System.out.println("saved");
         }else{
-            MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerUser);
+            MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerPlayer);
+            int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
+            for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+                Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+            }
         }
     }
 }

@@ -10,9 +10,7 @@ import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +35,9 @@ public class FactoriesTesten {
     List<User> players2 = new ArrayList<>(Arrays.asList(me, otherMe));
     List<User> players3 = new ArrayList<>(Arrays.asList(me, otherMe, anotherMe));
     GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
-    Game singlePlayerGame = new SinglePlayerGame(me, 1000, 1000, easy);
-    Game multiPlayerGame2P = new MultiPlayerGame(players2, 1000, 1000, easy);
-    Game multiPlayerGame3P = new MultiPlayerGame(players3, 1000, 1000, easy);
+    Game singlePlayerGame = new Game(1000, 1000, 1, easy);
+    Game multiPlayerGame2P = new Game(1000, 1000, 2, easy);
+    Game multiPlayerGame3P = new Game(1000, 1000, 3,easy);
 
 
     public FactoriesTesten() {
@@ -55,6 +53,15 @@ public class FactoriesTesten {
 
     @Before
     public void setUp() {
+        singlePlayerGame.replaceGuestByUser(1, me);
+        multiPlayerGame2P.replaceGuestByUser(1, me);
+        multiPlayerGame2P.replaceGuestByUser(2, otherMe);
+        multiPlayerGame3P.replaceGuestByUser(1, me);
+        multiPlayerGame3P.replaceGuestByUser(2, otherMe);
+        multiPlayerGame3P.replaceGuestByUser(3, anotherMe);
+        singlePlayerGame.createNewLevel();
+        multiPlayerGame2P.createNewLevel();
+        multiPlayerGame3P.createNewLevel();
     }
 
     @After
@@ -83,20 +90,20 @@ public class FactoriesTesten {
     @Test
     public void testEenPalletMaken() {
         Level level = singlePlayerGame.getLevelPlayedRightNow();
-        Pallet p = level.getUserPallet(me.getUserId());
+        Pallet p = level.getPlayerPallet(me.getUserId());
         assertTrue(p instanceof Pallet);
-        assertEquals(425, p.getX());
+        assertEquals(429, p.getX());
     }
 
     @Test
     public void testMeerderePalletMaken() {
         Level level = multiPlayerGame2P.getLevelPlayedRightNow();
-        Pallet p1 = level.getUserPallet(me.getUserId());
-        Pallet p2 = level.getUserPallet(otherMe.getUserId());
+        Pallet p1 = level.getPlayerPallet(me.getUserId());
+        Pallet p2 = level.getPlayerPallet(otherMe.getUserId());
 
-        assertTrue(level.getUserPallet(me.getUserId()) instanceof Pallet);
-        assertEquals(175, p1.getX());
-        assertEquals(675, p2.getX());
+        assertTrue(level.getPlayerPallet(me.getUserId()) instanceof Pallet);
+        assertEquals(182, p1.getX());
+        assertEquals(682, p2.getX());
     }
 
     @Test
@@ -123,7 +130,7 @@ public class FactoriesTesten {
     @Test
     public void testGameMaken() {
         Level level = singlePlayerGame.getLevelPlayedRightNow();
-        Pallet p = level.getUserPallet(me.getUserId());
+        Pallet p = level.getPlayerPallet(me.getUserId());
         Ball b = level.getBalls().get(0);
         Brick brick  = level.getBricks().get(0);
 
@@ -147,9 +154,9 @@ public class FactoriesTesten {
         Ball ballLevel3 = singlePlayerGame.getLevels().get(2).getBalls().get(0);
         Brick b = singlePlayerGame.getLevels().get(1).getBricks().get(0);
         assertEquals(20, b.getAchievedScore());
-        assertEquals(149, palletLevel2.getLength());
+        assertEquals(142, palletLevel2.getLength());
         assertEquals(6, ballLevel3.getSpeed());
-        assertEquals(148, palletLevel6.getLength());
+        assertEquals(140, palletLevel6.getLength());
     }
 
     @Test

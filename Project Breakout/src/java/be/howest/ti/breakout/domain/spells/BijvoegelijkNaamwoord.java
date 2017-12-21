@@ -7,7 +7,7 @@ package be.howest.ti.breakout.domain.spells;
 
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.effects.Effect;
-import be.howest.ti.breakout.domain.game.User;
+import be.howest.ti.breakout.domain.game.Player;
 
 /**
  *
@@ -21,11 +21,11 @@ public final class BijvoegelijkNaamwoord extends Woord{
         this.effect = effect;
     }
     
-    public void setEntetiesOfEffect(Level level, User user){
-        effect.setUserPallet(level.getUserPallet(user));
-        effect.setBallActivatedEffect(effect.getUserPallet().getLastBallTouched());
+    public void setEntetiesOfEffect(Level level, Player player){
+        effect.setPlayerPallet(level.getPlayerPallet(player));
+        effect.setBallActivatedEffect(effect.getPlayerPallet().getLastBallTouched());
         effect.setLevelOfEffect(level);
-        effect.setUserActivatedEffect(user);
+        effect.setPlayerActivatedEffect(player);
     }
     
     public void cast(){

@@ -77,7 +77,7 @@ public class MySQLPowerUpOrDownRepository implements PowerUpOrDownRepository {
         String iconPath = rs.getString(FIELD_ICON);
         String description = rs.getString(FIELD_DESCRIPTION);
         PowerUpOrDown p = new PowerUpOrDown(id, name, type, duration, iconPath, description);
-        List<Effect> allEffectOfPowerUp = Repositories.getEFFECT_REPOSITORY().getEffectOfPowerUp(id); 
+        List<Effect> allEffectOfPowerUp = Repositories.getEffect_Repository().getEffectOfPowerUp(id); 
         for (Effect effect : allEffectOfPowerUp) {
             p.addEffect(effect);
         }
@@ -100,7 +100,7 @@ public class MySQLPowerUpOrDownRepository implements PowerUpOrDownRepository {
             }
             
         } catch(SQLException ex) {
-            throw new BreakoutException("Couldn't get effect with name", ex);
+            throw new BreakoutException("Couldn't get powerUp with name", ex);
         }
     }
 

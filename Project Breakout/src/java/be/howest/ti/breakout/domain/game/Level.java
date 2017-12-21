@@ -59,14 +59,14 @@ public class Level{
     private final List<PowerUpOrDown> powerUpsOnScreen = new ArrayList<>();
     private final List<PowerUpOrDown> powerupsActive = new ArrayList<>();
     
-    private final Map<User, List<Spell>> spellsChoices = new HashMap<>();
-    private final Map<User, Spell> spellsInGame = new HashMap<>();
+    private final Map<Player, List<Spell>> spellsChoices = new HashMap<>();
+    private final Map<Player, Spell> spellsInGame = new HashMap<>();
     
     private final FieldEffect fieldEffect;
     private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
-    private final Map<User, Integer> scorePerUser = new HashMap<>();
+    private final Map<Player, Integer> scorePerPlayer = new HashMap<>();
     
     private boolean completed;
     
@@ -79,7 +79,7 @@ public class Level{
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
         this.completed = false;
-        initializeUserScores();
+        initializePlayerScores();
         
         this.factoryBrick = new FactoryBricks(this);
         this.bricks = factoryBrick.createBricks();
@@ -132,7 +132,7 @@ public class Level{
         for (PowerUpOrDown power : powerupsActive) {
             power.resume();
         }
-        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+        for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
             entry.getValue().resume();
         }
         for (Web web : websMadeByFieldEffect) {
@@ -145,7 +145,7 @@ public class Level{
         for (PowerUpOrDown power : powerupsActive) {
             power.pause();
         }
-        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+        for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
             entry.getValue().pause();
         }
         for (Web web : websMadeByFieldEffect) {
@@ -158,7 +158,7 @@ public class Level{
         for (PowerUpOrDown power : powerupsActive) {
             power.cancel();
         }
-        for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+        for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
             entry.getValue().cancel();
         }
         for (Web web : websMadeByFieldEffect) {
@@ -171,18 +171,18 @@ public class Level{
         return pallets;
     }
  
-    public Pallet getUserPallet(int userID){
+    public Pallet getPlayerPallet(int playerID){
         for (Pallet pallet : pallets) {
-            if(pallet.getUser().getUserId() == userID){
+            if(pallet.getPlayer().getPlayerID()== playerID){
                 return pallet;
             }
         }
         return null;
     }
      
-    public Pallet getUserPallet(User user){
+    public Pallet getPlayerPallet(Player player){
         for (Pallet pallet : pallets) {
-            if(pallet.getUser().getUserId() == user.getUserId()){
+            if(pallet.getPlayer().getPlayerID()== player.getPlayerID()){
                 return pallet;
             }
         }
@@ -216,26 +216,19 @@ public class Level{
         return bricks;
     }
     
-    public void lowerHitsOfBrick(Ball ball, Brick b, User playerThatDestroyedBrick){
+    public void lowerHitsOfBrick(Ball ball, Brick b, Player playerThatDestroyedBrick){
         b.decrementHits(ball.getDamage());
         if(b.getHits() <= 0){
             deleteBrick(b, playerThatDestroyedBrick);
         }
     }
     
-    public void deleteBrick(Brick b, User playerThatDestroyedBrick){
+    public void deleteBrick(Brick b, Player playerThatDestroyedBrick){
         b.getPowerUP().show();
         bricks.remove(b);
 
-        //User player = game.getPlayers().get(playerThatDestroyedBrick);
-        addScoreToUser(playerThatDestroyedBrick, b.getAchievedScore());
+        addScoreToPlayer(playerThatDestroyedBrick, b.getAchievedScore());
         
-        //XP nog aan toevoegen
-        //als gameover -> XP behouden
-        //als gameover -> total score wordt toegevegd aan score users
-        //als succes -> XP awarden 
-        //als succes -> level CollectiveScore aan totale CollectiveScore toevoegen.
-
         checkForCompletion();
     }
     
@@ -251,12 +244,11 @@ public class Level{
         return powerupsActive;
     }
     
-    //spells
     public final void createNewRandomSpells(){
-        for (User player : game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             spellsChoices.put(player, new ArrayList<>());
         }
-        for (Map.Entry<User, List<Spell>> entry : spellsChoices.entrySet()) {
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
             for (int i = 0; i < 3; i++) {
                 Spell newSpell = new Spell(this);
                 if(!LevelAlreadyContainsSpell(entry.getValue(), newSpell)){
@@ -268,8 +260,8 @@ public class Level{
         }
     }
     
-    public boolean LevelAlreadyContainsSpell(List<Spell> spellChoicesOfUser, Spell s){
-        for (Spell spell : spellChoicesOfUser) {
+    public boolean LevelAlreadyContainsSpell(List<Spell> spellChoicesOfPlayer, Spell s){
+        for (Spell spell : spellChoicesOfPlayer) {
             if(spell.getName().equals(s.getName())){
                 return true;
             }
@@ -281,26 +273,40 @@ public class Level{
         return spellsInGame.size() == spellsChoices.size();
     }
     
-    public void setUserSpell(User u, Spell s){
-        //u.setSpell(s);
-        s.setUser(u);
+    public void replacePlayerSpell(int spelerID, Player player){
+        Player playerBeingReplaced = getPlayerFromUserSpells(spelerID);
+        List<Spell> spellChoices = spellsChoices.remove(playerBeingReplaced);
+        spellsChoices.put(player, spellChoices);
+    }
+    
+    public Player getPlayerFromUserSpells(int spelerID){
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
+            if(entry.getKey().getPlayerID() == spelerID){
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
+    public void setPlayerSpell(Player u, Spell s){
+        s.setPlayer(u);
         spellsInGame.put(u, s);
     }
     
-    public Spell getSpellByUser(User u){
-        return spellsInGame.get(u);
+    public Spell getSpellByPlayer(Player player){
+        return spellsInGame.get(player);
     }
     
-    public void updateSpellOfUser(User u, Spell spell){
-        spellsInGame.replace(u, spell);
+    public void updateSpellOfPlayer(Player player, Spell spell){
+        spellsInGame.replace(player, spell);
     }
     
-    public List<Spell> getAllSpellChoicesOfUser(User user){
-        return spellsChoices.get(user);
+    public List<Spell> getAllSpellChoicesOfPlayer(Player player){
+        return spellsChoices.get(player);
     }
     
-    public Spell getSpellofUserChoices(User user, String spellName){
-        for (Spell spell : spellsChoices.get(user)) {
+    public Spell getSpellofPlayerChoices(Player player, String spellName){
+        for (Spell spell : spellsChoices.get(player)) {
             if(spell.getName().equals(spellName)){
                 return spell;
             }
@@ -308,14 +314,13 @@ public class Level{
         return null;
     }
     
-    public Map<User, List<Spell>> getAllSpellsChoices(){
+    public Map<Player, List<Spell>> getAllSpellsChoices(){
         return spellsChoices;
     }
     
-    public Map<User, Spell> getAllSpellsInGame(){
+    public Map<Player, Spell> getAllSpellsInGame(){
         return spellsInGame;
     }
-    //
     
     public FieldEffect getFieldEffect(){
         return fieldEffect;
@@ -333,23 +338,27 @@ public class Level{
         websMadeByFieldEffect.remove(web);
     }
     
-    public final void initializeUserScores(){
-        for (User player : game.getPlayers()) {
-            scorePerUser.put(player, 0);
+    public final void initializePlayerScores(){
+        for (Player player : game.getPlayers()) {
+            scorePerPlayer.put(player, 0);
         }
     }
     
-    private void addScoreToUser(User u, int score){
-        scorePerUser.merge(u, score, Integer::sum);
+    private void addScoreToPlayer(Player player, int score){
+        scorePerPlayer.merge(player, score, Integer::sum);
     }
     
-    public int getUserScore(int userID){
-        return scorePerUser.get(game.getPlayers().get(userID - 1));
+    public Map<Player, Integer> getScoresPerUser(){
+        return scorePerPlayer;
+    }
+    
+    public int getPlayerScore(int playerID){
+        return scorePerPlayer.get(game.getPlayers().get(playerID - 1));
     }
     
     public int getCollectiveScore() {
         int sum = 0;
-        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
             sum += entry.getValue();
         }
         return sum;
@@ -367,7 +376,7 @@ public class Level{
         return this.game.getHeight();
     }
     
-    public List<User> getPlayers(){
+    public List<Player> getPlayers(){
         return game.getPlayers();
     }
     
@@ -381,6 +390,10 @@ public class Level{
     
     public void decrementLife(){
         game.decrementLife();
+        if(game.isGameOver()){
+            addPlayerScoresToTotalGame();
+            game.stopGame();
+        }
     }
     
     public boolean getGameOver(){
@@ -440,7 +453,7 @@ public class Level{
     }
     
     public void resetSpellEffects(){
-         for (Map.Entry<User, Spell> entry : spellsInGame.entrySet()) {
+         for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
              for (Effect spellEffect : entry.getValue().getSpellEffects()) {
                  if(spellEffect.isActivated() == EffectStatus.RUNNING){
                     spellEffect.setDeActive();
@@ -458,7 +471,7 @@ public class Level{
         if(this.getBricks().isEmpty()){
             setCompleted(true);
             endLevel();
-            addUserScoresToTotalGame();
+            addPlayerScoresToTotalGame();
             game.createNewLevel();
         }
     }
@@ -471,8 +484,8 @@ public class Level{
         this.completed = completed;
     }
    
-    private void addUserScoresToTotalGame(){
-        for (Map.Entry<User, Integer> entry : scorePerUser.entrySet()) {
+    private void addPlayerScoresToTotalGame(){
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
             game.addToTotalScoreDuringGame(entry.getKey(), entry.getValue());
         }
     }

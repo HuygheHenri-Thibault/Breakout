@@ -8,39 +8,41 @@ class Player {
   }
 }
 Player.prototype.move = function(keyMap) {
-  var messageObj = {type: "move", player: this.name};
-  if (keyMap[this.leftKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "left";
-      socket.sendMessage(messageObj);
+  if(input.gameRunning) {
+    var messageObj = {type: "move", player: this.name};
+    if (keyMap[this.leftKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "left";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (keyMap[this.rightKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "right";
-      socket.sendMessage(messageObj);
+    if (keyMap[this.rightKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "right";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (keyMap[this.abilityKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      var messageObj = {type: "spellActivate", player: this.name};
-      socket.sendMessage(messageObj);
+    if (keyMap[this.abilityKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        var messageObj = {type: "spellActivate", player: this.name};
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (!keyMap[this.leftKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "stop";
-      socket.sendMessage(messageObj);
+    if (!keyMap[this.leftKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "stop";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (!keyMap[this.rightKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "stop";
-      socket.sendMessage(messageObj);
+    if (!keyMap[this.rightKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "stop";
+        socket.sendMessage(messageObj);
+      }
     }
   }
 };
@@ -49,43 +51,57 @@ var ip = 'x.x.x.x'; // TODO: voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
+var spellObj = {}; // TODO: move this to init? makes the object empty everytime though?
+
 var init = function() {
+
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
-                "<input id='left-key-"+currentslot+"' class='left-key' type='text'>"+
+                "<input id='left-key-"+currentslot+"' class='left-key' type='text' required='required'>"+
                 "<label for='left-key-"+currentslot+"'>left</label>"+
               "</div>"+
               "<div class='input-field  col s4'>"+
-                "<input id='right-key-"+currentslot+"' class='right-key' type='text'>"+
+                "<input id='right-key-"+currentslot+"' class='right-key' type='text' required='required'>"+
                 "<label for='right-key-"+currentslot+"'>right</label>"+
               "</div>"+
               "<div class='input-field  col s4'>"+
-                "<input id='ability-key-"+currentslot+"' class='ability-key' type='text'>"+
+                "<input id='ability-key-"+currentslot+"' class='ability-key' type='text' required='required'>"+
                 "<label for='ability-key-"+currentslot+"'>ability</label>"+
               "</div>"+
               "<input type='submit' class='black-text' value='Set Keys'>"+
             "</form>"
   }
   var loginForm = function(currentslot) {
-    return  "<form class='quickLogin player-"+currentslot+"' data-player='"+currentslot+"'>"+
+    return  "<form class='quickLogin' data-player='"+currentslot+"'>"+
             "<div class='row'>"+
               "<div class='input-field col s12'>"+
-                "<input id='username-"+currentslot+"' class='username' type='text'>"+
+                "<input id='username-"+currentslot+"' class='username' type='text' required='required'>"+
                 "<label for='username-"+currentslot+"'>Username</label>"+
               "</div>"+
             "</div>"+
             "<div class='row'>"+
               "<div class='input-field col s12'>"+
-                "<input id='password-"+currentslot+"' class='password' type='text'>"+
+                "<input id='password-"+currentslot+"' class='password' type='password'>"+
                 "<label for='password-"+currentslot+"'>Password</label>"+
               "</div>"+
-              "<input type='submit' class='black-text' value='Login or play as guest' data-player='"+currentslot+"'>"+
+              "<input type='submit' class='black-text' value='Login or play as guest'>"+
             "</div>"+
             "</form>"
   }
+  var spellOptions = function(currentslot) {
+    var htmlString = "";
+    for(var player in spellObj) {
+      if (player.split(" ")[1] === currentslot+"") {
+        for(var spell in spellObj[player]) {
+          htmlString += "<a class='btn white black-text spellSelect col s12' data-player='"+currentslot+"'>"+spellObj[player][spell]+"</a>"
+        }
+      }
+    }
+    return htmlString;
+  }
   var fireModal = function(playerAmount) {
-    $("#selectController").modal().modal('open');;
+    $("#selectController").modal({dismissible:false}).modal('open');;
     var cols = 12;
     var players = playerAmount;
     var grootteCols = (cols / players);
@@ -96,16 +112,17 @@ var init = function() {
       if(currentslot != 1) {
         htmlString += loginForm(currentslot);
       } else {
-        htmlString += keyForm(currentslot); //TODO: spells nog maar opvragen waneer deze functie geroepen wordt??
+        htmlString += keyForm(currentslot);
       }
       htmlString += "<div class='spells-"+currentslot+"'></div></div>"
       $(".modal-content").append(htmlString);
       currentslot += 1;
     }
   };
-  return {fireModal};
+  return {fireModal, keyForm, spellObj, spellOptions};
 }();
 var input = function() {
+  var gameRunning = false;
   // Private
   var keyMap = {};
   onkeydown = onkeyup = function(e) {
@@ -119,44 +136,56 @@ var input = function() {
   // Public
   var setKeys = function(e) {
     e.preventDefault();
-    var form = $(this).parent(".inputForm");
+    var form = $(this).parent("form");
     var playerId = $(this).parent(".controllercol").data().player;
     var leftKeyCode = $("#left-key-"+playerId).val().charCodeAt(0)-32;
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
     input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
-    $(this).html("");
+    $(this).parent(".controllercol").html(init.spellOptions(playerId));
   }
   function submitStartGameData(e) {
     e.preventDefault();
     var amountOfPlayers = $("#amountOfPlayers").val();
     var dificulty = $("#dificulty").val();
     var username = $("#username").html().split("<")[0];
-    var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username}
-    $("#varData").html("");
+    var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username} //TODO: does backend process the user?
+    $(".modal-content").html("");
     init.fireModal(amountOfPlayers);
     socket.sendMessage(messageObj);
   }
   function selectSpell() {
     var spell = $(this).html();
     var player = "" + $(this).data().player;
-    console.log("clicked --> " + spell + ", " + player);
     var messageObj = {type:"selectedSpells", spell, player};
+    console.log(player);
     socket.sendMessage(messageObj);
-    $(".spells-"+player).html("");
+    $(this).parent(".controllercol").html("");
   }
   function quickLogin(e) {
     e.preventDefault();
     var playerNum = $(this).data().player;
-    console.log(playerNum);
-    var username = $("#username-"+playerNum).val();
-    var password = $("#password-"+playerNum).val();
+    var username = $(this).find(".username").val();
+    var password = $(this).find(".password").val();
     var messageObj = {type:"login", username, password, player:""+playerNum};
-    console.log(messageObj);
+    socket.sendMessage(messageObj);
+    var playerRow = $(this).parent(".controllercol");
+    playerRow.html("Player "+playerNum+init.keyForm(playerNum));
+  }
+  function togglePause() {
+    if(gameRunning) {
+      $("#score .btn").html("Pause");
+      $("#score .btn").removeClass("green").addClass("red");
+    } else {
+      $("#score .btn").html("Start");
+      $("#score .btn").removeClass("red").addClass("green");
+    }
+    gameRunning = !gameRunning;
+    var messageObj = {type:"pause"};
     socket.sendMessage(messageObj);
   }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell, quickLogin};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning};
 }();
 var comms = function() {
   // Private
@@ -203,7 +232,9 @@ var gui = function() {
     return graphic;
   }
   function pushPallet(oneSprite) {
-    pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+    if(oneSprite.shown === "true"){
+        pallet.push(new Pallet(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, images.pallet));
+    }
   }
   function pushBall(oneSprite) {
     if(oneSprite.icon !== undefined) {
@@ -256,19 +287,7 @@ var gui = function() {
     var lives = player.lives;
     var score = player.score;
   };
-  var showSpells = function(spellObj) {
-    var itr = 0;
-    console.log(spellObj);
-    for(var player in spellObj) {
-      if (player !== 'type') {
-        for(var spell in spellObj[player]) {
-          $("div.controllercol[data-player="+(itr+1)+"] .spells-"+(itr+1)).append("<a class='btn white black-text spellSelect col s12' data-player='"+(itr+1)+"'>"+spellObj[player][spell]+"</a>");
-        }
-        itr++;
-      }
-    }
-  };
-  return {drawFromPosistion, gameInfo, showSpells, setImages};
+  return {drawFromPosistion, gameInfo, setImages};
 }();
 var socket = function() {
   // Private
@@ -279,12 +298,13 @@ var socket = function() {
       var message = JSON.parse(messageRecieved.data);
       switch (message.type) {
         case "gameStarted":
+          input.gameRunning = true;
           $("#selectController").modal("close");
           comms.getUpdate();
           break;
         case "spells":
-         gui.showSpells(message);
-         break;
+          spellObj = message;
+          break;
         case "posistion":
           gui.drawFromPosistion(message);
           break;
@@ -333,6 +353,9 @@ function draw() {
   }
 }
 
+
+
+
 $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
@@ -342,4 +365,5 @@ $(document).ready(function() {
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
+  $("#score .btn").on("click", input.togglePause);
 });

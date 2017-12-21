@@ -10,16 +10,16 @@ import java.util.List;
 /**
  *
  * @author micha
- */
-public final class MultiPlayerGame extends Game { // mss overbodige klasse
-
-    //hardcoded constructor
-    public MultiPlayerGame(int height, int width, int numberOfPlayers, GameDifficulty difficulty){
-        super(height, width, 6, numberOfPlayers, difficulty);
-    }
-    
-    public MultiPlayerGame(List<User> players, int height, int width, GameDifficulty difficulty) {
-        super(players, height, width, 2 * players.size(), difficulty);
-    }
-    
-}
+// */
+//public final class MultiPlayerGame extends Game { // mss overbodige klasse
+//
+////    //hardcoded constructor
+////    public MultiPlayerGame(int height, int width, int numberOfPlayers, GameDifficulty difficulty){
+////        super(height, width, 6, numberOfPlayers, difficulty);
+////    }
+////    
+////    public MultiPlayerGame(List<User> players, int height, int width, GameDifficulty difficulty) {
+////        super(players, height, width, 2 * players.size(), difficulty);
+////    }
+//    
+//}

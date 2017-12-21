@@ -88,9 +88,9 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
             effect.setBallActivatedEffect(ballActivated);
             effect.setLevelOfEffect(level);
             effect.setDuration(duration);
-            effect.setUserPallet(level.getUserPallet(ballActivated.getLastUserThatTouchedMe()));
-            if(ballActivated.getLastUserThatTouchedMe().getUserId() > 0){
-                effect.setUserActivatedEffect(ballActivated.getLastUserThatTouchedMe());
+            effect.setPlayerPallet(level.getPlayerPallet(ballActivated.getLastPlayerThatTouchedMe()));
+            if(ballActivated.getLastPlayerThatTouchedMe().getPlayerID()> 0){
+                effect.setPlayerActivatedEffect(ballActivated.getLastPlayerThatTouchedMe());
             }
         }
     }

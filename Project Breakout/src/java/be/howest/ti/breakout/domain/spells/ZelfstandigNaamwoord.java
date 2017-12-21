@@ -9,6 +9,7 @@ import be.howest.ti.breakout.domain.game.Level;
 import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.game.User;
 
 /**
@@ -41,13 +42,13 @@ public final class ZelfstandigNaamwoord extends Woord{
         return false;
     }
     
-    public void setEntetiesOfEffect(Level level, User user){
-        effect.setUserPallet(level.getUserPallet(user));
-        effect.setBallActivatedEffect(effect.getUserPallet().getLastBallTouched());
+    public void setEntetiesOfEffect(Level level, Player player){
+        effect.setPlayerPallet(level.getPlayerPallet(player));
+        effect.setBallActivatedEffect(effect.getPlayerPallet().getLastBallTouched());
         effect.setLevelOfEffect(level);
-        effect.setUserActivatedEffect(user);
+        effect.setPlayerActivatedEffect(player);
         for (BijvoegelijkNaamwoord bijvoegelijkNaamwoord : bijvoegelijkeNaamwoorden) {
-            bijvoegelijkNaamwoord.setEntetiesOfEffect(level, user);
+            bijvoegelijkNaamwoord.setEntetiesOfEffect(level, player);
         }
     }
     

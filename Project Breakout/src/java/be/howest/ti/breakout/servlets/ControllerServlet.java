@@ -80,7 +80,7 @@ public class ControllerServlet extends HttpServlet {
                 request.setAttribute("SPscores", SPscores);
                 List<MultiPlayerHighscore> MPscores = Repositories.getHighscoreRepository().getAllMultiplayerScores();
                 request.setAttribute("MPscores", MPscores);
-                System.out.println(MPscores.get(0).getTotalScore());
+                //System.out.println(MPscores.get(0).getTotalScore());
                 request.getRequestDispatcher("leaderboard.jsp").forward(request, response);
         }
     }
