@@ -12,12 +12,10 @@ package be.howest.ti.breakout.domain.spells;
 public class Woord {
     private final String naam;
     private final int amountOfDamage;
-    private final String typeOfDamage;
 
-    public Woord(String naam, int amountOfDamage, String typeOfDamage) {
+    public Woord(String naam, int amountOfDamage) {
         this.naam = naam;
         this.amountOfDamage = amountOfDamage;
-        this.typeOfDamage = typeOfDamage;
     }
 
     public String getNaam() {
@@ -26,10 +24,6 @@ public class Woord {
     
     public int getAmountOfDamage() {
         return amountOfDamage;
-    }
-
-    public String getTypeOfDamage() {
-        return typeOfDamage;
     }
     
 }

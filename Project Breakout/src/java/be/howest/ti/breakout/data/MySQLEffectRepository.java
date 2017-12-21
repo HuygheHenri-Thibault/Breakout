@@ -18,9 +18,13 @@ import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectStraightDownBall;
 import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
+import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
+import be.howest.ti.breakout.domain.effects.EffectExtraLifePoint;
 import be.howest.ti.breakout.domain.effects.EffectSmallerPallet;
 import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
 import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
+import be.howest.ti.breakout.domain.effects.EffectShadow;
+import be.howest.ti.breakout.domain.effects.EffectWebs;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.util.BreakoutException;
 
@@ -85,6 +89,20 @@ public class MySQLEffectRepository implements EffectRepository{
                 break;
             case"oneLifeLeft":
                 effect = new EffectOneLifeLeft(name, duration);
+                break;
+            case"extraLife":
+                effect = new EffectExtraLifePoint(name, duration);
+                break;
+            case"fireBall":
+                effect = new EffectDragonFireBall(name, duration);
+                break;
+            case"webs":
+                effect = new EffectWebs(name, duration);
+                break;
+            case"shadow":
+                effect = new EffectShadow(name, duration);
+                break;
+            default:
                 break;
         }
         return effect;

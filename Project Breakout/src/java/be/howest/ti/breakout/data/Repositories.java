@@ -15,7 +15,8 @@ public class Repositories {
     private final static HighscoreRepository HIGHSCORE_REPOSITORY = new MySQLHighscoreRepository();
     private final static PowerUpOrDownRepository POWERUPDOWN_REPOSITORY = new MySQLPowerUpOrDownRepository();
     private final static EffectRepository EFFECT_REPOSITORY = new MySQLEffectRepository();
-    private final SpellRepository SPELL_REPOSITORY = new MySQLSpellRepository();
+    private final static SpellRepository SPELL_REPOSITORY = new MySQLSpellRepository();
+    private final static FieldEffectRepository FIELDEFFECT_REPOSITORY = new MySQLFieldEffectRepository();
     
     public static UserRepository getUserRepository() {
         return USER_REPOSITORY;
@@ -37,9 +38,11 @@ public class Repositories {
         return EFFECT_REPOSITORY;
     }
     
-    //voor test
-    public SpellRepository getSpellRepository() {
+    public static SpellRepository getSpellRepository() {
         return SPELL_REPOSITORY;
     }
-    //
+    
+    public static FieldEffectRepository getFieldEffectRepository(){
+        return FIELDEFFECT_REPOSITORY;
+    }
 }

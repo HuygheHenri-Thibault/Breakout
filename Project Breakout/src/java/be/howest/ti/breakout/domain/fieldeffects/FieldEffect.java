@@ -15,23 +15,37 @@ import java.util.Timer;
  * @author Fredr
  */
 public class FieldEffect {
-    private final Level level;
+    private Level level;
     private final String name;
+    private final String description;
     private final Effect effect;
     private final int interval;
     private Timer timerFieldEffect;
     private boolean paused = false;
 
-    public FieldEffect(Level level, String name, Effect effect, int interval) {
+    public FieldEffect(String name, String description, Effect effect, int interval) {
+        this(null, name, description, effect, interval);
+    }
+    
+    public FieldEffect(Level level, String name, String description, Effect effect, int interval) {
         this.level = level;
         this.name = name;
+        this.description = description;
         this.effect = effect;
         this.interval = interval;
         this.timerFieldEffect = new Timer();
     }
 
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Effect getEffect() {

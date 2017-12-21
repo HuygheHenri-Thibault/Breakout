@@ -5,6 +5,7 @@
  */
 package be.howest.ti.breakout.domain.game;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.Circle;
@@ -34,12 +35,13 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 /**
  *
  * @author micha
  */
-public class Level{
+public final class Level{
     private Game game;
     private Timer timer;
     private LevelTasker taskForLevel;
@@ -62,7 +64,7 @@ public class Level{
     private final Map<Player, List<Spell>> spellsChoices = new HashMap<>();
     private final Map<Player, Spell> spellsInGame = new HashMap<>();
     
-    private final FieldEffect fieldEffect;
+    private FieldEffect fieldEffect;
     private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
@@ -76,6 +78,11 @@ public class Level{
     private final Rectangle BOTTOM_BOUNDARY;
     
     public Level(Game game, int number) {
+        this(game, number, null);
+        this.fieldEffect = randomizeFieldEffect();
+    }
+    
+    public Level(Game game, int number, FieldEffect fieldEffect) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
         this.completed = false;
@@ -94,8 +101,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect(this, "shadow", new EffectShadow("shadow", 3), 10);
-        
+        this.fieldEffect = fieldEffect;
     }
     
     public int getNumber() {
@@ -320,6 +326,17 @@ public class Level{
     
     public Map<Player, Spell> getAllSpellsInGame(){
         return spellsInGame;
+    }
+    
+    public FieldEffect randomizeFieldEffect(){
+        List<FieldEffect> allFieldEffects = Repositories.getFieldEffectRepository().getAllFieldEffects();
+        Random generator = new Random();
+        int max = (allFieldEffects.size() - 1);
+        int min = 0;
+        int randomIndex = generator.nextInt((max - min) + 1) - min;
+        FieldEffect fieldEffectForThisLevel = allFieldEffects.get(randomIndex);
+        fieldEffectForThisLevel.setLevel(this);
+        return fieldEffectForThisLevel;
     }
     
     public FieldEffect getFieldEffect(){

@@ -80,8 +80,8 @@ public class Board extends JPanel{
         
         
         game = new Game(1000, 1000, 2, difficulties.get(response));
-        game.replaceGuestByUser(1, me);
         game.createNewLevel();
+        game.replaceGuestByUser(1, me);
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTaskerSwing(level, this);
@@ -184,8 +184,10 @@ public class Board extends JPanel{
         }
         String spell = "effects of spell active: ";
         for (Effect effect :  level.getAllSpellsInGame().get(me).getSpellEffects()) {
-            if(effect.isActivated() == EffectStatus.RUNNING){
-                spell += effect.toString() + ", ";
+            if(!level.getAllSpellsInGame().get(me).getSpellEffects().isEmpty()){
+                if(effect.isActivated() == EffectStatus.RUNNING){
+                    spell += effect.toString() + ", ";
+                }
             }
         }
         String spellCooldown = "Cooldown " + level.getAllSpellsInGame().get(me).getCooldown();
