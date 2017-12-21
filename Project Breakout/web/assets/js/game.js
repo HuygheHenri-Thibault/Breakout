@@ -8,39 +8,41 @@ class Player {
   }
 }
 Player.prototype.move = function(keyMap) {
-  var messageObj = {type: "move", player: this.name};
-  if (keyMap[this.leftKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "left";
-      socket.sendMessage(messageObj);
+  if(input.gameRunning) {
+    var messageObj = {type: "move", player: this.name};
+    if (keyMap[this.leftKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "left";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (keyMap[this.rightKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "right";
-      socket.sendMessage(messageObj);
+    if (keyMap[this.rightKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "right";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (keyMap[this.abilityKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      var messageObj = {type: "spellActivate", player: this.name};
-      socket.sendMessage(messageObj);
+    if (keyMap[this.abilityKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        var messageObj = {type: "spellActivate", player: this.name};
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (!keyMap[this.leftKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "stop";
-      socket.sendMessage(messageObj);
+    if (!keyMap[this.leftKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "stop";
+        socket.sendMessage(messageObj);
+      }
     }
-  }
 
-  if (!keyMap[this.rightKey]) {
-    if (!messageObj.hasOwnProperty("direction")) {
-      messageObj.direction = "stop";
-      socket.sendMessage(messageObj);
+    if (!keyMap[this.rightKey]) {
+      if (!messageObj.hasOwnProperty("direction")) {
+        messageObj.direction = "stop";
+        socket.sendMessage(messageObj);
+      }
     }
   }
 };
@@ -120,6 +122,7 @@ var init = function() {
   return {fireModal, keyForm, spellObj, spellOptions};
 }();
 var input = function() {
+  var gameRunning = false;
   // Private
   var keyMap = {};
   onkeydown = onkeyup = function(e) {
@@ -169,19 +172,19 @@ var input = function() {
     playerRow.html("Player "+playerNum+init.keyForm(playerNum));
   }
   function togglePause() {
-    var paused = false;
-    if(paused) {
-      $("#score .btn").html("Start");
-      $("#score .btn").removeClass("red").addClass("green");
-    } else {
+    if(gameRunning) {
       $("#score .btn").html("Pause");
       $("#score .btn").removeClass("green").addClass("red");
+    } else {
+      $("#score .btn").html("Start");
+      $("#score .btn").removeClass("red").addClass("green");
     }
+    gameRunning = !gameRunning;
     var messageObj = {type:"pause"};
     socket.sendMessage(messageObj);
   }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning};
 }();
 var comms = function() {
   // Private
@@ -292,6 +295,7 @@ var socket = function() {
       var message = JSON.parse(messageRecieved.data);
       switch (message.type) {
         case "gameStarted":
+          input.gameRunning = true;
           $("#selectController").modal("close");
           comms.getUpdate();
           break;
