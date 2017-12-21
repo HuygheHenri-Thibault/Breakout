@@ -24,7 +24,7 @@ public class User implements Player{
     private int spScore;
     private int totalScore;
     
-    public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
+    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore) {
         this.userId = id;
         this.email = email;
         this.username = username;
@@ -32,7 +32,12 @@ public class User implements Player{
         this.level = lvl;
         this.bio = bio;
         this.totalScore = 0;
-        this.spScore = spScore;
+        this.spScore = spHighscore;
+        this.totalScore = totalScore;
+    }
+    
+    public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
+        this(id, username, password, email, lvl, bio, spScore, 0);
     }
     
     public User(String username, String password, String email, int lvl, String bio) {
@@ -51,7 +56,7 @@ public class User implements Player{
     public User(){
         this(null, null);
     }
-
+    
     public int getUserId() {
         return userId;
     }

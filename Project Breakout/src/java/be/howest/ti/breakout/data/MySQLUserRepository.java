@@ -28,13 +28,14 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_LEVEL = "level";
     public static final String FIELD_BIO = "bio";
     public static final String FIELD_SINGLEPLAYERHIGHSCORE = "spHighscore";
+    public static final String FIELD_TOTALSCORE = "totalHighscore";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
     private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
-    private static final String UPADTE_TOTALSCORE_USER = "UPDATE breakout.user set totalHighscore = totalHighscore where "
+    private static final String UPDATE_TOTALSCORE_USER = "UPDATE breakout.user SET totalHighscore = ? WHERE id = ?";
     
 //    private static final String GET_ALL_USERS = "SELECT * FROM sql11203818.user";
 //    private static final String GET_USER_WITH_ID = "SELECT * FROM sql11203818.user WHERE id = ?";
@@ -60,7 +61,8 @@ public class MySQLUserRepository implements UserRepository {
                     int lvl = rs.getInt(FIELD_LEVEL);
                     String bio = rs.getString(FIELD_BIO);
                     int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
-                    users.add(new User(id, username, password, email, lvl, bio, spHighscore));
+                    int totalScore = rs.getInt(FIELD_TOTALSCORE);
+                    users.add(new User(id, username, password, email, lvl, bio, spHighscore, totalScore));
                 }
                 return users;
             }
@@ -200,6 +202,11 @@ public class MySQLUserRepository implements UserRepository {
     @Override
     public void updateUserTotalScore(User u) {
         try(Connection conn = MySQLConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(FIELD_ID))
-    }
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_TOTALSCORE_USER)){
+            stmt.setInt(1, u.getTotalScore());
+            stmt.setInt(2, u.getPlayerID());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't update total score for specific user", ex);        }
+        }
 }
