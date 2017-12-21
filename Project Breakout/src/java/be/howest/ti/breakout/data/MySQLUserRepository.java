@@ -34,6 +34,7 @@ public class MySQLUserRepository implements UserRepository {
     private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
+    private static final String UPADTE_TOTALSCORE_USER = "UPDATE breakout.user set totalHighscore = totalHighscore where "
     
 //    private static final String GET_ALL_USERS = "SELECT * FROM sql11203818.user";
 //    private static final String GET_USER_WITH_ID = "SELECT * FROM sql11203818.user WHERE id = ?";
@@ -195,5 +196,10 @@ public class MySQLUserRepository implements UserRepository {
             throw new BreakoutException("Couldn't update user field specified", ex);
         }
     }
-    
+
+    @Override
+    public void updateUserTotalScore(User u) {
+        try(Connection conn = MySQLConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(FIELD_ID))
+    }
 }
