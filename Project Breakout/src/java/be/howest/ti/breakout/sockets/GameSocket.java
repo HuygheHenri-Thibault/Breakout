@@ -117,13 +117,7 @@ public class GameSocket {
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         String dificulty = (String)obj.get("playerAmount");
         List<User> players = new ArrayList<>();
-//        if(!username.equals("Guest")) {
-//            User player = Repositories.getUserRepository().getUserWithUsername(username);
-//            players.add(player)
-//        }
-//        
-            // get dificulty from db
-            sessionGame.replace(in, new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+        sessionGame.replace(in, new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
     }
     
     private void loginUser(Session in, JSONObject obj){
