@@ -1,5 +1,28 @@
-#test{
-    height: 50rem;
-    background-image: url("../media/scroll.jpg");
-    background-size: cover;
+section{
+    position: relative;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1{
+    font-size: 1.7rem;
+}
+
+li{
+    font-size: 1.5rem;
+}
+
+#leaderboard{
+    position: absolute;
+    width: 80%;
+    left: 180px;
+    top: 130px;
+}
+.scroll{
+    width: 100%;
+}
+
+.Devonshire{
+    font-family: 'Devonshire', cursive;
 }
