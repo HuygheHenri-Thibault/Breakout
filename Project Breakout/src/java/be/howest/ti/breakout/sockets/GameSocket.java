@@ -60,7 +60,8 @@ public class GameSocket {
             switch ((String)obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
                 case "playerAmount":
                     makeGame(in, obj);
-                    return "";
+                    makeLevel(in);
+                    return createSpellsOfLevel(in).toJSONString();
                 case "login":
                     loginUser(in, obj);
                     for (Player u : sessionGame.get(in).getPlayers()) {
@@ -116,14 +117,14 @@ public class GameSocket {
     private void makeGame(Session in, JSONObject obj){
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
         String dificulty = (String)obj.get("playerAmount");
-        List<User> players = new ArrayList<>();
-//        if(!username.equals("Guest")) {
-//            User player = Repositories.getUserRepository().getUserWithUsername(username);
-//            players.add(player)
-//        }
-//        
-            // get dificulty from db
-            sessionGame.replace(in, new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1)));
+        String username = (String) obj.get("username");
+        Game game = new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1));
+        Player player;
+        if(!username.equals("Guest")){
+            player = Repositories.getUserRepository().getUserWithUsername(username);
+            game.replaceGuestByUser(1, player);
+        }
+        sessionGame.replace(in, game);
     }
     
     private void loginUser(Session in, JSONObject obj){

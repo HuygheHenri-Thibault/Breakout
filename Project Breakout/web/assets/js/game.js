@@ -286,7 +286,9 @@ var socket = function() {
           break;
         case "spells":
           console.log("GOT DAT message");
+          console.log(init.spellObj);
           init.spellObj = message;
+          console.log(init.spellObj);
           break;
         case "posistion":
           gui.drawFromPosistion(message);
