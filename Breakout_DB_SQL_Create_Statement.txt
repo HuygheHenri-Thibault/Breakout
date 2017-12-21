@@ -71,6 +71,7 @@ CREATE TABLE `campaign` (
 
 LOCK TABLES `campaign` WRITE;
 /*!40000 ALTER TABLE `campaign` DISABLE KEYS */;
+INSERT INTO `campaign` VALUES (1,'Shipwrecked',NULL),(2,'At the village',NULL),(3,'Lonely rock',NULL),(4,'Crossroads',NULL);
 /*!40000 ALTER TABLE `campaign` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,6 +239,7 @@ CREATE TABLE `story` (
 
 LOCK TABLES `story` WRITE;
 /*!40000 ALTER TABLE `story` DISABLE KEYS */;
+INSERT INTO `story` VALUES (1,'“You wake up on a beach among flotsam wreckage. As you check yourself for injuries you seems to be mostly okay only having some small bruises and scratches, you can’t say the same for the rotting body lying next to you however.. You choose to:” LOOK AROUND | INSPECT THE BODY','Breakers Bay',NULL,1),(2,'“As you take hold of your surroundings you see what seems to be the remains of a sunken ship with barrels and crates littering the seaside. You hear a voice call out to you”','LOOK AROUND',NULL,1),(3,'“As you inspect the remains of the fellow who obviously was less lucky than you. Checking him he doesn’t have much on him other than his clothes and some saltwater filled boots. You hear a voice call out to you.”','INSPECT THE BODY',NULL,1),(4,'“Hey you stay right there! Don’t move and give anything you have on you or you’ll regret it! As the person comes closer you can make out it’s a man”','HEY YOU',NULL,1),(5,'After a full day of trekking, dusk begins to set in. In the distance you can only see a few shapes which appear to be houses. Upon entering the village you breathe in the smell of charred wood and see smoke rising from the chimneys, the man is signaling you to stay close and move along through town. Taking a sharp corner you see a grand building which appears to be a church rising above all the terraced houses. “Well, go on in you, the master wishes to speak with you” the stranger muffles.','At the village',NULL,1),(6,'You push open the royal doors to the church, you find them to be quite heavy. The halls are made of limestone and wood, carved in many different patterns. As you walk towards the altar you hear a voice whispering: “They crack and they squeak, when you slack, you’ll get weak.”','The master',NULL,1),(7,'Now take out your phone or be done and alone. You only get one glance so a battle perchance? \nBaffled by what you’re hearing you mutter “you’re good in rhymes I see, now show yourself” “Oh, but why would I?” the voice whispers, you’re one of those castaways, we don’t know where your loyalty lies? “Battle me and prove your worth, otherwise you’re the only one who’s gonna get hurt” You immediately take the device out of your pocket that was handed to you and power it on. “I hope your score is as good as your skills with rhyming, whisperer.” ','The conversation',NULL,1),(8,'After the battle, you don’t hear the voice anymore, instead you see a lady in white appear right before you, above the slab of stone which is the altar. ‘You have managed well, now go forth to lonely rock, a difficult choice awaits you.’ “Wha.. What?” You ask, dumbfounded by all the cryptic messages you’re receiving but to no avail, the lady already disappeared.','After the battle',NULL,1),(9,'At the foot of the stairs below you, you see the stranger still waiting for you. “So, a choice has to be made, eh?” “Yeah, but what choice? Who was she? What’s with the whispers?” “Alright alright, youngster, you have a lot to learn, you see, times are not like they used to be...”','Leave the church',NULL,1),(11,'Coming out of the grasslands all of your energy is drained. Sitting down on the sharp edges you hear a **click**. You feel the ground shaking under your feet, the boulders start falling down and before you know you are tumbling down with them. Protecting your head from the sharp edges hitting your head you see a distant light in a cave. With a big thump you hit the ground, your fall broken by a big pile of bones and leaves mixed together. With an aching back and a throbbing pain in your knee you get up.\n','The mountain',NULL,1),(12,'You see a shadow on the wall before you, gleaming from within the cave before you. You call out, \'Hello\' ? I fell down, it wasn\'t my intention to enter your home. So if you\'d just let me out then I\'ll be on my way. The shadow grows on the wall, NO! It screeches. Yo..You..You Cannot leave... Yet. Me so lonely, me need contact, me needs to go out more, me needs someone to speak to.','Inside the mountain',NULL,1),(13,'Okay, You wanna talk let\'s talk. Does \'me\' have a name? Yes, me is named Tuck, me is always out of luck. My home is here, under the Lonely Rock. You can stock up on food, and rest while you\'re here after that you\'ll be back on the road. Beware of other weary travelers though for some are vile and corrupted. Guide them to the light and we all will break out!','Inside the mountain',NULL,1);
 /*!40000 ALTER TABLE `story` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,6 +317,11 @@ CREATE TABLE `storychoice` (
   CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `storychoice` WRITE;
+/*!40000 ALTER TABLE `storychoice` DISABLE KEYS */;
+INSERT INTO `storychoice` VALUES (1,'LOOK AROUND',2),(1,'INSPECT THE BODY',3);
+/*!40000 ALTER TABLE `storychoice` ENABLE KEYS */;
+UNLOCK TABLES;
 
 CREATE TABLE `multiplayerhighscore` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

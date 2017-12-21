@@ -1,12 +1,12 @@
 @font-face {
  font-family: "Northwood High";
- src: url("./fonts/Northwood_High.ttf") format("truetype");
+ src: url("./fonts/Northwood_High.ttf")format("truetype");
  font-weight: normal;
  font-style: normal;
 }
 @font-face {
  font-family: "Laser";
- src: url("./fonts/Laser.ttf") format("truetype");
+ src: url("./fonts/Laser.ttf")format("truetype");
  font-weight: normal;
  font-style: normal;
 }
@@ -245,6 +245,7 @@ p.chapter{
     cursor:pointer;
 }
 
+/*Begin */
 .cardarea{
     background-image: url("../media/footer-background.png");
     opacity: 0.6;
@@ -258,7 +259,7 @@ p.chapter{
 }
 
 .succesor{
-    margin-left:50rem;
+  margin-left:auto;
 }
 
 .cardarea:nth-of-type(even){
@@ -266,10 +267,30 @@ p.chapter{
     margin-bottom: 2rem;
 }
 
+.tertiary{
+    color:white;
+    font-weight:bold;
+    font-size: 1.3rem;
+    line-height:80%;
+    text-shadow: 2px 2px black;
+    padding-top: 0.5rem;
+}
+
 .titleInfo{
     text-shadow: 5px 5px black;
 }
 
 .premier{
+    margin-top:1rem;
     opacity: 1.0;
+    text-decoration: none;
+    color: white;
+    padding-left: 0.8rem;
+    padding-right:0.8rem;
+}
+
+.navPremier{
+    display:inline;
+    color:white;
+    font-size: 4rem;
 }

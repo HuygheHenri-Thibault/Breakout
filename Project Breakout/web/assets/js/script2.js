@@ -7,13 +7,11 @@ $(document).ready(function () {
   
     $("#PathToVillage").on("click", function (){
         $("ul#slide-out").toggle();
-        //Materialize.fadeInImage('#img1');
-        //fadeinImage <a href="#!" class="btn" onclick="Materialize.fadeInImage('#image-test')">Click Me</a>
     });
     
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
-    
+    $('.succesor').hide();
     $(".continents").click(function() {
         var myClass = $(this).attr("id");
         console.log(myClass);
