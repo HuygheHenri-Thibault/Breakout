@@ -79,7 +79,7 @@ public final class LevelTasker extends TimerTask {
                 }
             }
 
-            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+            for (Map.Entry<Player, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 switch (entry.getValue().isActivated()) {
                     case ACTIVE:
                         entry.getValue().cast();
@@ -92,7 +92,7 @@ public final class LevelTasker extends TimerTask {
                 }
 
             }
-            for (Map.Entry<User, Spell> entry : level.getAllSpellsInGame().entrySet()) {
+            for (Map.Entry<Player, Spell> entry : level.getAllSpellsInGame().entrySet()) {
                 changeStateEffect(entry.getValue().getSpellEffects());
             }
             

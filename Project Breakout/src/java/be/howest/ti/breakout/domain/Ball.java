@@ -6,8 +6,8 @@
 package be.howest.ti.breakout.domain;
 
 import be.howest.ti.breakout.domain.fieldeffects.Web;
-import be.howest.ti.breakout.domain.game.User;
 import be.howest.ti.breakout.domain.game.Level;
+import be.howest.ti.breakout.domain.game.Player;
 import java.awt.Image;
 import java.io.Serializable;
 import java.util.List;
@@ -31,7 +31,7 @@ public class Ball extends Circle implements Serializable{
     private float dy;
     private int damage = 1;
 
-    private User lastUserThatTouchedMe;
+    private Player lastPlayerThatTouchedMe;
     private boolean onScreen = true;
 
     public Ball(Level level, int radius, int speed, String color, int x, int y) {
@@ -45,12 +45,12 @@ public class Ball extends Circle implements Serializable{
         setAngleDirectionToNearestPallet();
     }
 
-    public void setLastUserThatTouchedMe(User lastUserThatTouchedMe) {
-        this.lastUserThatTouchedMe = lastUserThatTouchedMe;
+    public void setLastPlayerThatTouchedMe(Player lastPlayerThatTouchedMe) {
+        this.lastPlayerThatTouchedMe = lastPlayerThatTouchedMe;
     }
     
-    public User getLastUserThatTouchedMe() {
-        return lastUserThatTouchedMe;
+    public Player getLastPlayerThatTouchedMe() {
+        return lastPlayerThatTouchedMe;
     }
     
     public boolean isOnScreen(){
@@ -102,10 +102,10 @@ public class Ball extends Circle implements Serializable{
     }
     
     private void setAngleDirectionToNearestPallet(){
-        List<Pallet> userPallets = level.getPallets();
-        User nearestPalletUser = calculateNearestPalletUser(userPallets);
+        List<Pallet> playerPallets = level.getPallets();
+        Player nearestPalletPlayer = calculateNearestPalletPlayer(playerPallets);
 
-        Pallet selectedPallet = level.getUserPallet(nearestPalletUser);
+        Pallet selectedPallet = level.getPlayerPallet(nearestPalletPlayer);
         int targetX = selectedPallet.getX() + (selectedPallet.getLength() / 2);
         int targetY = selectedPallet.getY();
 
@@ -126,17 +126,17 @@ public class Ball extends Circle implements Serializable{
         return (double) Math.round(value * scale) / scale;
     }
     
-    private User calculateNearestPalletUser(List<Pallet> pallets){
-        User palletUser = null;
+    private Player calculateNearestPalletPlayer(List<Pallet> pallets){
+        Player palletPlayer = null;
         int nearestX = 1000;
         for (Pallet pallet : pallets) {
             int difference = Math.abs(pallet.getX() - this.getX());
             if(difference < nearestX){
                 nearestX = difference;
-                palletUser = pallet.getUser();
+                palletPlayer = pallet.getPlayer();
             }
         }
-        return palletUser;
+        return palletPlayer;
     }
    
     public void resetState(){
@@ -208,7 +208,7 @@ public class Ball extends Circle implements Serializable{
         }
         
         p.setLastBallTouched(this);
-        setLastUserThatTouchedMe(p.getUser());
+        setLastPlayerThatTouchedMe(p.getPlayer());
     }
 
     private void updateSpriteBallAfterCollidingWithPalletUpsideOrDownside(Pallet p, float rectPosX, float ballLPos, float leftSide, float rightSide, float direction) {
@@ -284,7 +284,7 @@ public class Ball extends Circle implements Serializable{
             setDx(Math.abs(getDx()));
         }
         
-        level.lowerHitsOfBrick(this, b, getLastUserThatTouchedMe());
+        level.lowerHitsOfBrick(this, b, getLastPlayerThatTouchedMe());
         setDamage(1);
     }
     
@@ -355,11 +355,10 @@ public class Ball extends Circle implements Serializable{
     
     public void updateSpriteAfterCollidingWithBottomBoundary(){
         level.decrementLife();
-        //level.resetState();
         removeFromScreen();
     }
     
-    public User giveUserActivatedSpecialBall(){
+    public Player givePlayerActivatedSpecialBall(){
         return null;
     }
     

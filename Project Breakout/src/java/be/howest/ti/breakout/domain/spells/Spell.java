@@ -8,19 +8,19 @@ package be.howest.ti.breakout.domain.spells;
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.game.User;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
+import be.howest.ti.breakout.domain.game.Player;
 
 /**
  *
  * @author micha
  */
 public class Spell{
-    private User user;
+    private Player player;
     private final Level level;
     
     private String name;
@@ -45,8 +45,8 @@ public class Spell{
         this.cooldown = originalCooldown;
     }
     
-    public void setUser(User user){
-        this.user = user;
+    public void setPlayer(Player player){
+        this.player = player;
     }
     
     private int generateCooldown(){
@@ -121,10 +121,10 @@ public class Spell{
     }
     
 
-    public void setReady(){status = SpellStatus.READY; level.updateSpellOfUser(user, this); }
-    public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfUser(user, this);}
-    public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfUser(user, this);}
-    public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfUser(user, this);}
+    public void setReady(){status = SpellStatus.READY; level.updateSpellOfPlayer(player, this); }
+    public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfPlayer(player, this);}
+    public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfPlayer(player, this);}
+    public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfPlayer(player, this);}
     public SpellStatus isActivated(){return status;}
     
     public void setReadyToCast(){
@@ -143,7 +143,7 @@ public class Spell{
     } 
     
     public void setEntetiesOfEffect(){
-        this.zelfstandigNaamwoord.setEntetiesOfEffect(level, user);
+        this.zelfstandigNaamwoord.setEntetiesOfEffect(level, player);
     }
     
     public List<Effect> getSpellEffects(){

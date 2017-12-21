@@ -7,31 +7,33 @@ import java.util.Map;
 
 public class MultiPlayerHighscore{
     
-    private Map<User, Integer> playerList = new HashMap<>();
+    private Map<Player, Integer> playerList = new HashMap<>();
     private int gameID;
     
-    public MultiPlayerHighscore(int gameID, Map<User, Integer> userList) {
-        playerList = userList;
+    public MultiPlayerHighscore(int gameID, Map<Player, Integer> playerList) {
+        this.playerList = playerList;
         this.gameID = gameID;
     }
     
-    public MultiPlayerHighscore(Map<User, Integer> userList) {
+    public MultiPlayerHighscore(Map<Player, Integer> userList) {
         this(0, userList);
     }
 
     public int getTotalScore() {
         int som = 0;
-        for (Map.Entry<User, Integer> entry : playerList.entrySet()) {
+        for (Map.Entry<Player, Integer> entry : playerList.entrySet()) {
             som += entry.getValue();
         }
         return som;
     }
 
-    public Map<User, Integer> getPlayerList() {
+    public Map<Player, Integer> getPlayerList() {
         return playerList;
     }
+    
+    
 
-    public void setPlayerList(Map<User, Integer> playerList) {
+    public void setPlayerList(Map<Player, Integer> playerList) {
         this.playerList = playerList;
     }
     

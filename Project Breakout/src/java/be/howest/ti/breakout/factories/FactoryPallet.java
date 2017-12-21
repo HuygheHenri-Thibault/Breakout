@@ -7,6 +7,7 @@ package be.howest.ti.breakout.factories;
 
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
+import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class FactoryPallet extends FactoryBreakoutUtilities{
             int x =  startX + (nextXDistance * multiplierDistance) - (lenght / 2);
             int y = (level.getGameHeight()/ 10) * 9;
             
-            User player = level.getPlayers().get(i);
+            Player player = level.getPlayers().get(i);
          
             Pallet p = new Pallet(player, colorPallet, level, x, y, lenght, 5);
             pallets.add(p);

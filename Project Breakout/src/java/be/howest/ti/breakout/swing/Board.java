@@ -5,16 +5,15 @@
  */
 package be.howest.ti.breakout.swing;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.Circle;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
-import be.howest.ti.breakout.domain.game.MultiPlayerGame;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Shape;
-import be.howest.ti.breakout.domain.game.SinglePlayerGame;
 import be.howest.ti.breakout.domain.game.User;
 import java.awt.Color;
 import java.awt.Font;
@@ -35,6 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
+import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
@@ -45,11 +45,11 @@ import java.util.Map;
  * @author micha
  */
 public class Board extends JPanel{
-    User me = new User(1, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
-    User me2 = new User(2, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
-    User me3 = new User(3, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
-    User me4 = new User(4, "coolboi", "blabla", "hipitiehoppitie", 99, "pepe", 0);
-    List<User> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
+    Player me = Repositories.getUserRepository().getUserWithId(5);
+    Player me2 = Repositories.getUserRepository().getGuest(1);
+    Player me3 = Repositories.getUserRepository().getGuest(2);
+    Player me4 = Repositories.getUserRepository().getGuest(3);
+    List<Player> users = new ArrayList<>(Arrays.asList(me, me2, me3, me4));
     List<GameDifficulty> difficulties;
     private Game game;
     private Level level;
@@ -79,7 +79,8 @@ public class Board extends JPanel{
         null, options, options[0]);
         
         
-        game = new MultiPlayerGame(users, 1000, 1000, difficulties.get(response));
+        game = new Game(1000, 1000, 2, difficulties.get(response));
+        game.replaceGuestByUser(1, me);
         game.createNewLevel();
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
@@ -88,9 +89,9 @@ public class Board extends JPanel{
     }
     
     public void showSpellChoices(){
-        Map<User, List<Spell>> spellsChoices = level.getAllSpellsChoices();
+        Map<Player, List<Spell>> spellsChoices = level.getAllSpellsChoices();
         int j = 0;
-        for (Map.Entry<User, List<Spell>> entry : spellsChoices.entrySet()) {
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
             j++;
             List<Spell> spells = entry.getValue();
             String[] options = new String[spells.size()];
@@ -100,7 +101,7 @@ public class Board extends JPanel{
             int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
             null, options, options[0]);
-            level.setUserSpell(users.get(j - 1), spells.get(response));
+            level.setPlayerSpell(users.get(j - 1), spells.get(response));
         }
         level.startLevel(s);
     }
@@ -175,7 +176,7 @@ public class Board extends JPanel{
         Font font = new Font("Verdana", Font.BOLD, 18);
         String levelNumber = "Level " + game.getLevels().size();
         String lives = "Lives x " + game.getLives();
-        String score = "Score " + game.getLevelPlayedRightNow().getUserScore(me.getUserId());
+        String score = "Score " + game.getLevelPlayedRightNow().getPlayerScore(me.getPlayerID());
         String scoreTotal = "Total Score " + game.getTotalGameScore();
         String powerup = "PowerUp Active: ";
         for (PowerUpOrDown powerUp : level.getAllActivePowerUps()) {
@@ -235,7 +236,7 @@ public class Board extends JPanel{
         
         @Override
         public void keyPressed(KeyEvent e) {
-            Spell spell = level.getSpellByUser(me); 
+            Spell spell = level.getSpellByPlayer(me); 
             spell.keyPressed(e); 
         }
     }

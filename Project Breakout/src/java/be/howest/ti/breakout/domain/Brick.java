@@ -16,31 +16,22 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
  */
 public class Brick extends Rectangle{
     private Sprite s;
-    //private BrickRow br;
     private int hits;
-    private int achievedScoreForUser;
+    private int achievedScoreForPlayer;
     private PowerUpOrDown powerUp;
 
-    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForUser, String color, int x, int y) {
-        this(level, lenght, height, hits, achievedScoreForUser, new NoPower(), color, x, y);
+    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForPlayer, String color, int x, int y) {
+        this(level, lenght, height, hits, achievedScoreForPlayer, new NoPower(), color, x, y);
     }
     
-    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForUser, PowerUpOrDown power, String color, int x, int y) {
+    public Brick(Level level, int lenght, int height, int hits, int achievedScoreForPlayer, PowerUpOrDown power, String color, int x, int y) {
         super(level, x, y, lenght, height);
         this.s = new Sprite(color);
         //this.br = br;
         this.hits = hits;
-        this.achievedScoreForUser = achievedScoreForUser;
+        this.achievedScoreForPlayer = achievedScoreForPlayer;
         this.powerUp = power;
     }
-   
-//    public BrickRow getBr() {
-//        return br;
-//    }
-    
-//    public Level getLevel(){
-//        return ;
-//    }
     
 
     public int getHits() {
@@ -51,16 +42,12 @@ public class Brick extends Rectangle{
         hits = hits - damage;
     }
     
-//    public void decrementHits(Ball ball){
-//        hits = hits - ball.getDamage();
-//    }
-    
     public void setAcheievedScore(int acheievedScore) {
-        this.achievedScoreForUser = acheievedScore;
+        this.achievedScoreForPlayer = acheievedScore;
     }
 
     public int getAchievedScore() {
-        return achievedScoreForUser;
+        return achievedScoreForPlayer;
     }
     
     public void setPowerUp(PowerUpOrDown powerUp){
