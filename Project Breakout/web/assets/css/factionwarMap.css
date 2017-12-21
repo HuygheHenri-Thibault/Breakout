@@ -9,6 +9,7 @@ and open the template in the editor.
 */
 body{
      cursor: url('../media/Cursor_Fang.png'), auto;
+     background:black;
 }
 #factionMap{
     width:100%;
