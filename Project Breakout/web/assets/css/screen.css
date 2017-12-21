@@ -245,6 +245,7 @@ p.chapter{
     cursor:pointer;
 }
 
+/*Begin gameinfo*/
 .cardarea{
     background-image: url("../media/footer-background.png");
     opacity: 0.6;
@@ -281,4 +282,13 @@ p.chapter{
 .premier{
     margin-top:0.1rem;
     opacity: 1.0;
+    text-decoration: none;
+    color: white;
+}
+
+.premier a{
+    text-decoration: underline;
+    font-weight:bold;
+    display:block;
+    margin-top: 0.2rem;
 }
