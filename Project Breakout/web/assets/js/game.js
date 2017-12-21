@@ -168,8 +168,20 @@ var input = function() {
     var playerRow = $(this).parent(".controllercol");
     playerRow.html("Player "+playerNum+init.keyForm(playerNum));
   }
+  function togglePause() {
+    var paused = false;
+    if(paused) {
+      $("#score .btn").html("Start");
+      $("#score .btn").removeClass("red").addClass("green");
+    } else {
+      $("#score .btn").html("Pause");
+      $("#score .btn").removeClass("green").addClass("red");
+    }
+    var messageObj = {type:"pause"};
+    socket.sendMessage(messageObj);
+  }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell, quickLogin};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause};
 }();
 var comms = function() {
   // Private
@@ -334,6 +346,9 @@ function draw() {
   }
 }
 
+
+
+
 $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
@@ -343,4 +358,5 @@ $(document).ready(function() {
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
+  $("#score .btn").on("click", input.togglePause);
 });
