@@ -73,6 +73,7 @@ $(document).ready(function() {
   console.log("script.js is loaded");
   $('select[name="modus"]').material_select();
   $('select[name="score"]').material_select();
+  $('.collapsible-header').collapsible()
   $('select[name="modus"]').on("change", enableSecondDropdown);
   // Init Page
   loggedIn();
