@@ -273,6 +273,21 @@ public class Level{
         return spellsInGame.size() == spellsChoices.size();
     }
     
+    public void replacePlayerSpell(int spelerID, Player player){
+        Player playerBeingReplaced = getPlayerFromUserSpells(spelerID);
+        List<Spell> spellChoices = spellsChoices.remove(playerBeingReplaced);
+        spellsChoices.put(player, spellChoices);
+    }
+    
+    public Player getPlayerFromUserSpells(int spelerID){
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
+            if(entry.getKey().getPlayerID() == spelerID){
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    
     public void setPlayerSpell(Player u, Spell s){
         s.setPlayer(u);
         spellsInGame.put(u, s);

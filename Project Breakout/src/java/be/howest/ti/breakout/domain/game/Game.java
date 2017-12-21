@@ -66,23 +66,10 @@ public class Game{
     public void replaceGuestByUser(int spelerID, Player player){
         int newPlayerID = players.get(spelerID - 1).getPlayerID();
         player.setPlayerID(newPlayerID);
-        pushGuestsOneRow();
         players.set(spelerID - 1, player);
         initializePlayerScores();
-    }
-    
-    public void pushGuestsOneRow(){
-        int i = 0;
-        for (ListIterator<Player> iter = players.listIterator(); iter.hasNext();) {
-            Player player = iter.next();
-            if(player.isGuest()){
-                if(i + 1 != players.size()){
-                    players.set((i + 1), player);
-                    player.setPlayerID((i + 2));
-                }
-            }
-            i++;
-        }
+        levelPlayedRightNow.replacePlayerSpell(spelerID, player);
+        levelPlayedRightNow.initializePlayerScores();
     }
     
     public List<Player> getPlayers() {
