@@ -49,8 +49,10 @@ var ip = 'x.x.x.x'; // TODO: voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
+var spellObj = {}; // TODO: move this to init? makes the object empty everytime though?
+
 var init = function() {
-  var spellObj = {};
+
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
@@ -87,9 +89,8 @@ var init = function() {
   }
   var spellOptions = function(currentslot) {
     var htmlString = "";
-    console.log(spellObj);
     for(var player in spellObj) {
-      if (player === currentslot+"") {
+      if (player.split(" ")[1] === currentslot+"") {
         for(var spell in spellObj[player]) {
           htmlString += "<a class='btn white black-text spellSelect col s12' data-player='"+currentslot+"'>"+spellObj[player][spell]+"</a>"
         }
@@ -138,8 +139,7 @@ var input = function() {
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
     input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
-    //$(this).html("");
-    console.log($(this).parent(".controllercol").html(init.spellOptions(playerId)));
+    $(this).parent(".controllercol").html(init.spellOptions(playerId));
   }
   function submitStartGameData(e) {
     e.preventDefault();
@@ -154,7 +154,6 @@ var input = function() {
   function selectSpell() {
     var spell = $(this).html();
     var player = "" + $(this).data().player;
-    console.log("clicked --> " + spell + ", " + player);
     var messageObj = {type:"selectedSpells", spell, player};
     socket.sendMessage(messageObj);
     $(".spells-"+player).html("");
@@ -285,10 +284,7 @@ var socket = function() {
           comms.getUpdate();
           break;
         case "spells":
-          console.log("GOT DAT message");
-          console.log(init.spellObj);
-          init.spellObj = message;
-          console.log(init.spellObj);
+          spellObj = message;
           break;
         case "posistion":
           gui.drawFromPosistion(message);
