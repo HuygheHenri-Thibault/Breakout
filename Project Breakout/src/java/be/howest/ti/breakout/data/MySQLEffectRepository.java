@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import be.howest.ti.breakout.domain.powerUps.AllPowerUps;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
@@ -21,7 +20,6 @@ import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
 import be.howest.ti.breakout.domain.effects.EffectSmallerPallet;
 import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
 import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
-import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.util.BreakoutException;
 
 /**
