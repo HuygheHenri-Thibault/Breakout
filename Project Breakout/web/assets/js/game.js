@@ -210,8 +210,17 @@ var input = function() {
     var messageObj = {type:"pause"};
     socket.sendMessage(messageObj);
   }
+  function nextLevel() {
+    $("#nextLvlBtn").remove();
+    var controllercols = $(".controllercol");
+    for(var controller in controllercols) {
+      if(controllercols[controller].dataset != undefined) {
+        $(".controllercol[data-player="+controllercols[controller].dataset.player+"]").html("");
+      }
+    }
+  }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning, nextLevel};
 }();
 var comms = function() {
   // Private
@@ -402,4 +411,5 @@ $(document).ready(function() {
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
   $("#pauseBtn").on("click", input.togglePause);
+  $(document).on("click", "#nextLvlBtn", input.nextLevel)
 });

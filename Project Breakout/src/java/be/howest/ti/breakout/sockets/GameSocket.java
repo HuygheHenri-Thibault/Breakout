@@ -37,8 +37,6 @@ import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.util.BCrypt;
 import be.howest.ti.breakout.util.BreakoutException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -99,6 +97,9 @@ public class GameSocket {
                     } else {
                         sessionGame.get(in).getLevelPlayedRightNow().pauseLevel();
                     }
+                    return new JSONObject().toJSONString();
+                case "nextLevel":
+                    // geef spells pls
                     return new JSONObject().toJSONString();
                 default:
                     JSONObject resultObj = new JSONObject();
