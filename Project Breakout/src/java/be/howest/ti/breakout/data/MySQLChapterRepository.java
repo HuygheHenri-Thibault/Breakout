@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class MySQLChapterRepository implements ChapterRepository{
     
-    private static final String GET_CHAPTER_BY_ID = "SELECT * FROM breakout.story WHERE IDstory = ?";
+    private static final String GET_CHAPTER_BY_ID = "SELECT * FROM story WHERE IDstory = ?";
 
     @Override
     public Chapter getChapterById(int id) {
