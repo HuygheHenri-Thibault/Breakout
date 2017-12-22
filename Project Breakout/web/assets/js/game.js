@@ -158,6 +158,7 @@ var input = function() {
     var spell = $(this).html();
     var player = "" + $(this).data().player;
     var messageObj = {type:"selectedSpells", spell, player};
+    console.log(player);
     socket.sendMessage(messageObj);
     $(this).parent(".controllercol").html("");
   }

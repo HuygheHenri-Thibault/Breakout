@@ -66,23 +66,10 @@ public class Game{
     public void replaceGuestByUser(int spelerID, Player player){
         int newPlayerID = players.get(spelerID - 1).getPlayerID();
         player.setPlayerID(newPlayerID);
-        pushGuestsOneRow();
         players.set(spelerID - 1, player);
         initializePlayerScores();
-    }
-    
-    public void pushGuestsOneRow(){
-        int i = 0;
-        for (ListIterator<Player> iter = players.listIterator(); iter.hasNext();) {
-            Player player = iter.next();
-            if(player.isGuest()){
-                if(i + 1 != players.size()){
-                    players.set((i + 1), player);
-                    player.setPlayerID((i + 2));
-                }
-            }
-            i++;
-        }
+        levelPlayedRightNow.replacePlayerSpell(spelerID, player);
+        levelPlayedRightNow.initializePlayerScores();
     }
     
     public List<Player> getPlayers() {
@@ -202,13 +189,23 @@ public class Game{
             thePlayer.addToSinglePlayerHighScore(sph);
             sph.setScore(scoreOfThePlayer);
             Repositories.getHighscoreRepository().updateSinglePlayerHighscore(sph);
-            System.out.println("saved");
         }else{
             MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerPlayer);
-            int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
-            for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
-                Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+            if(allPlayerAreGuest()){
+                int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
+                for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+                    Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+                }
             }
         }
+    }
+    
+    public boolean allPlayerAreGuest(){
+        for (Player player : players) {
+            if(!player.isGuest()){
+                return false;
+            }
+        }
+        return true;
     }
 }

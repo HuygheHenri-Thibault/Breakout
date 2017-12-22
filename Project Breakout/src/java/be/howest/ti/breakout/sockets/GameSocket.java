@@ -13,6 +13,7 @@ import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.Player;
 import be.howest.ti.breakout.domain.game.User;
@@ -66,9 +67,6 @@ public class GameSocket {
                     return createSpellsOfLevel(in).toJSONString();
                 case "login":
                     loginUser(in, obj);
-                    for (Player u : sessionGame.get(in).getPlayers()) {
-                        System.out.println(u.getPlayerID());
-                    }
                     return "";
                 case "selectedSpells":
                     selectSpellOfUser(in, obj);
@@ -112,9 +110,10 @@ public class GameSocket {
     
     private void makeGame(Session in, JSONObject obj){
         int aantalPlayers = Integer.parseInt((String)obj.get("playerAmount"));
-        String dificulty = (String)obj.get("playerAmount");
+        String dificulty = (String)obj.get("dificulty");
         String username = (String) obj.get("username");
-        Game game = new Game(height, width, aantalPlayers, new GameDifficulty("easy", 0.2f, 1));
+        GameDifficulty difficulty = Repositories.getDifficultyRepository().getDifficultyByName(dificulty);
+        Game game = new Game(height, width, aantalPlayers, difficulty);
         Player player;
         if(!username.equals("Guest")){
             player = Repositories.getUserRepository().getUserWithUsername(username);
@@ -131,7 +130,7 @@ public class GameSocket {
         if (user != null && BCrypt.checkpw(password, user.getHashPassword())) {
             sessionGame.get(in).replaceGuestByUser(playerID, user);
         } else {
-            Guest guest = new Guest(playerID, "guest");
+            Guest guest = Repositories.getUserRepository().getGuest(playerID);
             sessionGame.get(in).replaceGuestByUser(playerID, guest);
         }
     }
@@ -158,6 +157,8 @@ public class GameSocket {
         int playerID = Integer.parseInt((String) jsonObject.get("player"));
         String spellName = (String) jsonObject.get("spell");
         Player u = sessionGame.get(in).getLevelPlayedRightNow().getPlayers().get(playerID - 1);
+        System.out.println(playerID);
+        System.out.println(u.getName());
         Spell s = sessionGame.get(in).getLevelPlayedRightNow().getSpellofPlayerChoices(u, spellName);
         System.out.println(s.getName());
         sessionGame.get(in).getLevelPlayedRightNow().setPlayerSpell(u, s);
@@ -259,6 +260,9 @@ public class GameSocket {
                 spriteObj.put("width", 20); // x // FIXME!!!!!!
                 spriteObj.put("height", 20); // y // FIXME!!!!!!
                 break;
+            case "Web":
+                Web web = (Web) aSpirte;
+                spriteObj.put("radius", web.getRadius());
             case "FieldEffect":
                 
                 break;
