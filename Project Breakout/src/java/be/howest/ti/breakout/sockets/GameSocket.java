@@ -308,6 +308,10 @@ public class GameSocket {
     
     @OnClose
     public void onClose(Session s) {
-        //sessionGame.get(s).getLevelPlayedRightNow().endLevel();
+        if(sessionGame.get(s) != null){
+            if((!sessionGame.get(s).isGameOver() && sessionGame.get(s).getLevelPlayedRightNow() != null ) || (sessionGame.get(s).getLevelPlayedRightNow() != null && !sessionGame.get(s).getLevelPlayedRightNow().isCompleted())){
+                sessionGame.get(s).getLevelPlayedRightNow().endLevel();
+            }
+        }
     }
 }
