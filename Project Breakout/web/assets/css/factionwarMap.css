@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 21, 2017, 1:40:57 PM
+    Author     : Fredr
+*/
+body{
+     cursor: url('../media/Cursor_Fang.png'), auto;
+     background:black;
+     overflow: hidden;
+}
+#factionMap{
+    width:100%;
+    height: 90%;
+}
+
+g#area:hover,g#layer3:hover,g#layer4:hover,g#layer5 #xarea:hover,g#layer6:hover,g#layer7:hover,#layer8:hover,#layer9:hover,
+#layer10:hover,#layer11:hover,#layer12:hover,#layer13:hover,#layer14:hover,#layer15:hover,#layer16:hover,#layer17:hover,
+#layer18:hover,#layer19:hover{
+    fill:red;
+    cursor: url("../media/Cursor_Fang.png"),pointer;
+}
+
+/*factionwarMap style*/
+.navSuccesor{
+    display:inline;
+    color:white;
+    text-shadow: 3px 3px black;
+    font-size: 3rem;
+}
+

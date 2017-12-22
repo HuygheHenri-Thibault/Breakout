@@ -185,8 +185,11 @@ p.chapter{
     width: 960px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #A2846A;
+    background-color: #CDC5A0;
+    opacity: 0.9;
     box-shadow: black 20px 20px 10px;
+    border-radius: 2px;
+    z-index: 12;
 }
 /*End Index 4 !!*/
 /*BEGIN CAMPAIGN SELECTION*/
