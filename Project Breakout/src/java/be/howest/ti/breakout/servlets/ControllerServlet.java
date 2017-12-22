@@ -35,7 +35,6 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "ControllerServlet", urlPatterns = {"/registerUser", "/LogInUser", "/LogOutUser", "/editUser", "/userPage", "/CheckLoggedIn", "/support", "/getScore"})
 public class ControllerServlet extends HttpServlet {
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

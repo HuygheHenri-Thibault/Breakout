@@ -1,3 +1,13 @@
 .spacing {
   margin-top: 3rem;
 }
+
+.info{
+    background-color: white;
+    color: black;
+    width: 60%;
+    height: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
