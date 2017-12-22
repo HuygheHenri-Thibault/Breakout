@@ -1,5 +1,4 @@
 class Player {
-
   constructor(left, right, ability, name) {
     this.leftKey = left;
     this.rightKey = right;
@@ -51,10 +50,15 @@ var ip = 'x.x.x.x'; // TODO: voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
-var spellObj = {}; // TODO: move this to init? makes the object empty everytime though?
+var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
 
-var init = function() {
-
+var domain = function() {
+  function newLevelForm() {
+    $("#selectController").modal('open');
+    // get game data and display here for each user
+    // make btn to ask for new spells of new level
+  }
+  // Public
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
@@ -101,7 +105,7 @@ var init = function() {
     return htmlString;
   }
   var fireModal = function(playerAmount) {
-    $("#selectController").modal({dismissible:false}).modal('open');;
+    $("#selectController").modal({dismissible:false}).modal('open');
     var cols = 12;
     var players = playerAmount;
     var grootteCols = (cols / players);
@@ -119,7 +123,18 @@ var init = function() {
       currentslot += 1;
     }
   };
-  return {fireModal, keyForm, spellObj, spellOptions};
+  var checkGameState = function(message) {
+    if(message.gameover === "true") {
+      input.gameRunning = false;
+      comms.stopUpdates();
+    } else if (message.gameover === "false") {
+      if(message.completed === "true") {
+        comms.stopUpdates();
+        newLevelForm()
+      }
+    }
+  }
+  return {fireModal, keyForm, spellObj, spellOptions, checkGameState};
 }();
 var input = function() {
   var gameRunning = false;
@@ -142,7 +157,7 @@ var input = function() {
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
     input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
-    $(this).parent(".controllercol").html(init.spellOptions(playerId));
+    $(this).parent(".controllercol").html(domain.spellOptions(playerId));
   }
   function submitStartGameData(e) {
     e.preventDefault();
@@ -151,7 +166,7 @@ var input = function() {
     var username = $("#username").html().split("<")[0];
     var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username} //TODO: does backend process the user?
     $(".modal-content").html("");
-    init.fireModal(amountOfPlayers);
+    domain.fireModal(amountOfPlayers);
     socket.sendMessage(messageObj);
   }
   function selectSpell() {
@@ -170,15 +185,15 @@ var input = function() {
     var messageObj = {type:"login", username, password, player:""+playerNum};
     socket.sendMessage(messageObj);
     var playerRow = $(this).parent(".controllercol");
-    playerRow.html("Player "+playerNum+init.keyForm(playerNum));
+    playerRow.html("Player "+playerNum+domain.keyForm(playerNum));
   }
   function togglePause() {
     if(gameRunning) {
-      $("#score .btn").html("Pause");
-      $("#score .btn").removeClass("green").addClass("red");
+      $("#pauseBtn").html("Pause");
+      $("#pauseBtn").removeClass("green").addClass("red");
     } else {
-      $("#score .btn").html("Start");
-      $("#score .btn").removeClass("red").addClass("green");
+      $("#pauseBtn").html("Start");
+      $("#pauseBtn").removeClass("red").addClass("green");
     }
     gameRunning = !gameRunning;
     var messageObj = {type:"pause"};
@@ -248,7 +263,13 @@ var gui = function() {
   }
   function pushPowerup(oneSprite) {
     effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-    $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+    $('#powerUpArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+  }
+  function showPlayerScores(players) {
+    $("#scoreInfo").html("");
+    for(var player in players) {
+      $("#scoreInfo").append("<div class='playerScore'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
+    }
   }
   // Public
   var drawFromPosistion = function(message) {
@@ -257,7 +278,7 @@ var gui = function() {
     ball = [];
     bricks = [];
     effects = [];
-    $('#iconArea').html("");
+    $('#powerUpArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
@@ -283,9 +304,8 @@ var gui = function() {
       images[imgKey] = loadImage(imagesToLoad[i]);
     }
   }
-  var gameInfo = function(player) {
-    var lives = player.lives;
-    var score = player.score;
+  var gameInfo = function(message) {
+    showPlayerScores(message.players);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
@@ -309,6 +329,11 @@ var socket = function() {
           gui.drawFromPosistion(message);
           break;
         case "gameInfo":
+          if(lel) {
+            lel = !lel;
+            console.log(message);
+          }
+          domain.checkGameState(message);
           gui.gameInfo(message);
           break;
       }
@@ -338,6 +363,9 @@ function setup() {
 function draw() {
   if (ball !== null && pallet !== null) {
     background(images["game-background"]);
+    for (var i = 0; i < bricks.length; i++) {
+      bricks[i].show();
+    }
     for(var b in ball) {
         ball[b].show();
     }
@@ -347,23 +375,17 @@ function draw() {
     for(var e in effects) {
         effects[e].show();
     }
-    for (var i = 0; i < bricks.length; i++) {
-      bricks[i].show();
-    }
   }
 }
-
-
-
 
 $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
-  init.fireModal();
+  domain.fireModal();
   //$(".startGame").on("click", comms.startGame);
   $("#modalForm").on("submit", input.submitStartGameData);
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
-  $("#score .btn").on("click", input.togglePause);
+  $("#pauseBtn").on("click", input.togglePause);
 });

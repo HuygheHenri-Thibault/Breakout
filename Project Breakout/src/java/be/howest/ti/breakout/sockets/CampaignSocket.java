@@ -24,20 +24,20 @@ import org.json.simple.parser.ParseException;
 @ServerEndpoint("/campaignpoint")
 public class CampaignSocket {
 
-    @OnMessage
-    public String onMessage(String message, Session in) {
-        JSONParser jparse = new JSONParser();
-        try {
-            JSONObject obj = (JSONObject) jparse.parse(message);
-     
-            switch ((String)obj.get("type")) {
-                case "campaignInfo":
-                    break;
-                default:
-                    return null;
-            }
-        } catch(ParseException ex) {
-            throw new BreakoutException("Couldn't process message", ex);
-        }
-    }
+//    @OnMessage
+//    public String onMessage(String message, Session in) {
+//        JSONParser jparse = new JSONParser();
+//        try {
+//            JSONObject obj = (JSONObject) jparse.parse(message);
+//     
+//            switch ((String)obj.get("type")) {
+//                case "campaignInfo":
+//                    break;
+//                default:
+//                    return null;
+//            }
+//        } catch(ParseException ex) {
+//            throw new BreakoutException("Couldn't process message", ex);
+//        }
+//    }
 }

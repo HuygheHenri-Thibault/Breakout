@@ -24,7 +24,6 @@ import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
 import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
 import be.howest.ti.breakout.domain.effects.EffectShadow;
 import be.howest.ti.breakout.domain.effects.EffectWebs;
-import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.util.BreakoutException;
 
 /**
