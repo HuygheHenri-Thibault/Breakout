@@ -22,21 +22,25 @@ public class User implements Player{
     private String bio;
     private int spScore;
     private int totalScore;
+    private int amountOfGems;
+    private int amountOfCoins;
     
-    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore) {
+    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore, int gems, int coins) {
         this.userId = id;
         this.email = email;
         this.username = username;
-        this.hashPassword = password; //HASH THIS!!!
+        this.hashPassword = password;
         this.level = lvl;
         this.bio = bio;
         this.totalScore = 0;
         this.spScore = spHighscore;
         this.totalScore = totalScore;
+        this.amountOfGems = gems;
+        this.amountOfCoins = coins;
     }
     
     public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
-        this(id, username, password, email, lvl, bio, spScore, 0);
+        this(id, username, password, email, lvl, bio, spScore, 0, 0, 0);
     }
     
     public User(String username, String password, String email, int lvl, String bio) {
@@ -97,6 +101,14 @@ public class User implements Player{
     
     public int getSinglePlayerScore() {
         return spScore;
+    }
+
+    public int getAmountOfGems() {
+        return amountOfGems;
+    }
+
+    public int getAmountOfCoins() {
+        return amountOfCoins;
     }
 
     @Override
