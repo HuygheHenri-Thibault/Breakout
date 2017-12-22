@@ -16,8 +16,8 @@ import java.util.List;
 public class EffectDragonFireBall extends Effect{
     private final List<Fireball> fireBallsCreated = new ArrayList<>();
     
-    public EffectDragonFireBall(String name, int duration) {
-        super(name, duration);
+    public EffectDragonFireBall(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override

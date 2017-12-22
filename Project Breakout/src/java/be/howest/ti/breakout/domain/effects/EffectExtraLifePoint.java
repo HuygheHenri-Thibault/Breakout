@@ -11,8 +11,8 @@ package be.howest.ti.breakout.domain.effects;
  */
 public class EffectExtraLifePoint extends Effect{
 
-    public EffectExtraLifePoint(String name, int duration) {
-        super(name, duration);
+    public EffectExtraLifePoint(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override

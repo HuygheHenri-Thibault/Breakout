@@ -13,6 +13,7 @@ import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.Player;
@@ -188,6 +189,13 @@ public class GameSocket {
         for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name", power.getName());
+            JSONObject jsonOb = new JSONObject();
+            int j = 0;
+            for (Effect effect : power.getEffects()) {
+                jsonOb.put("effect "+ j, effect.getDescription());
+                j++;
+            }
+            resultObj.put("descriptions", jsonOb);
             jsonObject.put("icon", power.getIconPath());
             resultObj.put(""+i, jsonObject);
             i++;
@@ -202,6 +210,13 @@ public class GameSocket {
             if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", spell.getValue().getName());
+                JSONObject jsonOb = new JSONObject();
+                int j = 0;
+                for (Effect effect : spell.getValue().getSpellEffects()) {
+                    jsonOb.put("effect "+ j, effect.getDescription());
+                    j++;
+                }
+                resultObj.put("descriptions", jsonOb);
                 resultObj.put(""+i, jsonObject);
                 i++;
             }

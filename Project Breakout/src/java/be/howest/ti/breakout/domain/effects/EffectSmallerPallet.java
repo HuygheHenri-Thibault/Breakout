@@ -13,8 +13,8 @@ import java.util.Timer;
  */
 public final class EffectSmallerPallet extends Effect{
 
-    public EffectSmallerPallet(String name, int duration) {
-        super(name, duration);
+    public EffectSmallerPallet(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override

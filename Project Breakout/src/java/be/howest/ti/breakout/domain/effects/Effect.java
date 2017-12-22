@@ -17,6 +17,7 @@ import java.util.Timer;
  */
 public abstract class Effect{
     protected final String name;
+    protected final String description;
     protected Pallet playerPallet;
     protected Player playerActivatedEffect;
     protected Ball BallActivatedEffect;
@@ -26,13 +27,14 @@ public abstract class Effect{
     protected Timer TimerEffect;
     protected boolean paused = false;
 
-    public Effect(String name, int duration) {
+    public Effect(String name, String description, int duration) {
         this.name = name;
+        this.description = description;
         this.originalDuration = duration;
         this.duration = duration;
     }
     
-    //status
+    
     protected EffectStatus status = EffectStatus.READY;
     
     public void setReady(){status = EffectStatus.READY;}
@@ -40,7 +42,7 @@ public abstract class Effect{
     public void setRunning(){status = EffectStatus.RUNNING;}
     public void setDeActive(){status = EffectStatus.INACTIVE;}
     public void setDone(){status = EffectStatus.DONE;}
-    public EffectStatus isActivated(){return status;}
+    public EffectStatus getStatus(){return status;}
     
     public abstract void activate();
     public abstract void deActivate();
@@ -80,8 +82,11 @@ public abstract class Effect{
     public Level getLevelOfEffect() {
         return LevelOfEffect;
     }
-    
-    //mag later vervangen worden
+
+    public String getDescription() {
+        return description;
+    }
+
     public void setDuration(int duration){
         this.duration = duration;
     }

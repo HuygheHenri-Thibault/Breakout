@@ -281,22 +281,7 @@ public class MoveAndCollissionTesten {
         assertEquals(500, b.getX());
         assertEquals(2, singlePlayerGame.getLives());
     }
-    
-    @Test
-    public void testBallTouchedPowerUp(){
-        Level l = singlePlayerGame.getLevelPlayedRightNow();
-        Ball b = l.getBalls().get(0);
-        Brick brick = l.getBricks().get(l.getBricks().size() - 1);
-        PowerUpOrDown power = Repositories.getPowerUpDownRepository().getPowerUpOrDownWithName("Scaffolds");
-        l.deleteBrick(brick, b.getLastPlayerThatTouchedMe());
-        PowerUpOrDown powerup = brick.getPowerUP();
-        b.setX(powerup.getBoundaries().getX() - 10);
-        b.setY(powerup.getBoundaries().getY() + 5);
-        b.setDx(1);
-        b.setDy(-1);
-        b.move();
-        assertTrue(l.getAllActivePowerUps().contains(power));
-    }
+   
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //

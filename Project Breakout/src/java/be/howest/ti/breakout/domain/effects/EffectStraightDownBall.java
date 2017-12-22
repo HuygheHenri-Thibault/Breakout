@@ -13,8 +13,8 @@ import be.howest.ti.breakout.domain.Ball;
  */
 public final class EffectStraightDownBall extends Effect{
 
-    public EffectStraightDownBall(String name, int duration) {
-        super(name, duration);
+    public EffectStraightDownBall(String name, String description, int duration) {
+        super(name, description, duration);
     }
     
     @Override

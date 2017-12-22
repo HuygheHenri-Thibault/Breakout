@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain.effects;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
 import be.howest.ti.breakout.domain.game.Player;
-import be.howest.ti.breakout.domain.game.User;
 
 /**
  *
@@ -17,8 +16,8 @@ import be.howest.ti.breakout.domain.game.User;
 public final class EffectExtraBall extends Effect {
     DoubleTroubleBall extraBallCreated;
  
-    public EffectExtraBall(String name, int duration) {
-        super(name, duration);
+    public EffectExtraBall(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
