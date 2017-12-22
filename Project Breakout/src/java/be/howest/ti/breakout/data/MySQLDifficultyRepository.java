@@ -23,9 +23,9 @@ import java.util.logging.Logger;
  */
 public class MySQLDifficultyRepository implements DifficultyRepository {
 
-    private static final String GET_ALL_DIFFICULTIES = "SELECT * FROM breakout.difficulty";
-    private static final String GET_DIFFICULTY_BY_NAME = "SELECT * FROM breakout.difficulty where name = ?";
-    private static final String GET_DIFFICULTY_BY_ID = "SELECT * FROM breakout.difficulty where id = ?";
+    private static final String GET_ALL_DIFFICULTIES = "SELECT * FROM difficulty";
+    private static final String GET_DIFFICULTY_BY_NAME = "SELECT * FROM difficulty where name = ?";
+    private static final String GET_DIFFICULTY_BY_ID = "SELECT * FROM difficulty where id = ?";
 
     @Override
     public List<GameDifficulty> getAllDifficulties() {

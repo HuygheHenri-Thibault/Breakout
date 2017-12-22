@@ -25,8 +25,9 @@ public class User implements Player{
     private int totalScore;
     private int amountOfGems;
     private int amountOfCoins;
+    private String profilePic;
     
-    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore, int gems, int coins) {
+    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore, int gems, int coins, String pp) {
         this.userId = id;
         this.email = email;
         this.username = username;
@@ -38,10 +39,11 @@ public class User implements Player{
         this.totalScore = totalScore;
         this.amountOfGems = gems;
         this.amountOfCoins = coins;
+        this.profilePic = pp;
     }
     
     public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
-        this(id, username, password, email, lvl, bio, spScore, 0, 0, 0);
+        this(id, username, password, email, lvl, bio, spScore, 0, 0, 0, null);
     }
     
     public User(String username, String password, String email, int lvl, String bio) {
@@ -145,4 +147,7 @@ public class User implements Player{
         return false;
     }
 
+    public String getProfilePic() {
+        return profilePic;
+    }
 }

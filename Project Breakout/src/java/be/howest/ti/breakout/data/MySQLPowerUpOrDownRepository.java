@@ -28,11 +28,11 @@ public class MySQLPowerUpOrDownRepository implements PowerUpOrDownRepository {
     private static final String FIELD_ICON = "icon";
     private static final String FIELD_DESCRIPTION = "description";
     
-    private static final String GET_ALL_POWERUPS = "SELECT * FROM breakout.powerupsdowns";
-    private static final String GET_POWERUP_WITH_NAME = "SELECT * FROM breakout.powerupsdowns WHERE name is like ?";
-    private static final String GET_POWERUP_WITH_ID = "SELECT * FROM breakout.powerupsdowns WHERE id = ?";
-    private static final String ADD_POWERUP = "INSERT INTO breakout.powerupsdowns(type, name, duration, icon, description) VALUES(?, ?, ?, ?, ?)";
-    private static final String DELETE_POWERUP = "DELETE FROM breakout.powerupsdowns WHERE id = ?";
+    private static final String GET_ALL_POWERUPS = "SELECT * FROM powerupsdowns";
+    private static final String GET_POWERUP_WITH_NAME = "SELECT * FROM powerupsdowns WHERE name is like ?";
+    private static final String GET_POWERUP_WITH_ID = "SELECT * FROM powerupsdowns WHERE id = ?";
+    private static final String ADD_POWERUP = "INSERT INTO powerupsdowns(type, name, duration, icon, description) VALUES(?, ?, ?, ?, ?)";
+    private static final String DELETE_POWERUP = "DELETE FROM powerupsdowns WHERE id = ?";
     
     @Override
     public AllPowerUps getAllPowerUpsAndDowns() {

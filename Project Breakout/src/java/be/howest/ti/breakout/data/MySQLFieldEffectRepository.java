@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class MySQLFieldEffectRepository implements FieldEffectRepository{
 
-    private final String GET_ALL_FIELDEFFECT = "SELECT * FROM breakout.fieldeffect";
+    private final String GET_ALL_FIELDEFFECT = "SELECT * FROM fieldeffect";
     
     @Override
     public List<FieldEffect> getAllFieldEffects() {

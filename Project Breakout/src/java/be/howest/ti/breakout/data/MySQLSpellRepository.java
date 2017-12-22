@@ -24,9 +24,9 @@ import be.howest.ti.breakout.util.BreakoutException;
  */
 public class MySQLSpellRepository implements SpellRepository{
     
-    private static final String SELECT_ALL_WORDS = "SELECT * FROM breakout.spells";
-    private static final String SELECT_ALL_NOUNS = "SELECT * FROM breakout.spells where type = 'N';";
-    private static final String SELECT_ALL_ADJACTIVES = "SELECT * FROM breakout.spells where type = 'A';";
+    private static final String SELECT_ALL_WORDS = "SELECT * FROM spells";
+    private static final String SELECT_ALL_NOUNS = "SELECT * FROM spells where type = 'N';";
+    private static final String SELECT_ALL_ADJACTIVES = "SELECT * FROM spells where type = 'A';";
     
     public MySQLSpellRepository() {}
 
