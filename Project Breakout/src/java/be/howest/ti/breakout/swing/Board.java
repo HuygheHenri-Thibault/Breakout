@@ -13,14 +13,10 @@ import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.Shape;
-import be.howest.ti.breakout.domain.game.User;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -28,8 +24,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import be.howest.ti.breakout.domain.effects.Effect;
@@ -56,7 +50,7 @@ public class Board extends JPanel{
     private ScheduleLevelTaskerSwing s;
 
     public Board() {
-        this.difficulties = new ArrayList<>(Arrays.asList(new GameDifficulty("Easy", 0.2f, 1), new GameDifficulty("Medium", -0.2f, 3), new GameDifficulty("Hard", -0.4f, 5)));
+        this.difficulties = Repositories.getDifficultyRepository().getAllDifficulties();
         initBoard();
     }
 
@@ -80,8 +74,8 @@ public class Board extends JPanel{
         
         
         game = new Game(1000, 1000, 2, difficulties.get(response));
-        game.replaceGuestByUser(1, me);
         game.createNewLevel();
+        //game.replaceGuestByUser(1, me);
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTaskerSwing(level, this);
@@ -101,7 +95,7 @@ public class Board extends JPanel{
             int response = JOptionPane.showOptionDialog(null, "Choose a Spell", "Spells",
             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
             null, options, options[0]);
-            level.setPlayerSpell(users.get(j - 1), spells.get(response));
+            level.setPlayerSpell(game.getPlayers().get(j - 1), spells.get(response));
         }
         level.startLevel(s);
     }
@@ -176,7 +170,7 @@ public class Board extends JPanel{
         Font font = new Font("Verdana", Font.BOLD, 18);
         String levelNumber = "Level " + game.getLevels().size();
         String lives = "Lives x " + game.getLives();
-        String score = "Score " + game.getLevelPlayedRightNow().getPlayerScore(me.getPlayerID());
+        String score = "Score " + game.getLevelPlayedRightNow().getPlayerScore(1);
         String scoreTotal = "Total Score " + game.getTotalGameScore();
         String powerup = "PowerUp Active: ";
         for (PowerUpOrDown powerUp : level.getAllActivePowerUps()) {
@@ -184,8 +178,10 @@ public class Board extends JPanel{
         }
         String spell = "effects of spell active: ";
         for (Effect effect :  level.getAllSpellsInGame().get(me).getSpellEffects()) {
-            if(effect.isActivated() == EffectStatus.RUNNING){
-                spell += effect.toString() + ", ";
+            if(!level.getAllSpellsInGame().get(me).getSpellEffects().isEmpty()){
+                if(effect.isActivated() == EffectStatus.RUNNING){
+                    spell += effect.toString() + ", ";
+                }
             }
         }
         String spellCooldown = "Cooldown " + level.getAllSpellsInGame().get(me).getCooldown();

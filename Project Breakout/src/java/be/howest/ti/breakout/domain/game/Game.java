@@ -189,13 +189,23 @@ public class Game{
             thePlayer.addToSinglePlayerHighScore(sph);
             sph.setScore(scoreOfThePlayer);
             Repositories.getHighscoreRepository().updateSinglePlayerHighscore(sph);
-            System.out.println("saved");
         }else{
             MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerPlayer);
-            int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
-            for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
-                Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+            if(allPlayerAreGuest()){
+                int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
+                for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+                    Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+                }
             }
         }
+    }
+    
+    public boolean allPlayerAreGuest(){
+        for (Player player : players) {
+            if(!player.isGuest()){
+                return false;
+            }
+        }
+        return true;
     }
 }
