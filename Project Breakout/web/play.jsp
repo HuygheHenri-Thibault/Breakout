@@ -28,7 +28,7 @@
     </div>
       <div class="row">
       <div class="col s2 offset-s5 crystal-btn-container">
-        <a href="War.html" class="laser white-text crystal-btn-link">
+        <a href="factionwarMap.html" class="laser white-text crystal-btn-link">
           <p class="btn-text">War</p>
           <img src="assets/media/btn-blue-1.png" alt="War" class="crystal-btn">
         </a>
