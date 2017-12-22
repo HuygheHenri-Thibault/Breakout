@@ -276,10 +276,11 @@ public final class Level{
         return spellsInGame.size() == spellsChoices.size();
     }
     
-    public void replacePlayerSpell(int spelerID, Player player){
+    public void replacePlayer(int spelerID, Player player){
         Player playerBeingReplaced = getPlayerFromUserSpells(spelerID);
         List<Spell> spellChoices = spellsChoices.remove(playerBeingReplaced);
         spellsChoices.put(player, spellChoices);
+        
     }
     
     public Player getPlayerFromUserSpells(int spelerID){
