@@ -34,7 +34,7 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE breakout.user SET spHighscore = ? WHERE username = ?";
     private static final String DELETE_HIGHSCORE = "DELETE * FROM breakout.userhighscore WHERE user_id = ? AND highscore = ?";
     private static final String GET_TOP10__MULTIPLAYER_SCORES = "select * from multiplayerhighscore ORDER BY totalScore DESC";
-    private static final String GET_ALL_PLAYERS_FROM_MULTIPLAYER = "select * from multiplayerscores where multiplayerID = ?";
+    private static final String GET_ALL_PLAYERS_FROM_MULTIPLAYER = "select * from multiplayerscores where multiplayerID = ? order by score DESC";
     private static final String INSERT_MULTIPLAYER_SCORE = "INSERT INTO multiplayerhighscore(totalScore) values(?)";
     private static final String INSERT_PLAYER_SCORE_FROM_MULTIPLAYER = "INSERT INTO multiplayerscores(username, multiplayerID, score) values(?, ?, ?)";
 
