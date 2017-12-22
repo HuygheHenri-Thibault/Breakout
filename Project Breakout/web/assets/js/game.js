@@ -1,5 +1,4 @@
 class Player {
-
   constructor(left, right, ability, name) {
     this.leftKey = left;
     this.rightKey = right;
@@ -51,10 +50,15 @@ var ip = 'x.x.x.x'; // TODO: voor later
 var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
-var spellObj = {}; // TODO: move this to init? makes the object empty everytime though?
+var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
 
-var init = function() {
-
+var domain = function() {
+  function newLevelForm() {
+    $("#selectController").modal('open');
+    // get game data and display here for each user
+    // make btn to ask for new spells of new level
+  }
+  // Public
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
@@ -101,7 +105,7 @@ var init = function() {
     return htmlString;
   }
   var fireModal = function(playerAmount) {
-    $("#selectController").modal({dismissible:false}).modal('open');;
+    $("#selectController").modal({dismissible:false}).modal('open');
     var cols = 12;
     var players = playerAmount;
     var grootteCols = (cols / players);
@@ -119,7 +123,18 @@ var init = function() {
       currentslot += 1;
     }
   };
-  return {fireModal, keyForm, spellObj, spellOptions};
+  var checkGameState = function(message) {
+    console.log(message.gameover);
+    console.log(message.completed);
+    if(message.gameover === "true") {
+      input.gameRunning = false;
+    } else if (message.gameover === "false") {
+      if(message.completed === "true") {
+        newLevelForm()
+      }
+    }
+  }
+  return {fireModal, keyForm, spellObj, spellOptions, checkGameState};
 }();
 var input = function() {
   var gameRunning = false;
@@ -142,7 +157,7 @@ var input = function() {
     var rightKeyCode = $("#right-key-"+playerId).val().charCodeAt(0)-32;
     var abilityKeyCode = $("#ability-key-"+playerId).val().charCodeAt(0)-32;
     input.players.push(new Player(leftKeyCode, rightKeyCode, abilityKeyCode, ""+playerId));
-    $(this).parent(".controllercol").html(init.spellOptions(playerId));
+    $(this).parent(".controllercol").html(domain.spellOptions(playerId));
   }
   function submitStartGameData(e) {
     e.preventDefault();
@@ -151,7 +166,7 @@ var input = function() {
     var username = $("#username").html().split("<")[0];
     var messageObj = {type:"playerAmount", playerAmount:amountOfPlayers, dificulty, username} //TODO: does backend process the user?
     $(".modal-content").html("");
-    init.fireModal(amountOfPlayers);
+    domain.fireModal(amountOfPlayers);
     socket.sendMessage(messageObj);
   }
   function selectSpell() {
@@ -169,7 +184,7 @@ var input = function() {
     var messageObj = {type:"login", username, password, player:""+playerNum};
     socket.sendMessage(messageObj);
     var playerRow = $(this).parent(".controllercol");
-    playerRow.html("Player "+playerNum+init.keyForm(playerNum));
+    playerRow.html("Player "+playerNum+domain.keyForm(playerNum));
   }
   function togglePause() {
     if(gameRunning) {
@@ -308,6 +323,7 @@ var socket = function() {
           gui.drawFromPosistion(message);
           break;
         case "gameInfo":
+          domain.checkGameState(message);
           gui.gameInfo(message);
           break;
       }
@@ -352,13 +368,10 @@ function draw() {
   }
 }
 
-
-
-
 $(document).ready(function() {
   console.log("game.js is loaded");
   $('select').material_select();
-  init.fireModal();
+  domain.fireModal();
   //$(".startGame").on("click", comms.startGame);
   $("#modalForm").on("submit", input.submitStartGameData);
   $(document).on("click", ".spellSelect", input.selectSpell);
