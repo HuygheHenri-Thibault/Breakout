@@ -1,0 +1,13 @@
+main {
+  background-image: url('../media/party.jpg');
+  background-position: center;
+}
+
+h1{
+    font-size: 7rem;
+}
+
+.center {
+    padding: 8.125rem;
+    text-align: center;
+} 

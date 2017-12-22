@@ -30,9 +30,10 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_SINGLEPLAYERHIGHSCORE = "spHighscore";
     public static final String FIELD_TOTALSCORE = "totalHighscore";
     
-    private static final String GET_ALL_USERS = "SELECT * FROM breakout.user";
+    private static final String GET_ALL_USERS = "SELECT * FROM breakout.user WHERE id > 4";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
     private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
+    private static final String GET_TOP_10_TOTALSCORES_FROM_USERS = "SELECT * FROM breakout.user WHERE id > 4 ORDER BY totalHighscore DESC";
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
     private static final String UPDATE_TOTALSCORE_USER = "UPDATE breakout.user SET totalHighscore = ? WHERE id = ?";
@@ -54,15 +55,7 @@ public class MySQLUserRepository implements UserRepository {
             try(ResultSet rs = stmt.executeQuery()) {
                 List<User> users = new ArrayList<>();
                 while(rs.next()) {
-                    int id = rs.getInt(FIELD_ID);
-                    String email = rs.getString(FIELD_EMAIL);
-                    String username = rs.getString(FIELD_USERNAME);
-                    String password = rs.getString(FIELD_PASSWORD);
-                    int lvl = rs.getInt(FIELD_LEVEL);
-                    String bio = rs.getString(FIELD_BIO);
-                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
-                    int totalScore = rs.getInt(FIELD_TOTALSCORE);
-                    users.add(new User(id, username, password, email, lvl, bio, spHighscore, totalScore));
+                    users.add(this.createUser(rs));
                 }
                 return users;
             }
@@ -81,13 +74,7 @@ public class MySQLUserRepository implements UserRepository {
             try(ResultSet rs = stmt.executeQuery()) {
                 User userWithId = null;
                 while(rs.next()) {
-                    String email = rs.getString(FIELD_EMAIL);
-                    String username = rs.getString(FIELD_USERNAME);
-                    String password = rs.getString(FIELD_PASSWORD);
-                    int lvl = rs.getInt(FIELD_LEVEL);
-                    String bio = rs.getString(FIELD_BIO);
-                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
-                    userWithId = new User(id, username, password, email, lvl, bio, spHighscore);
+                    userWithId = this.createUser(rs);
                 }
                 return userWithId;
             }
@@ -106,13 +93,7 @@ public class MySQLUserRepository implements UserRepository {
             try(ResultSet rs = stmt.executeQuery()) {
                 User userWithUsername = null;
                 if(rs.next()) {
-                    int id = rs.getInt(FIELD_ID);
-                    String email = rs.getString(FIELD_EMAIL);
-                    String password = rs.getString(FIELD_PASSWORD);
-                    int lvl = rs.getInt(FIELD_LEVEL);
-                    String bio = rs.getString(FIELD_BIO);
-                    int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
-                    userWithUsername = new User(id, username, password, email, lvl, bio, spHighscore);
+                    userWithUsername = this.createUser(rs);
                 }
                 return userWithUsername;
             }
@@ -209,4 +190,34 @@ public class MySQLUserRepository implements UserRepository {
         } catch (SQLException ex) {
             throw new BreakoutException("Couldn't update total score for specific user", ex);        }
         }
+
+    @Override
+    public List<User> getTop10TotalScores() {
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(GET_ALL_USERS)) {
+            
+            try(ResultSet rs = stmt.executeQuery()) {
+                List<User> users = new ArrayList<>();
+                while(rs.next()) {
+                    users.add(this.createUser(rs));
+                }
+                return users;
+            }
+            
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't get top 10 total scores from users", ex);
+        }
+    }
+    
+    private User createUser(ResultSet rs) throws SQLException{
+        int id = rs.getInt(FIELD_ID);
+        String email = rs.getString(FIELD_EMAIL);
+        String username = rs.getString(FIELD_USERNAME);
+        String password = rs.getString(FIELD_PASSWORD);
+        int lvl = rs.getInt(FIELD_LEVEL);
+        String bio = rs.getString(FIELD_BIO);
+        int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
+        int totalScore = rs.getInt(FIELD_TOTALSCORE);
+        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore);
+    }
 }

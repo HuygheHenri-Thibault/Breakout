@@ -3,14 +3,10 @@
 -- Host: localhost    Database: breakout
 -- ------------------------------------------------------
 -- Server version	5.7.11
+
 CREATE DATABASE `breakout` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE breakout;
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
---
--- Host: localhost    Database: breakout
--- ------------------------------------------------------
--- Server version	5.7.11
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -46,7 +42,7 @@ CREATE TABLE `bricks` (
 
 LOCK TABLES `bricks` WRITE;
 /*!40000 ALTER TABLE `bricks` DISABLE KEYS */;
-INSERT INTO `bricks` VALUES (6,'yellow_block',1,1,10),(7,'red_block',1,1,20),(8,'black_block',1,1,30),(9,'green_block',1,1,40),(10,'purple_block',1,1,50);
+INSERT INTO `bricks` VALUES (6,'yellow_block',1,1,10),(7,'red_block',1,1,20),(8,'black_block',1,2,30),(9,'green_block',1,2,40),(10,'purple_block',1,3,50);
 /*!40000 ALTER TABLE `bricks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,8 +67,33 @@ CREATE TABLE `campaign` (
 
 LOCK TABLES `campaign` WRITE;
 /*!40000 ALTER TABLE `campaign` DISABLE KEYS */;
-INSERT INTO `campaign` VALUES (1,'Shipwrecked',NULL),(2,'At the village',NULL),(3,'Lonely rock',NULL),(4,'Crossroads',NULL);
 /*!40000 ALTER TABLE `campaign` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `difficulty`
+--
+
+DROP TABLE IF EXISTS `difficulty`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `difficulty` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `ratiochange` float NOT NULL,
+  `changeBricks` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `difficulty`
+--
+
+LOCK TABLES `difficulty` WRITE;
+/*!40000 ALTER TABLE `difficulty` DISABLE KEYS */;
+INSERT INTO `difficulty` VALUES (1,'easy',0.2,1),(2,'medium',-0.2,3),(3,'hard',-0.4,5);
+/*!40000 ALTER TABLE `difficulty` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -87,7 +108,7 @@ CREATE TABLE `effect` (
   `duration` int(11) DEFAULT NULL,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,36 +117,89 @@ CREATE TABLE `effect` (
 
 LOCK TABLES `effect` WRITE;
 /*!40000 ALTER TABLE `effect` DISABLE KEYS */;
-INSERT INTO `effect` VALUES (1,5,'biggerPallet'),(2,5,'quickerPallet'),(3,0,'extraBall'),(4,0,'straightDownBall'),(5,5,'oneLifeLeft'),(6,5,'littlePallet'),(7,5,'slowerPallet');
+INSERT INTO `effect` VALUES (1,5,'biggerPallet'),(2,5,'quickerPallet'),(3,0,'extraBall'),(4,0,'straightDownBall'),(5,15,'oneLifeLeft'),(6,8,'littlePallet'),(7,8,'slowerPallet'),(8,0,'extraLife'),(9,0,'fireBall'),(10,0,'webs'),(11,3,'shadow');
 /*!40000 ALTER TABLE `effect` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `field effect`
+-- Table structure for table `fieldeffect`
 --
 
-DROP TABLE IF EXISTS `field effect`;
+DROP TABLE IF EXISTS `fieldeffect`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `field effect` (
+CREATE TABLE `fieldeffect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `description` varchar(45) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `interval` int(11) NOT NULL,
   `effectid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_fieldeffects_idx` (`effectid`),
   KEY `fk_fieldeffect_idx` (`effectid`),
   CONSTRAINT `fk_fieldeffect` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `field effect`
 --
 
-LOCK TABLES `field effect` WRITE;
-/*!40000 ALTER TABLE `field effect` DISABLE KEYS */;
-/*!40000 ALTER TABLE `field effect` ENABLE KEYS */;
+LOCK TABLES `fieldeffect` WRITE;
+/*!40000 ALTER TABLE `fieldeffect` DISABLE KEYS */;
+INSERT INTO `fieldeffect` VALUES (1,'dragon','dragon shoots fireballs',10,9),(2,'webs','webs are being created over the screen',4,10),(3,'shadow','pallet may dissapear but a small chance for bricks to be dealt damage',10,11);
+/*!40000 ALTER TABLE `fieldeffect` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `multiplayerhighscore`
+--
+
+DROP TABLE IF EXISTS `multiplayerhighscore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `multiplayerhighscore` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `totalScore` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `multiplayerhighscore`
+--
+
+LOCK TABLES `multiplayerhighscore` WRITE;
+/*!40000 ALTER TABLE `multiplayerhighscore` DISABLE KEYS */;
+INSERT INTO `multiplayerhighscore` VALUES (10,110);
+/*!40000 ALTER TABLE `multiplayerhighscore` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `multiplayerscores`
+--
+
+DROP TABLE IF EXISTS `multiplayerscores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `multiplayerscores` (
+  `username` varchar(100) NOT NULL,
+  `multiplayerID` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  PRIMARY KEY (`username`,`multiplayerID`),
+  KEY `fk_multiplayer_idx` (`multiplayerID`),
+  CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `multiplayerscores`
+--
+
+LOCK TABLES `multiplayerscores` WRITE;
+/*!40000 ALTER TABLE `multiplayerscores` DISABLE KEYS */;
+INSERT INTO `multiplayerscores` VALUES ('guest 1',10,100),('guest 2',10,10);
+/*!40000 ALTER TABLE `multiplayerscores` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -193,15 +267,15 @@ DROP TABLE IF EXISTS `spells`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `spells` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
   `damage` int(2) NOT NULL,
-  `typeOfDamage` varchar(50) DEFAULT NULL,
   `type` varchar(1) NOT NULL,
   `effectid` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_spells_effect_idx` (`effectid`),
   KEY `fk_spells_idx` (`effectid`),
   CONSTRAINT `fk_spells` FOREIGN KEY (`effectid`) REFERENCES `effect` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,6 +284,7 @@ CREATE TABLE `spells` (
 
 LOCK TABLES `spells` WRITE;
 /*!40000 ALTER TABLE `spells` DISABLE KEYS */;
+INSERT INTO `spells` VALUES (1,'apple',4,'N',NULL),(2,'tasty',2,'A',8),(3,'large',0,'A',1),(4,'rock',8,'N',3),(5,'hard',3,'A',NULL),(6,'fast',2,'A',2),(7,'furious',5,'A',5),(8,'sword',7,'N',4),(9,'timer',10,'N',7),(10,'sticky',0,'A',6);
 /*!40000 ALTER TABLE `spells` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,11 +311,35 @@ CREATE TABLE `story` (
 -- Dumping data for table `story`
 --
 
-
 LOCK TABLES `story` WRITE;
 /*!40000 ALTER TABLE `story` DISABLE KEYS */;
-INSERT INTO `story` VALUES (1,'“You wake up on a beach among flotsam wreckage. As you check yourself for injuries you seems to be mostly okay only having some small bruises and scratches, you can’t say the same for the rotting body lying next to you however.. You choose to:” LOOK AROUND | INSPECT THE BODY','Breakers Bay',NULL,1),(2,'“As you take hold of your surroundings you see what seems to be the remains of a sunken ship with barrels and crates littering the seaside. You hear a voice call out to you”','LOOK AROUND',NULL,1),(3,'“As you inspect the remains of the fellow who obviously was less lucky than you. Checking him he doesn’t have much on him other than his clothes and some saltwater filled boots. You hear a voice call out to you.”','INSPECT THE BODY',NULL,1),(4,'“Hey you stay right there! Don’t move and give anything you have on you or you’ll regret it! As the person comes closer you can make out it’s a man”','HEY YOU',NULL,1),(5,'After a full day of trekking, dusk begins to set in. In the distance you can only see a few shapes which appear to be houses. Upon entering the village you breathe in the smell of charred wood and see smoke rising from the chimneys, the man is signaling you to stay close and move along through town. Taking a sharp corner you see a grand building which appears to be a church rising above all the terraced houses. “Well, go on in you, the master wishes to speak with you” the stranger muffles.','At the village',NULL,1),(6,'You push open the royal doors to the church, you find them to be quite heavy. The halls are made of limestone and wood, carved in many different patterns. As you walk towards the altar you hear a voice whispering: “They crack and they squeak, when you slack, you’ll get weak.”','The master',NULL,1),(7,'Now take out your phone or be done and alone. You only get one glance so a battle perchance? \nBaffled by what you’re hearing you mutter “you’re good in rhymes I see, now show yourself” “Oh, but why would I?” the voice whispers, you’re one of those castaways, we don’t know where your loyalty lies? “Battle me and prove your worth, otherwise you’re the only one who’s gonna get hurt” You immediately take the device out of your pocket that was handed to you and power it on. “I hope your score is as good as your skills with rhyming, whisperer.” ','The conversation',NULL,1),(8,'After the battle, you don’t hear the voice anymore, instead you see a lady in white appear right before you, above the slab of stone which is the altar. ‘You have managed well, now go forth to lonely rock, a difficult choice awaits you.’ “Wha.. What?” You ask, dumbfounded by all the cryptic messages you’re receiving but to no avail, the lady already disappeared.','After the battle',NULL,1),(9,'At the foot of the stairs below you, you see the stranger still waiting for you. “So, a choice has to be made, eh?” “Yeah, but what choice? Who was she? What’s with the whispers?” “Alright alright, youngster, you have a lot to learn, you see, times are not like they used to be...”','Leave the church',NULL,1),(11,'Coming out of the grasslands all of your energy is drained. Sitting down on the sharp edges you hear a **click**. You feel the ground shaking under your feet, the boulders start falling down and before you know you are tumbling down with them. Protecting your head from the sharp edges hitting your head you see a distant light in a cave. With a big thump you hit the ground, your fall broken by a big pile of bones and leaves mixed together. With an aching back and a throbbing pain in your knee you get up.\n','The mountain',NULL,1),(12,'You see a shadow on the wall before you, gleaming from within the cave before you. You call out, \'Hello\' ? I fell down, it wasn\'t my intention to enter your home. So if you\'d just let me out then I\'ll be on my way. The shadow grows on the wall, NO! It screeches. Yo..You..You Cannot leave... Yet. Me so lonely, me need contact, me needs to go out more, me needs someone to speak to.','Inside the mountain',NULL,1),(13,'Okay, You wanna talk let\'s talk. Does \'me\' have a name? Yes, me is named Tuck, me is always out of luck. My home is here, under the Lonely Rock. You can stock up on food, and rest while you\'re here after that you\'ll be back on the road. Beware of other weary travelers though for some are vile and corrupted. Guide them to the light and we all will break out!','Inside the mountain',NULL,1);
 /*!40000 ALTER TABLE `story` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `storychoice`
+--
+
+DROP TABLE IF EXISTS `storychoice`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `storychoice` (
+  `storyId` int(11) NOT NULL,
+  `storyOption` varchar(60) NOT NULL,
+  `refersToOtherStoryID` int(11) NOT NULL,
+  PRIMARY KEY (`storyId`,`storyOption`,`refersToOtherStoryID`),
+  KEY `fk_story_choice_idx` (`refersToOtherStoryID`),
+  CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `storychoice`
+--
+
+LOCK TABLES `storychoice` WRITE;
+/*!40000 ALTER TABLE `storychoice` DISABLE KEYS */;
+/*!40000 ALTER TABLE `storychoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -257,13 +356,14 @@ CREATE TABLE `user` (
   `email` varchar(128) NOT NULL,
   `profilePic` varchar(120) DEFAULT NULL,
   `exp` int(11) DEFAULT '0',
+  `spHighscore` int(11) DEFAULT '0',
   `totalHighscore` int(11) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
   `bio` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,6 +372,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'guest 1','a ','guest1@',' ',0,0,0,0,NULL),(2,'guest 2','a','guest2@',' ',0,0,0,0,' '),(3,'guest 3','a','guest3@',' ',0,0,0,0,' '),(4,'guest 4','a','guest4@',' ',0,0,0,0,' '),(5,'bob','bob','bob@bob.com',NULL,0,10,0,1,'bobbie');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,34 +409,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-CREATE TABLE `storychoice` (
-  `storyId` int(11) NOT NULL,
-  `storyOption` varchar(60) NOT NULL,
-  `refersToOtherStoryID` int(11) NOT NULL,
-  PRIMARY KEY (`storyId`,`storyOption`,`refersToOtherStoryID`),
-  KEY `fk_story_choice_idx` (`refersToOtherStoryID`),
-  CONSTRAINT `fk_story_choice` FOREIGN KEY (`refersToOtherStoryID`) REFERENCES `story` (`IDstory`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-LOCK TABLES `storychoice` WRITE;
-/*!40000 ALTER TABLE `storychoice` DISABLE KEYS */;
-INSERT INTO `storychoice` VALUES (1,'LOOK AROUND',2),(1,'INSPECT THE BODY',3);
-/*!40000 ALTER TABLE `storychoice` ENABLE KEYS */;
-UNLOCK TABLES;
-
-CREATE TABLE `multiplayerhighscore` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `totalScore` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `multiplayerscores` (
-  `userID` int(11) NOT NULL,
-  `multiplayerID` int(11) NOT NULL,
-  `score` int(11) NOT NULL,
-  PRIMARY KEY (`userID`,`multiplayerID`),
-  KEY `fk_multiplayer_idx` (`multiplayerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
--- Dump completed on 2017-12-15 10:55:12
+-- Dump completed on 2017-12-21 15:29:48

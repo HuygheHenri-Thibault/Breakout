@@ -3,7 +3,7 @@ function redirectSingle() {
 }
 
 function redirectCoop() {
-  window.location = "coopCampaigns.html";
+  window.location = "multiplayerCampaigns.html";
 }
 
 $(document).ready(function() {
