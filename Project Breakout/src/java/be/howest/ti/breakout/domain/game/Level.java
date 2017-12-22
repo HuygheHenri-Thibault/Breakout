@@ -32,7 +32,9 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
 import java.util.Random;
+import java.util.TreeMap;
 
 /**
  *
@@ -65,7 +67,7 @@ public final class Level{
     private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
-    private final Map<Player, Integer> scorePerPlayer = new HashMap<>();
+    private final Map<Player, Integer> scorePerPlayer = new TreeMap<>((Player p1, Player p2) -> p1.getPlayerID()- p2.getPlayerID());
     
     private boolean completed;
     
@@ -280,10 +282,14 @@ public final class Level{
         Player playerBeingReplaced = getPlayerFromUserSpells(spelerID);
         List<Spell> spellChoices = spellsChoices.remove(playerBeingReplaced);
         spellsChoices.put(player, spellChoices);
-        
+        int scoreOfUser = scorePerPlayer.remove(playerBeingReplaced);
+        scorePerPlayer.put(player, scoreOfUser);
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+            System.out.println(entry.getKey().getName());
+        }
     }
     
-    public Player getPlayerFromUserSpells(int spelerID){
+    private Player getPlayerFromUserSpells(int spelerID){
         for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
             if(entry.getKey().getPlayerID() == spelerID){
                 return entry.getKey();

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -116,7 +117,7 @@ public class Game{
     }
     
     public final void initializePlayerScores(){
-        scorePerPlayer = new HashMap<>();
+        scorePerPlayer = new TreeMap<>((Player p1, Player p2) -> p1.getPlayerID()- p2.getPlayerID());
         for (Player player : players) {
             scorePerPlayer.put(player, 0);
         }
