@@ -38,7 +38,7 @@ public abstract class Shape implements Collidable{
         this.y = y;
     }
 
-    //test
+    
     @Override
     public boolean checkCollissionWithRect(Rectangle rect){
         return rect.checkCollission(this);

@@ -32,7 +32,6 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -476,7 +475,7 @@ public final class Level{
     public void resetSpellEffects(){
          for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
              for (Effect spellEffect : entry.getValue().getSpellEffects()) {
-                 if(spellEffect.isActivated() == EffectStatus.RUNNING){
+                 if(spellEffect.getStatus() == EffectStatus.RUNNING){
                     spellEffect.setDeActive();
                  }
              }

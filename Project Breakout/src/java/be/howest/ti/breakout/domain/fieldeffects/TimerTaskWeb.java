@@ -5,8 +5,6 @@
  */
 package be.howest.ti.breakout.domain.fieldeffects;
 
-import be.howest.ti.breakout.domain.Ball;
-import be.howest.ti.breakout.domain.game.Level;
 import java.util.TimerTask;
 
 /**

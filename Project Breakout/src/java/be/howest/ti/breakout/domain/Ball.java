@@ -20,7 +20,7 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 public class Ball extends Circle implements Serializable{
     
     private final Level level;
-    private Sprite s; // weet niet of nog nodig?
+    private Sprite s; 
     
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;

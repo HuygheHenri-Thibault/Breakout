@@ -73,9 +73,8 @@ public class Board extends JPanel{
         null, options, options[0]);
         
         
-        game = new Game(1000, 1000, 2, difficulties.get(response));
+        game = new Game(1000, 1000, 1, difficulties.get(response));
         game.createNewLevel();
-        //game.replaceGuestByUser(1, me);
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTaskerSwing(level, this);
@@ -179,7 +178,7 @@ public class Board extends JPanel{
         String spell = "effects of spell active: ";
         for (Effect effect :  level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects()) {
             if(!level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects().isEmpty()){
-                if(effect.isActivated() == EffectStatus.RUNNING){
+                if(effect.getStatus() == EffectStatus.RUNNING){
                     spell += effect.toString() + ", ";
                 }
             }

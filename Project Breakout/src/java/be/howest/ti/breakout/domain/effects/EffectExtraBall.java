@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain.effects;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
 import be.howest.ti.breakout.domain.game.Player;
-import be.howest.ti.breakout.domain.game.User;
 
 /**
  *

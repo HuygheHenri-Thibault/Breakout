@@ -32,7 +32,7 @@ public abstract class Effect{
         this.duration = duration;
     }
     
-    //status
+    
     protected EffectStatus status = EffectStatus.READY;
     
     public void setReady(){status = EffectStatus.READY;}
@@ -40,7 +40,7 @@ public abstract class Effect{
     public void setRunning(){status = EffectStatus.RUNNING;}
     public void setDeActive(){status = EffectStatus.INACTIVE;}
     public void setDone(){status = EffectStatus.DONE;}
-    public EffectStatus isActivated(){return status;}
+    public EffectStatus getStatus(){return status;}
     
     public abstract void activate();
     public abstract void deActivate();
@@ -80,8 +80,7 @@ public abstract class Effect{
     public Level getLevelOfEffect() {
         return LevelOfEffect;
     }
-    
-    //mag later vervangen worden
+
     public void setDuration(int duration){
         this.duration = duration;
     }

@@ -39,8 +39,6 @@ public final class LevelTasker extends TimerTask {
                 if(!ball.isOnScreen()){
                     iter.remove();
                 }
-                //System.out.println(ball.getDx());
-                //System.out.println(ball.getDy());
             }
             if(level.getBalls().isEmpty()){
                 level.resetStates();
@@ -107,7 +105,7 @@ public final class LevelTasker extends TimerTask {
     
     private void changeStateEffect(List<Effect> effects) {
         for (Effect effect : effects) {
-            switch (effect.isActivated()) {
+            switch (effect.getStatus()) {
                 case ACTIVE:
                     effect.activate();
                     break;
@@ -122,7 +120,7 @@ public final class LevelTasker extends TimerTask {
 
     private boolean checkAllPowerUpEffectsDone(PowerUpOrDown power) {
         for (Effect effect : power.getEffects()) {
-            if (effect.isActivated() != EffectStatus.DONE) {
+            if (effect.getStatus() != EffectStatus.DONE) {
                 return false;
             }
         }

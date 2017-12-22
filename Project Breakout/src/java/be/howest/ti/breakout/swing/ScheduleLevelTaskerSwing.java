@@ -49,8 +49,6 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
                 if(!ball.isOnScreen()){
                     iter.remove();
                 }
-                //System.out.println(ball.getDx());
-                //System.out.println(ball.getDy());
             }
             if(level.getBalls().isEmpty()){
                 level.resetStates();
@@ -64,10 +62,8 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
             }
             for (Pallet pallet : level.getPallets()) {
                 pallet.move();
-                //System.out.println(pallet.getSpeed());
             }
 
-            //voor elke powerup, zijn effecten checken
             for (ListIterator<PowerUpOrDown> iter = level.getAllActivePowerUps().listIterator(); iter.hasNext();) {
                 PowerUpOrDown power = iter.next();
                 switch (power.isActivated()) {
@@ -121,7 +117,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
 
     private void changeStateEffect(List<Effect> effects) {
         for (Effect effect : effects) {
-            switch (effect.isActivated()) {
+            switch (effect.getStatus()) {
                 case ACTIVE:
                     effect.activate();
                     break;
@@ -136,7 +132,7 @@ public class ScheduleLevelTaskerSwing extends TimerTask {
 
     private boolean checkAllPowerUpEffects(PowerUpOrDown power) {
         for (Effect effect : power.getEffects()) {
-            if (effect.isActivated() != EffectStatus.DONE) {
+            if (effect.getStatus() != EffectStatus.DONE) {
                 return false;
             }
         }
