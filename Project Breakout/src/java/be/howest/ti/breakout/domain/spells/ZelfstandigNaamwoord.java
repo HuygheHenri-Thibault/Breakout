@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.game.Player;
-import be.howest.ti.breakout.domain.game.User;
 
 /**
  *

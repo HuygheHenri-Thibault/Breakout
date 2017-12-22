@@ -177,14 +177,14 @@ public class Board extends JPanel{
             powerup += powerUp.toString();
         }
         String spell = "effects of spell active: ";
-        for (Effect effect :  level.getAllSpellsInGame().get(me).getSpellEffects()) {
-            if(!level.getAllSpellsInGame().get(me).getSpellEffects().isEmpty()){
+        for (Effect effect :  level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects()) {
+            if(!level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects().isEmpty()){
                 if(effect.isActivated() == EffectStatus.RUNNING){
                     spell += effect.toString() + ", ";
                 }
             }
         }
-        String spellCooldown = "Cooldown " + level.getAllSpellsInGame().get(me).getCooldown();
+        String spellCooldown = "Cooldown " + level.getAllSpellsInGame().get(game.getPlayers().get(0)).getCooldown();
         
 
         g2d.setColor(Color.BLACK);
@@ -195,7 +195,7 @@ public class Board extends JPanel{
         g2d.drawString(scoreTotal, 5, 110);
         g2d.drawString(powerup, 100, 20);
         g2d.drawString(spell, 100, 50);
-        if(level.getAllSpellsInGame().get(me).isActivated() == SpellStatus.COOLDOWN){
+        if(level.getAllSpellsInGame().get(game.getPlayers().get(0)).isActivated() == SpellStatus.COOLDOWN){
             g2d.drawString(spellCooldown, 100, 80);
         }
     }
@@ -232,7 +232,7 @@ public class Board extends JPanel{
         
         @Override
         public void keyPressed(KeyEvent e) {
-            Spell spell = level.getSpellByPlayer(me); 
+            Spell spell = level.getSpellByPlayer(game.getPlayers().get(0)); 
             spell.keyPressed(e); 
         }
     }
