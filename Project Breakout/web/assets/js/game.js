@@ -126,8 +126,10 @@ var domain = function() {
   var checkGameState = function(message) {
     if(message.gameover === "true") {
       input.gameRunning = false;
+      comms.stopUpdates();
     } else if (message.gameover === "false") {
       if(message.completed === "true") {
+        comms.stopUpdates();
         newLevelForm()
       }
     }
@@ -187,11 +189,11 @@ var input = function() {
   }
   function togglePause() {
     if(gameRunning) {
-      $("#score .btn").html("Pause");
-      $("#score .btn").removeClass("green").addClass("red");
+      $("#pauseBtn").html("Pause");
+      $("#pauseBtn").removeClass("green").addClass("red");
     } else {
-      $("#score .btn").html("Start");
-      $("#score .btn").removeClass("red").addClass("green");
+      $("#pauseBtn").html("Start");
+      $("#pauseBtn").removeClass("red").addClass("green");
     }
     gameRunning = !gameRunning;
     var messageObj = {type:"pause"};
@@ -261,7 +263,13 @@ var gui = function() {
   }
   function pushPowerup(oneSprite) {
     effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-    $('#iconArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+    $('#powerUpArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
+  }
+  function showPlayerScores(players) {
+    $("#scoreInfo").html("");
+    for(var player in players) {
+      $("#scoreInfo").append("<div class='playerScore'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
+    }
   }
   // Public
   var drawFromPosistion = function(message) {
@@ -270,7 +278,7 @@ var gui = function() {
     ball = [];
     bricks = [];
     effects = [];
-    $('#iconArea').html("");
+    $('#powerUpArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
@@ -296,9 +304,8 @@ var gui = function() {
       images[imgKey] = loadImage(imagesToLoad[i]);
     }
   }
-  var gameInfo = function(player) {
-    var lives = player.lives;
-    var score = player.score;
+  var gameInfo = function(message) {
+    showPlayerScores(message.players);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
@@ -380,5 +387,5 @@ $(document).ready(function() {
   $(document).on("click", ".spellSelect", input.selectSpell);
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
-  $("#score .btn").on("click", input.togglePause);
+  $("#pauseBtn").on("click", input.togglePause);
 });
