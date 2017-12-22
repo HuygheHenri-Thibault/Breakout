@@ -145,7 +145,7 @@ var domain = function() {
       }
     }
   }
-  return {fireModal, keyForm, spellObj, spellOptions, checkGameState};
+  return {fireModal, keyForm, spellObj, spellOptions, checkGameState, sleep};
 }();
 var input = function() {
   var gameRunning = false;
@@ -184,7 +184,6 @@ var input = function() {
     var spell = $(this).html();
     var player = "" + $(this).data().player;
     var messageObj = {type:"selectedSpells", spell, player};
-    console.log(player);
     socket.sendMessage(messageObj);
     $(this).parent(".controllercol").html("");
   }
@@ -210,10 +209,11 @@ var input = function() {
     var messageObj = {type:"pause"};
     socket.sendMessage(messageObj);
   }
-  function nextLevel() {
+  async function nextLevel() {
     var messageObj = {type:"nextLevel"};
     socket.sendMessage(messageObj);
     $("#nextLvlBtn").remove();
+    await domain.sleep(1000);
     var controllercols = $(".controllercol");
     for(var controller in controllercols) {
       if(controllercols[controller].dataset != undefined) {
@@ -349,7 +349,9 @@ var socket = function() {
           comms.getUpdate();
           break;
         case "spells":
+          console.log(spellObj);
           spellObj = message;
+          console.log(spellObj);
           break;
         case "posistion":
           gui.drawFromPosistion(message);
