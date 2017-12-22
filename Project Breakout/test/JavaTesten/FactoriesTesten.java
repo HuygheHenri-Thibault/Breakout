@@ -168,10 +168,6 @@ public class FactoriesTesten {
         double angle;
         angle = (double) round(Math.toDegrees(Math.atan2(targetY - y, targetX - x)), 1);
         
-//        System.out.println(angle);
-//        System.out.println(Math.cos(angle * Math.PI / 180));
-//        System.out.println(Math.sin(angle * Math.PI / 180));
-        
         if (angle < 0) {
             angle += 360;
         }
@@ -179,29 +175,14 @@ public class FactoriesTesten {
         double dx = 4 * Math.cos(angle * Math.PI / 180);
         double dy = 4 * Math.sin(angle * Math.PI / 180);
         
-//        System.out.println(dx);
-//        System.out.println(dy);
-        
         x = x + (int) dx;
         y = y + (int) dy;
         
-        //System.out.println(angle);
-//        System.out.println(dx);
-//        System.out.println(dy);
-//        System.out.println(x);
-//        System.out.println(y);
     }
     
     private static double round (double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
-    }
-    
-    @Test
-    public void testSpell(){
-        Level level = new Level(singlePlayerGame, 1);
-        //Spell spell = me.getSpell();
-        //System.out.println(spell.getName());
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:

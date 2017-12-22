@@ -341,6 +341,9 @@ public final class Level{
         int max = (allFieldEffects.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) - min;
+        while(randomIndex == 1){ //webs niet kunnen helemaal uitwerken dus deze wordt niet gekozen
+            randomIndex = generator.nextInt((max - min) + 1) - min;
+        }
         FieldEffect fieldEffectForThisLevel = allFieldEffects.get(randomIndex);
         fieldEffectForThisLevel.setLevel(this);
         return fieldEffectForThisLevel;
