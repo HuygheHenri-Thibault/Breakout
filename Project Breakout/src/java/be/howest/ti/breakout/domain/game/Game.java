@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -68,7 +69,7 @@ public class Game{
         player.setPlayerID(newPlayerID);
         players.set(spelerID - 1, player);
         initializePlayerScores();
-        levelPlayedRightNow.replacePlayerSpell(spelerID, player);
+        levelPlayedRightNow.replacePlayer(spelerID, player);
         levelPlayedRightNow.initializePlayerScores();
     }
     
@@ -116,7 +117,7 @@ public class Game{
     }
     
     public final void initializePlayerScores(){
-        scorePerPlayer = new HashMap<>();
+        scorePerPlayer = new TreeMap<>((Player p1, Player p2) -> p1.getPlayerID()- p2.getPlayerID());
         for (Player player : players) {
             scorePerPlayer.put(player, 0);
         }
@@ -189,13 +190,23 @@ public class Game{
             thePlayer.addToSinglePlayerHighScore(sph);
             sph.setScore(scoreOfThePlayer);
             Repositories.getHighscoreRepository().updateSinglePlayerHighscore(sph);
-            System.out.println("saved");
         }else{
             MultiPlayerHighscore mph = new MultiPlayerHighscore(scorePerPlayer);
-            int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
-            for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
-                Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+            if(allPlayerAreGuest()){
+                int mphGeneratedID = Repositories.getHighscoreRepository().insertScoreIntoMultiplayerScores(mph.getTotalScore());
+                for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+                    Repositories.getHighscoreRepository().insertPlayerScoresForMultiplayer(entry.getKey(), mphGeneratedID, entry.getValue());
+                }
             }
         }
+    }
+    
+    public boolean allPlayerAreGuest(){
+        for (Player player : players) {
+            if(!player.isGuest()){
+                return false;
+            }
+        }
+        return true;
     }
 }

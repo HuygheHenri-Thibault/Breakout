@@ -16,8 +16,8 @@ import be.howest.ti.breakout.domain.game.Player;
 public final class BijvoegelijkNaamwoord extends Woord{
     private final Effect effect;
     
-    public BijvoegelijkNaamwoord(String naam, int amountOfDamage, String typeOfDamage, Effect effect) {
-        super(naam, amountOfDamage, typeOfDamage);
+    public BijvoegelijkNaamwoord(String naam, int amountOfDamage, Effect effect) {
+        super(naam, amountOfDamage);
         this.effect = effect;
     }
     

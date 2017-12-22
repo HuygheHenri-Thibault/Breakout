@@ -6,25 +6,13 @@
 package be.howest.ti.breakout.data;
 
 import be.howest.ti.breakout.data.util.MySQLConnection;
+import be.howest.ti.breakout.domain.effects.Effect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import be.howest.ti.breakout.domain.effects.EffectQuickerPallet;
-import be.howest.ti.breakout.domain.effects.EffectExtraBall;
-import be.howest.ti.breakout.domain.effects.EffectStraightDownBall;
-import be.howest.ti.breakout.domain.effects.EffectBiggerPallet;
-import be.howest.ti.breakout.domain.effects.EffectExtraLifePoint;
-import be.howest.ti.breakout.domain.effects.EffectSmallerPallet;
-import be.howest.ti.breakout.domain.effects.EffectSlowerPallet;
-import be.howest.ti.breakout.domain.effects.EffectOneLifeLeft;
-import be.howest.ti.breakout.domain.effects.NoEffect;
 import be.howest.ti.breakout.domain.spells.BijvoegelijkNaamwoord;
 import be.howest.ti.breakout.domain.spells.Woord;
 import be.howest.ti.breakout.domain.spells.ZelfstandigNaamwoord;
@@ -36,26 +24,11 @@ import be.howest.ti.breakout.util.BreakoutException;
  */
 public class MySQLSpellRepository implements SpellRepository{
     
-    private static final String SELECT_ALL_WORDS = "select * from spell";
+    private static final String SELECT_ALL_WORDS = "SELECT * FROM breakout.spells";
+    private static final String SELECT_ALL_NOUNS = "SELECT * FROM breakout.spells where type = 'N';";
+    private static final String SELECT_ALL_ADJACTIVES = "SELECT * FROM breakout.spells where type = 'A';";
     
-    //voor test
-    private List<ZelfstandigNaamwoord> zelfstandigeNaamWoorden;
-    private List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden;
-
-    public MySQLSpellRepository() {
-        zelfstandigeNaamWoorden = Arrays.asList(
-                new ZelfstandigNaamwoord("chicken", 2, "fire", new EffectBiggerPallet("extraLife", 5)),
-                new ZelfstandigNaamwoord("tsunami", 2, "water", new EffectBiggerPallet("extraLife", 5))
-        );
-        
-        bijvoegelijkeNaamwoorden = Arrays.asList(new BijvoegelijkNaamwoord("fire", 2, "fire", new EffectQuickerPallet("bullet time", 5)),
-                new BijvoegelijkNaamwoord("roasted", 3, "fire", new EffectQuickerPallet("bullet time", 5)),
-                new BijvoegelijkNaamwoord("stormy", 2, "water", new EffectQuickerPallet("bullet time", 5)),
-                new BijvoegelijkNaamwoord("dangerous", 5, "darkness", new EffectQuickerPallet("bullet time", 5))
-        );
-    }
-    //
-    
+    public MySQLSpellRepository() {}
 
     @Override
     public List<Woord> getAllWords() {
@@ -76,13 +49,46 @@ public class MySQLSpellRepository implements SpellRepository{
     //voor test
     @Override
     public List<ZelfstandigNaamwoord> getHardcodedZelfstandigeNaamwoorden() {
-        return Collections.unmodifiableList(zelfstandigeNaamWoorden);
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement prep = con.prepareStatement(SELECT_ALL_NOUNS);
+            ResultSet rs = prep.executeQuery();){
+            
+                List<ZelfstandigNaamwoord> nouns = new ArrayList<>();
+                while(rs.next()){
+                    String name = rs.getString("name");
+                    int damage = rs.getInt("damage");
+                    int effectID = rs.getInt("effectid");
+                    Effect effect = Repositories.getEffect_Repository().getEffect(effectID);
+                    ZelfstandigNaamwoord noun = new ZelfstandigNaamwoord(name, damage, effect);
+                    nouns.add(noun);
+                }
+                return nouns;
+               
+        } catch (SQLException ex) {
+            throw new BreakoutException("couldn't find nouns", ex);
+        }
     }
     
     @Override
     public List<BijvoegelijkNaamwoord> getHardCodedBijvoegelijkeNaamwoorden() {
-        return Collections.unmodifiableList(bijvoegelijkeNaamwoorden);
+        try(Connection con = MySQLConnection.getConnection();
+            PreparedStatement prep = con.prepareStatement(SELECT_ALL_ADJACTIVES);
+            ResultSet rs = prep.executeQuery();){
+            
+                List<BijvoegelijkNaamwoord> adjectives = new ArrayList<>();
+                while(rs.next()){
+                    String name = rs.getString("name");
+                    int damage = rs.getInt("damage");
+                    int effectID = rs.getInt("effectid");
+                    Effect effect = Repositories.getEffect_Repository().getEffect(effectID);
+                    BijvoegelijkNaamwoord adjective = new BijvoegelijkNaamwoord(name, damage, effect);
+                    adjectives.add(adjective);
+                }
+                return adjectives;
+               
+        } catch (SQLException ex) {
+            throw new BreakoutException("couldn't find adjectives", ex);
+        }
     }
-    //
     
 }

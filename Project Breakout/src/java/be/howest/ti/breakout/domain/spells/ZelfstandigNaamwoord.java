@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.game.Player;
-import be.howest.ti.breakout.domain.game.User;
 
 /**
  *
@@ -20,8 +19,8 @@ public final class ZelfstandigNaamwoord extends Woord{
     private final Effect effect;
     private final List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = new ArrayList<>();
     
-    public ZelfstandigNaamwoord(String naam, int amountOfDamage, String typeOfDamage, Effect effect) {
-        super(naam, amountOfDamage, typeOfDamage);
+    public ZelfstandigNaamwoord(String naam, int amountOfDamage, Effect effect) {
+        super(naam, amountOfDamage);
         this.effect = effect;
     }
     

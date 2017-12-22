@@ -5,9 +5,9 @@
  */
 package be.howest.ti.breakout.domain.game;
 
+import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
-import be.howest.ti.breakout.domain.Circle;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
 import be.howest.ti.breakout.domain.Fireball;
 import be.howest.ti.breakout.domain.Pallet;
@@ -23,9 +23,7 @@ import java.util.Timer;
 import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
-import be.howest.ti.breakout.domain.effects.EffectShadow;
 import be.howest.ti.breakout.domain.effects.EffectStatus;
-import be.howest.ti.breakout.domain.effects.EffectWebs;
 import be.howest.ti.breakout.domain.fieldeffects.FieldEffect;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
@@ -34,12 +32,15 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
+import java.util.Comparator;
+import java.util.Random;
+import java.util.TreeMap;
 
 /**
  *
  * @author micha
  */
-public class Level{
+public final class Level{
     private Game game;
     private Timer timer;
     private LevelTasker taskForLevel;
@@ -62,11 +63,11 @@ public class Level{
     private final Map<Player, List<Spell>> spellsChoices = new HashMap<>();
     private final Map<Player, Spell> spellsInGame = new HashMap<>();
     
-    private final FieldEffect fieldEffect;
+    private FieldEffect fieldEffect;
     private final List<Web> websMadeByFieldEffect = new ArrayList<>();
     
     private final int number;
-    private final Map<Player, Integer> scorePerPlayer = new HashMap<>();
+    private final Map<Player, Integer> scorePerPlayer = new TreeMap<>((Player p1, Player p2) -> p1.getPlayerID()- p2.getPlayerID());
     
     private boolean completed;
     
@@ -76,6 +77,11 @@ public class Level{
     private final Rectangle BOTTOM_BOUNDARY;
     
     public Level(Game game, int number) {
+        this(game, number, null);
+        this.fieldEffect = randomizeFieldEffect();
+    }
+    
+    public Level(Game game, int number, FieldEffect fieldEffect) {
         if(game != null){ this.game = game; } else {throw new NullPointerException("Game may not be null");}
         this.number = number;
         this.completed = false;
@@ -94,8 +100,7 @@ public class Level{
         this.BOTTOM_BOUNDARY = new Rectangle(this, 0, getGameHeight(), getGameWidth(), 10);
         
         createNewRandomSpells();
-        fieldEffect = new FieldEffect(this, "shadow", new EffectShadow("shadow", 3), 10);
-        
+        this.fieldEffect = fieldEffect;
     }
     
     public int getNumber() {
@@ -124,8 +129,8 @@ public class Level{
     }
     
     public void endLevel(){
-        cancelTimersOfEffects();
         this.timer.cancel();
+        cancelTimersOfEffects();
     }
         
     private void resumeEffects(){
@@ -162,7 +167,7 @@ public class Level{
             entry.getValue().cancel();
         }
         for (Web web : websMadeByFieldEffect) {
-            web.removeYourselfNow();
+            web.cancel();
         }
         this.fieldEffect.stopFieldEffect();
     }
@@ -273,13 +278,18 @@ public class Level{
         return spellsInGame.size() == spellsChoices.size();
     }
     
-    public void replacePlayerSpell(int spelerID, Player player){
+    public void replacePlayer(int spelerID, Player player){
         Player playerBeingReplaced = getPlayerFromUserSpells(spelerID);
         List<Spell> spellChoices = spellsChoices.remove(playerBeingReplaced);
         spellsChoices.put(player, spellChoices);
+        int scoreOfUser = scorePerPlayer.remove(playerBeingReplaced);
+        scorePerPlayer.put(player, scoreOfUser);
+        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
+            System.out.println(entry.getKey().getName());
+        }
     }
     
-    public Player getPlayerFromUserSpells(int spelerID){
+    private Player getPlayerFromUserSpells(int spelerID){
         for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
             if(entry.getKey().getPlayerID() == spelerID){
                 return entry.getKey();
@@ -320,6 +330,17 @@ public class Level{
     
     public Map<Player, Spell> getAllSpellsInGame(){
         return spellsInGame;
+    }
+    
+    public FieldEffect randomizeFieldEffect(){
+        List<FieldEffect> allFieldEffects = Repositories.getFieldEffectRepository().getAllFieldEffects();
+        Random generator = new Random();
+        int max = (allFieldEffects.size() - 1);
+        int min = 0;
+        int randomIndex = generator.nextInt((max - min) + 1) - min;
+        FieldEffect fieldEffectForThisLevel = allFieldEffects.get(randomIndex);
+        fieldEffectForThisLevel.setLevel(this);
+        return fieldEffectForThisLevel;
     }
     
     public FieldEffect getFieldEffect(){
