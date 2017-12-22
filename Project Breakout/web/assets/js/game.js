@@ -53,10 +53,21 @@ var lel = true //TODO: DELETE DIS
 var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
 
 var domain = function() {
-  function newLevelForm() {
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  async function newLevelForm() {
+    await sleep(100);
     $("#selectController").modal('open');
-    // get game data and display here for each user
-    // make btn to ask for new spells of new level
+    var selectedDomElements = $(".playerScore");
+    for(var domElem in selectedDomElements) {
+      if(selectedDomElements[domElem].dataset != undefined) {
+        var playerNum = selectedDomElements[domElem].dataset.player;
+        var playerScore = selectedDomElements[domElem].dataset.score;
+        $(".controllercol[data-player="+playerNum+"]").html("<h3>Player "+playerNum+"</h3><p>Achieved</p><p>"+playerScore+" Score!</p>")
+      }
+    }
+    $(".modal-content.row").append("<div id='nextLvlBtn' class='btn'>Next level</div>");
   }
   // Public
   var keyForm = function(currentslot) {
@@ -199,8 +210,17 @@ var input = function() {
     var messageObj = {type:"pause"};
     socket.sendMessage(messageObj);
   }
+  function nextLevel() {
+    $("#nextLvlBtn").remove();
+    var controllercols = $(".controllercol");
+    for(var controller in controllercols) {
+      if(controllercols[controller].dataset != undefined) {
+        $(".controllercol[data-player="+controllercols[controller].dataset.player+"]").html("");
+      }
+    }
+  }
   var players = [];
-  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning};
+  return {players, setKeys, submitStartGameData, selectSpell, quickLogin, togglePause, gameRunning, nextLevel};
 }();
 var comms = function() {
   // Private
@@ -265,10 +285,13 @@ var gui = function() {
     effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
     $('#powerUpArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
   }
-  function showPlayerScores(players) {
+  function showPlayerScores(players, totalScore) {
     $("#scoreInfo").html("");
+    $("#scoreInfo").append("<div class='totalScore'><p>Total Score</p><p>"+totalScore+"</p></div>");
+    var itr = 1;
     for(var player in players) {
-      $("#scoreInfo").append("<div class='playerScore'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
+      $("#scoreInfo").append("<div class='playerScore' data-player='"+itr+"' data-score='"+players[player].score+"'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
+      itr++;
     }
   }
   // Public
@@ -305,7 +328,7 @@ var gui = function() {
     }
   }
   var gameInfo = function(message) {
-    showPlayerScores(message.players);
+    showPlayerScores(message.players, message.levelTotalScore);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
@@ -388,4 +411,5 @@ $(document).ready(function() {
   $(document).on("submit", ".inputForm", input.setKeys);
   $(document).on("submit", ".quickLogin", input.quickLogin)
   $("#pauseBtn").on("click", input.togglePause);
+  $(document).on("click", "#nextLvlBtn", input.nextLevel)
 });
