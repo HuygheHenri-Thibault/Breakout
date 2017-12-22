@@ -80,7 +80,7 @@ public class GameSocket {
                     }
                     return new JSONObject().toJSONString();
                 case "updateMe":
-                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
+                    return makeJSONPosistionObj(sessionGame.get(in).getLevelPlayedRightNow().getAllEntities()).toJSONString();
                 case "gameInfo":
                     return makeJSONGameInfo(in).toJSONString();
                 case "move":
@@ -100,8 +100,8 @@ public class GameSocket {
                     }
                     return new JSONObject().toJSONString();
                 case "nextLevel":
-                    // geef spells pls
-                    return new JSONObject().toJSONString();
+                    makeLevel(in);
+                    return createSpellsOfLevel(in).toJSONString();
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
