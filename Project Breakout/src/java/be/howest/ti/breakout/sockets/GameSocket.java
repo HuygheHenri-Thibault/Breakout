@@ -38,6 +38,7 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.util.BCrypt;
 import be.howest.ti.breakout.util.BreakoutException;
 import java.util.ArrayList;
+import java.util.Arrays;
 /**
  *
  * @author Henri
@@ -83,7 +84,7 @@ public class GameSocket {
                     return makeJSONGameInfo(in).toJSONString();
                 case "move":
                     movePalletToDirection(in, obj);
-                    return "";
+                    return new JSONObject().toJSONString();
                 case "spellActivate":
                     int playerID = Integer.parseInt((String) obj.get("player"));
                     Player player = sessionGame.get(in).getPlayers().get(playerID - 1);
@@ -189,7 +190,7 @@ public class GameSocket {
             powerupNames[j] = power.getName();
             j++;
         }
-        resultObj.put("powerupsActive", powerupNames);
+        resultObj.put("powerupsActive", Arrays.toString(powerupNames));
         String[] spellNames = new String[sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().size()];
         int s = 0;
         for (Map.Entry<Player, Spell> spell : sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().entrySet()) {
@@ -198,7 +199,7 @@ public class GameSocket {
                 s++;
             }
         }
-        resultObj.put("spells", spellNames);
+        resultObj.put("spells", Arrays.toString(spellNames));
         resultObj.put("completed", sessionGame.get(in).getLevelPlayedRightNow().isCompleted() + "");
         resultObj.put("gameover", sessionGame.get(in).isGameOver() + "");
         return resultObj;
