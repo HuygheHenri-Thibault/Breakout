@@ -10,6 +10,7 @@ and open the template in the editor.
 body{
      cursor: url('../media/Cursor_Fang.png'), auto;
      background:black;
+     overflow: hidden;
 }
 #factionMap{
     width:100%;
