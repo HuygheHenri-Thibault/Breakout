@@ -91,7 +91,7 @@
     </div>
     <div class="row spacing">
       <div class="col s4 offset-s1">
-        <img src="assets/media/tizzy.jpg" alt="" class="responsive-img circle profile-picture">
+        <img src="assets/media/<% out.println(u.getProfilePic()); %>" alt="" class="responsive-img circle profile-picture">
       </div>
       <div id="recent-activity" class="col s6">
         <ul class="collection with-header">

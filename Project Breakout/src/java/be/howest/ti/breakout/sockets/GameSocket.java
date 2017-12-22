@@ -196,6 +196,7 @@ public class GameSocket {
                 j++;
             }
             resultObj.put("descriptions", jsonOb);
+            jsonObject.put("icon", power.getIconPath());
             resultObj.put(""+i, jsonObject);
             i++;
         }

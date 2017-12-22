@@ -1,8 +1,17 @@
 #powerUpArea {
-  height: 3rem;
+  min-height: 3rem;
 }
 
 #powerUpArea img {
+  height: 100%;
+  margin-right: 0.5rem;
+}
+
+#livesArea {
+  height: 1rem;
+}
+
+#livesArea img {
   height: 100%;
   margin-right: 0.5rem;
 }
@@ -13,13 +22,24 @@
   margin-bottom: 1rem;
 }
 
+.controllercol {
+  margin-bottom: 1rem;
+}
+
 .modal-content .controllercol.col {
   padding: 1rem;
   border-radius: 1rem;
 }
 
-.playerScore {
-  
+.playerScore, .totalScore {
+  padding: 0.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+}
+
+.playerScore p, .totalScore p  {
+  margin: 0;
+  text-transform: capitalize;
 }
 
 /* label color */

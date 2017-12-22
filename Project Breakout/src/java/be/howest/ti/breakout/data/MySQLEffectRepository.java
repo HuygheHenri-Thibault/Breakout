@@ -36,9 +36,9 @@ public class MySQLEffectRepository implements EffectRepository{
     private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_DURATION = "duration";
     
-    private static final String GET_ALL_EFFECTS = "SELECT * FROM breakout.effect";
-    private static final String GET_EFFECT_BY_ID = "SELECT * FROM breakout.effect where id = ?";
-    private static final String GET_EFFECT_OF_POWERUP = "SELECT e.* FROM breakout.effect e join powereffect pe on e.id = pe.effectid  join powerupsdowns p on pe.powerid = p.id where p.id =  ?";
+    private static final String GET_ALL_EFFECTS = "SELECT * FROM effect";
+    private static final String GET_EFFECT_BY_ID = "SELECT * FROM effect where id = ?";
+    private static final String GET_EFFECT_OF_POWERUP = "SELECT e.* FROM effect e join powereffect pe on e.id = pe.effectid  join powerupsdowns p on pe.powerid = p.id where p.id =  ?";
 
     @Override
     public List<Effect> getAllEffects() {
