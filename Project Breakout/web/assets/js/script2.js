@@ -8,13 +8,12 @@ $(document).ready(function () {
     $("#PathToVillage").on("click", function (){
         $("ul#slide-out").toggle();
     });
-    
+   
     hidePathsIslandMap();
     hidePathsCrossroadsMap();
     $('.succesor').hide();
     $(".continents").click(function() {
         var myClass = $(this).attr("id");
-        console.log(myClass);
         $(".succesor").html(myClass);
 
     switch($(".succesor").text()) {
@@ -24,6 +23,7 @@ $(document).ready(function () {
         break;
     case "rightUpperIsland":
         console.log("RIGHT UPPER CLICKED");
+        window.location.assign("http://localhost:8080/Project_Breakout/factionwarMap.html");
         break;
     case "oceania":
         console.log("OCEANIA CLICKED");
@@ -31,6 +31,7 @@ $(document).ready(function () {
         break;
     case "rightDown":
        console.log("RIGHT DOWN CLICKED");
+       window.location.assign("http://localhost:8080/Project_Breakout/multiplayerCampaigns.html");
         break;
     default:
          console.log("nothing clicked yet");
@@ -59,14 +60,14 @@ $(document).ready(function () {
     });
 
  $('g#toAlorum').on("click", function () {
-       alert("user wants to go to alorum");
+       window.location.assign("http://localhost:8080/Project_Breakout/multiplayerCampaigns.html");
     });
  $('g#toBreakersBay').on("click", function () {
-       alert("user wants to go to Breakers Bay");
+       window.location.assign("http://localhost:8080/Project_Breakout/BreakersBayCampaign.html");
     });
     
 $('.toastButton').on('click',toast);
-$('.toastButton').click(Materialize.toast("You've earned the Achievement: -PLACEHOLDER- !", 4000));
+$('.toastButton').click(Materialize.toast("You've earned the Achievement: Starting a journey !", 4000));
 
 });
 
