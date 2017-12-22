@@ -124,8 +124,6 @@ var domain = function() {
     }
   };
   var checkGameState = function(message) {
-    console.log(message.gameover);
-    console.log(message.completed);
     if(message.gameover === "true") {
       input.gameRunning = false;
     } else if (message.gameover === "false") {
@@ -324,6 +322,10 @@ var socket = function() {
           gui.drawFromPosistion(message);
           break;
         case "gameInfo":
+          if(lel) {
+            lel = !lel;
+            console.log(message);
+          }
           domain.checkGameState(message);
           gui.gameInfo(message);
           break;
@@ -354,6 +356,9 @@ function setup() {
 function draw() {
   if (ball !== null && pallet !== null) {
     background(images["game-background"]);
+    for (var i = 0; i < bricks.length; i++) {
+      bricks[i].show();
+    }
     for(var b in ball) {
         ball[b].show();
     }
@@ -362,9 +367,6 @@ function draw() {
     }
     for(var e in effects) {
         effects[e].show();
-    }
-    for (var i = 0; i < bricks.length; i++) {
-      bricks[i].show();
     }
   }
 }

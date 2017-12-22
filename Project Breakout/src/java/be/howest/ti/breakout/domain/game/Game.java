@@ -68,7 +68,7 @@ public class Game{
         player.setPlayerID(newPlayerID);
         players.set(spelerID - 1, player);
         initializePlayerScores();
-        levelPlayedRightNow.replacePlayerSpell(spelerID, player);
+        levelPlayedRightNow.replacePlayer(spelerID, player);
         levelPlayedRightNow.initializePlayerScores();
     }
     
