@@ -1,8 +1,8 @@
-#iconArea {
+#powerUpArea {
   height: 3rem;
 }
 
-#iconArea img {
+#powerUpArea img {
   height: 100%;
   margin-right: 0.5rem;
 }
@@ -16,6 +16,10 @@
 .modal-content .controllercol.col {
   padding: 1rem;
   border-radius: 1rem;
+}
+
+.playerScore {
+  
 }
 
 /* label color */

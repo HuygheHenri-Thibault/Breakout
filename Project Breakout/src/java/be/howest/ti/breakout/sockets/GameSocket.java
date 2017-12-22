@@ -37,8 +37,6 @@ import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.util.BCrypt;
 import be.howest.ti.breakout.util.BreakoutException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -81,7 +79,7 @@ public class GameSocket {
                     }
                     return new JSONObject().toJSONString();
                 case "updateMe":
-                    return makeJSONPosistionObj(sessionGame.get(in).getLevels().get(0).getAllEntities()).toJSONString();
+                    return makeJSONPosistionObj(sessionGame.get(in).getLevelPlayedRightNow().getAllEntities()).toJSONString();
                 case "gameInfo":
                     return makeJSONGameInfo(in).toJSONString();
                 case "move":
@@ -100,6 +98,9 @@ public class GameSocket {
                         sessionGame.get(in).getLevelPlayedRightNow().pauseLevel();
                     }
                     return new JSONObject().toJSONString();
+                case "nextLevel":
+                    makeLevel(in);
+                    return createSpellsOfLevel(in).toJSONString();
                 default:
                     JSONObject resultObj = new JSONObject();
                     resultObj.put("type", "ERROR");
@@ -180,7 +181,33 @@ public class GameSocket {
         }
         return resultObj;
     }
-
+  
+    private JSONObject makeActivePowerUpsObject(Session in) {
+        JSONObject resultObj = new JSONObject();
+        int i = 0;
+        for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", power.getName());
+            resultObj.put(""+i, jsonObject);
+            i++;
+        }
+        return resultObj;
+    }
+    
+    private JSONObject makeSpellsObject(Session in) {
+        JSONObject resultObj = new JSONObject();
+        int i = 0;
+        for (Map.Entry<Player, Spell> spell : sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().entrySet()) {
+            if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", spell.getValue().getName());
+                resultObj.put(""+i, jsonObject);
+                i++;
+            }
+        }
+        return resultObj;
+    }
+    
     private JSONObject makeJSONGameInfo(Session in) {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "gameInfo");
@@ -188,22 +215,9 @@ public class GameSocket {
         resultObj.put("lives", sessionGame.get(in).getLives());
         resultObj.put("levelTotalScore", sessionGame.get(in).getLevelPlayedRightNow().getCollectiveScore());
         resultObj.put("gameTotalScore", sessionGame.get(in).getTotalGameScore());
-        String[] powerupNames = new String[sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps().size()];
-        int j = 0;
-        for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
-            powerupNames[j] = power.getName();
-            j++;
-        }
-        resultObj.put("powerupsActive", Arrays.toString(powerupNames));
-        String[] spellNames = new String[sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().size()];
-        int s = 0;
-        for (Map.Entry<Player, Spell> spell : sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().entrySet()) {
-            if (spell.getValue().isActivated() == SpellStatus.COOLDOWN) {
-                spellNames[s] = spell.getValue().getName();
-                s++;
-            }
-        }
-        resultObj.put("spells", Arrays.toString(spellNames));
+        resultObj.put("powerupsActive", makeActivePowerUpsObject(in));
+        
+        resultObj.put("spells", makeSpellsObject(in));
         resultObj.put("completed", sessionGame.get(in).getLevelPlayedRightNow().isCompleted() + "");
         resultObj.put("gameover", sessionGame.get(in).isGameOver() + "");
         return resultObj;
