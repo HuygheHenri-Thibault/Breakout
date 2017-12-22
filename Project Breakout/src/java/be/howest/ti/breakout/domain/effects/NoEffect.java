@@ -12,7 +12,7 @@ package be.howest.ti.breakout.domain.effects;
 public final class NoEffect extends Effect{
 
     public NoEffect() {
-        super(null, 0);
+        super(null, null, 0);
     }
 
     @Override

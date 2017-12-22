@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Player;
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.List;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;

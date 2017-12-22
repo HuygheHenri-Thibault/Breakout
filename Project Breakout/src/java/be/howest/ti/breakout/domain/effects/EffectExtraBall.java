@@ -16,8 +16,8 @@ import be.howest.ti.breakout.domain.game.Player;
 public final class EffectExtraBall extends Effect {
     DoubleTroubleBall extraBallCreated;
  
-    public EffectExtraBall(String name, int duration) {
-        super(name, duration);
+    public EffectExtraBall(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override

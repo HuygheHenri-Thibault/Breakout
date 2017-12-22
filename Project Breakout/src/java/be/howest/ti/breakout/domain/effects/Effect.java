@@ -17,6 +17,7 @@ import java.util.Timer;
  */
 public abstract class Effect{
     protected final String name;
+    protected final String description;
     protected Pallet playerPallet;
     protected Player playerActivatedEffect;
     protected Ball BallActivatedEffect;
@@ -26,8 +27,9 @@ public abstract class Effect{
     protected Timer TimerEffect;
     protected boolean paused = false;
 
-    public Effect(String name, int duration) {
+    public Effect(String name, String description, int duration) {
         this.name = name;
+        this.description = description;
         this.originalDuration = duration;
         this.duration = duration;
     }
@@ -79,6 +81,10 @@ public abstract class Effect{
     
     public Level getLevelOfEffect() {
         return LevelOfEffect;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDuration(int duration){

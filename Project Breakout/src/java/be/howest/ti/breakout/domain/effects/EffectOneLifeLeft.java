@@ -14,8 +14,8 @@ import java.util.Timer;
 public final class EffectOneLifeLeft extends Effect{
     private int originalLivesLeft;
     
-    public EffectOneLifeLeft(String name, int duration) {
-        super(name, duration);
+    public EffectOneLifeLeft(String name, String description, int duration) {
+        super(name, description, duration);
     }
     
     @Override

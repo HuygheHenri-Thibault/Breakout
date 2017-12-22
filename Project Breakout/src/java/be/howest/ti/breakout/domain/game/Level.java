@@ -410,7 +410,7 @@ public final class Level{
     
     public void decrementLife(){
         game.decrementLife();
-        if(game.isGameOver()){
+        if(getGameOver()){
             addPlayerScoresToTotalGame();
             game.stopGame();
         }
