@@ -39,7 +39,7 @@ import java.util.Map;
  * @author micha
  */
 public class Board extends JPanel{
-    Player me = Repositories.getUserRepository().getUserWithId(5);
+    Player me = Repositories.getUserRepository().getGuest(1);
     Player me2 = Repositories.getUserRepository().getGuest(1);
     Player me3 = Repositories.getUserRepository().getGuest(2);
     Player me4 = Repositories.getUserRepository().getGuest(3);
@@ -115,6 +115,7 @@ public class Board extends JPanel{
             drawObjects(g2d);
             drawTexts(g2d);
             if(level.isCompleted()){
+                game.createNewLevel();
                 level = game.getLevelPlayedRightNow();
                 s = new ScheduleLevelTaskerSwing(level, this);
                 showSpellChoices();

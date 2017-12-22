@@ -32,6 +32,7 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -250,6 +251,7 @@ public final class Level{
     
     public final void createNewRandomSpells(){
         for (Player player : game.getPlayers()) {
+            //System.out.println(player.getName());
             spellsChoices.put(player, new ArrayList<>());
         }
         for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
@@ -260,6 +262,11 @@ public final class Level{
                 } else {
                     i--;
                 }
+            }
+        }
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
+            for (Spell spell : entry.getValue()) {
+                System.out.println(spell.getName());
             }
         }
     }
@@ -283,9 +290,6 @@ public final class Level{
         spellsChoices.put(player, spellChoices);
         int scoreOfUser = scorePerPlayer.remove(playerBeingReplaced);
         scorePerPlayer.put(player, scoreOfUser);
-        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
-            System.out.println(entry.getKey().getName());
-        }
     }
     
     private Player getPlayerFromUserSpells(int spelerID){
@@ -492,7 +496,6 @@ public final class Level{
             setCompleted(true);
             endLevel();
             addPlayerScoresToTotalGame();
-            game.createNewLevel();
         }
     }
     
