@@ -188,6 +188,7 @@ public class GameSocket {
         for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name", power.getName());
+            jsonObject.put("icon", power.getIconPath());
             resultObj.put(""+i, jsonObject);
             i++;
         }

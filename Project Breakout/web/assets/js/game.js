@@ -53,12 +53,7 @@ var lel = true //TODO: DELETE DIS
 var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
 
 var domain = function() {
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-  async function newLevelForm() {
-    await sleep(100);
-    $("#selectController").modal('open');
+  function getPlayerDataToModal() {
     var selectedDomElements = $(".playerScore");
     for(var domElem in selectedDomElements) {
       if(selectedDomElements[domElem].dataset != undefined) {
@@ -67,9 +62,25 @@ var domain = function() {
         $(".controllercol[data-player="+playerNum+"]").html("<h3>Player "+playerNum+"</h3><p>Achieved</p><p>"+playerScore+" Score!</p>")
       }
     }
-    $(".modal-content.row").append("<div id='nextLvlBtn' class='btn'>Next level</div>");
+  }
+  async function newLevelForm(levelscore) {
+    await sleep(100);
+    $("#selectController").modal('open');
+    getPlayerDataToModal();
+    $(".modal-content.row").append("<h2 id='formTotalScore' class='center-align'>Level score: "+levelscore+"</h2>");
+    $(".modal-content.row").append("<div id='nextLvlBtn' class='btn col s4 offset-s4'>Next level</div>");
+  }
+  async function endLevelForm(endScore) {
+    await sleep(100);
+    $("#selectController").modal('open');
+    getPlayerDataToModal()
+    $(".modal-content.row").append("<h2 id='formTotalScore' class='center-align'>Game score: "+endScore+"</h2>");
+    $(".modal-content.row").append("<a href='game.html' class='btn col s4 offset-s4'>Play Again!</div>");
   }
   // Public
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   var keyForm = function(currentslot) {
     return  "<form class='inputForm'>"+
               "<div class='input-field col s4'>"+
@@ -138,10 +149,11 @@ var domain = function() {
     if(message.gameover === "true") {
       input.gameRunning = false;
       comms.stopUpdates();
+      endLevelForm(message.gameTotalScore);
     } else if (message.gameover === "false") {
       if(message.completed === "true") {
         comms.stopUpdates();
-        newLevelForm()
+        newLevelForm(levelTotalScore)
       }
     }
   }
@@ -290,11 +302,23 @@ var gui = function() {
   }
   function showPlayerScores(players, totalScore) {
     $("#scoreInfo").html("");
-    $("#scoreInfo").append("<div class='totalScore'><p>Total Score</p><p>"+totalScore+"</p></div>");
+    var colors = ["red", "green", "blue", "deep-purple"];
     var itr = 1;
     for(var player in players) {
-      $("#scoreInfo").append("<div class='playerScore' data-player='"+itr+"' data-score='"+players[player].score+"'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
+      $("#scoreInfo").append("<div class='playerScore white-text "+colors[itr-1]+"' data-player='"+itr+"' data-score='"+players[player].score+"'><p>"+players[player].username+"</p><p>"+players[player].score+"</p></div>");
       itr++;
+    }
+  }
+  function showLives(lives) {
+    $("#livesArea").html("");
+    for(var i = 0;i<lives;i++) {
+      $("#livesArea").append("<img src='assets/media/heart.png' alt='heart'>")
+    }
+  }
+  function showPowerups(powerups) {
+    $("#iconArea").html("");
+    for(var power in powerups) {
+      $("#iconArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
     }
   }
   // Public
@@ -332,6 +356,8 @@ var gui = function() {
   }
   var gameInfo = function(message) {
     showPlayerScores(message.players, message.levelTotalScore);
+    showLives(message.lives);
+    showPowerups(message.powerupsActive);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
@@ -349,9 +375,7 @@ var socket = function() {
           comms.getUpdate();
           break;
         case "spells":
-          console.log(spellObj);
           spellObj = message;
-          console.log(spellObj);
           break;
         case "posistion":
           gui.drawFromPosistion(message);

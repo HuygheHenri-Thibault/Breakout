@@ -41,10 +41,9 @@ public class FactoryBricks extends FactoryBreakoutUtilities{
     public List<Brick> createBricks(){
         brickDatas = Repositories.getBrickRepository().getAllBricks();
         List<Brick> bricks = new ArrayList<>();
-        bricks.add(createSingleBrick(bricks, brickDatas.get(0)));
-//        for (BrickData brickData : brickDatas) {
-//            bricks.addAll(createRowBricks(brickData));
-//        }
+        for (BrickData brickData : brickDatas) {
+            bricks.addAll(createRowBricks(brickData));
+        }
         return bricks;
     }   
     
