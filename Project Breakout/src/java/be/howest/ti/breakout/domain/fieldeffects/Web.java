@@ -41,6 +41,10 @@ public class Web extends Circle{
         return timeLeft;
     }
     
+    public void cancel(){
+        timeToLiveTimer.cancel();
+    }
+    
     public void decrementTimeToLive(){
         timeLeft--;
     }

@@ -130,8 +130,8 @@ public final class Level{
     }
     
     public void endLevel(){
-        cancelTimersOfEffects();
         this.timer.cancel();
+        cancelTimersOfEffects();
     }
         
     private void resumeEffects(){
@@ -168,7 +168,7 @@ public final class Level{
             entry.getValue().cancel();
         }
         for (Web web : websMadeByFieldEffect) {
-            web.removeYourselfNow();
+            web.cancel();
         }
         this.fieldEffect.stopFieldEffect();
     }

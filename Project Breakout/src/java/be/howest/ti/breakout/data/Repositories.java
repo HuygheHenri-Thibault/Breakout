@@ -17,6 +17,7 @@ public class Repositories {
     private final static EffectRepository EFFECT_REPOSITORY = new MySQLEffectRepository();
     private final static SpellRepository SPELL_REPOSITORY = new MySQLSpellRepository();
     private final static FieldEffectRepository FIELDEFFECT_REPOSITORY = new MySQLFieldEffectRepository();
+    private final static DifficultyRepository DIFFICULTY_REPOSITORY = new MySQLDifficultyRepository();
     
     public static UserRepository getUserRepository() {
         return USER_REPOSITORY;
@@ -44,5 +45,9 @@ public class Repositories {
     
     public static FieldEffectRepository getFieldEffectRepository(){
         return FIELDEFFECT_REPOSITORY;
+    }
+
+    public static DifficultyRepository getDifficultyRepository() {
+        return DIFFICULTY_REPOSITORY;
     }
 }
