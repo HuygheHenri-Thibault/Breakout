@@ -74,13 +74,12 @@ public class ControllerServlet extends HttpServlet {
                 this.support(request, response);
                 break;
             case "/getScore":
-                List<User> scores = Repositories.getUserRepository().getAllUsers();
-                request.setAttribute("totalscore", scores);
-                List<SinglePlayerHighscore> SPscores = Repositories.getHighscoreRepository().getAllSingleplayerHighscores();
-                request.setAttribute("SPscores", SPscores);
-                List<MultiPlayerHighscore> MPscores = Repositories.getHighscoreRepository().getAllMultiplayerScores();
-                request.setAttribute("MPscores", MPscores);
-                //System.out.println(MPscores.get(0).getTotalScore());
+                List<User> totalScores = Repositories.getUserRepository().getAllUsers();
+                request.setAttribute("totalscore", totalScores);
+                List<SinglePlayerHighscore> spScores = Repositories.getHighscoreRepository().getAllSingleplayerHighscores();
+                request.setAttribute("SPscores", spScores);
+                List<MultiPlayerHighscore> mpScores = Repositories.getHighscoreRepository().getAllMultiplayerScores();
+                request.setAttribute("MPscores", mpScores);
                 request.getRequestDispatcher("leaderboard.jsp").forward(request, response);
         }
     }

@@ -17,6 +17,7 @@ public interface UserRepository {
     public List<User> getAllUsers();
     public User getUserWithId(int id);
     public User getUserWithUsername(String username);
+    public List<User> getTop10TotalScores();
     public Guest getGuest(int id);
     public void addUser(User u);
     public void deleteUser(User u);

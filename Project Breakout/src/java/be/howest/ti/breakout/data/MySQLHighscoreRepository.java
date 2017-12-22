@@ -25,7 +25,7 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     private static final String FIELD_USERID = "user_id";
     private static final String FIELD_HIGHSCORE = "highscore";
 
-    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user";
+    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user WHERE id > 4 ORDER BY spHighscore desc";
     private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user WHERE user_id = ?";
     private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE breakout.user SET spHighscore = ? WHERE username = ?";
     private static final String DELETE_HIGHSCORE = "DELETE * FROM breakout.userhighscore WHERE user_id = ? AND highscore = ?";
