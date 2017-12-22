@@ -29,6 +29,8 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_BIO = "bio";
     public static final String FIELD_SINGLEPLAYERHIGHSCORE = "spHighscore";
     public static final String FIELD_TOTALSCORE = "totalHighscore";
+    public static final String FIELD_GEMS = "gems";
+    public static final String FIELD_COINS = "coins";
     
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user WHERE id > 4";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
@@ -218,6 +220,8 @@ public class MySQLUserRepository implements UserRepository {
         String bio = rs.getString(FIELD_BIO);
         int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
         int totalScore = rs.getInt(FIELD_TOTALSCORE);
-        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore);
+        int gems = rs.getInt(FIELD_GEMS);
+        int coins = rs.getInt(FIELD_COINS);
+        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore, gems, coins);
     }
 }

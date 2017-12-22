@@ -23,7 +23,7 @@
       <div id="edit-user-modal" class="modal">
         <div class="modal-content med-grey white-text">
           <h4>Edit user</h4>
-          <form class="accented" action="editUser" method="post">
+          <form class="accented" action="editUser" method="GET">
           <div class="row">
             <div class="col s5">
                 <div class="input-field">
@@ -69,17 +69,19 @@
 
     </div>
     <div class="row">
-      <div class="col s2 offset-s3">
-        <p class="white-text center-align">Level <% out.print(u.getLevel()); %></p>
-      </div>
-      <div class="col s2">
-        <p class="white-text center-align">Gems: _VALUE_</p>
-      </div>
-      <div class="col s2">
-        <p class="white-text center-align">Gold: _VALUE_</p>
-      </div>
+      <section class="info card-panel">
+        <div class="col s2 offset-s3">
+          <p class="center-align">Level <% out.print(u.getLevel()); %></p>
+        </div>
+        <div class="col s2">
+          <p class="center-align"><% out.println(u.getAmountOfGems()); %> gems</p>
+        </div>
+        <div class="col s2">
+          <p class="center-align"><% out.println(u.getAmountOfCoins()); %> coins</p>
+        </div>
+      </section>
     </div>
-    <div class="row">
+    <div class="row ">
       <div class="col s5 offset-s1">
         <div class="card-panel"><% out.print(u.getBio()); %></div>
       </div>
@@ -89,7 +91,7 @@
     </div>
     <div class="row spacing">
       <div class="col s4 offset-s1">
-        <img src="https://tinyurl.com/y8zv9vu8" alt="" class="responsive-img circle profile-picture">
+        <img src="assets/media/tizzy.jpg" alt="" class="responsive-img circle profile-picture">
       </div>
       <div id="recent-activity" class="col s6">
         <ul class="collection with-header">
