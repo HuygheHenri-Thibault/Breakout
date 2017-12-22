@@ -211,11 +211,14 @@ var input = function() {
     socket.sendMessage(messageObj);
   }
   function nextLevel() {
+    var messageObj = {type:"nextLevel"};
+    socket.sendMessage(messageObj);
     $("#nextLvlBtn").remove();
     var controllercols = $(".controllercol");
     for(var controller in controllercols) {
       if(controllercols[controller].dataset != undefined) {
-        $(".controllercol[data-player="+controllercols[controller].dataset.player+"]").html("");
+        var playerNum = controllercols[controller].dataset.player;
+        $(".controllercol[data-player="+playerNum+"]").html(domain.spellOptions(playerNum));
       }
     }
   }
