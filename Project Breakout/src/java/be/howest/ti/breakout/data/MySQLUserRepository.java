@@ -25,6 +25,7 @@ public class MySQLUserRepository implements UserRepository {
     public static final String FIELD_EMAIL = "email";
     public static final String FIELD_USERNAME = "username";
     public static final String FIELD_PASSWORD = "password";
+    public static final String FIELD_XP = "exp";
     public static final String FIELD_LEVEL = "level";
     public static final String FIELD_BIO = "bio";
     public static final String FIELD_SINGLEPLAYERHIGHSCORE = "spHighscore";
@@ -39,6 +40,8 @@ public class MySQLUserRepository implements UserRepository {
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
     private static final String UPDATE_TOTALSCORE_USER = "UPDATE breakout.user SET totalHighscore = ? WHERE id = ?";
+    private static final String UPDATE_XP_USER = "UPDATE breakout.user SET exp = ? WHERE id = ?";
+    private static final String UPDATE_LEVEL_USER = "UPDATE breakout.user SET level = ? WHERE id = ?";
     
     protected MySQLUserRepository() {
     }
@@ -181,11 +184,36 @@ public class MySQLUserRepository implements UserRepository {
         try(Connection conn = MySQLConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(UPDATE_TOTALSCORE_USER)){
             stmt.setInt(1, u.getTotalScore());
-            stmt.setInt(2, u.getPlayerID());
+            stmt.setInt(2, u.getUserId());
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new BreakoutException("Couldn't update total score for specific user", ex);        }
+            throw new BreakoutException("Couldn't update total score for specific user", ex);        
         }
+    }
+    
+    @Override
+    public void updateUserXP(User u) {
+        try(Connection conn = MySQLConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_XP_USER)){
+            stmt.setInt(1, u.getXP());
+            stmt.setInt(2, u.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't update exp for specific user", ex);        
+        }
+    }
+    
+    @Override
+    public void updateUserLevel(User u) {
+        try(Connection conn = MySQLConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_LEVEL_USER)){
+            stmt.setInt(1, u.getLevel());
+            stmt.setInt(2, u.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            throw new BreakoutException("Couldn't update level for specific user", ex);       
+        }
+    }
 
     @Override
     public List<User> getTop10TotalScores() {
@@ -210,6 +238,7 @@ public class MySQLUserRepository implements UserRepository {
         String email = rs.getString(FIELD_EMAIL);
         String username = rs.getString(FIELD_USERNAME);
         String password = rs.getString(FIELD_PASSWORD);
+        int XP = rs.getInt(FIELD_XP);
         int lvl = rs.getInt(FIELD_LEVEL);
         String bio = rs.getString(FIELD_BIO);
         int spHighscore = rs.getInt(FIELD_SINGLEPLAYERHIGHSCORE);
@@ -217,6 +246,6 @@ public class MySQLUserRepository implements UserRepository {
         int gems = rs.getInt(FIELD_GEMS);
         int coins = rs.getInt(FIELD_COINS);
         String profilePic = rs.getString("profilePic");
-        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore, gems, coins, profilePic);
+        return new User(id, username, password, email, XP, lvl, bio, spHighscore, totalScore, gems, coins, profilePic);
     }
 }
