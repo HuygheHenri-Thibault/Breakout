@@ -360,8 +360,8 @@ CREATE TABLE `user` (
   `totalHighscore` int(11) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
   `bio` varchar(150) DEFAULT NULL,
-  `gems` int(11) DEFAULT NULL '0',
-  `coins` int(11) DEFAULT NULL '0',
+  `gems` int(11) NULL DEFAULT '0',
+  `coins` int(11) NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
