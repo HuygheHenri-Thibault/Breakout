@@ -319,6 +319,7 @@ UNLOCK TABLES;
 -- Table structure for table `storychoice`
 --
 
+
 DROP TABLE IF EXISTS `storychoice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -359,6 +360,8 @@ CREATE TABLE `user` (
   `totalHighscore` int(11) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
   `bio` varchar(150) DEFAULT NULL,
+  `gems` int(11) DEFAULT NULL '0',
+  `coins` int(11) DEFAULT NULL '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)

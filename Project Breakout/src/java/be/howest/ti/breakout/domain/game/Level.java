@@ -32,7 +32,7 @@ import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
 import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
 import java.awt.event.KeyEvent;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -251,6 +251,7 @@ public final class Level{
     
     public final void createNewRandomSpells(){
         for (Player player : game.getPlayers()) {
+            //System.out.println(player.getName());
             spellsChoices.put(player, new ArrayList<>());
         }
         for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
@@ -261,6 +262,11 @@ public final class Level{
                 } else {
                     i--;
                 }
+            }
+        }
+        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
+            for (Spell spell : entry.getValue()) {
+                System.out.println(spell.getName());
             }
         }
     }
@@ -284,9 +290,6 @@ public final class Level{
         spellsChoices.put(player, spellChoices);
         int scoreOfUser = scorePerPlayer.remove(playerBeingReplaced);
         scorePerPlayer.put(player, scoreOfUser);
-        for (Map.Entry<Player, Integer> entry : scorePerPlayer.entrySet()) {
-            System.out.println(entry.getKey().getName());
-        }
     }
     
     private Player getPlayerFromUserSpells(int spelerID){
@@ -338,6 +341,9 @@ public final class Level{
         int max = (allFieldEffects.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) - min;
+        while(randomIndex == 1){ //webs niet kunnen helemaal uitwerken dus deze wordt niet gekozen
+            randomIndex = generator.nextInt((max - min) + 1) - min;
+        }
         FieldEffect fieldEffectForThisLevel = allFieldEffects.get(randomIndex);
         fieldEffectForThisLevel.setLevel(this);
         return fieldEffectForThisLevel;
@@ -411,7 +417,7 @@ public final class Level{
     
     public void decrementLife(){
         game.decrementLife();
-        if(game.isGameOver()){
+        if(getGameOver()){
             addPlayerScoresToTotalGame();
             game.stopGame();
         }
@@ -476,7 +482,7 @@ public final class Level{
     public void resetSpellEffects(){
          for (Map.Entry<Player, Spell> entry : spellsInGame.entrySet()) {
              for (Effect spellEffect : entry.getValue().getSpellEffects()) {
-                 if(spellEffect.isActivated() == EffectStatus.RUNNING){
+                 if(spellEffect.getStatus() == EffectStatus.RUNNING){
                     spellEffect.setDeActive();
                  }
              }
@@ -493,7 +499,6 @@ public final class Level{
             setCompleted(true);
             endLevel();
             addPlayerScoresToTotalGame();
-            game.createNewLevel();
         }
     }
     

@@ -189,6 +189,13 @@ public class GameSocket {
         for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name", power.getName());
+            JSONObject jsonOb = new JSONObject();
+            int j = 0;
+            for (Effect effect : power.getEffects()) {
+                jsonOb.put("effect "+ j, effect.getDescription());
+                j++;
+            }
+            resultObj.put("descriptions", jsonOb);
             jsonObject.put("icon", power.getIconPath());
             resultObj.put(""+i, jsonObject);
             i++;
@@ -198,8 +205,10 @@ public class GameSocket {
     
     private JSONObject makeEffectsObject(List<Effect> effects) {
         JSONObject resultObj = new JSONObject();
-        for(Effect e : effects) {
-            
+        int i = 0;
+        for (Effect effect : effects) {
+          resultObj.put("effect "+ i, effect.getDescription());
+          i++;
         }
         return resultObj;
     }
@@ -212,8 +221,8 @@ public class GameSocket {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", spell.getValue().getName());
                 jsonObject.put("cooldown", spell.getValue().getCooldown());
-                //jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
-                jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
+                jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
+                //jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
                 resultObj.put(""+i, jsonObject);
                 i++;
             }

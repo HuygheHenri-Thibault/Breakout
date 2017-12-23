@@ -29,10 +29,10 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     private static final String FIELD_SCORE = "score";
     private static final String FIELD_MULTIPLAYERSCORE = "id";
 
-    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user WHERE id > 4 ORDER BY spHighscore DESC";
-    private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM breakout.user WHERE user_id = ?";
-    private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE breakout.user SET spHighscore = ? WHERE username = ?";
-    private static final String DELETE_HIGHSCORE = "DELETE * FROM breakout.userhighscore WHERE user_id = ? AND highscore = ?";
+    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM user WHERE id > 4 ORDER BY spHighscore DESC";
+    private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM user WHERE user_id = ?";
+    private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE user SET spHighscore = ? WHERE username = ?";
+    private static final String DELETE_HIGHSCORE = "DELETE * FROM userhighscore WHERE user_id = ? AND highscore = ?";
     private static final String GET_TOP10__MULTIPLAYER_SCORES = "select * from multiplayerhighscore ORDER BY totalScore DESC";
     private static final String GET_ALL_PLAYERS_FROM_MULTIPLAYER = "select * from multiplayerscores where multiplayerID = ? order by score DESC";
     private static final String INSERT_MULTIPLAYER_SCORE = "INSERT INTO multiplayerhighscore(totalScore) values(?)";

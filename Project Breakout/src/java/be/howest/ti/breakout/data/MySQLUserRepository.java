@@ -222,6 +222,7 @@ public class MySQLUserRepository implements UserRepository {
         int totalScore = rs.getInt(FIELD_TOTALSCORE);
         int gems = rs.getInt(FIELD_GEMS);
         int coins = rs.getInt(FIELD_COINS);
-        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore, gems, coins);
+        String profilePic = rs.getString("profilePic");
+        return new User(id, username, password, email, lvl, bio, spHighscore, totalScore, gems, coins, profilePic);
     }
 }

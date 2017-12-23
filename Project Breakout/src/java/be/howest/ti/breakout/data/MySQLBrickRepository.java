@@ -26,9 +26,9 @@ public class MySQLBrickRepository implements BrickRepository {
     private static final String FIELD_HITS = "hits";
     private static final String FIELD_SCORE = "score";
     
-    private static final String GET_ALL_BRICKS = "SELECT * FROM breakout.bricks";
-    private static final String ADD_BRICK = "INSERT INTO breakout.bricks (color, baseLength, hits, score) VALUES (?, ?, ?, ?)";
-    private static final String DELETE_BRICK = "DELETE FROM breakout.bricks WHERE id = ?";
+    private static final String GET_ALL_BRICKS = "SELECT * FROM bricks";
+    private static final String ADD_BRICK = "INSERT INTO bricks (color, baseLength, hits, score) VALUES (?, ?, ?, ?)";
+    private static final String DELETE_BRICK = "DELETE FROM bricks WHERE id = ?";
     
     @Override
     public List<BrickData> getAllBricks() {

@@ -8,10 +8,7 @@ package be.howest.ti.breakout.domain.game;
 import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.factories.FactoryLevel;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
 

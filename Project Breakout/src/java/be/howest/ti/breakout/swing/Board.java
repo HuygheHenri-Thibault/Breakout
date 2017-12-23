@@ -39,7 +39,7 @@ import java.util.Map;
  * @author micha
  */
 public class Board extends JPanel{
-    Player me = Repositories.getUserRepository().getUserWithId(5);
+    Player me = Repositories.getUserRepository().getGuest(1);
     Player me2 = Repositories.getUserRepository().getGuest(1);
     Player me3 = Repositories.getUserRepository().getGuest(2);
     Player me4 = Repositories.getUserRepository().getGuest(3);
@@ -73,9 +73,8 @@ public class Board extends JPanel{
         null, options, options[0]);
         
         
-        game = new Game(1000, 1000, 2, difficulties.get(response));
+        game = new Game(1000, 1000, 1, difficulties.get(response));
         game.createNewLevel();
-        //game.replaceGuestByUser(1, me);
         game.getLevelPlayedRightNow().createNewRandomSpells();
         level = game.getLevelPlayedRightNow();
         s = new ScheduleLevelTaskerSwing(level, this);
@@ -116,6 +115,7 @@ public class Board extends JPanel{
             drawObjects(g2d);
             drawTexts(g2d);
             if(level.isCompleted()){
+                game.createNewLevel();
                 level = game.getLevelPlayedRightNow();
                 s = new ScheduleLevelTaskerSwing(level, this);
                 showSpellChoices();
@@ -179,7 +179,7 @@ public class Board extends JPanel{
         String spell = "effects of spell active: ";
         for (Effect effect :  level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects()) {
             if(!level.getAllSpellsInGame().get(game.getPlayers().get(0)).getSpellEffects().isEmpty()){
-                if(effect.isActivated() == EffectStatus.RUNNING){
+                if(effect.getStatus() == EffectStatus.RUNNING){
                     spell += effect.toString() + ", ";
                 }
             }

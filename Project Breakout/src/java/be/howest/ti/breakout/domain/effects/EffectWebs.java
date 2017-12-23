@@ -17,8 +17,8 @@ import java.util.Random;
 public class EffectWebs extends Effect{
     List<Web> websCreated = new ArrayList<>();
 
-    public EffectWebs(String name, int duration) {
-        super(name, duration);
+    public EffectWebs(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override

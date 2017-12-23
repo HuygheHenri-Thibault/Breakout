@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Player;
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 /**
@@ -21,7 +20,7 @@ public final class Pallet extends Rectangle {
     private final Player player;
     //private final Level level;
     
-    private final int originalLenght; //check this later
+    private final int originalLenght; 
    
     private final int INIT_PALLET_X;
     private final int INIT_PALLET_Y;
@@ -52,11 +51,6 @@ public final class Pallet extends Rectangle {
     public int getOriginalLenght() {
         return originalLenght;
     }
-
-//    @Override
-//    public Level getLevel() {
-//        return level;
-//    }
 
     public float getSpeed() {
         return speed;
@@ -122,14 +116,6 @@ public final class Pallet extends Rectangle {
         }
     }
     //
-
-//    public void toggleDx() {
-//        if (dx > 0) {
-//            dx = -speed;
-//        } else {
-//            dx = speed;
-//        }
-//    }
     
     public void move() {
         this.setX((int) (this.getX() + dx));
@@ -155,7 +141,6 @@ public final class Pallet extends Rectangle {
         this.dx = dx;
     }
 
-    //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
     private Shape collidesWithOtherRectangleOrBoundaries() {
         for (Shape s : getLevel().getAllEntities()) {
             if (this.getX() != s.getX()) {

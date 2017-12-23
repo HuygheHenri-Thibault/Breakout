@@ -5,7 +5,6 @@
  */
 package be.howest.ti.breakout.domain.effects;
 
-import be.howest.ti.breakout.domain.Brick;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,8 +17,8 @@ import java.util.Timer;
 public class EffectShadow extends Effect{
     private int palletIdSetInvisible;
 
-    public EffectShadow(String name, int duration) {
-        super(name, duration);
+    public EffectShadow(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
