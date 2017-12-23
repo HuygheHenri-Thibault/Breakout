@@ -13,6 +13,7 @@ import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.Player;
@@ -195,6 +196,14 @@ public class GameSocket {
         return resultObj;
     }
     
+    private JSONObject makeEffectsObject(List<Effect> effects) {
+        JSONObject resultObj = new JSONObject();
+        for(Effect e : effects) {
+            
+        }
+        return resultObj;
+    }
+    
     private JSONObject makeSpellsObject(Session in) {
         JSONObject resultObj = new JSONObject();
         int i = 0;
@@ -202,6 +211,9 @@ public class GameSocket {
             if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", spell.getValue().getName());
+                jsonObject.put("cooldown", spell.getValue().getCooldown());
+                //jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
+                jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
                 resultObj.put(""+i, jsonObject);
                 i++;
             }

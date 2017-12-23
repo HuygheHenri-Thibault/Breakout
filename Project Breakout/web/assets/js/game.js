@@ -46,8 +46,6 @@ Player.prototype.move = function(keyMap) {
   }
 };
 
-var ip = 'x.x.x.x'; // TODO: voor later
-var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
 var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
@@ -320,6 +318,13 @@ var gui = function() {
       $("#powerUpArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
     }
   }
+  function showSpells(spells) {
+    $("#spells").html("");
+    for(var spell in spells) {
+      console.log(spells[spell]);
+      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown'>"+spells[spell].cooldown+"</p></div></div>")
+    }
+  }
   // Public
   var drawFromPosistion = function(message) {
     const posArray = message;
@@ -356,6 +361,7 @@ var gui = function() {
     showPlayerScores(message.players, message.levelTotalScore);
     showLives(message.lives);
     showPowerups(message.powerupsActive);
+    showSpells(message.spells);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
