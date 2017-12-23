@@ -319,15 +319,18 @@ var gui = function() {
       $("#powerUpArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
     }
   }
+  function getEffects(spellEffects) {
+    var effectString = "";
+    for(var effect in spellEffects) {
+      effectString += spellEffects[effect]+"; ";
+    }
+    return effectString;
+  }
   function showSpells(spells) {
     $("#spells").html("");
     for(var spell in spells) {
-      if(lel) {
-        console.log(spells[spell]);
-        lel = !lel;
-      }
-
-      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown'>"+spells[spell].cooldown+"</p></div></div>")
+      var effectString = getEffects(spells[spell].effects);
+      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown tooltipped' data-position='top' data-tooltip='"+effectString+"'>"+spells[spell].cooldown+"</p></div></div>")
     }
   }
   // Public
