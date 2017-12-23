@@ -13,8 +13,8 @@ import java.util.Timer;
  */
 public final class EffectSmallerPallet extends Effect{
 
-    public EffectSmallerPallet(String name, int duration) {
-        super(name, duration);
+    public EffectSmallerPallet(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
@@ -22,7 +22,6 @@ public final class EffectSmallerPallet extends Effect{
         setRunning();
         
         playerPallet.setLength((int) (playerPallet.getLength() - (playerPallet.getOriginalLenght()* 0.2)));
-        System.out.println("activated shrunk");
         
         TimerEffect = new Timer();
         TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
@@ -30,7 +29,6 @@ public final class EffectSmallerPallet extends Effect{
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated shrunk");
         TimerEffect.cancel();
         playerPallet.setLength((int) (playerPallet.getLength() + (playerPallet.getOriginalLenght()* 0.2)));
         setDone();

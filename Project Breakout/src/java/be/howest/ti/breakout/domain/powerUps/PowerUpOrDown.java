@@ -54,7 +54,7 @@ public class PowerUpOrDown extends Shape implements EffectHandeler{
     public void setRunning(){status = EffectStatus.RUNNING;}
     public void setDeActive(){status = EffectStatus.INACTIVE;}
     public void setDone(){status = EffectStatus.DONE;}
-    public EffectStatus isActivated(){return status;}
+    public EffectStatus getStatus(){return status;}
     
     public int getId(){return id;}
     public String getName(){return name;}

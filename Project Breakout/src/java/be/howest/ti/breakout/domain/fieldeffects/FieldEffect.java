@@ -6,7 +6,6 @@
 package be.howest.ti.breakout.domain.fieldeffects;
 
 import be.howest.ti.breakout.domain.effects.Effect;
-import be.howest.ti.breakout.domain.effects.TimerTaskEffect;
 import be.howest.ti.breakout.domain.game.Level;
 import java.util.Timer;
 

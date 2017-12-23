@@ -33,7 +33,7 @@
       </div>
     </div>
       <div class="center-align">
-          <input id="text" type="text" value="http://localhost:8080/Project_Breakout/gameControllerPage.html?gameID=1" class="center-align"/>
+          <input id="text" type="text" value="http://localhost:8080/Project_Breakout/gameControllerPage.html?gameID=1" class="center-align" hidden="hidden"/>
           <div id="qrcode" class="center-align"></div>
       </div>
     <div class="modal-footer">
@@ -56,6 +56,7 @@
   </header>
   <div><div class="row separator"></div></div>
   <main>
+    <div class="row"><section id="livesArea" class="col s4 offset-s4"></section></div>
     <div class="row">
       <div class="col s1 offset-s1">
         <section>
@@ -66,12 +67,13 @@
         <div id="pauseBtn" class="btn red white-text">Pause</div>
         <section id="game-area" class="center-align"></section>
       </div>
-    </div>
-    <div class="row">
-      <div id="iconArea" class="col s6 offset-s3">
-
+      <div class="col s1">
+        <section>
+          <div id="spells"></div>
+        </section>
       </div>
     </div>
+    <div class="row"><div id="powerUpArea" class="col s6 offset-s3"></div></div>
   </main>
   <div><div class="row separator"></div></div>
   <footer class="page-footer">

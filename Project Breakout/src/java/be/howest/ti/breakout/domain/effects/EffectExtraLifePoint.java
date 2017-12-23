@@ -11,21 +11,19 @@ package be.howest.ti.breakout.domain.effects;
  */
 public class EffectExtraLifePoint extends Effect{
 
-    public EffectExtraLifePoint(String name, int duration) {
-        super(name, duration);
+    public EffectExtraLifePoint(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
     public void activate() {
         setRunning();
-        System.out.println("activated extraLife");
         LevelOfEffect.getGame().setLives(LevelOfEffect.getGame().getLives() + 1);
         setDeActive();
     }
 
     @Override
     public void deActivate() {
-        System.out.println("added Extra Life");
         setDone();
     }
 

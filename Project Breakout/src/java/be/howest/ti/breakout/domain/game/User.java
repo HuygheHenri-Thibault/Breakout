@@ -5,7 +5,6 @@
  */
 package be.howest.ti.breakout.domain.game;
 
-import be.howest.ti.breakout.domain.spells.Spell;
 
 /**
  *

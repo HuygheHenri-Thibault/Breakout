@@ -8,8 +8,6 @@ package be.howest.ti.breakout.domain;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Player;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
 
 /**
  *
@@ -19,9 +17,8 @@ public final class Pallet extends Rectangle {
    
     private Sprite s;
     private final Player player;
-    //private final Level level;
     
-    private final int originalLenght; //check this later
+    private final int originalLenght; 
    
     private final int INIT_PALLET_X;
     private final int INIT_PALLET_Y;
@@ -36,7 +33,6 @@ public final class Pallet extends Rectangle {
     public Pallet(Player player, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
         this.player = player;
-        //this.level = level;
         this.s = new Sprite(color);
         this.originalSpeed = speed;
         this.speed = speed;
@@ -52,11 +48,6 @@ public final class Pallet extends Rectangle {
     public int getOriginalLenght() {
         return originalLenght;
     }
-
-//    @Override
-//    public Level getLevel() {
-//        return level;
-//    }
 
     public float getSpeed() {
         return speed;
@@ -94,42 +85,6 @@ public final class Pallet extends Rectangle {
         setX(INIT_PALLET_X);
         setY(INIT_PALLET_Y);
     }
-
-    //voor swing
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            moveLeft();
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            moveRight();
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            stopMoving();
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            stopMoving();
-        }
-    }
-    //
-
-//    public void toggleDx() {
-//        if (dx > 0) {
-//            dx = -speed;
-//        } else {
-//            dx = speed;
-//        }
-//    }
     
     public void move() {
         this.setX((int) (this.getX() + dx));
@@ -155,7 +110,6 @@ public final class Pallet extends Rectangle {
         this.dx = dx;
     }
 
-    //kan dit veranderen, ipv shape terug te geven, geef gew de functie terug, bv -> checkCollission voor left boundary roept direct updateSpritePalletAfterCollission with left boundary op
     private Shape collidesWithOtherRectangleOrBoundaries() {
         for (Shape s : getLevel().getAllEntities()) {
             if (this.getX() != s.getX()) {

@@ -44,7 +44,6 @@ public final class AllPowerUps {
     }
     
     private PowerUpOrDown getRandomPowerUp(Random r, int min, int max){
-        //((max-min) + 1) + min 
         int randomNumber = r.nextInt((max - min) + 1) + min;
         return powerUps.get(randomNumber);
     }

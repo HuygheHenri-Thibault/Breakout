@@ -13,6 +13,7 @@ import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.Rectangle;
 import be.howest.ti.breakout.domain.Shape;
+import be.howest.ti.breakout.domain.effects.Effect;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Guest;
 import be.howest.ti.breakout.domain.game.Player;
@@ -188,8 +189,26 @@ public class GameSocket {
         for (PowerUpOrDown power : sessionGame.get(in).getLevelPlayedRightNow().getAllActivePowerUps()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("name", power.getName());
+            JSONObject jsonOb = new JSONObject();
+            int j = 0;
+            for (Effect effect : power.getEffects()) {
+                jsonOb.put("effect "+ j, effect.getDescription());
+                j++;
+            }
+            resultObj.put("descriptions", jsonOb);
+            jsonObject.put("icon", power.getIconPath());
             resultObj.put(""+i, jsonObject);
             i++;
+        }
+        return resultObj;
+    }
+    
+    private JSONObject makeEffectsObject(List<Effect> effects) {
+        JSONObject resultObj = new JSONObject();
+        int i = 0;
+        for (Effect effect : effects) {
+          resultObj.put("effect "+ i, effect.getDescription());
+          i++;
         }
         return resultObj;
     }
@@ -198,9 +217,12 @@ public class GameSocket {
         JSONObject resultObj = new JSONObject();
         int i = 0;
         for (Map.Entry<Player, Spell> spell : sessionGame.get(in).getLevelPlayedRightNow().getAllSpellsInGame().entrySet()) {
-            if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
+            if(spell.getValue().getStatus() == SpellStatus.COOLDOWN){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", spell.getValue().getName());
+                jsonObject.put("cooldown", spell.getValue().getCooldown());
+                jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
+                //jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
                 resultObj.put(""+i, jsonObject);
                 i++;
             }
@@ -212,6 +234,7 @@ public class GameSocket {
         JSONObject resultObj = new JSONObject();
         resultObj.put("type", "gameInfo");
         resultObj.put("players", makePlayersObject(in));
+        resultObj.put("levelNumber", sessionGame.get(in).getLevelPlayedRightNow().getNumber());
         resultObj.put("lives", sessionGame.get(in).getLives());
         resultObj.put("levelTotalScore", sessionGame.get(in).getLevelPlayedRightNow().getCollectiveScore());
         resultObj.put("gameTotalScore", sessionGame.get(in).getTotalGameScore());
@@ -220,6 +243,7 @@ public class GameSocket {
         resultObj.put("spells", makeSpellsObject(in));
         resultObj.put("completed", sessionGame.get(in).getLevelPlayedRightNow().isCompleted() + "");
         resultObj.put("gameover", sessionGame.get(in).isGameOver() + "");
+        resultObj.put("fieldEffect", sessionGame.get(in).getLevelPlayedRightNow().getFieldEffect().getName());
         return resultObj;
     }
 
@@ -270,6 +294,7 @@ public class GameSocket {
                 Brick brick = (Brick) aSpirte;
                 spriteObj.put("width", Math.round(brick.getLength())); // x
                 spriteObj.put("height", Math.round(brick.getHeight())); // y
+                spriteObj.put("hits", brick.getHits());
                 break;
             case "Rectangle":
                 Rectangle rect = (Rectangle) aSpirte;
@@ -328,12 +353,8 @@ public class GameSocket {
 
     @OnClose
     public void onClose(Session s) {
-//        if (sessionGame.get(s) != null) {
-//            if (sessionGame.get(s).getLevelPlayedRightNow() != null) {
-//                if ((!sessionGame.get(s).isGameOver() && sessionGame.get(s).getLevelPlayedRightNow() != null) || (sessionGame.get(s).getLevelPlayedRightNow() != null && !sessionGame.get(s).getLevelPlayedRightNow().isCompleted())) {
-//                    sessionGame.get(s).getLevelPlayedRightNow().endLevel();
-//                }
-//            }
-//        }
+        if (sessionGame.get(s) != null) {
+            sessionGame.get(s).endGame();
+        }
     }
 }

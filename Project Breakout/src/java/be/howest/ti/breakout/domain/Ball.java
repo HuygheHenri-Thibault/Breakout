@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Player;
-import java.awt.Image;
 import java.io.Serializable;
 import java.util.List;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
@@ -20,7 +19,7 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 public class Ball extends Circle implements Serializable{
     
     private final Level level;
-    private Sprite s; // weet niet of nog nodig?
+    private Sprite s; 
     
     private final int INIT_BALL_X;
     private final int INIT_BALL_Y;
@@ -299,7 +298,6 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void updateSpriteAfterCollidingWithBall(Ball ball){
-        System.out.println("touched");
         if(getX() < ball.getX()){
             while(checkCollissionWithCircle(ball)){
                 setX(getX() - 1);

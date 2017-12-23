@@ -6,7 +6,6 @@
 package be.howest.ti.breakout.domain;
 
 import be.howest.ti.breakout.domain.game.Level;
-import java.awt.Image;
 import be.howest.ti.breakout.domain.powerUps.NoPower;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
@@ -27,13 +26,11 @@ public class Brick extends Rectangle{
     public Brick(Level level, int lenght, int height, int hits, int achievedScoreForPlayer, PowerUpOrDown power, String color, int x, int y) {
         super(level, x, y, lenght, height);
         this.s = new Sprite(color);
-        //this.br = br;
         this.hits = hits;
         this.achievedScoreForPlayer = achievedScoreForPlayer;
         this.powerUp = power;
     }
     
-
     public int getHits() {
         return hits;
     }
@@ -65,6 +62,6 @@ public class Brick extends Rectangle{
     
     @Override
     public String toString() {
-        return "Brick " + s.getColor(); // kleur ophalen moet naar shape gebracht worden
+        return "Brick " + s.getColor();
     }
 }

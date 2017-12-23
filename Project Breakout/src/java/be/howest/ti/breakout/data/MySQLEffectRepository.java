@@ -33,6 +33,7 @@ import be.howest.ti.breakout.util.BreakoutException;
 public class MySQLEffectRepository implements EffectRepository{
     private static final String FIELD_ID = "id";
     private static final String FIELD_NAME = "name";
+    private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_DURATION = "duration";
     
     private static final String GET_ALL_EFFECTS = "SELECT * FROM effect";
@@ -60,45 +61,46 @@ public class MySQLEffectRepository implements EffectRepository{
     
     private Effect createEffect(ResultSet rs) throws SQLException{
         String name = rs.getString(FIELD_NAME);
+        String description = rs.getString(FIELD_DESCRIPTION);
         int duration = rs.getInt(FIELD_DURATION);
-        return createEffectClassBasedOnName(name, duration);
+        return createEffectClassBasedOnName(name, description, duration);
     }
     
-    private Effect createEffectClassBasedOnName(String name, int duration){
+    private Effect createEffectClassBasedOnName(String name, String description, int duration){
         Effect effect = null;
         switch(name){
             case"quickerPallet":
-                effect = new EffectQuickerPallet(name, duration);
+                effect = new EffectQuickerPallet(name, description, duration);
                 break;
             case"biggerPallet":
-                effect = new EffectBiggerPallet(name, duration);
+                effect = new EffectBiggerPallet(name, description, duration);
                 break;
             case"extraBall":
-                effect = new EffectExtraBall(name, duration);
+                effect = new EffectExtraBall(name, description, duration);
                 break;
             case"straightDownBall":
-                effect = new EffectStraightDownBall(name, duration);
+                effect = new EffectStraightDownBall(name, description, duration);
                 break;
             case"slowerPallet":
-                effect = new EffectSlowerPallet(name, duration);
+                effect = new EffectSlowerPallet(name, description, duration);
                 break;
             case"littlePallet":
-                effect = new EffectSmallerPallet(name, duration);
+                effect = new EffectSmallerPallet(name, description, duration);
                 break;
             case"oneLifeLeft":
-                effect = new EffectOneLifeLeft(name, duration);
+                effect = new EffectOneLifeLeft(name, description, duration);
                 break;
             case"extraLife":
-                effect = new EffectExtraLifePoint(name, duration);
+                effect = new EffectExtraLifePoint(name, description, duration);
                 break;
             case"fireBall":
-                effect = new EffectDragonFireBall(name, duration);
+                effect = new EffectDragonFireBall(name, description, duration);
                 break;
             case"webs":
-                effect = new EffectWebs(name, duration);
+                effect = new EffectWebs(name, description, duration);
                 break;
             case"shadow":
-                effect = new EffectShadow(name, duration);
+                effect = new EffectShadow(name, description, duration);
                 break;
             default:
                 break;

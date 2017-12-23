@@ -5,7 +5,6 @@
  */
 package be.howest.ti.breakout.domain.effects;
 
-import be.howest.ti.breakout.domain.Brick;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,66 +14,37 @@ import java.util.Timer;
  *
  * @author Fredr
  */
-public class EffectShadow extends Effect{
+public class EffectShadow extends Effect {
+
     private int palletIdSetInvisible;
 
-    public EffectShadow(String name, int duration) {
-        super(name, duration);
+    public EffectShadow(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
     public void activate() {
-        System.out.println("activated shadow");
         Random generator = new Random();
-        int chance = generator.nextInt((20 - 1) + 0) + 1;
-        if(chance == 20){
-            int max = 10;
-            if(LevelOfEffect.getBricks().size() < 10){
-                max = LevelOfEffect.getBricks().size();
-            }
-            List<Integer> bricksNumbers = generateBrickNumbers(1, max);
-            for (Integer brickIndex : bricksNumbers) {
-                int randomDamage = generator.nextInt((5 - 1) + 1) + 1;
-                LevelOfEffect.getBricks().get(brickIndex).decrementHits(randomDamage);
-            }
+        if (LevelOfEffect.getPallets().size() == 1) {
+            palletIdSetInvisible = 0;
         } else {
-            if(LevelOfEffect.getPallets().size() == 1){
-                palletIdSetInvisible = 0;
-            } else {
-                palletIdSetInvisible = generator.nextInt(((getLevelOfEffect().getPallets().size() - 1) - 0) + 0) + 0;
-            }
-            LevelOfEffect.getPallets().get(palletIdSetInvisible).setInvisible();
-            setRunning();
-            TimerEffect = new Timer();
-            TimerEffect.scheduleAtFixedRate(new TimerTaskEffect(this), 0, 1000);
+            palletIdSetInvisible = generator.nextInt(((getLevelOfEffect().getPallets().size() - 1) - 0) + 0) + 0;
         }
+        LevelOfEffect.getPallets().get(palletIdSetInvisible).setInvisible();
+        setRunning();
+        TimerEffect = new Timer();
+        TimerEffect.scheduleAtFixedRate(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated shadow");
-        if(hasTimer()){
-            TimerEffect.cancel();
-        }
+        TimerEffect.cancel();
         LevelOfEffect.getPallets().get(palletIdSetInvisible).setVisible();
         setDone();
-    }
-    
-    private List<Integer> generateBrickNumbers(int min, int max){
-        List<Integer> randomIndexOfBricks = new ArrayList<>();
-        Random generator = new Random();
-        int numberOfBrickIndexChoices = generator.nextInt((max - min) + 0) + min;
-        for (int i = 0; i < numberOfBrickIndexChoices; i++) {
-            int randomChoiceOfBrickIndex = generator.nextInt((getLevelOfEffect().getBricks().size() - 0) + 0) + 0;
-            if(!randomIndexOfBricks.contains(randomChoiceOfBrickIndex)){
-                randomIndexOfBricks.add(randomChoiceOfBrickIndex);
-            }
-        }
-        return randomIndexOfBricks;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " shadow"; 
+        return super.toString() + " shadow";
     }
 }

@@ -13,8 +13,8 @@ import be.howest.ti.breakout.domain.Ball;
  */
 public final class EffectStraightDownBall extends Effect{
 
-    public EffectStraightDownBall(String name, int duration) {
-        super(name, duration);
+    public EffectStraightDownBall(String name, String description, int duration) {
+        super(name, description, duration);
     }
     
     @Override
@@ -28,13 +28,11 @@ public final class EffectStraightDownBall extends Effect{
             extraBallCreatedByEffect.setDx(0);
             extraBallCreatedByEffect.setDy(extraBallCreatedByEffect.getSpeed() / 2);    
         }
-        System.out.println("activated gravity");
         setDeActive();
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated gravity");
         setDone();
     }
     

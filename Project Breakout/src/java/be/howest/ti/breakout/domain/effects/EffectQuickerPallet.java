@@ -13,8 +13,8 @@ import java.util.Timer;
  */
 public final class EffectQuickerPallet extends Effect{
 
-    public EffectQuickerPallet(String name, int duration) {
-        super(name, duration);
+    public EffectQuickerPallet(String name, String description, int duration) {
+        super(name, description, duration);
     }
 
     @Override
@@ -22,8 +22,6 @@ public final class EffectQuickerPallet extends Effect{
         setRunning();
         
         playerPallet.setSpeed(getPlayerPallet().getSpeed() + 1);
-        
-        System.out.println("activated bullet time");
       
         TimerEffect = new Timer();
         TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
@@ -31,7 +29,6 @@ public final class EffectQuickerPallet extends Effect{
     
     @Override
     public void deActivate() {
-        System.out.println("deactivated bullet time");
         TimerEffect.cancel();
         playerPallet.setSpeed(getPlayerPallet().getSpeed() - 1);
         setDone();
