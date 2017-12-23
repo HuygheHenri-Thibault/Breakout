@@ -58,7 +58,8 @@ public class ControllerServlet extends HttpServlet {
             case "/LogOutUser":
                 HttpSession session = request.getSession();
                 session.invalidate();
-                request.getRequestDispatcher("index.html").forward(request, response);
+                response.sendRedirect("index.html");
+//                request.getRequestDispatcher("index.html").forward(request, response);
                 break;
             case "/editUser":
                 this.edit(request, response);
