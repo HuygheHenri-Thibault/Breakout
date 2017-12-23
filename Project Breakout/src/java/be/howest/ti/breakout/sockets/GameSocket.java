@@ -203,6 +203,16 @@ public class GameSocket {
         return resultObj;
     }
     
+    private JSONObject makeEffectsObject(List<Effect> effects) {
+        JSONObject resultObj = new JSONObject();
+        int i = 0;
+        for (Effect effect : effects) {
+          resultObj.put("effect "+ i, effect.getDescription());
+          i++;
+        }
+        return resultObj;
+    }
+    
     private JSONObject makeSpellsObject(Session in) {
         JSONObject resultObj = new JSONObject();
         int i = 0;
@@ -210,13 +220,9 @@ public class GameSocket {
             if(spell.getValue().isActivated() == SpellStatus.COOLDOWN){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("name", spell.getValue().getName());
-                JSONObject jsonOb = new JSONObject();
-                int j = 0;
-                for (Effect effect : spell.getValue().getSpellEffects()) {
-                    jsonOb.put("effect "+ j, effect.getDescription());
-                    j++;
-                }
-                resultObj.put("descriptions", jsonOb);
+                jsonObject.put("cooldown", spell.getValue().getCooldown());
+                jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
+                //jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
                 resultObj.put(""+i, jsonObject);
                 i++;
             }

@@ -46,8 +46,6 @@ Player.prototype.move = function(keyMap) {
   }
 };
 
-var ip = 'x.x.x.x'; // TODO: voor later
-var port = ':8080';
 var lel = true //TODO: DELETE DIS
 
 var spellObj = {}; // TODO: move this to domain? makes the object empty everytime though?
@@ -298,7 +296,6 @@ var gui = function() {
   }
   function pushPowerup(oneSprite) {
     effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-    $('#powerUpArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
   }
   function showPlayerScores(players, totalScore) {
     $("#scoreInfo").html("");
@@ -316,9 +313,16 @@ var gui = function() {
     }
   }
   function showPowerups(powerups) {
-    $("#iconArea").html("");
+    $("#powerUpArea").html("");
     for(var power in powerups) {
-      $("#iconArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
+      $("#powerUpArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
+    }
+  }
+  function showSpells(spells) {
+    $("#spells").html("");
+    for(var spell in spells) {
+      console.log(spells[spell]);
+      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown'>"+spells[spell].cooldown+"</p></div></div>")
     }
   }
   // Public
@@ -328,7 +332,6 @@ var gui = function() {
     ball = [];
     bricks = [];
     effects = [];
-    $('#powerUpArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
@@ -358,6 +361,7 @@ var gui = function() {
     showPlayerScores(message.players, message.levelTotalScore);
     showLives(message.lives);
     showPowerups(message.powerupsActive);
+    showSpells(message.spells);
   };
   return {drawFromPosistion, gameInfo, setImages};
 }();
