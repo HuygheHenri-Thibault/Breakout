@@ -8,10 +8,10 @@ import be.howest.ti.breakout.domain.game.User;
 import java.util.List;
 
 public interface HighscoreRepository {
-    public List<SinglePlayerHighscore> getAllSingleplayerHighscores();
+    public List<SinglePlayerHighscore> getTop10SingleplayerHighscores();
     public SinglePlayerHighscore getUserHighscore(User u);
     public void updateSinglePlayerHighscore(SinglePlayerHighscore sph);
-    public List<MultiPlayerHighscore> getAllMultiplayerScores();
+    public List<MultiPlayerHighscore> getTop10MultiplayerScores();
     public int insertScoreIntoMultiplayerScores(int totalscore);
     public void insertPlayerScoresForMultiplayer(Player player, int multiplayerID, int score);
 }

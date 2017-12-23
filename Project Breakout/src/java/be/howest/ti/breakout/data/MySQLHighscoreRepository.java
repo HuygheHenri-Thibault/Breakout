@@ -29,19 +29,19 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     private static final String FIELD_SCORE = "score";
     private static final String FIELD_MULTIPLAYERSCORE = "id";
 
-    private static final String GET_ALL_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM user WHERE id > 4 ORDER BY spHighscore DESC";
+    private static final String GET_TOP10_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM user WHERE id > 4 ORDER BY spHighscore DESC LIMIT 10";
     private static final String GET_USERS_SINGLEPLAYERHIGHSCORES = "SELECT username, spHighscore FROM user WHERE user_id = ?";
     private static final String UPDATE_SINGLEPLAYERHIGHSCORE = "UPDATE user SET spHighscore = ? WHERE username = ?";
     private static final String DELETE_HIGHSCORE = "DELETE * FROM userhighscore WHERE user_id = ? AND highscore = ?";
-    private static final String GET_TOP10__MULTIPLAYER_SCORES = "select * from multiplayerhighscore ORDER BY totalScore DESC";
+    private static final String GET_TOP10__MULTIPLAYER_SCORES = "select * from multiplayerhighscore ORDER BY totalScore DESC LIMIT 10";
     private static final String GET_ALL_PLAYERS_FROM_MULTIPLAYER = "select * from multiplayerscores where multiplayerID = ? order by score DESC";
     private static final String INSERT_MULTIPLAYER_SCORE = "INSERT INTO multiplayerhighscore(totalScore) values(?)";
     private static final String INSERT_PLAYER_SCORE_FROM_MULTIPLAYER = "INSERT INTO multiplayerscores(username, multiplayerID, score) values(?, ?, ?)";
 
     @Override
-    public List<SinglePlayerHighscore> getAllSingleplayerHighscores() {
+    public List<SinglePlayerHighscore> getTop10SingleplayerHighscores() {
         try(Connection con = MySQLConnection.getConnection();
-            PreparedStatement stmt = con.prepareStatement(GET_ALL_SINGLEPLAYERHIGHSCORES)) {
+            PreparedStatement stmt = con.prepareStatement(GET_TOP10_SINGLEPLAYERHIGHSCORES)) {
             try(ResultSet rs = stmt.executeQuery()) {
                 List<SinglePlayerHighscore> spHighscores = new ArrayList<>();
                 while (rs.next()) {
@@ -93,7 +93,7 @@ public class MySQLHighscoreRepository implements HighscoreRepository {
     }
 
     @Override
-    public List<MultiPlayerHighscore> getAllMultiplayerScores() {
+    public List<MultiPlayerHighscore> getTop10MultiplayerScores() {
         try (Connection con = MySQLConnection.getConnection();
                 PreparedStatement stmt = con.prepareStatement(GET_TOP10__MULTIPLAYER_SCORES)) {
             try (ResultSet rs = stmt.executeQuery()) {

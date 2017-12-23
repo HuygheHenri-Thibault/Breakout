@@ -36,7 +36,7 @@ public class MySQLUserRepository implements UserRepository {
     private static final String GET_ALL_USERS = "SELECT * FROM breakout.user WHERE id > 4";
     private static final String GET_USER_WITH_ID = "SELECT * FROM breakout.user WHERE id = ?";
     private static final String GET_USER_WITH_USERNAME = "SELECT * FROM breakout.user WHERE username like ?";
-    private static final String GET_TOP_10_TOTALSCORES_FROM_USERS = "SELECT * FROM breakout.user WHERE id > 4 ORDER BY totalHighscore DESC";
+    private static final String GET_TOP_10_TOTALSCORES_FROM_USERS = "SELECT * FROM breakout.user WHERE id > 4 ORDER BY totalHighscore DESC LIMIT 10";
     private static final String ADD_USER = "INSERT INTO breakout.user (username, password, email) VALUES(?, ?, ?)";
     private static final String DELETE_USER = "DELETE FROM breakout.user WHERE id = ? AND username = ? AND password = ?";
     private static final String UPDATE_TOTALSCORE_USER = "UPDATE breakout.user SET totalHighscore = ? WHERE id = ?";
