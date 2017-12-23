@@ -24,7 +24,6 @@ public class EffectDragonFireBall extends Effect{
     public void activate() {
         setRunning();
         fireBallsCreated.add(LevelOfEffect.createExtraFireBall(this));
-        System.out.println("activated fireBall");
     }
 
     @Override
@@ -32,7 +31,6 @@ public class EffectDragonFireBall extends Effect{
         for (Fireball fireBall : fireBallsCreated) {
             fireBall.removeFromScreen();
         }
-        System.out.println("deactivated fireball");
         setDone();
     }
     

@@ -298,7 +298,6 @@ public class Ball extends Circle implements Serializable{
     }
     
     public void updateSpriteAfterCollidingWithBall(Ball ball){
-        System.out.println("touched");
         if(getX() < ball.getX()){
             while(checkCollissionWithCircle(ball)){
                 setX(getX() - 1);

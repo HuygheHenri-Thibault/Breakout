@@ -5,7 +5,6 @@
  */
 package be.howest.ti.breakout.factories;
 
-import be.howest.ti.breakout.domain.game.Game;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  */
 public class FactoryBreakoutUtilities {
     protected List<String> usedColors = new ArrayList<>();
-    protected final List<String> colors = new ArrayList<>(); //{"red", "green", "yellow", "blue", "purple"};
+    protected final List<String> colors = new ArrayList<>();
      
     protected String findUnusedColor() {
         for (int i = 0; i < colors.size(); i++) {

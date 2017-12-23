@@ -253,7 +253,7 @@ CREATE TABLE `powerupsdowns` (
 
 LOCK TABLES `powerupsdowns` WRITE;
 /*!40000 ALTER TABLE `powerupsdowns` DISABLE KEYS */;
-INSERT INTO `powerupsdowns` VALUES (1,'U','Bullet time',5,'bullet-time','Bullet time BABY!'),(2,'U','Scaffolds',5,'scaffolds','Time to get high'),(3,'U','Double Trouble',5,'double-trouble','Prepare for trouble and make it double'),(4,'D','Gravity',5,'gravity','No, not the movie.'),(5,'D','Slowed',5,'slowed','Allez'),(6,'D','Shrunk',5,'shrunk','There are pils for that you know.'),(7,'D','Sudden death',5,'sudden-death','FIGHT FOR YOUR LIFE');
+INSERT INTO `powerupsdowns` VALUES (1,'U','Bullet time',5,'bullet-time','Your pallet goes quicker.'),(2,'U','Scaffolds',5,'scaffolds','Your pallet gets bigger.'),(3,'U','Double Trouble',5,'double-trouble','You get an extra ball.'),(4,'D','Gravity',5,'gravity','All balls go straight down.'),(5,'D','Slowed',5,'slowed','Your pallet goes slower.'),(6,'D','Shrunk',5,'shrunk','Your pallet gets smaller.'),(7,'D','Sudden death',5,'sudden-death','You only have only life left.');
 /*!40000 ALTER TABLE `powerupsdowns` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -15,10 +15,6 @@ import be.howest.ti.breakout.util.BreakoutException;
  * @author Henri
  */
 public class MySQLConnection {
-//    private static String URL = "jdbc:mysql://sql11.freemysqlhosting.net:3306/sql11212117";
-//    private static String UID = "sql11212117";
-//    private static String PWD = "rFAKYzd6tA";
- 
     private static final String URL = "jdbc:mysql://localhost/breakout";
     private static final String UID = "usrbreakout";
     private static final String PWD = "TIbreakout2017";

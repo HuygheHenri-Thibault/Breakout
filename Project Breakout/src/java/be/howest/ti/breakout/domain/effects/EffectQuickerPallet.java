@@ -22,8 +22,6 @@ public final class EffectQuickerPallet extends Effect{
         setRunning();
         
         playerPallet.setSpeed(getPlayerPallet().getSpeed() + 1);
-        
-        System.out.println("activated bullet time");
       
         TimerEffect = new Timer();
         TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
@@ -31,7 +29,6 @@ public final class EffectQuickerPallet extends Effect{
     
     @Override
     public void deActivate() {
-        System.out.println("deactivated bullet time");
         TimerEffect.cancel();
         playerPallet.setSpeed(getPlayerPallet().getSpeed() - 1);
         setDone();

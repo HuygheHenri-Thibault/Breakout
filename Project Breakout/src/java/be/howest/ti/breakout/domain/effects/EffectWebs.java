@@ -37,7 +37,6 @@ public class EffectWebs extends Effect{
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated webs");
         for (Web web : websCreated) {
             web.removeYourselfNow();
         }

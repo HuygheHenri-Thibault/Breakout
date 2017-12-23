@@ -8,7 +8,6 @@ package be.howest.ti.breakout.domain;
 import be.howest.ti.breakout.domain.fieldeffects.Web;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Player;
-import java.awt.event.KeyEvent;
 
 /**
  *
@@ -18,7 +17,6 @@ public final class Pallet extends Rectangle {
    
     private Sprite s;
     private final Player player;
-    //private final Level level;
     
     private final int originalLenght; 
    
@@ -35,7 +33,6 @@ public final class Pallet extends Rectangle {
     public Pallet(Player player, String color, Level level, int x, int y, int length, float speed) {
         super(level, x, y, length, 10);
         this.player = player;
-        //this.level = level;
         this.s = new Sprite(color);
         this.originalSpeed = speed;
         this.speed = speed;
@@ -88,34 +85,6 @@ public final class Pallet extends Rectangle {
         setX(INIT_PALLET_X);
         setY(INIT_PALLET_Y);
     }
-
-    //voor swing
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            moveLeft();
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            moveRight();
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_LEFT) {
-            stopMoving();
-        }
-
-        if (key == KeyEvent.VK_RIGHT) {
-            stopMoving();
-        }
-    }
-    //
     
     public void move() {
         this.setX((int) (this.getX() + dx));

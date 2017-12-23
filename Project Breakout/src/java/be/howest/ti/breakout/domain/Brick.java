@@ -62,6 +62,6 @@ public class Brick extends Rectangle{
     
     @Override
     public String toString() {
-        return "Brick " + s.getColor(); // kleur ophalen moet naar shape gebracht worden
+        return "Brick " + s.getColor();
     }
 }

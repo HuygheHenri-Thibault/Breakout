@@ -11,7 +11,7 @@ import java.util.TimerTask;
  *
  * @author Fredr
  */
-public class TimerTaskWeb extends TimerTask {
+public final class TimerTaskWeb extends TimerTask {
 
     private final Web web;
 

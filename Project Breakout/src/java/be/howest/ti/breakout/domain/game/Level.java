@@ -30,9 +30,6 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 import be.howest.ti.breakout.domain.spells.Spell;
 import be.howest.ti.breakout.domain.spells.SpellStatus;
 import be.howest.ti.breakout.factories.FactoryBricks;
-import be.howest.ti.breakout.swing.ScheduleLevelTaskerSwing;
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -44,9 +41,6 @@ public final class Level{
     private Game game;
     private Timer timer;
     private LevelTasker taskForLevel;
-    //swing
-    private ScheduleLevelTaskerSwing taskForLevelSwing;
-    //
    
     private final FactoryBricks factoryBrick;
     private final FactoryPallet factoryPallet;
@@ -105,6 +99,10 @@ public final class Level{
     
     public int getNumber() {
         return number;
+    }
+    
+    public boolean hasLevelStarted(){
+        return timer != null;
     }
     
     public void startLevel(){
@@ -251,7 +249,6 @@ public final class Level{
     
     public final void createNewRandomSpells(){
         for (Player player : game.getPlayers()) {
-            //System.out.println(player.getName());
             spellsChoices.put(player, new ArrayList<>());
         }
         for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
@@ -262,11 +259,6 @@ public final class Level{
                 } else {
                     i--;
                 }
-            }
-        }
-        for (Map.Entry<Player, List<Spell>> entry : spellsChoices.entrySet()) {
-            for (Spell spell : entry.getValue()) {
-                System.out.println(spell.getName());
             }
         }
     }
@@ -486,7 +478,7 @@ public final class Level{
                     spellEffect.setDeActive();
                  }
              }
-             if(entry.getValue().isActivated() != SpellStatus.READY){
+             if(entry.getValue().getStatus() != SpellStatus.READY){
                 entry.getValue().setReady();
                 entry.getValue().stopCooldown();
                 entry.getValue().setCoolDown(entry.getValue().getOriginalCoolDown());
@@ -515,45 +507,5 @@ public final class Level{
             game.addToTotalScoreDuringGame(entry.getKey(), entry.getValue());
         }
     }
-    
-    
-    
-     //voor swing
-    public void startLevel(ScheduleLevelTaskerSwing s){
-        timer = new Timer();
-        taskForLevelSwing = s;
-        timer.scheduleAtFixedRate(s, 1000, 15);
-        fieldEffect.doEffect();
-    }
-    
-    public void pauseLevelSwing(){
-        this.taskForLevelSwing.setPaused(true);
-        pauseEffects();
-    }
-    
-    public void unpauseLevelSwing(){
-        this.taskForLevelSwing.setPaused(false);
-        resumeEffects();
-    }
-    
-    //voor swing
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_W) {
-            pauseLevelSwing();
-        }
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-        int key = e.getKeyCode();
-        
-        if (key == KeyEvent.VK_W) {
-            unpauseLevelSwing();
-        }
-    }
-    //
     
 }

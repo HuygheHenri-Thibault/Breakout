@@ -56,7 +56,7 @@ public final class LevelTasker extends TimerTask {
             
            for (ListIterator<PowerUpOrDown> iter = level.getAllActivePowerUps().listIterator(); iter.hasNext();) {
                 PowerUpOrDown power = iter.next();
-                switch (power.isActivated()) {
+                switch (power.getStatus()) {
                     case ACTIVE:
                         power.activate();
                         break;
@@ -78,7 +78,7 @@ public final class LevelTasker extends TimerTask {
             }
 
             for (Map.Entry<Player, Spell> entry : level.getAllSpellsInGame().entrySet()) {
-                switch (entry.getValue().isActivated()) {
+                switch (entry.getValue().getStatus()) {
                     case ACTIVE:
                         entry.getValue().cast();
                         break;

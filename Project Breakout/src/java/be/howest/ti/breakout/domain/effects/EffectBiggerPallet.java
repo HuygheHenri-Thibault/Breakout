@@ -23,15 +23,12 @@ public final class EffectBiggerPallet extends Effect{
         
         playerPallet.setLength((int) (playerPallet.getLength() + (playerPallet.getOriginalLenght()* 0.2)));
         
-        System.out.println("activated scaffolds");
-      
         TimerEffect = new Timer();
         TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated scaffolds");
         TimerEffect.cancel();
         playerPallet.setLength((int) (playerPallet.getLength() - (playerPallet.getOriginalLenght()* 0.2)));
         setDone();

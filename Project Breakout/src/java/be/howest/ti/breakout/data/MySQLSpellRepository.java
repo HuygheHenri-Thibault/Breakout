@@ -46,9 +46,8 @@ public class MySQLSpellRepository implements SpellRepository{
         }
     }
 
-    //voor test
     @Override
-    public List<ZelfstandigNaamwoord> getHardcodedZelfstandigeNaamwoorden() {
+    public List<ZelfstandigNaamwoord> getAllZelfstandigeNaamwoorden() {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement prep = con.prepareStatement(SELECT_ALL_NOUNS);
             ResultSet rs = prep.executeQuery();){
@@ -70,7 +69,7 @@ public class MySQLSpellRepository implements SpellRepository{
     }
     
     @Override
-    public List<BijvoegelijkNaamwoord> getHardCodedBijvoegelijkeNaamwoorden() {
+    public List<BijvoegelijkNaamwoord> getAllBijvoegelijkeNaamwoorden() {
         try(Connection con = MySQLConnection.getConnection();
             PreparedStatement prep = con.prepareStatement(SELECT_ALL_ADJACTIVES);
             ResultSet rs = prep.executeQuery();){

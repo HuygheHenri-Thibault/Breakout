@@ -25,7 +25,6 @@ public final class EffectExtraBall extends Effect {
         if(!hasUserAlreadyActivatedThisEffect()){
             setRunning();
             extraBallCreated = LevelOfEffect.createExtraBall(this);
-            System.out.println("activated");
         } else {
             setDone();
         }
@@ -33,7 +32,6 @@ public final class EffectExtraBall extends Effect {
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated double trouble");
         extraBallCreated.removeFromScreen();
         setDone();
     }

@@ -16,6 +16,6 @@ import be.howest.ti.breakout.domain.spells.ZelfstandigNaamwoord;
  */
 public interface SpellRepository {
     public List<Woord> getAllWords();
-    public List<ZelfstandigNaamwoord> getHardcodedZelfstandigeNaamwoorden(); //voor testen
-    public List<BijvoegelijkNaamwoord> getHardCodedBijvoegelijkeNaamwoorden();
+    public List<ZelfstandigNaamwoord> getAllZelfstandigeNaamwoorden(); 
+    public List<BijvoegelijkNaamwoord> getAllBijvoegelijkeNaamwoorden();
 }

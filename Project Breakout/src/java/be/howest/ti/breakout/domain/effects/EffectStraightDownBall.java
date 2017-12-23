@@ -28,13 +28,11 @@ public final class EffectStraightDownBall extends Effect{
             extraBallCreatedByEffect.setDx(0);
             extraBallCreatedByEffect.setDy(extraBallCreatedByEffect.getSpeed() / 2);    
         }
-        System.out.println("activated gravity");
         setDeActive();
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated gravity");
         setDone();
     }
     

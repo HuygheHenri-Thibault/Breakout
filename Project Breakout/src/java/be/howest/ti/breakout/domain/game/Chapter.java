@@ -1,7 +1,7 @@
 
 package be.howest.ti.breakout.domain.game;
 
-public class Chapter {
+public final class Chapter {
     
     int id;
     String text;
