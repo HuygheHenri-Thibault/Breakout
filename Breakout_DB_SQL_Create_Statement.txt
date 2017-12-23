@@ -354,7 +354,7 @@ CREATE TABLE `user` (
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `profilePic` varchar(120) DEFAULT NULL,
+  `profilePic` varchar(120) NULL DEFAULT 'avatar.png',
   `exp` int(11) DEFAULT '0',
   `spHighscore` int(11) DEFAULT '0',
   `totalHighscore` int(11) DEFAULT '0',
