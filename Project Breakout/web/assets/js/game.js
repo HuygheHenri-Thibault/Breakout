@@ -222,6 +222,7 @@ var input = function() {
   async function nextLevel() {
     var messageObj = {type:"nextLevel"};
     socket.sendMessage(messageObj);
+    $("#formTotalScore").remove();
     $("#nextLvlBtn").remove();
     await domain.sleep(1000);
     var controllercols = $(".controllercol");
@@ -321,7 +322,11 @@ var gui = function() {
   function showSpells(spells) {
     $("#spells").html("");
     for(var spell in spells) {
-      console.log(spells[spell]);
+      if(lel) {
+        console.log(spells[spell]);
+        lel = !lel;
+      }
+
       $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown'>"+spells[spell].cooldown+"</p></div></div>")
     }
   }
@@ -385,10 +390,6 @@ var socket = function() {
           gui.drawFromPosistion(message);
           break;
         case "gameInfo":
-          if(lel) {
-            lel = !lel;
-            console.log(message);
-          }
           domain.checkGameState(message);
           gui.gameInfo(message);
           break;
