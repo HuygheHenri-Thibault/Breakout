@@ -5,7 +5,6 @@
  */
 package be.howest.ti.breakout.data;
 
-import java.util.List;
 import be.howest.ti.breakout.domain.powerUps.AllPowerUps;
 import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 

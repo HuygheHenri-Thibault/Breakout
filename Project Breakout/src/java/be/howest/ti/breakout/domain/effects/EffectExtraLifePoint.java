@@ -18,14 +18,12 @@ public class EffectExtraLifePoint extends Effect{
     @Override
     public void activate() {
         setRunning();
-        System.out.println("activated extraLife");
         LevelOfEffect.getGame().setLives(LevelOfEffect.getGame().getLives() + 1);
         setDeActive();
     }
 
     @Override
     public void deActivate() {
-        System.out.println("added Extra Life");
         setDone();
     }
 

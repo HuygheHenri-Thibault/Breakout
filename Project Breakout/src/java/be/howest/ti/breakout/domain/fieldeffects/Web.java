@@ -15,7 +15,7 @@ import java.util.Timer;
  *
  * @author Fredr
  */
-public class Web extends Circle{
+public final class Web extends Circle{
     private int timeLeft =  5;
     private Timer timeToLiveTimer = new Timer();
     private boolean pausedTimer = false;

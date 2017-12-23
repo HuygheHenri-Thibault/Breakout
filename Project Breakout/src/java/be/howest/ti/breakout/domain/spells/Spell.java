@@ -34,8 +34,7 @@ public class Spell{
     private static final int CHANCEFORONEWORD = 60;
     private static final int CHANCEFORTWOWORDS = CHANCEFORONEWORD + 30;
     private static final int CHANCEFORTHREEWORDS = CHANCEFORONEWORD + CHANCEFORTWOWORDS + 10;
-    
-    //status
+   
     private SpellStatus status = SpellStatus.READY;
 
     public Spell(Level level) {
@@ -96,8 +95,7 @@ public class Spell{
     }
     
     private ZelfstandigNaamwoord fetchNewZelfstandigNaamwoord(Random generator){
-        Repositories repos = new Repositories(); //nadat database is gefixt mag dit weg;
-        List<ZelfstandigNaamwoord> zelfstandigeNaamwoorden = repos.getSpellRepository().getHardcodedZelfstandigeNaamwoorden();
+        List<ZelfstandigNaamwoord> zelfstandigeNaamwoorden = Repositories.getSpellRepository().getAllZelfstandigeNaamwoorden();
         int max = (zelfstandigeNaamwoorden.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) + min;
@@ -105,8 +103,7 @@ public class Spell{
     }
     
     private BijvoegelijkNaamwoord fetchNewBijvoegelijkNaamwoord(Random generator){
-        Repositories repos = new Repositories(); //nadat database is gefixt mag dit weg;
-        List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = repos.getSpellRepository().getHardCodedBijvoegelijkeNaamwoorden();
+        List<BijvoegelijkNaamwoord> bijvoegelijkeNaamwoorden = Repositories.getSpellRepository().getAllBijvoegelijkeNaamwoorden();
         int max = (bijvoegelijkeNaamwoorden.size() - 1);
         int min = 0;
         int randomIndex = generator.nextInt((max - min) + 1) + min;
@@ -125,7 +122,7 @@ public class Spell{
     public void setActive(){status = SpellStatus.ACTIVE; level.updateSpellOfPlayer(player, this);}
     public void setDeActive(){status = SpellStatus.DEACTIVE; level.updateSpellOfPlayer(player, this);}
     public void setCoolDown(){status = SpellStatus.COOLDOWN; level.updateSpellOfPlayer(player, this);}
-    public SpellStatus isActivated(){return status;}
+    public SpellStatus getStatus(){return status;}
     
     public void setReadyToCast(){
         if(status == SpellStatus.READY){
@@ -185,15 +182,4 @@ public class Spell{
             }
         }
     }
-    
-    //voor swing
-    public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-
-        if (key == KeyEvent.VK_SPACE) {
-            setReadyToCast();
-        }
-    }
-    //
 }

@@ -8,10 +8,7 @@ package be.howest.ti.breakout.factories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.DoubleTroubleBall;
 import be.howest.ti.breakout.domain.Fireball;
-import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.Level;
-import java.util.ArrayList;
-import java.util.List;
 import be.howest.ti.breakout.domain.effects.EffectExtraBall;
 import be.howest.ti.breakout.domain.effects.EffectDragonFireBall;
 
@@ -43,8 +40,7 @@ public class FactoryBall extends FactoryBreakoutUtilities {
         int x =  startX + (nextXDistance * multiplierDistance);
         int y = (level.getGameHeight()/ 10) * 6;
         
-        int speed = 3 * Math.round(level.getRatios().get(1).getRatio());//original 2
-        //System.out.println(speed);
+        int speed = 3 * Math.round(level.getRatios().get(1).getRatio());
         
         Ball b = new Ball(level, 10, speed, colorPallet, x, y);
         level.getBalls().add(b);

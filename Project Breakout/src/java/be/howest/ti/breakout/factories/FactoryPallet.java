@@ -8,7 +8,6 @@ package be.howest.ti.breakout.factories;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
 import be.howest.ti.breakout.domain.game.Player;
-import be.howest.ti.breakout.domain.game.User;
 import java.util.ArrayList;
 import java.util.List;
 

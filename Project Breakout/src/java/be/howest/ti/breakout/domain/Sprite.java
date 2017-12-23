@@ -5,8 +5,6 @@
  */
 package be.howest.ti.breakout.domain;
 
-import java.awt.Image;
-
 /**
  *
  * @author micha

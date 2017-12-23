@@ -23,15 +23,12 @@ public final class EffectSlowerPallet extends Effect {
 
         playerPallet.setSpeed(playerPallet.getSpeed() - 1);
 
-        System.out.println("activated slowed");
-
         TimerEffect = new Timer();
         TimerEffect.schedule(new TimerTaskEffect(this), 0, 1000);
     }
 
     @Override
     public void deActivate() {
-        System.out.println("deactivated slowed");
         TimerEffect.cancel();
         playerPallet.setSpeed(getPlayerPallet().getSpeed() + 1);
         setDone();

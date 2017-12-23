@@ -16,7 +16,7 @@ import java.util.TreeMap;
  *
  * @author micha
  */
-public class Game{
+public final class Game{
     
     private List<Player> players;
     private final int numberOfPlayers; 
@@ -66,8 +66,10 @@ public class Game{
         player.setPlayerID(newPlayerID);
         players.set(spelerID - 1, player);
         initializePlayerScores();
-        levelPlayedRightNow.replacePlayer(spelerID, player);
-        levelPlayedRightNow.initializePlayerScores();
+        if(levelPlayedRightNow != null){
+            levelPlayedRightNow.replacePlayer(player.getPlayerID(), player);
+            levelPlayedRightNow.initializePlayerScores();
+        }
     }
     
     public List<Player> getPlayers() {
@@ -201,9 +203,19 @@ public class Game{
     public boolean allPlayerAreGuest(){
         for (Player player : players) {
             if(!player.isGuest()){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+    
+    public void endGame(){
+        if(levelPlayedRightNow != null){
+            if(levelPlayedRightNow.hasLevelStarted()){
+                if(!levelPlayedRightNow.isCompleted()){
+                    levelPlayedRightNow.endLevel();
+                }
+            }
+        }
     }
 }

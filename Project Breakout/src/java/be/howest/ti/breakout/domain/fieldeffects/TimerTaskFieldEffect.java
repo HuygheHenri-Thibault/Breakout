@@ -12,7 +12,7 @@ import java.util.TimerTask;
  *
  * @author Fredr
  */
-public class TimerTaskFieldEffect extends TimerTask{
+public final class TimerTaskFieldEffect extends TimerTask{
 
     private final FieldEffect fieldEffect;
     private final Effect effect;

@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * @author micha
  */
 public class FactoryBricks extends FactoryBreakoutUtilities{
-    //testing
     private Level level;
     private int row;
     private List<BrickData> brickDatas = new ArrayList<>();

@@ -8,8 +8,6 @@ package be.howest.ti.breakout.factories;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.game.Ratio;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  *
@@ -18,7 +16,6 @@ import java.util.List;
 public class FactoryLevel {
     private final Game game;
     private int numberLevels;
-    //private int startScoreForBricksFirstLine = 50;
     private int ratioChoiceChange = 0;
 
     public FactoryLevel(Game game) {
@@ -31,7 +28,6 @@ public class FactoryLevel {
         Level l = new Level(game, numberLevels);
         game.getLevels().add(l);
         changeRatio();
-        //startScoreForBricksFirstLine += 10;
         return l;
     } 
     
