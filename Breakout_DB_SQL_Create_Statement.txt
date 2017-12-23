@@ -374,7 +374,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'guest 1','a ','guest1@',' ',0,0,0,0,NULL),(2,'guest 2','a','guest2@',' ',0,0,0,0,' '),(3,'guest 3','a','guest3@',' ',0,0,0,0,' '),(4,'guest 4','a','guest4@',' ',0,0,0,0,' ');
+INSERT INTO `user` VALUES (1,'guest 1','a ','guest1@',' ',0,0,0,0,NULL, 0, 0),(2,'guest 2','a','guest2@',' ',0,0,0,0,' ', 0, 0),(3,'guest 3','a','guest3@',' ',0,0,0,0,' ',0 ,0),(4,'guest 4','a','guest4@',' ',0,0,0,0,' ',0 ,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
