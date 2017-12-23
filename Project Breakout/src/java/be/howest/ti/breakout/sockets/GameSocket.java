@@ -53,7 +53,6 @@ public class GameSocket {
     int levens = 3;
     int players = 1;
 
-    //added for smartphone controller
     private static final Set<Session> ACTIVE_SESSIONS = Collections.synchronizedSet(new HashSet<Session>());
 
     @OnMessage
@@ -62,7 +61,7 @@ public class GameSocket {
         try {
             JSONObject obj = (JSONObject) jparse.parse(message);
 
-            switch ((String) obj.get("type")) { // moet herschreven worden -> visitor pattern toch niet want dit zijn geen java objecten
+            switch ((String) obj.get("type")) { 
                 case "playerAmount":
                     makeGame(in, obj);
                     makeLevel(in);
@@ -222,7 +221,6 @@ public class GameSocket {
                 jsonObject.put("name", spell.getValue().getName());
                 jsonObject.put("cooldown", spell.getValue().getCooldown());
                 jsonObject.put("effects", makeEffectsObject(spell.getValue().getSpellEffects()));
-                //jsonObject.put("effects", spell.getValue().getSpellEffects().toString());
                 resultObj.put(""+i, jsonObject);
                 i++;
             }
@@ -282,38 +280,35 @@ public class GameSocket {
         switch (typeOfSprite) {
             case "Pallet":
                 Pallet pallet = (Pallet) aSpirte;
-                spriteObj.put("width", Math.round(pallet.getLength())); // x
-                spriteObj.put("height", Math.round(pallet.getHeight())); // y
+                spriteObj.put("width", Math.round(pallet.getLength())); 
+                spriteObj.put("height", Math.round(pallet.getHeight())); 
                 spriteObj.put("shown", pallet.IsVisible() + "");
                 break;
             case "Ball":
                 Ball ball = (Ball) aSpirte;
-                spriteObj.put("radius", ball.getRadius()); // r
+                spriteObj.put("radius", ball.getRadius()); 
                 break;
             case "Brick":
                 Brick brick = (Brick) aSpirte;
-                spriteObj.put("width", Math.round(brick.getLength())); // x
-                spriteObj.put("height", Math.round(brick.getHeight())); // y
+                spriteObj.put("width", Math.round(brick.getLength())); 
+                spriteObj.put("height", Math.round(brick.getHeight())); 
                 spriteObj.put("hits", brick.getHits());
                 break;
             case "Rectangle":
                 Rectangle rect = (Rectangle) aSpirte;
-                spriteObj.put("width", Math.round(rect.getLength())); // x
-                spriteObj.put("height", Math.round(rect.getHeight())); // y
+                spriteObj.put("width", Math.round(rect.getLength())); 
+                spriteObj.put("height", Math.round(rect.getHeight())); 
                 break;
             case "Powerup":
-                spriteObj.put("width", 20); // x // FIXME!!!!!!
-                spriteObj.put("height", 20); // y // FIXME!!!!!!
+                spriteObj.put("width", 20); 
+                spriteObj.put("height", 20); 
                 break;
             case "Web":
                 Web web = (Web) aSpirte;
                 spriteObj.put("radius", web.getRadius());
-            case "FieldEffect":
-
-                break;
             default:
-                spriteObj.put("width", -1); // x
-                spriteObj.put("height", -1); // y
+                spriteObj.put("width", -1); 
+                spriteObj.put("height", -1); 
         }
     }
 
@@ -331,18 +326,6 @@ public class GameSocket {
             case "stop":
                 playerPallet.stopMoving();
                 break;
-        }
-    }
-
-    private void sendPosistionUpdate() {
-        for (Map.Entry<Session, Game> entry : sessionGame.entrySet()) {
-            Session key = entry.getKey();
-            Game value = entry.getValue();
-            try {
-                key.getBasicRemote().sendText(makeJSONPosistionObj(value.getLevels().get(0).getAllEntities()).toJSONString());
-            } catch (IOException ex) {
-                throw new BreakoutException("Couldn't update posistion in game", ex);
-            }
         }
     }
 

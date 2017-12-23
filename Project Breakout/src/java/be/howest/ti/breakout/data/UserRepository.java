@@ -24,4 +24,6 @@ public interface UserRepository {
     public void updateUserStringField(int userId, String field, String value);
     public void updateUserIntField(int userId, String field, int value);
     public void updateUserTotalScore(User u);
+    public void updateUserXP(User u);
+    public void updateUserLevel(User u);
 }
