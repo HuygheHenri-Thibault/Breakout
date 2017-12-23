@@ -151,7 +151,7 @@ var domain = function() {
     } else if (message.gameover === "false") {
       if(message.completed === "true") {
         comms.stopUpdates();
-        newLevelForm(levelTotalScore)
+        newLevelForm(message.levelTotalScore)
       }
     }
   }
