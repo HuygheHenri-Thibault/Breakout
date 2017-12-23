@@ -298,7 +298,6 @@ var gui = function() {
   }
   function pushPowerup(oneSprite) {
     effects.push(new Brick(oneSprite.x, oneSprite.y, oneSprite.width, oneSprite.height, getImage(oneSprite.icon)));
-    $('#powerUpArea').append('<img src="'+getImage(oneSprite.icon)+'" alt="">');
   }
   function showPlayerScores(players, totalScore) {
     $("#scoreInfo").html("");
@@ -316,9 +315,9 @@ var gui = function() {
     }
   }
   function showPowerups(powerups) {
-    $("#iconArea").html("");
+    $("#powerUpArea").html("");
     for(var power in powerups) {
-      $("#iconArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
+      $("#powerUpArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
     }
   }
   // Public
@@ -328,7 +327,6 @@ var gui = function() {
     ball = [];
     bricks = [];
     effects = [];
-    $('#powerUpArea').html("");
     for (var sprite in posArray) {
       var oneSprite = posArray[sprite];
       switch (oneSprite.type) {
