@@ -5,6 +5,8 @@
  */
 package be.howest.ti.breakout.domain.game;
 
+import be.howest.ti.breakout.data.Repositories;
+
 
 /**
  *
@@ -18,7 +20,7 @@ public class User implements Player{
     private String hashPassword;
     private int XP;
     private int level;
-    private final int XPtoNextLevel = 500 * level;
+    private int XPtoNextLevel;
     private String bio;
     private int spScore;
     private int totalScore;
@@ -26,14 +28,15 @@ public class User implements Player{
     private int amountOfCoins;
     private String profilePic;
     
-    public User(int id, String username, String password, String email, int lvl, String bio, int spHighscore, int totalScore, int gems, int coins, String pp) {
+    public User(int id, String username, String password, String email, int XP, int lvl, String bio, int spHighscore, int totalScore, int gems, int coins, String pp) {
         this.userId = id;
         this.email = email;
         this.username = username;
         this.hashPassword = password;
         this.level = lvl;
+        this.XP = XP;
+        this.XPtoNextLevel = 500 * level;
         this.bio = bio;
-        this.totalScore = 0;
         this.spScore = spHighscore;
         this.totalScore = totalScore;
         this.amountOfGems = gems;
@@ -41,18 +44,18 @@ public class User implements Player{
         this.profilePic = pp;
     }
     
-    public User(int id, String username, String password, String email, int lvl, String bio, int spScore) {
-        this(id, username, password, email, lvl, bio, spScore, 0, 0, 0, null);
+    public User(int id, String username, String password, String email, int XP, int lvl, String bio, int spScore) {
+        this(id, username, password, email, XP, lvl, bio, spScore, 0, 0, 0, null);
     }
     
-    public User(String username, String password, String email, int lvl, String bio) {
-        this(-1, username, password, email, lvl, bio, 0);
+    public User(String username, String password, String email, int XP, int lvl, String bio) {
+        this(-1, username, password, email, XP, lvl, bio, 0);
     }
-    public User(String username, String password, String email, int lvl) {
-        this(username, password, email, lvl, null);
+    public User(String username, String password, String email, int XP, int lvl) {
+        this(username, password, email, XP, lvl, null);
     }
     public User(String username, String password, String email) {
-        this(username, password, email, -1);
+        this(username, password, email, 0, -1);
     }
     public User(String username, String password) {
         this(username, password, null);
@@ -121,8 +124,11 @@ public class User implements Player{
     @Override
     public void addXP(int XP) {
         this.XP += XP;
-        if(XP >= XPtoNextLevel){
+        Repositories.getUserRepository().updateUserXP(this);
+        if(this.XP >= XPtoNextLevel){
             level += 1;
+            XPtoNextLevel = 500 * level;
+            Repositories.getUserRepository().updateUserLevel(this);
         }
     }
 
@@ -134,6 +140,7 @@ public class User implements Player{
     @Override
     public void addToTotalScore(int score) {
         this.totalScore += score;
+        Repositories.getUserRepository().updateUserTotalScore(this);
     }
 
     @Override

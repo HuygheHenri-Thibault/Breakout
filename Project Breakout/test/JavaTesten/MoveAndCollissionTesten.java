@@ -5,25 +5,19 @@
  */
 package JavaTesten;
 
-import be.howest.ti.breakout.data.Repositories;
 import be.howest.ti.breakout.domain.Ball;
 import be.howest.ti.breakout.domain.Brick;
 import be.howest.ti.breakout.domain.game.Game;
 import be.howest.ti.breakout.domain.game.GameDifficulty;
 import be.howest.ti.breakout.domain.game.Level;
 import be.howest.ti.breakout.domain.Pallet;
-import be.howest.ti.breakout.domain.Shape;
 import be.howest.ti.breakout.domain.game.User;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
 
 /**
  *
@@ -31,9 +25,9 @@ import be.howest.ti.breakout.domain.powerUps.PowerUpOrDown;
  */
 public class MoveAndCollissionTesten {
     
-    User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 1, "een mooie bio", 0);
-    User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 1, "een lelijke bio", 0);
-    User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 1, "een prachtige bio", 0);
+    User me = new User(1, "henri", "wachtwoord", "eenemail@email.com", 0, 1, "een mooie bio", 0);
+    User otherMe = new User(2, "brecht", "wachtwoord2", "eeneanderemail@email.com", 0, 1, "een lelijke bio", 0);
+    User anotherMe = new User(3, "frederik", "wachtwoord3", "eenkleineemail@email.com", 0, 1, "een prachtige bio", 0);
     GameDifficulty easy = new GameDifficulty("easy", 0.2f, 1);
     Game singlePlayerGame = new Game(1000, 1000, 1, easy);
     
@@ -151,8 +145,6 @@ public class MoveAndCollissionTesten {
         b.setDx(-2);
         b.move();
         b.move();
-        System.out.println(b.getDx());
-        System.out.println(b.getDy());
         assertEquals(888, b.getY());
         assertEquals(476, b.getX());
     }
@@ -207,6 +199,7 @@ public class MoveAndCollissionTesten {
         b.setSpeed(2);
         b.setDy(-2); 
         b.setDx(2);
+        b.setLastPlayerThatTouchedMe(me);
         b.move(); 
         b.move(); 
         assertEquals(445, b.getY());
