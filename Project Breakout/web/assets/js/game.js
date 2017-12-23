@@ -151,7 +151,7 @@ var domain = function() {
     } else if (message.gameover === "false") {
       if(message.completed === "true") {
         comms.stopUpdates();
-        newLevelForm(levelTotalScore)
+        newLevelForm(message.levelTotalScore)
       }
     }
   }
@@ -222,6 +222,7 @@ var input = function() {
   async function nextLevel() {
     var messageObj = {type:"nextLevel"};
     socket.sendMessage(messageObj);
+    $("#formTotalScore").remove();
     $("#nextLvlBtn").remove();
     await domain.sleep(1000);
     var controllercols = $(".controllercol");
@@ -318,11 +319,18 @@ var gui = function() {
       $("#powerUpArea").append("<img src='assets/media/"+powerups[power].icon+".png' alt='"+powerups[power].name+"'>")
     }
   }
+  function getEffects(spellEffects) {
+    var effectString = "";
+    for(var effect in spellEffects) {
+      effectString += spellEffects[effect]+"; ";
+    }
+    return effectString;
+  }
   function showSpells(spells) {
     $("#spells").html("");
     for(var spell in spells) {
-      console.log(spells[spell]);
-      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown'>"+spells[spell].cooldown+"</p></div></div>")
+      var effectString = getEffects(spells[spell].effects);
+      $("#spells").append("<div class='spell'><p class='spellTitle'>"+spells[spell].name+"</p><div><img src='assets/media/spell.png' alt='"+spells[spell].name+"'><p class='spellCooldown tooltipped' data-position='top' data-tooltip='"+effectString+"'>"+spells[spell].cooldown+"</p></div></div>")
     }
   }
   // Public
@@ -385,10 +393,6 @@ var socket = function() {
           gui.drawFromPosistion(message);
           break;
         case "gameInfo":
-          if(lel) {
-            lel = !lel;
-            console.log(message);
-          }
           domain.checkGameState(message);
           gui.gameInfo(message);
           break;
