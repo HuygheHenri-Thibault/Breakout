@@ -72,6 +72,7 @@ public class ControllerServlet extends HttpServlet {
                 break;
             case "/support":
                 this.support(request, response);
+                response.sendRedirect("index.html");
                 break;
             case "/getScore":
                 List<User> totalScores = Repositories.getUserRepository().getTop10TotalScores();

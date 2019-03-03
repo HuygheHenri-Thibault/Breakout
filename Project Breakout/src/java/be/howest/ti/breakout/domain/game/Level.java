@@ -72,7 +72,7 @@ public final class Level{
     
     public Level(Game game, int number) {
         this(game, number, null);
-        this.fieldEffect = randomizeFieldEffect();
+        this.fieldEffect = new FieldEffect(this, "dragon", "hello", new EffectDragonFireBall("help", "hello", 0), 10);
     }
     
     public Level(Game game, int number, FieldEffect fieldEffect) {
